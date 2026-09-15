@@ -35,7 +35,9 @@ tools/fetch-data.js          下载 ECDICT 与 ipa-dict 到 tools/.cache/
 tools/build-words.js         从两个数据源生成 data.words.js
 tools/build-icons.ps1        生成主屏幕图标（白底黑字 "Chat Prac"；需要 Windows 字体渲染，已生成好并提交，平时不用跑）
 tools/build-dist.js          打包出可上传的 dist/ 目录
+tools/check-icons.js         检查图标确实是"白底黑字"（解码 PNG 统计，可打印字符画）
 tools/check-live.js          部署后自检：逐项验证线上站点
+tools/api-sync.js            备用提交通道（github.com 连不上时走 Contents API）
 tests/selfcheck.js           自检：静态引用 + PWA + 数据内容质量
 tests/smoke.js               DOM 桩冒烟测试（抽屉 / 检索 / 切换 / 发送）
 ```
