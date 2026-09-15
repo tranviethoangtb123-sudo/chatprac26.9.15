@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#4d6bfe" />
+<meta name="description" content="单词、句子和对话、对话练习 —— 随身英语练习工具" />
+<title>Chat Prac</title>
+
+<!-- 添加到手机主屏幕 / 离线可用 -->
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Chat Prac" />
+
+<link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- 抽屉遮罩：点一下就收起侧边栏 -->
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- ============ 侧边栏（默认收起，由左上角三条横线拉出） ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-name">Chat Prac</span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <button class="nav-item is-active" data-tab="words" type="button">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 6.5C10.5 5 8.5 4.5 4 4.5v13c4.5 0 6.5.5 8 2 1.5-1.5 3.5-2 8-2v-13c-4.5 0-6.5.5-8 2z"/>
+          <path d="M12 6.5v13"/>
+        </svg>
+        <span class="label">单词</span>
+      </button>
+
+      <button class="nav-item" data-tab="sentences" type="button">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H8.5L4 20V6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/>
+          <path d="M8 9h8M8 12.5h5"/>
+        </svg>
+        <span class="label">句子和对话</span>
+      </button>
+
+      <button class="nav-item" data-tab="practice" type="button">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 15a3.5 3.5 0 0 0 3.5-3.5V6a3.5 3.5 0 1 0-7 0v5.5A3.5 3.5 0 0 0 12 15z"/>
+          <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/>
+          <path d="M12 18v3"/>
+        </svg>
+        <span class="label">对话练习</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <p class="tip-title">小提示</p>
+      <p class="tip-body">底部文本框随板块切换身份：查单词、查句子，或直接开口练对话。</p>
+    </div>
+  </aside>
+
+  <!-- ============ 主区域 ============ -->
+  <main class="main">
+
+    <header class="topbar">
+      <button class="icon-btn" id="menuBtn" type="button" title="菜单" aria-label="菜单" aria-expanded="false" aria-controls="sidebar">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 7h12"/>
+          <path d="M6 12h12"/>
+          <path d="M6 17h12"/>
+        </svg>
+      </button>
+      <h1 class="topbar-title" id="viewTitle">单词</h1>
+      <button class="icon-btn" id="themeToggle" type="button" title="切换主题" aria-label="切换主题">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- 进入板块时是空的，输入后才出现结果 -->
+    <div class="viewport" id="viewport">
+
+      <section class="view" id="view-words">
+        <div class="card-list" id="wordList"></div>
+        <div class="empty" id="wordEmpty" hidden>
+          <div class="empty-emoji">🔍</div>
+          <p class="empty-title">没有匹配的单词</p>
+          <p class="empty-sub">换个关键词试试，比如「机会」「appreciate」或「/ə/」</p>
+        </div>
+      </section>
+
+      <section class="view" id="view-sentences" hidden>
+        <div class="card-list" id="sentList"></div>
+        <div class="empty" id="sentEmpty" hidden>
+          <div class="empty-emoji">🔍</div>
+          <p class="empty-title">没有匹配的句子或对话</p>
+          <p class="empty-sub">试试「酒店」「airport」「道歉」这类关键词</p>
+        </div>
+      </section>
+
+      <section class="view view-chat" id="view-practice" hidden>
+        <div class="chat" id="chatLog"></div>
+      </section>
+
+    </div>
+
+    <!-- 底部只保留：对话框 + 发送键 -->
+    <footer class="composer">
+      <div class="composer-inner">
+        <textarea id="input" rows="1" placeholder="搜索单词…" autocomplete="off"></textarea>
+        <button class="send-btn" id="sendBtn" type="button" aria-label="发送">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19.5V5"/>
+            <path d="M5.5 11.5 12 5l6.5 6.5"/>
+          </svg>
+        </button>
+      </div>
+      <p class="composer-hint" id="composerHint">Enter 搜索 · Shift + Enter 换行</p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="assets/js/data.words.js"></script>
+<script src="assets/js/data.sentences.js"></script>
+<script src="assets/js/data.dialogues.js"></script>
+<script src="assets/js/data.practice.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

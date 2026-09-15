@@ -1,0 +1,11 @@
+# 下载缓存（删掉不影响运行，只是下次要重新下载）
+tools/.cache/
+
+# 打包产物（用 tools/build-dist.js 重新生成）
+dist/
+*.zip
+
+# 系统文件
+Thumbs.db
+desktop.ini
+.DS_Store
