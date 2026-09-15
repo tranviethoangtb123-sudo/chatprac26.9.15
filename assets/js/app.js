@@ -1,7 +1,8 @@
 /* ==========================================================================
    Chat Prac — 交互逻辑
-   板块：单词 / 句子和对话 / 对话练习
+   板块：单词 / 句子和对话 / 对话练习（查询）· 单词 / 对话（学习）
    底部统一为「对话框 + 发送键」：在检索板块它是搜索框，在对话练习里它是聊天输入框。
+   学习模式的「单词」板块是一套独立的三键循环学习系统，见下方「板块一」。
    ========================================================================== */
 
 (function () {
@@ -29,7 +30,6 @@
   var state = {
     mode: "search",           // search=查询模式 / study=学习模式
     tab: "words",
-    letter: "A",              // 学习模式下当前选中的字母
     wordQuery: "",
     sentQuery: "",
     talkQuery: "",
@@ -62,8 +62,9 @@
     if (state.tab === "dialogue") {
       return { ph: "搜索…", hint: "对话板块：内容待定" };
     }
+    // 学习模式的单词板块：输入框用来快速加词，不再做检索
     if (state.mode === "study") {
-      return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · 学习模式：" + DATA.words.length + " 词按 A-Z 排列，含固定搭配" };
+      return { ph: "输入单词回车，快速加入收词台…", hint: "Enter 加入收词台 · 格式「单词 词性 中文」，后两项可省" };
     }
     return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · Shift + Enter 换行" };
   }
@@ -88,8 +89,7 @@
       practice: $("#view-practice"),
       dialogue: $("#view-dialogue")
     },
-    letterBar: $("#letterBar"),
-    letterBubble: $("#letterBubble"),
+    vocabBoard: $("#vocabBoard"),
     wordList: $("#wordList"),
     wordEmpty: $("#wordEmpty"),
     sentList: $("#sentList"),
@@ -213,33 +213,8 @@
   }
 
   /* ============================== 板块一：单词 ============================== */
-  // 查询模式：没输入时右侧留空，输入后才出结果
-  // 学习模式：没输入时按 A-Z 展示（带固定搭配），输入后变成全库检索
-
-  var letterIndex = null;
-
-  function letters() {
-    if (!letterIndex) {
-      letterIndex = {};
-      (DATA.words || []).forEach(function (w) {
-        var L = w.w.charAt(0).toUpperCase();
-        (letterIndex[L] = letterIndex[L] || []).push(w);
-      });
-      Object.keys(letterIndex).forEach(function (L) {
-        letterIndex[L].sort(function (a, b) { return a.w < b.w ? -1 : (a.w > b.w ? 1 : 0); });
-      });
-    }
-    return Object.keys(letterIndex).sort();
-  }
-
-  function wordsOfLetter(L) {
-    letters();
-    return letterIndex[L] || [];
-  }
-
-  function collocationsOf(word) {
-    return (DATA.collocations && DATA.collocations[word]) || null;
-  }
+  // 查询模式：没输入时留空，输入后全库检索（4198 词，data.words.js）
+  // 学习模式：6 板块 + 三键循环（data.vocab.js），和检索用的词库完全分开
 
   // 查询模式用的单词卡（简洁：单词 / 音标 / 词性 / 中文）
   function wordCardHtml(it, q) {
@@ -254,74 +229,589 @@
       '</article>';
   }
 
-  // 学习模式的紧凑行：英语 + 音标 + 中文，下面一行是词典里的固定搭配
-  function wordRowHtml(it, q) {
-    var col = collocationsOf(it.w);
-    var html = '<div class="wrow"><div class="wrow-main">' +
-      '<span class="w-en">' + highlight(it.w, q) + '</span>' +
-      '<span class="w-ph">' + highlight(it.ph, q) + '</span>' +
-      '<span class="w-cn">' + highlight(it.cn, q) + '</span>' +
-      '</div>';
-    if (col && col.length) {
-      html += '<div class="w-phrase">' + col.map(function (c) {
-        return '<span class="w-phrase-en">' + esc(c[0]) + '</span> ' + esc(c[1]);
-      }).join(" · ") + '</div>';
-    }
-    return html + '</div>';
+  /* ---------------------------------------------------------------------
+     学习模式 · 单词板块：6 板块 + 三键循环
+     ---------------------------------------------------------------------
+     板块：收词台 / 今日新词 / 待复习 / 已掌握 / 听写轨 / 语块库
+     三键：认识（推进记忆盒）· 模糊（明天再来）· 不认识（10 分钟后重来）
+     记忆盒 0~5，推到 5 之后标为「已掌握」，不再出现在队列里。
+     归档按场景域（domain），出卡按打散队列：每天新词跨域混排，
+     同一场景不相邻——同一语义场集中初学会互相抑制提取。
+     --------------------------------------------------------------------- */
+
+  var V = window.CHAT_PRAC_VOCAB || { words: [], domains: {}, tracks: {}, chunks: [] };
+  var VKEY = "chatprac-vocab-study";
+  var VDAY = 86400000;
+  var VNEW_PER_DAY = 50;          // 每天新词上限：再高复习队列会崩
+  var VBOX_MAX = 5;               // 记忆盒满格
+  var VFLOOR = 10 * 60 * 1000;    // 「不认识」的冷却时间
+  // 记忆盒 0~5 对应的下次出现间隔
+  var VINT = [VFLOOR, VDAY, 3 * VDAY, 7 * VDAY, 14 * VDAY, 30 * VDAY];
+
+  var vocab = null;
+
+  // 读取进度（键都用单词本身，导入时已去重）
+  function vBlank() {
+    return {
+      box: {}, due: {}, done: {}, mastered: {},
+      custom: [], chunks: null, day: "", newToday: 0
+    };
   }
 
-  // 右侧的 A-Z 索引（复刻微信通讯录：纯字母，没有底色和边框）
-  function renderLetterBar() {
-    var all = letters();
-    if (all.indexOf(state.letter) < 0) state.letter = all[0] || "A";
-    els.letterBar.innerHTML = all.map(function (L) {
-      return '<button type="button" class="letter-item" data-letter="' + esc(L) + '">' + esc(L) + '</button>';
+  function vToday() {
+    var d = new Date();
+    return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  }
+
+  function vLoad() {
+    var d = vBlank();
+    try {
+      var raw = localStorage.getItem(VKEY);
+      if (raw) {
+        var saved = JSON.parse(raw);
+        Object.keys(d).forEach(function (k) {
+          if (saved && saved[k] !== undefined && saved[k] !== null) d[k] = saved[k];
+        });
+      }
+    } catch (e) { /* 读不出来就当新开始 */ }
+    if (!d.chunks || !d.chunks.length) d.chunks = (V.chunks || []).slice();
+    if (d.day !== vToday()) { d.day = vToday(); d.newToday = 0; }   // 跨天自动重置今日额度
+    return d;
+  }
+
+  function vSave() {
+    try { localStorage.setItem(VKEY, JSON.stringify(vocab)); } catch (e) {}
+  }
+
+  // 队列 / 统计用的视图状态（不持久化）
+  var vs = {
+    tab: "today",
+    queue: [],
+    qi: 0,
+    revealed: false,
+    forced: false,                 // 待复习没清时，用户点过「仍要学新词」
+    importText: "",
+    importTrack: "G",
+    chunkText: "",
+    spell: { typed: "", result: null }
+  };
+
+  function vWords() { return (V.words || []).concat(vocab.custom); }
+  function vIsNew(w) { return !vocab.done[w.w]; }
+  function vIsMastered(w) { return !!vocab.mastered[w.w]; }
+  function vIsDue(w) {
+    return !!vocab.done[w.w] && !vocab.mastered[w.w] && (vocab.due[w.w] || 0) <= Date.now();
+  }
+  function vBox(w) { return vocab.box[w.w] || 0; }
+
+  function vNormal() {
+    return vWords().filter(function (w) { return w.track !== "L"; });
+  }
+  function vSpellWords() {
+    return vWords().filter(function (w) { return w.track === "L"; });
+  }
+  function vDueList() {
+    return vNormal().filter(vIsDue).sort(function (a, b) {
+      return (vocab.due[a.w] || 0) - (vocab.due[b.w] || 0);
+    });
+  }
+  function vNewPool() { return vNormal().filter(vIsNew); }
+  function vMasteredList() { return vNormal().filter(vIsMastered); }
+
+  // 听写轨：到期的排前面，剩下的新词跟上
+  function vSpellQueue() {
+    var out = [], seen = {};
+    vSpellWords().filter(vIsDue)
+      .concat(vSpellWords().filter(function (w) { return !vIsMastered(w); }))
+      .forEach(function (w) {
+        if (!seen[w.w]) { seen[w.w] = 1; out.push(w); }
+      });
+    return out;
+  }
+
+  function vShuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function vBuildQueue() {
+    vs.revealed = false;
+    vs.spell = { typed: "", result: null };
+    if (vs.tab === "today") {
+      var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+      vs.queue = vShuffle(vNewPool().slice()).slice(0, room);
+    } else if (vs.tab === "review") {
+      vs.queue = vDueList();
+    } else if (vs.tab === "spell") {
+      vs.queue = vSpellQueue();
+    } else {
+      vs.queue = [];
+    }
+    vs.qi = 0;
+  }
+
+  // 三键的实际作用点
+  function vAnswer(w, kind) {
+    var now = Date.now();
+    var box = vBox(w);
+    if (kind === "know") {
+      box = box + 1;
+      if (box > VBOX_MAX) {
+        vocab.mastered[w.w] = 1;
+        vocab.box[w.w] = VBOX_MAX;
+        vocab.due[w.w] = now + VINT[VBOX_MAX];
+      } else {
+        vocab.box[w.w] = box;
+        vocab.due[w.w] = now + VINT[box];
+      }
+    } else if (kind === "fuzzy") {
+      vocab.due[w.w] = now + VDAY;          // 记忆盒不动，明天再考
+    } else {
+      vocab.box[w.w] = 0;
+      vocab.due[w.w] = now + VFLOOR;        // 打回盒 0，10 分钟后重来
+    }
+    if (!vocab.done[w.w]) {
+      vocab.done[w.w] = 1;
+      if (w.track !== "L") vocab.newToday++;   // 听写轨不占今日新词额度
+    }
+    vSave();
+  }
+
+  // 发音：用浏览器自带的语音合成，不需要联网
+  function vSpeak(text) {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (typeof window.SpeechSynthesisUtterance !== "function") return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new window.SpeechSynthesisUtterance(text);
+      u.lang = "en-GB";
+      u.rate = 0.88;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* 没有语音引擎就静默跳过 */ }
+  }
+
+  // 音标从检索词库里借（学习词库自己不带音标）
+  var vPhonMap = null;
+  function vPhon(word) {
+    if (!vPhonMap) {
+      vPhonMap = {};
+      (DATA.words || []).forEach(function (x) { vPhonMap[x.w] = x.ph; });
+    }
+    return Object.prototype.hasOwnProperty.call(vPhonMap, word) ? vPhonMap[word] : "";
+  }
+
+  // 固定搭配也从检索词库里借，答完显示，帮助记搭配而不是记单词
+  function vCollocations(word) {
+    if (!DATA.collocations) return null;
+    return Object.prototype.hasOwnProperty.call(DATA.collocations, word)
+      ? DATA.collocations[word] : null;
+  }
+
+  var VTABS = [
+    { id: "inbox", label: "收词台" },
+    { id: "today", label: "今日新词" },
+    { id: "review", label: "待复习" },
+    { id: "mastered", label: "已掌握" },
+    { id: "spell", label: "听写轨" },
+    { id: "chunks", label: "语块库" }
+  ];
+
+  function vCounts() {
+    return {
+      inbox: vocab.custom.length,
+      today: Math.max(0, VNEW_PER_DAY - vocab.newToday),
+      todayDone: vocab.newToday,
+      review: vDueList().length,
+      mastered: vMasteredList().length,
+      spell: vSpellQueue().length,
+      chunks: vocab.chunks.length,
+      total: vWords().length
+    };
+  }
+
+  function vTrackName(t) { return (V.tracks && V.tracks[t]) || t; }
+
+  function vBadgesHtml(w) {
+    var domName = (V.domains && V.domains[w.domain]) || "";
+    return '<span class="vbadge" data-track="' + esc(w.track) + '">' +
+        esc(w.track) + " · " + esc(vTrackName(w.track)) + "</span>" +
+      (domName ? '<span class="vtag">' + esc(domName) + "</span>" : "") +
+      (w.trap ? '<span class="vtag">拼写陷阱</span>' : "");
+  }
+
+  function vDotsHtml(w) {
+    var box = vBox(w), dots = "";
+    for (var i = 1; i <= VBOX_MAX; i++) {
+      dots += '<i class="vdot' + (i <= box ? " is-on" : "") + '"></i>';
+    }
+    return dots;
+  }
+
+  function vOptionsHtml() {
+    var sel = vs.importTrack || "G";
+    return Object.keys(V.tracks || {}).map(function (k) {
+      return '<option value="' + esc(k) + '"' + (k === sel ? " selected" : "") + ">" +
+        esc(k + " · " + (V.tracks[k] || "")) + "</option>";
     }).join("");
   }
 
-  var bubbleTimer = null;
-  function showLetterBubble(L) {
-    els.letterBubble.textContent = L;
-    els.letterBubble.hidden = false;
-    if (bubbleTimer) clearTimeout(bubbleTimer);
-    bubbleTimer = setTimeout(function () { els.letterBubble.hidden = true; }, 700);
+  // 学习卡（读义 → 显示释义 → 三键）
+  function vReadCardHtml(w) {
+    var col = vCollocations(w.w);
+    var reveal = "" +
+      '<p class="vcn">' + esc(w.cn) + "</p>" +
+      (w.note ? '<p class="vnote">易混：' + esc(w.note) + "</p>" : "") +
+      (col && col.length
+        ? '<p class="vnote">搭配：' + col.slice(0, 4).map(function (c) {
+            return esc(c[0]) + " " + esc(c[1]);
+          }).join(" · ") + "</p>"
+        : "");
+
+    var actions = vs.revealed
+      ? '<button type="button" class="vbtn vbtn-no" data-vans="no">不认识</button>' +
+        '<button type="button" class="vbtn vbtn-mid" data-vans="fuzzy">模糊</button>' +
+        '<button type="button" class="vbtn vbtn-ok" data-vans="know">认识</button>'
+      : '<button type="button" class="vbtn vbtn-wide" data-vshow="1">显示释义</button>';
+
+    return "" +
+      '<article class="vcard">' +
+        '<div class="vmeta">' + vBadgesHtml(w) +
+          '<span class="vtag">记忆盒 ' + vBox(w) + "/" + VBOX_MAX + "</span></div>" +
+        '<div class="vword">' + esc(w.w) +
+          '<button type="button" class="vspeak" data-vspeak="' + esc(w.w) + '">🔊</button></div>' +
+        (vPhon(w.w) ? '<p class="vphon">' + esc(vPhon(w.w)) + "</p>" : "") +
+        '<p class="vpos">' + esc(w.pos || "") + "</p>" +
+        '<div class="vbox">' + vDotsHtml(w) + "</div>" +
+        '<div class="vreveal' + (vs.revealed ? "" : " is-hidden") + '">' + reveal + "</div>" +
+        '<div class="vactions">' + actions + "</div>" +
+        '<p class="vhint">认识＝记忆盒推进一档（1/3/7/14/30 天）· 模糊＝明天再来 · 不认识＝10 分钟后重来</p>' +
+      "</article>";
   }
 
-  function jumpToLetter(L) {
-    if (!L) return;
-    if (L !== state.letter) {
-      state.letter = L;
-      renderWords();
-      els.viewport.scrollTop = 0;
+  // 听写卡（只出声音，凭听写拼写）
+  function vSpellCardHtml(w) {
+    var res = vs.spell.result;
+    var body = res === null
+      ? '<input type="text" class="vdinput" data-vdinput="1" autocomplete="off" autocapitalize="off" ' +
+          'spellcheck="false" placeholder="听发音，在这里拼写，按回车检查" value="' + esc(vs.spell.typed) + '" />'
+      : '<div class="vresult ' + (res ? "vgood" : "vbad") + '">' +
+          (res ? "✓ 拼对了"
+               : "✗ 正确拼写：<b>" + esc(w.w) + "</b>　你写的是：" + (esc(vs.spell.typed) || "（空）")) +
+          '<span class="vresult-cn">' + esc(w.pos || "") + ". " + esc(w.cn) + "</span></div>";
+
+    var actions = res === null
+      ? '<button type="button" class="vbtn vbtn-wide" data-vcheck="1">检查</button>'
+      : '<button type="button" class="vbtn vbtn-wide vbtn-ok" data-vnext="1">继续</button>';
+
+    return "" +
+      '<article class="vcard">' +
+        '<div class="vmeta">' + vBadgesHtml(w) +
+          '<span class="vtag">记忆盒 ' + vBox(w) + "/" + VBOX_MAX + "</span></div>" +
+        '<div class="vword vword-sm">' +
+          '<button type="button" class="vspeak vspeak-lg" data-vspeak="' + esc(w.w) + '">🔊</button>' +
+          '<span class="vsay">听发音，写出单词</span></div>' +
+        '<div class="vbox">' + vDotsHtml(w) + "</div>" +
+        body +
+        '<div class="vactions">' + actions + "</div>" +
+        '<p class="vhint">拼对＝推进记忆盒 · 拼错＝记为「不认识」，10 分钟后重来</p>' +
+      "</article>";
+  }
+
+  function vStudyHtml() {
+    // 门禁：待复习没清完就不给收新词（唯一一条不能破的规则）
+    if (vs.tab === "today" && vDueList().length > 0 && !vs.forced) {
+      return "" +
+        '<div class="vgate">⚠ 待复习还有 <b>' + vDueList().length + "</b> 个没清。" +
+          '<button type="button" class="vbtn" data-vgo="review">先去复习</button>' +
+          '<button type="button" class="vbtn vbtn-link" data-vforce="1">仍要学新词</button>' +
+        "</div>" +
+        '<div class="vempty">清空复习队列后再来收新词。<br>这是唯一一条不能破的规则。</div>';
     }
-    showLetterBubble(L);
+
+    if (vs.qi >= vs.queue.length) {
+      var msg = vs.tab === "review" ? "复习队列已清空。现在可以去「今日新词」了。"
+        : vs.tab === "spell" ? "听写队列已清空。"
+        : "今天的新词学完了，明天见。";
+      return '<div class="vempty">' + msg + "</div>";
+    }
+
+    var w = vs.queue[vs.qi];
+    return vs.tab === "spell" ? vSpellCardHtml(w) : vReadCardHtml(w);
   }
 
-  // 手指/鼠标在索引上滑过时，取当前位置对应的字母
-  function letterFromPoint(x, y) {
-    if (typeof document.elementFromPoint !== "function") return null;
-    var el = document.elementFromPoint(x, y);
-    if (!el || !el.closest) return null;
-    var item = el.closest(".letter-item");
-    return item ? item.getAttribute("data-letter") : null;
+  function vInboxHtml() {
+    var custom = vocab.custom;
+    var list = custom.length
+      ? '<div class="vlist">' + custom.map(function (w, i) {
+          return '<div class="vitem">' +
+            '<span class="vitem-w">' + esc(w.w) + "</span>" +
+            '<span class="vitem-c">' + esc(w.pos || "") + " " + esc(w.cn) +
+              " · " + esc(vTrackName(w.track)) + "</span>" +
+            '<button type="button" class="vitem-del" data-vdel="' + i + '">删除</button>' +
+          "</div>";
+        }).join("") + "</div>"
+      : '<div class="vempty">还没有导入过词。上面粘贴后点「加入词库」。</div>';
+
+    return "" +
+      '<p class="vhint">把《雅思词汇胜经》《王陆 807》、APP 词书里的生词粘进来，一行一个。' +
+        "格式：<b>单词 词性 中文</b>，后两项可省；重复的词会自动跳过。</p>" +
+      '<div class="vimport">' +
+        '<textarea class="vinput" data-vimport="1" rows="5" ' +
+          'placeholder="accommodation n 住宿&#10;itinerary n 行程&#10;refund">' +
+          esc(vs.importText) + "</textarea>" +
+        '<div class="vrow">' +
+          '<select class="vselect" data-vtrack="1">' + vOptionsHtml() + "</select>" +
+          '<button type="button" class="vbtn vbtn-primary" data-vadd="1">加入词库</button>' +
+          '<button type="button" class="vbtn" data-vreset="1">清空全部进度</button>' +
+        "</div>" +
+      "</div>" +
+      '<p class="vsec">已导入 ' + custom.length + " 个</p>" + list;
   }
+
+  function vChunksHtml() {
+    var list = vocab.chunks.map(function (c, i) {
+      return '<div class="vitem">' +
+        '<span class="vitem-w">' + esc(c.w) + "</span>" +
+        '<span class="vitem-c">' + esc(c.cn) + (c.tag ? " · " + esc(c.tag) : "") + "</span>" +
+        '<button type="button" class="vitem-del" data-vchunkdel="' + i + '">删除</button>' +
+      "</div>";
+    }).join("");
+
+    return "" +
+      '<p class="vhint">词组、搭配、整句都放这里，<b>不进单词表</b>。格式：英文 | 中文 | 场景</p>' +
+      '<div class="vimport">' +
+        '<textarea class="vinput" data-vchunk="1" rows="2" placeholder="make a decision | 做决定 | 职场">' +
+          esc(vs.chunkText) + "</textarea>" +
+        '<div class="vrow">' +
+          '<button type="button" class="vbtn vbtn-primary" data-vchunkadd="1">添加语块</button>' +
+        "</div>" +
+      "</div>" +
+      '<p class="vsec">' + vocab.chunks.length + " 条</p>" +
+      '<div class="vlist">' + list + "</div>";
+  }
+
+  function vMasteredHtml() {
+    var m = vMasteredList();
+    if (!m.length) {
+      return '<div class="vempty">还没有已掌握的词。<br>答「认识」把记忆盒推到 ' + VBOX_MAX + " 才算。</div>";
+    }
+    return '<p class="vhint">记忆盒推到 ' + VBOX_MAX + " 的词，不再出现在队列里。共 " + m.length + " 个。</p>" +
+      '<div class="vlist">' + m.map(function (w) {
+        return '<div class="vitem">' +
+          '<span class="vitem-w">' + esc(w.w) + "</span>" +
+          '<span class="vitem-c">' + esc(w.pos || "") + ". " + esc(w.cn) + "</span>" +
+          '<button type="button" class="vitem-del" data-vagain="' + esc(w.w) + '">重新学</button>' +
+        "</div>";
+      }).join("") + "</div>";
+  }
+
+  function renderVocab() {
+    if (!els.vocabBoard) return;
+    var c = vCounts();
+    var badge = {
+      inbox: c.inbox, today: c.today, review: c.review,
+      mastered: c.mastered, spell: c.spell, chunks: c.chunks
+    };
+
+    var html = '<div class="vtabs">' + VTABS.map(function (t) {
+      return '<button type="button" class="vtab' + (vs.tab === t.id ? " is-active" : "") + '" data-vtab="' + t.id + '">' +
+        esc(t.label) + (badge[t.id] ? "<em>" + badge[t.id] + "</em>" : "") + "</button>";
+    }).join("") + "</div>";
+
+    html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + VNEW_PER_DAY + "</b>　待复习 <b>" + c.review +
+      "</b>　已掌握 <b>" + c.mastered + "</b>　词库 <b>" + c.total + "</b></p>";
+
+    if (vs.tab === "inbox") html += vInboxHtml();
+    else if (vs.tab === "chunks") html += vChunksHtml();
+    else if (vs.tab === "mastered") html += vMasteredHtml();
+    else html += vStudyHtml();
+
+    els.vocabBoard.innerHTML = html;
+  }
+
+  /* ---------- 学习模式·单词板块 的交互 ---------- */
+
+  function vAnswerCurrent(kind) {
+    var w = vs.queue[vs.qi];
+    if (!w) return;
+    vAnswer(w, kind);
+    vs.qi++;
+    vs.revealed = false;
+    renderVocab();
+  }
+
+  function vCheckSpell() {
+    var w = vs.queue[vs.qi];
+    if (!w || vs.spell.result !== null) return;
+    var typed = String(vs.spell.typed || "").trim().toLowerCase();
+    var ok = typed === w.w.toLowerCase();
+    vs.spell.result = ok ? 1 : 0;
+    vAnswer(w, ok ? "know" : "no");
+    renderVocab();
+  }
+
+  function vAddImported() {
+    var lines = String(vs.importText || "").split("\n");
+    var track = vs.importTrack || "G";
+    var added = 0, dup = 0;
+
+    lines.forEach(function (line) {
+      line = line.trim();
+      if (!line) return;
+      var parts = line.split(/[\s,，\t]+/).filter(Boolean);
+      if (!parts.length) return;
+      var word = parts[0];
+      var exists = vWords().some(function (x) { return x.w.toLowerCase() === word.toLowerCase(); });
+      if (exists) { dup++; return; }
+
+      var pos = "", cn = "";
+      if (parts.length >= 3) { pos = parts[1]; cn = parts.slice(2).join(" "); }
+      else if (parts.length === 2) { cn = parts[1]; }
+
+      vocab.custom.push({
+        w: word,
+        pos: pos || "—",
+        cn: cn || "（释义待补）",
+        track: track,
+        domain: "00",        // 导入的词先不带场景，找到归属再改
+        sub: "custom",
+        trap: false,
+        note: ""
+      });
+      added++;
+    });
+
+    vs.importText = "";
+    vSave();
+    renderVocab();
+
+    if (added || dup) {
+      els.composerHint.textContent = "✓ 加入 " + added + " 个" + (dup ? "，跳过重复 " + dup + " 个" : "");
+    }
+  }
+
+  function vAddChunk() {
+    var text = String(vs.chunkText || "").trim();
+    if (!text) return;
+    var p = text.split("|").map(function (s) { return s.trim(); });
+    vocab.chunks.push({ w: p[0], cn: p[1] || "（待补）", tag: p[2] || "" });
+    vs.chunkText = "";
+    vSave();
+    renderVocab();
+  }
+
+  // 底部输入框回车 → 快速加词
+  function vQuickAdd(text) {
+    if (!text) return;
+    vs.importText = vs.importText ? vs.importText + "\n" + text : text;
+    vs.tab = "inbox";
+    els.input.value = "";
+    state.drafts.words = "";
+    autoGrow();
+    vAddImported();
+  }
+
+  function onVocabClick(e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var el;
+
+    if ((el = t.closest("[data-vtab]"))) {
+      vs.tab = el.getAttribute("data-vtab");
+      vs.forced = false;
+      vBuildQueue();
+      renderVocab();
+      els.viewport.scrollTop = 0;
+      return;
+    }
+    if ((el = t.closest("[data-vspeak]"))) { vSpeak(el.getAttribute("data-vspeak")); return; }
+    if ((el = t.closest("[data-vshow]"))) { vs.revealed = true; renderVocab(); return; }
+    if ((el = t.closest("[data-vans]"))) { vAnswerCurrent(el.getAttribute("data-vans")); return; }
+    if ((el = t.closest("[data-vgo]"))) {
+      vs.tab = "review"; vs.forced = false; vBuildQueue(); renderVocab(); return;
+    }
+    if ((el = t.closest("[data-vforce]"))) { vs.forced = true; renderVocab(); return; }
+    if ((el = t.closest("[data-vcheck]"))) { vCheckSpell(); return; }
+    if ((el = t.closest("[data-vnext]"))) {
+      vs.qi++; vs.spell = { typed: "", result: null }; renderVocab(); return;
+    }
+    if ((el = t.closest("[data-vadd]"))) { vAddImported(); return; }
+    if ((el = t.closest("[data-vchunkadd]"))) { vAddChunk(); return; }
+    if ((el = t.closest("[data-vdel]"))) {
+      vocab.custom.splice(Number(el.getAttribute("data-vdel")), 1); vSave(); renderVocab(); return;
+    }
+    if ((el = t.closest("[data-vchunkdel]"))) {
+      vocab.chunks.splice(Number(el.getAttribute("data-vchunkdel")), 1); vSave(); renderVocab(); return;
+    }
+    if ((el = t.closest("[data-vagain]"))) {
+      var word = el.getAttribute("data-vagain");
+      delete vocab.mastered[word];
+      delete vocab.done[word];
+      delete vocab.box[word];
+      delete vocab.due[word];
+      vSave(); renderVocab(); return;
+    }
+    if ((el = t.closest("[data-vreset]"))) {
+      if (window.confirm("清空全部学习进度（包括导入的词和语块）？")) {
+        vocab = vBlank();
+        vocab.chunks = (V.chunks || []).slice();
+        vSave();
+        vs.tab = "inbox"; vs.forced = false;
+        vBuildQueue();
+        renderVocab();
+      }
+      return;
+    }
+  }
+
+  // 只记录输入内容，不重渲染（重渲染会打断打字和焦点）
+  function onVocabInput(e) {
+    var t = e.target;
+    if (!t || !t.getAttribute) return;
+    if (t.getAttribute("data-vimport") !== null) vs.importText = t.value;
+    else if (t.getAttribute("data-vchunk") !== null) vs.chunkText = t.value;
+    else if (t.getAttribute("data-vdinput") !== null) vs.spell.typed = t.value;
+  }
+
+  function onVocabChange(e) {
+    var t = e.target;
+    if (t && t.getAttribute && t.getAttribute("data-vtrack") !== null) {
+      vs.importTrack = t.value;
+    }
+  }
+
+  function onVocabKeydown(e) {
+    var t = e.target;
+    if (!t || !t.getAttribute) return;
+    if (e.key === "Enter" && t.getAttribute("data-vdinput") !== null) {
+      e.preventDefault();
+      vCheckSpell();
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     学习模式 / 查询模式 的分发
+     --------------------------------------------------------------------- */
 
   function renderWords() {
-    var q = state.wordQuery.trim();
     var study = state.mode === "study";
 
-    // 学习模式、没输入 → 按字母浏览（紧凑行 + 固定搭配）
-    if (study && !q) {
-      els.letterBar.hidden = false;
-      renderLetterBar();
-      var list = wordsOfLetter(state.letter);
-      els.wordEmpty.hidden = list.length > 0;
-      els.wordList.innerHTML = list.map(function (it) { return wordRowHtml(it, ""); }).join("");
+    // 进学习模式时重建队列；离开时把检索区留空
+    if (study) {
+      if (els.vocabBoard.hidden) vBuildQueue();
+      els.vocabBoard.hidden = false;
+      els.wordList.innerHTML = "";
+      els.wordEmpty.hidden = true;
+      renderVocab();
       return;
     }
 
-    els.letterBar.hidden = true;
+    els.vocabBoard.hidden = true;
 
+    var q = state.wordQuery.trim();
     if (!q) {
       els.wordList.innerHTML = "";
       els.wordEmpty.hidden = true;
@@ -333,9 +823,7 @@
     });
 
     els.wordEmpty.hidden = hits.length > 0;
-    els.wordList.innerHTML = hits.map(function (it) {
-      return study ? wordRowHtml(it, q) : wordCardHtml(it, q);
-    }).join("");
+    els.wordList.innerHTML = hits.map(function (it) { return wordCardHtml(it, q); }).join("");
   }
 
   /* ============================== 板块二：句子和对话 ============================== */
@@ -612,6 +1100,8 @@
     var text = els.input.value.trim();
 
     if (state.tab === "words") {
+      // 学习模式：输入框是「快速加词」，不是检索
+      if (state.mode === "study") { vQuickAdd(text); return; }
       state.wordQuery = text;
       renderWords();
       els.viewport.scrollTop = 0;
@@ -643,8 +1133,9 @@
   function handleInput() {
     state.drafts[state.tab] = els.input.value;
     autoGrow();
-    // 检索类板块支持实时筛选
+    // 学习模式的单词板块不做实时筛选（输入框用于加词），其余检索板块支持实时筛选
     if (state.tab === "words") {
+      if (state.mode === "study") return;
       state.wordQuery = els.input.value;
       renderWords();
     } else if (state.tab === "sentences") {
@@ -671,24 +1162,11 @@
       });
     });
 
-    // 学习模式的 A-Z 索引：点一下跳到该字母，按住上下滑也切字母
-    els.letterBar.addEventListener("click", function (e) {
-      var item = e.target && e.target.closest ? e.target.closest(".letter-item") : null;
-      if (item) jumpToLetter(item.getAttribute("data-letter"));
-    });
-
-    function indexTouch(e) {
-      var t = e.touches && e.touches[0];
-      var L = null;
-      if (t) L = letterFromPoint(t.clientX, t.clientY);
-      if (!L && e.target && e.target.closest) {
-        var item = e.target.closest(".letter-item");
-        if (item) L = item.getAttribute("data-letter");
-      }
-      if (L) jumpToLetter(L);
-    }
-    els.letterBar.addEventListener("touchstart", indexTouch, { passive: true });
-    els.letterBar.addEventListener("touchmove", indexTouch, { passive: true });
+    // 学习模式·单词板块：整块用事件委托，重渲染后不用重新绑定
+    els.vocabBoard.addEventListener("click", onVocabClick);
+    els.vocabBoard.addEventListener("input", onVocabInput);
+    els.vocabBoard.addEventListener("change", onVocabChange);
+    els.vocabBoard.addEventListener("keydown", onVocabKeydown);
 
     els.themeToggle.addEventListener("click", toggleTheme);
     els.sendBtn.addEventListener("click", handleSend);
@@ -723,6 +1201,7 @@
   }
 
   function init() {
+    vocab = vLoad();
     initTheme();
     initStandalone();
     initMode();

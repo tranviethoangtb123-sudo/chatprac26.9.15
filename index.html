@@ -98,12 +98,16 @@
     <div class="viewport" id="viewport">
 
       <section class="view" id="view-words">
+        <!-- 查询模式：检索结果 -->
         <div class="card-list" id="wordList"></div>
         <div class="empty" id="wordEmpty" hidden>
           <div class="empty-emoji">🔍</div>
           <p class="empty-title">没有匹配的单词</p>
           <p class="empty-sub">换个关键词试试，比如「机会」「appreciate」或「/ə/」</p>
         </div>
+
+        <!-- 学习模式：6 板块 + 三键循环（由 app.js 的 renderVocab 渲染） -->
+        <div class="vocab" id="vocabBoard" hidden></div>
       </section>
 
       <section class="view" id="view-sentences" hidden>
@@ -145,14 +149,11 @@
       <p class="composer-hint" id="composerHint">Enter 搜索 · Shift + Enter 换行</p>
     </footer>
 
-    <!-- 学习模式：右侧 A-Z 字母索引（微信通讯录那种），滑动时中间显示大字 -->
-    <div class="letter-index" id="letterBar" hidden></div>
-    <div class="letter-bubble" id="letterBubble" hidden></div>
-
   </main>
 </div>
 
 <script src="assets/js/data.words.js"></script>
+<script src="assets/js/data.vocab.js"></script>
 <script src="assets/js/data.collocations.js"></script>
 <script src="assets/js/data.sentences.js"></script>
 <script src="assets/js/data.dialogues.js"></script>

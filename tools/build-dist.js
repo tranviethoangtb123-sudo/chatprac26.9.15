@@ -18,6 +18,7 @@ const FILES = [
   "assets/css/style.css",
   "assets/js/app.js",
   "assets/js/data.words.js",
+  "assets/js/data.vocab.js",
   "assets/js/data.collocations.js",
   "assets/js/data.sentences.js",
   "assets/js/data.dialogues.js",

@@ -46,7 +46,12 @@ function makeEl(tag, attrs) {
       return (el._q = el._q || {})[sel] || (el._q[sel] = makeEl("div"));
     },
     querySelectorAll(sel) { return documentStub.querySelectorAll(sel); },
-    closest() { return null; },
+    // 只支持 [data-xxx] 这种属性选择器，够验证学习板块的事件委托
+    closest(sel) {
+      const m = /^\[([A-Za-z-]+)\]$/.exec(sel);
+      if (m && m[1] in el.attrs) return el;
+      return null;
+    },
     focus() { el.focusCount = (el.focusCount || 0) + 1; }
   };
   return el;
@@ -78,14 +83,14 @@ const chatLog = makeEl("div");
 
 const byId = {};
 ["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "viewTitle", "themeToggle", "viewport",
- "view-words", "view-sentences", "view-practice", "view-dialogue", "letterBar", "letterBubble",
+ "view-words", "view-sentences", "view-practice", "view-dialogue", "vocabBoard",
  "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
  "input", "sendBtn", "composerHint"].forEach((id) => {
   byId[id] = makeEl("div");
 });
 Object.assign(byId, { input: input, sendBtn: sendBtn, chatLog: chatLog });
-// 和 index.html 一样，这两个元素初始带 hidden 属性
-byId.letterBubble.hidden = true;
+// 和 index.html 一样，这个元素初始带 hidden 属性
+byId.vocabBoard.hidden = true;
 
 const docListeners = {};
 const documentStub = {
@@ -105,9 +110,22 @@ const documentStub = {
   addEventListener(type, fn) { (docListeners[type] = docListeners[type] || []).push(fn); }
 };
 
+// 预置一条「到期该复习」的记录（due=0），用来验证「待复习没清完就不给收新词」这条门禁
+const now = new Date();
+const todayStr = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+
 globalThis.window = globalThis;
 globalThis.document = documentStub;
-globalThis.localStorage = { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } };
+globalThis.localStorage = {
+  _d: {
+    "chatprac-vocab-study": JSON.stringify({
+      box: { agree: 1 }, due: { agree: 0 }, done: { agree: 1 }, mastered: {},
+      custom: [], chunks: [], day: todayStr, newToday: 0
+    })
+  },
+  getItem(k) { return this._d[k] || null; },
+  setItem(k, v) { this._d[k] = v; }
+};
 globalThis.matchMedia = (q) => {
   const s = String(q);
   if (s.includes("display-mode: standalone")) return { matches: standaloneMode };
@@ -120,18 +138,22 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
 
 const DATA = globalThis.CHAT_PRAC_DATA;
-console.log("  数据规模：单词 " + DATA.words.length + " 个（固定搭配 " + Object.keys(DATA.collocations).length +
-  " 词）、句子 " + DATA.sentences.length + " 条、对话 " + DATA.dialogues.length + " 组");
+const VOCAB = globalThis.CHAT_PRAC_VOCAB;
+console.log("  数据规模：检索词库 " + DATA.words.length + " 个、学习词库 " + VOCAB.words.length +
+  " 个（语块 " + VOCAB.chunks.length + " 条）、句子 " + DATA.sentences.length +
+  " 条、对话 " + DATA.dialogues.length + " 组");
 
 const count = (v) => (v.match(/<article class="card">/g) || []).length;
-const countRows = (v) => (v.match(/class="wrow"/g) || []).length;
 const visibleTabs = () => navButtons.filter((b) => !b.hidden).map((b) => b.attrs["data-tab"]);
+const readVocabState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-vocab-study"));
+// 学习板块整块用事件委托，测试里就照着 data-* 造一个目标元素丢进去
+const vclick = (attrs) => fire(byId.vocabBoard, "click", { target: makeEl("button", attrs) });
 
 /* ---------------- 断言 ---------------- */
 try {
@@ -150,39 +172,121 @@ try {
   if (globalThis.localStorage.getItem("chatprac-mode") !== "study") problems.push("模式没有存进 localStorage");
   console.log("  学习模式导航：" + visibleTabs().join("、") + "（已记住选择）");
 
-  // 学习模式下的单词：没输入时按 A-Z 展示，紧凑行 + 词典固定搭配
-  if (byId.letterBar.hidden) problems.push("学习模式应该显示右侧 A-Z 索引");
-  const letterA = countRows(byId.wordList.innerHTML);
-  if (letterA < 5) problems.push("学习模式 A 字母下词数太少：" + letterA);
-  if (byId.wordList.innerHTML.indexOf('class="w-en"') < 0) problems.push("学习模式的单词行缺少英语字段");
-  if (byId.wordList.innerHTML.indexOf('class="w-ph"') < 0) problems.push("学习模式的单词行缺少音标字段");
-  if (byId.wordList.innerHTML.indexOf('class="w-cn"') < 0) problems.push("学习模式的单词行缺少中文字段");
-  if (byId.wordList.innerHTML.indexOf("w-phrase") < 0) problems.push("学习模式的单词行没有固定搭配");
-  if (byId.letterBar.innerHTML.indexOf('class="letter-item"') < 0) problems.push("右侧索引的字母结构不对");
-  if (byId.letterBar.innerHTML.indexOf("is-active") >= 0) problems.push("索引不该有高亮（复刻微信：纯字母）");
-  console.log("  学习模式·单词：字母 A 下 " + letterA + " 行（英语/音标/中文 + 固定搭配）✔");
-  if (!byId.letterBubble.hidden) problems.push("大字母提示默认应该是隐藏的");
+  // ============ 学习模式·单词：6 板块 + 三键循环 ============
+  if (byId.vocabBoard.hidden) problems.push("学习模式应该显示 vocabBoard");
+  if (byId.wordList.innerHTML !== "") problems.push("学习模式不该再渲染 A-Z 单词行");
 
-  // 切换字母（右侧索引）
-  fire(byId.letterBar, "click", { target: { closest: () => makeEl("button", { "data-letter": "C" }) } });
-  const letterC = countRows(byId.wordList.innerHTML);
-  if (letterC < 5) problems.push("切到字母 C 后词数太少：" + letterC);
-  if (byId.wordList.innerHTML.indexOf('<span class="w-en">c') < 0) problems.push("字母 C 列表里出现的不是 c 开头的词");
-  if (byId.letterBubble.textContent !== "C") problems.push("切字母时中间的大字母提示没显示");
-  console.log("  学习模式·单词：切到字母 C → " + letterC + " 行，中间提示大字母 " + byId.letterBubble.textContent + " ✔");
+  const vHome = byId.vocabBoard.innerHTML;
+  ["收词台", "今日新词", "待复习", "已掌握", "听写轨", "语块库"].forEach((t) => {
+    if (vHome.indexOf(t) < 0) problems.push("学习模式缺少板块：" + t);
+  });
+  if (vHome.indexOf("vtabs") < 0) problems.push("学习模式缺少板块切换条");
+  if (vHome.indexOf("vstat") < 0) problems.push("学习模式缺少今日进度条");
+  if (vHome.indexOf("wrow") >= 0 || vHome.indexOf("letter-item") >= 0) {
+    problems.push("学习模式还在渲染旧的 A-Z 列表");
+  }
+  console.log("  学习模式·单词：6 个板块都在 ✔");
 
-  // 学习模式下的对话板块：目前留空（内容待定）
+  // 门禁：预置了一条到期记录，今日新词应该先拦下来
+  if (byId.vocabBoard.innerHTML.indexOf("vgate") < 0) {
+    problems.push("待复习没清完时，今日新词应该显示门禁提示");
+  }
+  if (byId.vocabBoard.innerHTML.indexOf('data-vgo="review"') < 0) {
+    problems.push("门禁提示缺少「先去复习」入口");
+  }
+  console.log("  门禁：待复习 1 条未清 → 今日新词被拦下 ✔");
+
+  // 点「先去复习」→ 切到待复习，出学习卡
+  vclick({ "data-vgo": "review" });
+  const vReview = byId.vocabBoard.innerHTML;
+  if (vReview.indexOf("vcard") < 0) problems.push("待复习没有渲染学习卡");
+  if (vReview.indexOf("agree") < 0) problems.push("待复习没有取到到期的那条记录");
+  if (vReview.indexOf("vdot") < 0) problems.push("学习卡没有记忆盒进度");
+  if (vReview.indexOf('data-vshow="1"') < 0) problems.push("学习卡初始应先给「显示释义」");
+  if (vReview.indexOf('data-vans="know"') >= 0) problems.push("没显示释义前不该出现三键");
+  console.log("  待复习：出卡 + 记忆盒进度，释义未展开时只有「显示释义」✔");
+
+  // 显示释义 → 出现三键
+  vclick({ "data-vshow": "1" });
+  const vRevealed = byId.vocabBoard.innerHTML;
+  ["know", "fuzzy", "no"].forEach((k) => {
+    if (vRevealed.indexOf('data-vans="' + k + '"') < 0) problems.push("三键缺少：" + k);
+  });
+  if (vRevealed.indexOf("vreveal is-hidden") >= 0) problems.push("点「显示释义」后释义仍然是隐藏的");
+  console.log("  三键：不认识 / 模糊 / 认识 都在，释义已展开 ✔");
+
+  // 答「认识」→ 记忆盒从 1 推进到 2
+  vclick({ "data-vans": "know" });
+  const st1 = readVocabState();
+  if (st1.box.agree !== 2) problems.push("答「认识」后记忆盒应推进到 2，实际 " + st1.box.agree);
+  if (!st1.due.agree || st1.due.agree <= Date.now()) problems.push("答「认识」后没有排下次复习时间");
+  if (byId.vocabBoard.innerHTML.indexOf("复习队列已清空") < 0) {
+    problems.push("清空到期记录后应提示复习队列已清空");
+  }
+  console.log("  三键：答「认识」→ 记忆盒 1→2，排队下次复习，队列清空 ✔");
+
+  // 切回今日新词：门禁解除，出卡 → 答「不认识」→ 记忆盒归零
+  vclick({ "data-vtab": "today" });
+  if (byId.vocabBoard.innerHTML.indexOf("vgate") >= 0) problems.push("复习清完后门禁应该解除");
+  if (byId.vocabBoard.innerHTML.indexOf("vcard") < 0) problems.push("门禁解除后今日新词应出卡");
+  vclick({ "data-vshow": "1" });
+  const beforeNo = readVocabState();
+  const newTodayBefore = beforeNo.newToday;
+  vclick({ "data-vans": "no" });
+  const st2 = readVocabState();
+  if (st2.newToday !== newTodayBefore + 1) {
+    problems.push("学掉一个新词后 newToday 应该 +1，实际 " + st2.newToday);
+  }
+  const zeroBox = Object.keys(st2.box).filter((k) => k !== "agree" && st2.box[k] === 0);
+  if (!zeroBox.length) problems.push("答「不认识」后应该有词被打回记忆盒 0");
+  console.log("  三键：答「不认识」→ 记忆盒归零，今日新词计数 +1（" + st2.newToday + "）✔");
+
+  // 听写轨：只出声音，靠拼写
+  vclick({ "data-vtab": "spell" });
+  const vSpell = byId.vocabBoard.innerHTML;
+  if (vSpell.indexOf("vdinput") < 0) problems.push("听写轨没有出拼写输入框");
+  if (vSpell.indexOf("听发音，写出单词") < 0) problems.push("听写轨没有提示听音写词");
+  console.log("  听写轨：出音频按钮 + 拼写输入框 ✔");
+
+  // 收词台：粘贴导入
+  vclick({ "data-vtab": "inbox" });
+  if (byId.vocabBoard.innerHTML.indexOf("vimport") < 0) problems.push("收词台没有导入框");
+  const fakeImport = makeEl("textarea", { "data-vimport": "1" });
+  // 必须用基础学习词库里没有的词——库里有的话会被去重逻辑正确跳过，测不到入库
+  fakeImport.value = "concierge n 礼宾员";
+  fire(byId.vocabBoard, "input", { target: fakeImport });
+  vclick({ "data-vadd": "1" });
+  const st3 = readVocabState();
+  if (st3.custom.length !== 1) problems.push("收词台导入没有写进 custom，实际 " + st3.custom.length);
+  if (!byId.vocabBoard.innerHTML) problems.push("收词台重渲染后是空的");
+  console.log("  收词台：粘贴一行 → 入库 " + st3.custom.length + " 个 ✔");
+
+  // 语块库
+  vclick({ "data-vtab": "chunks" });
+  const vChunks = byId.vocabBoard.innerHTML;
+  if (vChunks.indexOf("make a decision") < 0) problems.push("语块库没有预置语块");
+  if (vChunks.indexOf('data-vchunkadd="1"') < 0) problems.push("语块库没有添加入口");
+  console.log("  语块库：" + VOCAB.chunks.length + " 条种子语块 ✔");
+
+  // 已掌握：初始应为空
+  vclick({ "data-vtab": "mastered" });
+  if (byId.vocabBoard.innerHTML.indexOf("还没有已掌握的词") < 0) {
+    problems.push("还没有已掌握的词时应显示空状态");
+  }
+  console.log("  已掌握：空状态正常 ✔");
+
+  // 学习模式下的对话板块：仍然留空（内容待定）
   fire(navByTab.dialogue, "click");
   if (byId.viewTitle.textContent !== "对话") problems.push("学习模式·对话标题不对：" + byId.viewTitle.textContent);
   if (byId.dialogueList.innerHTML !== "") problems.push("学习模式·对话应该先留空");
   console.log("  学习模式·对话：当前留空（待定）✔");
 
-  // 切回查询模式：导航恢复三个板块，单词板块重新留空
+  // 切回查询模式：导航恢复三个板块，学习板块整体收起
   fire(modeByKey.search, "click");
   if (visibleTabs().join(",") !== "words,sentences,practice") problems.push("切回查询模式后导航不对");
-  if (byId.letterBar.hidden !== true) problems.push("查询模式不该显示字母索引");
+  if (byId.vocabBoard.hidden !== true) problems.push("查询模式不该显示学习板块");
   if (count(byId.wordList.innerHTML) !== 0) problems.push("查询模式未输入时应留空");
-  console.log("  切回查询模式：导航恢复、" + "单词留空 ✔");
+  console.log("  切回查询模式：导航恢复、学习板块收起、单词留空 ✔");
 
   // 深链到不属于当前模式的板块时，应该自动切模式
   fire(modeByKey.study, "click");

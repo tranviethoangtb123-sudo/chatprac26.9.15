@@ -86,10 +86,11 @@ ok.push(`动态 class：${new Set(dynamicClasses).size} 个都有样式`);
 
 global.window = global;
 global.window.CHAT_PRAC_DATA = {};
-["data.words.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 const DATA = global.window.CHAT_PRAC_DATA;
+const VOCAB = global.window.CHAT_PRAC_VOCAB;
 
 const CJK = /[\u4e00-\u9fa5]/;
 const isAscii = (s) => !/[^\x00-\x7F]/.test(s);
@@ -176,6 +177,36 @@ for (const s of scenarios) {
 }
 if (!replies.generic) fail("缺少通用模拟回复 replies.generic");
 ok.push(`练习场景：${scenarios.length} 个，回复库 ${Object.keys(replies).length} 组，一一对应`);
+
+/* --- 学习词库（学习模式·单词板块 用的场景分类词库） --- */
+const vwords = (VOCAB && VOCAB.words) || [];
+if (vwords.length < 100) fail(`学习词库只有 ${vwords.length} 词，偏少`);
+const vSeen = new Set();
+vwords.forEach((x, i) => {
+  const at = `学习词库第 ${i + 1} 条(${x.w})`;
+  if (!/^[a-z][a-z'-]*$/.test(x.w || "")) fail(`${at} 格式不对`);
+  if (vSeen.has(x.w)) fail(`${at} 重复`);
+  vSeen.add(x.w);
+  if (!CJK.test(x.cn || "")) fail(`${at} 释义不含中文`);
+  if (/["\\]/.test(x.cn || "")) fail(`${at} 释义含引号或反斜杠`);
+  if (!VOCAB.tracks || !VOCAB.tracks[x.track]) fail(`${at} 轨道未知：${x.track}`);
+  if (x.domain !== "00" && (!VOCAB.domains || !VOCAB.domains[x.domain])) fail(`${at} 场景域未知：${x.domain}`);
+  if (typeof x.trap !== "boolean") fail(`${at} trap 不是布尔值`);
+});
+const trackCount = {};
+vwords.forEach((x) => { trackCount[x.track] = (trackCount[x.track] || 0) + 1; });
+if (!trackCount.L) fail("学习词库缺少 L（听力拼写）轨");
+if (!trackCount.G) fail("学习词库缺少 G（通用）轨");
+ok.push(`学习词库：${vwords.length} 词，轨道 ${Object.keys(trackCount).sort().map((k) => k + "=" + trackCount[k]).join(" ")}，域 ${Object.keys(VOCAB.domains || {}).length} 个`);
+
+/* --- 语块库（词组/搭配，不进单词表） --- */
+const vchunks = (VOCAB && VOCAB.chunks) || [];
+if (vchunks.length < 3) fail(`语块库只有 ${vchunks.length} 条，偏少`);
+vchunks.forEach((c, i) => {
+  if (!c.w || !c.cn) fail(`语块第 ${i + 1} 条字段缺失`);
+  if (!CJK.test(c.cn)) fail(`语块第 ${i + 1} 条中文不含汉字`);
+});
+ok.push(`语块库：${vchunks.length} 条`);
 
 /* ============================ 输出 ============================ */
 

@@ -24,6 +24,10 @@
 
   --radius-card: 14px;
   --radius-bubble: 16px;
+  /* 内容左侧内缩：让正文左边缘和顶栏三条横线对齐
+     （横线在 20px 图标里从 6/24 处开始画，等于图标盒内再缩约 4px；
+       图标盒本身又在 38px 按钮里居中，缩 9px；合计 13px） */
+  --align-inset: 13px;
   --index-bg: rgba(255, 255, 255, .72);
   --bubble-indicator-bg: rgba(22, 24, 32, .72);
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, .04);
@@ -282,7 +286,11 @@ html.is-app body { overscroll-behavior: none; }
   -webkit-overflow-scrolling: touch;
 }
 
-.view { max-width: 780px; margin: 0 auto; }
+.view {
+  max-width: 780px;
+  margin: 0 auto;
+  padding-left: var(--align-inset);   /* 和顶栏三条横线的左边缘对齐 */
+}
 
 /* 滚动条 */
 .viewport::-webkit-scrollbar { width: 8px; }
@@ -510,104 +518,356 @@ mark {
 
 .mode-btn.is-active:hover { background: var(--accent-hover); }
 
-/* --------------------- 学习模式：紧凑单词列表 --------------------- */
+/* --------------- 学习模式·单词板块：6 板块 + 三键循环 --------------- */
 
-.wrow {
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border);
-}
+.vocab { max-width: 780px; }
 
-.wrow:last-child { border-bottom: none; }
-
-.wrow-main {
+/* 板块切换：横向可滚，手机上不换行 */
+.vtabs {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 12px;
+  scrollbar-width: none;
 }
 
-.w-en {
-  font-size: 15.5px;
-  font-weight: 400;
+.vtabs::-webkit-scrollbar { display: none; }
+
+.vtab {
   flex: none;
-  overflow-wrap: anywhere;
-}
-
-.w-ph {
-  font-size: 12px;
-  color: var(--text-3);
-  flex: none;
-}
-
-.w-cn {
-  font-size: 13.5px;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
   color: var(--text-2);
-  margin-left: auto;
-  text-align: right;
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
 }
 
-.w-phrase {
-  margin-top: 3px;
+.vtab:hover { border-color: var(--border-strong); }
+
+.vtab.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.vtab em {
+  margin-left: 5px;
+  font-style: normal;
+  font-size: 12px;
+  opacity: .72;
+}
+
+.vstat {
+  margin: 0 0 14px;
   font-size: 12.5px;
-  line-height: 1.55;
   color: var(--text-3);
+}
+
+.vstat b { color: var(--text-2); font-weight: 600; }
+
+/* 门禁提示：待复习没清完，先别收新词 */
+.vgate {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 11px 13px;
+  border: 1px solid #f3d08a;
+  border-radius: var(--radius-card);
+  background: #fff8e8;
+  color: #8a5a12;
+  font-size: 13.5px;
+}
+
+[data-theme="dark"] .vgate { background: #2a2417; border-color: #4a3d22; color: #e2c483; }
+
+/* 学习卡 */
+.vcard {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+.vmeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 13px;
+}
+
+.vbadge {
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.vbadge[data-track="L"] { background: #fde8f1; color: #a3235f; }
+.vbadge[data-track="A"] { background: #ece8fd; color: #5a3fc0; }
+.vbadge[data-track="S"] { background: #e2f6e9; color: #1f7a45; }
+[data-theme="dark"] .vbadge[data-track="L"] { background: #3a2030; color: #f0a6c6; }
+[data-theme="dark"] .vbadge[data-track="A"] { background: #2a2544; color: #b3a6f5; }
+[data-theme="dark"] .vbadge[data-track="S"] { background: #1e3327; color: #86d9a6; }
+
+.vtag {
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: rgba(125, 140, 180, .12);
+  color: var(--text-3);
+  font-size: 11.5px;
+}
+
+.vword {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.5px;
   overflow-wrap: anywhere;
 }
 
-.w-phrase-en { color: var(--text-2); }
+.vword-sm { gap: 10px; font-size: 20px; font-weight: 500; }
 
-/* --------------------- 右侧 A-Z 索引（复刻微信通讯录：纯字母，无边框无底色） --------------------- */
+.vsay { font-size: 14px; color: var(--text-3); }
 
-.letter-index {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 22;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2px 1px;
-  background: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-}
-
-.letter-index[hidden] { display: none; }
-
-.letter-item {
-  border: none;
-  background: none;
-  padding: 0;
-  width: 16px;
-  font-family: inherit;
-  font-size: 10.5px;
-  line-height: 15px;
-  text-align: center;
-  color: var(--text-3);
+.vspeak {
+  flex: none;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card);
+  font-size: 16px;
+  line-height: 1.3;
   cursor: pointer;
 }
 
-/* 滑动索引时中间出现的大字母 */
-.letter-bubble {
-  position: fixed;
-  right: 50%;
-  top: 50%;
-  transform: translate(50%, -50%);
-  z-index: 30;
-  width: 64px;
-  height: 64px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: var(--bubble-indicator-bg);
-  color: #fff;
-  font-size: 32px;
-  font-weight: 500;
+.vspeak:hover { background: var(--card-hover); }
+
+.vspeak-lg { padding: 6px 14px; font-size: 24px; }
+
+.vphon { margin: 4px 0 0; font-size: 13px; color: var(--text-3); }
+.vpos { margin: 2px 0 0; font-size: 13.5px; color: var(--text-2); }
+
+/* 记忆盒进度：5 格，答「认识」推进一格 */
+.vbox { display: flex; gap: 4px; margin-top: 13px; }
+.vdot { width: 17px; height: 5px; border-radius: 3px; background: var(--border-strong); }
+.vdot.is-on { background: var(--accent); }
+
+.vreveal {
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
 }
 
-.letter-bubble[hidden] { display: none; }
+.vreveal.is-hidden { display: none; }
+
+.vcn { margin: 0; font-size: 20px; font-weight: 600; }
+.vnote { margin: 9px 0 0; font-size: 13px; line-height: 1.65; color: var(--text-3); }
+
+.vactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+}
+
+.vbtn {
+  flex: 1 1 88px;
+  padding: 12px 10px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .12s ease;
+}
+
+.vbtn:hover { filter: brightness(.97); }
+.vbtn-wide { flex: 1 1 100%; }
+.vbtn-ok { background: #eefaf1; border-color: #b6e6c6; color: #1f7a45; }
+.vbtn-mid { background: #fff8e8; border-color: #f3d08a; color: #8a5a12; }
+.vbtn-no { background: #fdeeee; border-color: #f4c2c2; color: #b03030; }
+
+.vbtn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.vbtn-link {
+  flex: none;
+  padding: 6px 4px;
+  border: none;
+  background: none;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+[data-theme="dark"] .vbtn-ok { background: #1e3327; border-color: #2f5a40; color: #86d9a6; }
+[data-theme="dark"] .vbtn-mid { background: #2a2417; border-color: #4a3d22; color: #e2c483; }
+[data-theme="dark"] .vbtn-no { background: #331f1f; border-color: #5a3232; color: #f0a0a0; }
+
+.vhint {
+  margin: 11px 0 0;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+/* 听写轨 */
+.vdinput {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 17px;
+  letter-spacing: .5px;
+}
+
+.vdinput:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.vdinput:disabled { opacity: .55; }
+
+.vresult {
+  margin-top: 13px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.vresult-cn {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: .85;
+}
+
+.vgood { background: #eefaf1; border: 1px solid #b6e6c6; color: #1f7a45; }
+.vbad { background: #fdeeee; border: 1px solid #f4c2c2; color: #b03030; }
+[data-theme="dark"] .vgood { background: #1e3327; border-color: #2f5a40; color: #86d9a6; }
+[data-theme="dark"] .vbad { background: #331f1f; border-color: #5a3232; color: #f0a0a0; }
+
+/* 收词台 / 语块库 */
+.vimport {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+
+.vinput {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.vinput:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+.vrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+}
+
+.vrow .vbtn { flex: 0 1 auto; }
+
+.vselect {
+  padding: 10px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.vsec {
+  margin: 20px 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-3);
+}
+
+.vlist {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.vitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  font-size: 14px;
+}
+
+.vitem-w { font-weight: 600; overflow-wrap: anywhere; }
+
+.vitem-c {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-3);
+  text-align: right;
+}
+
+.vitem-del {
+  flex: none;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent-text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.vempty {
+  padding: 54px 20px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  color: var(--text-3);
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
 
 /* ------------------------------ 空状态 ------------------------------ */
 

@@ -37,7 +37,8 @@ const FILES = [
   ["sw.js", "离线缓存"],
   ["assets/css/style.css", "样式"],
   ["assets/js/app.js", "交互逻辑"],
-  ["assets/js/data.words.js", "词库"],
+  ["assets/js/data.words.js", "查询模式词库"],
+  ["assets/js/data.vocab.js", "学习模式词库"],
   ["assets/js/data.collocations.js", "固定搭配"],
   ["assets/js/data.sentences.js", "句子库"],
   ["assets/js/data.dialogues.js", "对话库"],
@@ -77,7 +78,8 @@ const FILES = [
     ["有抽屉菜单按钮 #menuBtn", html.includes('id="menuBtn"')],
     ["底部只有输入框和发送键", html.includes('id="input"') && html.includes('id="sendBtn"')],
     ["有模式切换（查询/学习）", html.includes('id="modeSwitch"') && html.includes('data-mode="study"')],
-    ["有 A-Z 字母索引", html.includes('id="letterBar"')],
+    ["有学习模式的单词板块容器", html.includes('id="vocabBoard"')],
+    ["加载了学习模式词库", html.includes("data.vocab.js")],
     ["有学习模式的对话板块", html.includes('id="view-dialogue"')],
     ["导航项声明了所属模式", (html.match(/data-modes="/g) || []).length >= 4]
   ];
