@@ -34,6 +34,7 @@ tools/fetch-data.js          下载 ECDICT 与 ipa-dict 到 tools/.cache/
 tools/build-words.js         从两个数据源生成 data.words.js
 tools/build-icons.js         生成主屏幕图标
 tools/build-dist.js          打包出可上传的 dist/ 目录
+tools/check-live.js          部署后自检：逐项验证线上站点
 tests/selfcheck.js           自检：静态引用 + PWA + 数据内容质量
 tests/smoke.js               DOM 桩冒烟测试（抽屉 / 检索 / 切换 / 发送）
 ```
@@ -82,6 +83,7 @@ node tools/build-words.js 3000    # 想要更大的词库就改这个数字
 ```powershell
 node tests/selfcheck.js   # 引用一致性 + 词库/句子/对话的数据质量
 node tests/smoke.js       # 真实执行 app.js 的交互链路
+node tools/check-live.js  # 部署后自检：线上资源是否都能打开
 ```
 
 ## 已实现
