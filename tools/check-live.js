@@ -38,6 +38,7 @@ const FILES = [
   ["assets/css/style.css", "样式"],
   ["assets/js/app.js", "交互逻辑"],
   ["assets/js/data.words.js", "词库"],
+  ["assets/js/data.collocations.js", "固定搭配"],
   ["assets/js/data.sentences.js", "句子库"],
   ["assets/js/data.dialogues.js", "对话库"],
   ["assets/js/data.practice.js", "练习场景"],
@@ -74,7 +75,11 @@ const FILES = [
     ["引用了 manifest", html.includes("manifest.webmanifest")],
     ["引用了 apple-touch-icon", html.includes("apple-touch-icon")],
     ["有抽屉菜单按钮 #menuBtn", html.includes('id="menuBtn"')],
-    ["底部只有输入框和发送键", html.includes('id="input"') && html.includes('id="sendBtn"')]
+    ["底部只有输入框和发送键", html.includes('id="input"') && html.includes('id="sendBtn"')],
+    ["有模式切换（查询/学习）", html.includes('id="modeSwitch"') && html.includes('data-mode="study"')],
+    ["有 A-Z 字母索引", html.includes('id="letterBar"')],
+    ["有学习模式的对话板块", html.includes('id="view-dialogue"')],
+    ["导航项声明了所属模式", (html.match(/data-modes="/g) || []).length >= 4]
   ];
   checks.forEach(([name, pass]) => {
     if (!pass) bad.push(name);
@@ -97,6 +102,12 @@ const FILES = [
   const count = (words.match(/\{ w: "/g) || []).length;
   console.log("  " + (count > 0 ? "✔ " : "✗ ") + "词库线上共 " + count + " 词");
   if (!count) bad.push("词库内容");
+
+  const colloc = await (await fetch(SITE + "assets/js/data.collocations.js", { headers: { "User-Agent": "chat-prac-check" } })).text();
+  const collocCount = (colloc.match(/^  "/gm) || []).length;
+  const collocOK = collocCount >= count * 0.9;
+  if (!collocOK) bad.push("固定搭配内容");
+  console.log("  " + (collocOK ? "✔ " : "✗ ") + "固定搭配线上覆盖 " + collocCount + " 词");
 
   console.log("");
   if (bad.length) {
