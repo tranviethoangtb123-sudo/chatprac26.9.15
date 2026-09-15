@@ -57,16 +57,30 @@ function fire(el, type, evt) {
   (m[type] || []).forEach((fn) => fn(Object.assign({ preventDefault() {}, isComposing: false }, evt)));
 }
 
-const navButtons = ["words", "sentences", "practice"].map((t) =>
-  makeEl("button", { "data-tab": t }));
+// 导航按钮：带 data-tab 和 data-modes（和 index.html 保持一致）
+const NAV_SPEC = [
+  { tab: "words", modes: "search study" },
+  { tab: "sentences", modes: "search" },
+  { tab: "practice", modes: "search" },
+  { tab: "dialogue", modes: "study" }
+];
+const navButtons = NAV_SPEC.map((s) => makeEl("button", { "data-tab": s.tab, "data-modes": s.modes }));
+const navByTab = {};
+navButtons.forEach((b) => { navByTab[b.attrs["data-tab"]] = b; });
+
+const modeButtons = ["search", "study"].map((m) => makeEl("button", { "data-mode": m }));
+const modeByKey = {};
+modeButtons.forEach((b) => { modeByKey[b.attrs["data-mode"]] = b; });
+
 const sendBtn = makeEl("button");
 const input = makeEl("textarea");
 const chatLog = makeEl("div");
 
 const byId = {};
-["app", "sidebar", "backdrop", "menuBtn", "nav", "viewTitle", "themeToggle", "viewport",
- "view-words", "view-sentences", "view-practice", "wordList", "wordEmpty", "sentList",
- "sentEmpty", "chatLog", "input", "sendBtn", "composerHint"].forEach((id) => {
+["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "viewTitle", "themeToggle", "viewport",
+ "view-words", "view-sentences", "view-practice", "view-dialogue", "letterBar", "wordList", "wordEmpty",
+ "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog", "input", "sendBtn",
+ "composerHint"].forEach((id) => {
   byId[id] = makeEl("div");
 });
 Object.assign(byId, { input: input, sendBtn: sendBtn, chatLog: chatLog });
@@ -80,7 +94,11 @@ const documentStub = {
     if (/^#/.test(sel) && byId[id]) return byId[id];
     return makeEl("div");
   },
-  querySelectorAll(sel) { return sel === ".nav-item" ? navButtons : []; },
+  querySelectorAll(sel) {
+    if (sel === ".nav-item") return navButtons;
+    if (sel === ".mode-btn") return modeButtons;
+    return [];
+  },
   createElement(tag) { return makeEl(tag); },
   addEventListener(type, fn) { (docListeners[type] = docListeners[type] || []).push(fn); }
 };
@@ -100,19 +118,81 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
+["data.words.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
 
 const DATA = globalThis.CHAT_PRAC_DATA;
-console.log("  数据规模：单词 " + DATA.words.length + " 个、句子 " + DATA.sentences.length +
-  " 条、对话 " + DATA.dialogues.length + " 组、场景 " + DATA.scenarios.length + " 个");
+console.log("  数据规模：单词 " + DATA.words.length + " 个（固定搭配 " + Object.keys(DATA.collocations).length +
+  " 词）、句子 " + DATA.sentences.length + " 条、对话 " + DATA.dialogues.length + " 组");
 
 const count = (v) => (v.match(/<article class="card">/g) || []).length;
+const visibleTabs = () => navButtons.filter((b) => !b.hidden).map((b) => b.attrs["data-tab"]);
 
 /* ---------------- 断言 ---------------- */
 try {
+  // ============ 模式：查询 / 学习 ============
+  if (visibleTabs().join(",") !== "words,sentences,practice") {
+    problems.push("查询模式下的导航不对：" + visibleTabs().join(","));
+  }
+  console.log("  查询模式导航：" + visibleTabs().join("、"));
+
+  // 学习模式：只剩 单词 / 对话
+  fire(modeByKey.study, "click");
+  if (visibleTabs().join(",") !== "words,dialogue") {
+    problems.push("学习模式下的导航不对：" + visibleTabs().join(","));
+  }
+  if (!modeByKey.study.classList.contains("is-active")) problems.push("模式按钮没有高亮同步");
+  if (globalThis.localStorage.getItem("chatprac-mode") !== "study") problems.push("模式没有存进 localStorage");
+  console.log("  学习模式导航：" + visibleTabs().join("、") + "（已记住选择）");
+
+  // 学习模式下的单词：没输入时按 A-Z 展示，带固定搭配
+  if (byId.letterBar.hidden) problems.push("学习模式应该显示 A-Z 字母索引");
+  const letterA = count(byId.wordList.innerHTML);
+  if (letterA < 5) problems.push("学习模式 A 字母下词数太少：" + letterA);
+  if (byId.wordList.innerHTML.indexOf("colloc-title") < 0) problems.push("学习模式的单词卡没有固定搭配");
+  if (byId.letterBar.innerHTML.indexOf('class="letter-btn is-active"') < 0) problems.push("字母索引没有高亮当前字母");
+  console.log("  学习模式·单词：字母 A 下 " + letterA + " 词，卡片含固定搭配 ✔");
+
+  // 切换字母
+  fire(byId.letterBar, "click", { target: { closest: () => makeEl("button", { "data-letter": "C" }) } });
+  const letterC = count(byId.wordList.innerHTML);
+  if (letterC < 5) problems.push("切到字母 C 后词数太少：" + letterC);
+  if (byId.wordList.innerHTML.indexOf("<h3 class=\"card-word\">c") < 0) problems.push("字母 C 列表里出现的不是 c 开头的词");
+  console.log("  学习模式·单词：切到字母 C → " + letterC + " 词 ✔");
+
+  // 学习模式下的对话板块：整组对话直接可读
+  fire(navByTab.dialogue, "click");
+  if (byId.viewTitle.textContent !== "对话") problems.push("学习模式·对话标题不对：" + byId.viewTitle.textContent);
+  const dlgCount = count(byId.dialogueList.innerHTML);
+  if (dlgCount !== DATA.dialogues.length) problems.push("学习模式·对话应列出全部 " + DATA.dialogues.length + " 组，实际 " + dlgCount);
+  console.log("  学习模式·对话：" + dlgCount + " 组全部列出 ✔");
+
+  // 学习模式下搜索
+  byId.input.value = "酒店";
+  fire(byId.input, "input");
+  const dlgHit = count(byId.dialogueList.innerHTML);
+  if (dlgHit < 1 || dlgHit >= dlgCount) problems.push("学习模式·对话搜索「酒店」结果异常：" + dlgHit);
+  console.log("  学习模式·对话：搜索「酒店」→ " + dlgHit + " 组 ✔");
+  byId.input.value = "";
+  fire(byId.input, "input");
+
+  // 切回查询模式：导航恢复三个板块，单词板块重新留空
+  fire(modeByKey.search, "click");
+  if (visibleTabs().join(",") !== "words,sentences,practice") problems.push("切回查询模式后导航不对");
+  if (byId.letterBar.hidden !== true) problems.push("查询模式不该显示字母索引");
+  if (count(byId.wordList.innerHTML) !== 0) problems.push("查询模式未输入时应留空");
+  console.log("  切回查询模式：导航恢复、" + "单词留空 ✔");
+
+  // 深链到不属于当前模式的板块时，应该自动切模式
+  fire(modeByKey.study, "click");
+  fire(navByTab.practice, "click");
+  if (visibleTabs().join(",") !== "words,sentences,practice") problems.push("从深链进对话练习时应自动切回查询模式");
+  console.log("  切到「对话练习」时自动回到查询模式 ✔");
+  fire(navByTab.words, "click");
+  fire(modeByKey.search, "click");
+
   // 侧边栏抽屉：默认收起，三条横线拉出，点遮罩或 Esc 收起
   const menuOpen = () => byId.app.classList.contains("is-menu-open");
   if (menuOpen()) problems.push("侧边栏默认就是打开的，应该默认收起");

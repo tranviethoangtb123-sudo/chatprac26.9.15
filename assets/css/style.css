@@ -191,6 +191,8 @@ html.is-app body { overscroll-behavior: none; }
   font-weight: 600;
 }
 
+.nav-item[hidden] { display: none; }
+
 .sidebar-foot {
   margin-top: auto;
   padding: 12px 12px 4px;
@@ -459,6 +461,113 @@ mark {
 .dlg-body p { margin: 0; }
 .dlg-en { font-size: 14.5px; color: var(--text); }
 .dlg-cn { font-size: 13px; color: var(--text-3); }
+
+/* --------------------- 模式切换（查询 / 学习，固定在侧栏底部） --------------------- */
+
+.mode-switch {
+  margin-top: auto;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--card);
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.mode-btn:hover { background: rgba(125, 140, 180, .1); }
+
+.mode-btn.is-active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.mode-btn.is-active:hover { background: var(--accent-hover); }
+
+/* --------------------- 学习模式：A-Z 字母索引 --------------------- */
+
+.letter-bar {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding: 4px 0 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.letter-bar::-webkit-scrollbar { display: none; }
+
+.letter-btn {
+  flex: none;
+  min-width: 36px;
+  height: 34px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.letter-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+
+.letter-btn.is-active {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+/* --------------------- 固定搭配 --------------------- */
+
+.colloc {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.colloc-title {
+  margin: 0 0 1px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--text-3);
+}
+
+.colloc-item {
+  margin: 0;
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  font-size: 13.5px;
+}
+
+.colloc-en { color: var(--text); }
+
+.colloc-cn {
+  color: var(--text-3);
+  font-size: 12.5px;
+  flex: none;
+}
 
 /* ------------------------------ 空状态 ------------------------------ */
 

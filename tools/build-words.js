@@ -222,21 +222,42 @@ function main() {
     if (ame && byWord.has(ame)) byWord.delete(w);
   }
 
-  const words = [...byWord.values()].sort((a, b) => a.frq - b.frq).slice(0, LIMIT);
+  const ranked = [...byWord.values()].sort((a, b) => a.frq - b.frq);
+  let words = ranked.slice(0, LIMIT);
+
+  // --with-ielts：把带雅思标签、且不至于太生僻的词并进来
+  // （--max-rank=N 控制上限，默认 8000，即只收词频前 8000 的雅思词）
+  if (process.argv.includes("--with-ielts")) {
+    const maxRankArg = process.argv.find((a) => a.startsWith("--max-rank="));
+    const maxRank = maxRankArg ? Number(maxRankArg.split("=")[1]) : 8000;
+    const ielts = ranked.filter((w) => /(^|\s)ielts(\s|$)/.test(w.tag || "") && w.frq <= maxRank);
+    const seen = new Set(words.map((w) => w.w));
+    let added = 0;
+    ielts.forEach((w) => { if (!seen.has(w.w)) { words.push(w); seen.add(w.w); added++; } });
+    words.sort((a, b) => a.frq - b.frq);
+    console.log("雅思标签词（词频 ≤ " + maxRank + "）：" + ielts.length + " 个，其中新增 " + added + " 个");
+  }
+
+  const tagCount = {};
+  words.forEach((w) => {
+    String(w.tag || "").split(/\s+/).filter(Boolean).forEach((t) => { tagCount[t] = (tagCount[t] || 0) + 1; });
+  });
 
   const stats = {
     总候选: byWord.size,
     输出: words.length,
     有美式音标: words.filter((w) => ipa.has(w.w)).length,
     牛津核心: words.filter((w) => w.oxford === 1).length,
-    四六级及以上: words.filter((w) => /cet|ky|toefl|ielts/.test(w.tag)).length,
+    柯林斯三星以上: words.filter((w) => w.collins >= 3).length,
+    考试标签分布: Object.entries(tagCount).sort((a, b) => b[1] - a[1]).map(([k, v]) => k + " " + v).join("、") || "（无）",
     词频区间: words.length ? words[0].frq + "–" + words[words.length - 1].frq : "-"
   };
   console.log("\n统计：");
   Object.entries(stats).forEach(([k, v]) => console.log("  " + k + "：" + v));
 
   const body = words.map((w) =>
-    '  { w: "' + w.w + '", ph: "' + w.ph + '", pos: "' + w.pos + '", cn: "' + w.cn + '", frq: ' + w.frq + " }"
+    '  { w: "' + w.w + '", ph: "' + w.ph + '", pos: "' + w.pos + '", cn: "' + w.cn + '", frq: ' + w.frq +
+    (w.tag ? ', tag: "' + w.tag + '"' : "") + " }"
   ).join(",\n");
 
   const out = `/* ============================================================================

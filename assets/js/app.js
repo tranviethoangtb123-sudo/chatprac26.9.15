@@ -27,32 +27,46 @@
 
   /* ------------------------------ 状态 ------------------------------ */
   var state = {
+    mode: "search",           // search=查询模式 / study=学习模式
     tab: "words",
+    letter: "A",              // 学习模式下当前选中的字母
     wordQuery: "",
     sentQuery: "",
-    drafts: { words: "", sentences: "", practice: "" },
+    talkQuery: "",
+    drafts: { words: "", sentences: "", practice: "", dialogue: "" },
     chat: [],
     replyIndex: {},
     busy: false
   };
 
-  var TABS = {
-    words: {
-      title: "单词",
-      placeholder: "搜索单词：abandon、机会、/əˈbændən/…",
-      hint: "Enter 搜索 · Shift + Enter 换行"
-    },
-    sentences: {
-      title: "句子和对话",
-      placeholder: "搜索句子或对话：酒店、airport、面试…",
-      hint: "Enter 搜索 · Shift + Enter 换行"
-    },
-    practice: {
-      title: "对话练习",
-      placeholder: "用英文说点什么，Enter 发送…",
-      hint: "Enter 发送 · Shift + Enter 换行"
-    }
+  var TAB_TITLES = {
+    words: "单词",
+    sentences: "句子和对话",
+    practice: "对话练习",
+    dialogue: "对话"
   };
+
+  // 每种模式显示哪些板块
+  function tabsForMode(mode) {
+    return mode === "study" ? ["words", "dialogue"] : ["words", "sentences", "practice"];
+  }
+
+  // 底部输入框的提示（按当前模式 + 板块）
+  function composerConfig() {
+    if (state.tab === "sentences") {
+      return { ph: "搜索句子或对话：酒店、airport、面试…", hint: "Enter 搜索 · Shift + Enter 换行" };
+    }
+    if (state.tab === "practice") {
+      return { ph: "用英文说点什么，Enter 发送…", hint: "Enter 发送 · Shift + Enter 换行" };
+    }
+    if (state.tab === "dialogue") {
+      return { ph: "搜索对话：酒店、点餐、面试…", hint: "Enter 搜索 · 共 " + (DATA.dialogues || []).length + " 组场景对话" };
+    }
+    if (state.mode === "study") {
+      return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · 学习模式：" + DATA.words.length + " 词按 A-Z 排列，含固定搭配" };
+    }
+    return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · Shift + Enter 换行" };
+  }
 
   /* ------------------------------ DOM ------------------------------ */
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
@@ -64,18 +78,23 @@
     backdrop: $("#backdrop"),
     menuBtn: $("#menuBtn"),
     nav: $("#nav"),
+    modeSwitch: $("#modeSwitch"),
     viewTitle: $("#viewTitle"),
     themeToggle: $("#themeToggle"),
     viewport: $("#viewport"),
     views: {
       words: $("#view-words"),
       sentences: $("#view-sentences"),
-      practice: $("#view-practice")
+      practice: $("#view-practice"),
+      dialogue: $("#view-dialogue")
     },
+    letterBar: $("#letterBar"),
     wordList: $("#wordList"),
     wordEmpty: $("#wordEmpty"),
     sentList: $("#sentList"),
     sentEmpty: $("#sentEmpty"),
+    dialogueList: $("#dialogueList"),
+    dialogueEmpty: $("#dialogueEmpty"),
     chatLog: $("#chatLog"),
     input: $("#input"),
     sendBtn: $("#sendBtn"),
@@ -193,32 +212,95 @@
   }
 
   /* ============================== 板块一：单词 ============================== */
-  // 没有输入时右侧留空，只有输入后才出现结果
+  // 查询模式：没输入时右侧留空，输入后才出结果
+  // 学习模式：没输入时按 A-Z 展示（带固定搭配），输入后变成全库检索
+
+  var letterIndex = null;
+
+  function letters() {
+    if (!letterIndex) {
+      letterIndex = {};
+      (DATA.words || []).forEach(function (w) {
+        var L = w.w.charAt(0).toUpperCase();
+        (letterIndex[L] = letterIndex[L] || []).push(w);
+      });
+      Object.keys(letterIndex).forEach(function (L) {
+        letterIndex[L].sort(function (a, b) { return a.w < b.w ? -1 : (a.w > b.w ? 1 : 0); });
+      });
+    }
+    return Object.keys(letterIndex).sort();
+  }
+
+  function wordsOfLetter(L) {
+    letters();
+    return letterIndex[L] || [];
+  }
+
+  function collocationsOf(word) {
+    return (DATA.collocations && DATA.collocations[word]) || null;
+  }
+
+  // withColloc：学习模式下才显示固定搭配，查询模式保持简洁
+  function wordCardHtml(it, q, withColloc) {
+    var html = '' +
+      '<article class="card">' +
+        '<div class="card-top">' +
+          '<h3 class="card-word">' + highlight(it.w, q) + '</h3>' +
+          '<span class="card-phon">' + highlight(it.ph, q) + '</span>' +
+          (it.pos ? '<span class="card-pos">' + esc(it.pos) + '</span>' : '') +
+        '</div>' +
+        '<p class="card-cn">' + highlight(it.cn, q) + '</p>';
+
+    var col = withColloc ? collocationsOf(it.w) : null;
+    if (col && col.length) {
+      html += '<div class="colloc"><p class="colloc-title">固定搭配</p>' +
+        col.map(function (c) {
+          return '<p class="colloc-item">' +
+            '<span class="colloc-en">' + esc(c[0]) + '</span>' +
+            '<span class="colloc-cn">' + esc(c[1]) + '</span>' +
+            '</p>';
+        }).join("") + '</div>';
+    }
+    return html + '</article>';
+  }
+
+  function renderLetterBar() {
+    var all = letters();
+    if (all.indexOf(state.letter) < 0) state.letter = all[0] || "A";
+    els.letterBar.innerHTML = all.map(function (L) {
+      return '<button type="button" class="letter-btn' + (L === state.letter ? " is-active" : "") +
+        '" data-letter="' + esc(L) + '">' + esc(L) + '</button>';
+    }).join("");
+  }
+
   function renderWords() {
     var q = state.wordQuery.trim();
+    var study = state.mode === "study";
+
+    // 学习模式、没输入 → A-Z 列表
+    if (study && !q) {
+      els.letterBar.hidden = false;
+      renderLetterBar();
+      var list = wordsOfLetter(state.letter);
+      els.wordEmpty.hidden = list.length > 0;
+      els.wordList.innerHTML = list.map(function (it) { return wordCardHtml(it, "", true); }).join("");
+      return;
+    }
+
+    els.letterBar.hidden = true;
+
     if (!q) {
       els.wordList.innerHTML = "";
       els.wordEmpty.hidden = true;
       return;
     }
 
-    var list = DATA.words.filter(function (it) {
+    var hits = (DATA.words || []).filter(function (it) {
       return matches(q, [it.w, it.cn, it.ph, it.pos]);
     });
 
-    els.wordEmpty.hidden = list.length > 0;
-
-    els.wordList.innerHTML = list.map(function (it) {
-      return '' +
-        '<article class="card">' +
-          '<div class="card-top">' +
-            '<h3 class="card-word">' + highlight(it.w, q) + '</h3>' +
-            '<span class="card-phon">' + highlight(it.ph, q) + '</span>' +
-            '<span class="card-pos">' + esc(it.pos) + '</span>' +
-          '</div>' +
-          '<p class="card-cn">' + highlight(it.cn, q) + '</p>' +
-        '</article>';
-    }).join("");
+    els.wordEmpty.hidden = hits.length > 0;
+    els.wordList.innerHTML = hits.map(function (it) { return wordCardHtml(it, q, study); }).join("");
   }
 
   /* ============================== 板块二：句子和对话 ============================== */
@@ -246,28 +328,45 @@
     els.sentEmpty.hidden = list.length > 0;
 
     els.sentList.innerHTML = list.map(function (it) {
-      if (it.lines) {
-        return '' +
-          '<article class="card">' +
-            (it.title ? '<p class="card-title">' + highlight(it.title, q) + '</p>' : '') +
-            '<div class="dlg">' +
-              it.lines.map(function (l) {
-                return '<div class="dlg-line">' +
-                  '<span class="dlg-who">' + esc(l.who) + '</span>' +
-                  '<div class="dlg-body">' +
-                    '<p class="dlg-en">' + highlight(l.en, q) + '</p>' +
-                    '<p class="dlg-cn">' + highlight(l.cn, q) + '</p>' +
-                  '</div>' +
-                '</div>';
-              }).join("") +
-            '</div>' +
-          '</article>';
-      }
+      if (it.lines) return dialogueCardHtml(it, q);
       return '' +
         '<article class="card">' +
           '<p class="card-en">' + highlight(it.en, q) + '</p>' +
           '<p class="card-cn-2">' + highlight(it.cn, q) + '</p>' +
         '</article>';
+    }).join("");
+  }
+
+  function dialogueCardHtml(d, q) {
+    return '' +
+      '<article class="card">' +
+        (d.title ? '<p class="card-title">' + highlight(d.title, q) + '</p>' : '') +
+        '<div class="dlg">' +
+          d.lines.map(function (l) {
+            return '<div class="dlg-line">' +
+              '<span class="dlg-who">' + esc(l.who) + '</span>' +
+              '<div class="dlg-body">' +
+                '<p class="dlg-en">' + highlight(l.en, q) + '</p>' +
+                '<p class="dlg-cn">' + highlight(l.cn, q) + '</p>' +
+              '</div>' +
+            '</div>';
+          }).join("") +
+        '</div>' +
+      '</article>';
+  }
+
+  /* ==================== 板块四：对话（学习模式专用，按场景读整组对话） ==================== */
+  function renderDialogues() {
+    var q = state.talkQuery.trim();
+    var list = (DATA.dialogues || []).filter(function (d) {
+      var fields = [d.title || "", d.tag || ""];
+      d.lines.forEach(function (l) { fields.push(l.en, l.cn); });
+      return matches(q, fields);
+    });
+
+    els.dialogueEmpty.hidden = list.length > 0;
+    els.dialogueList.innerHTML = list.map(function (d) {
+      return dialogueCardHtml(d, q);
     }).join("");
   }
 
@@ -373,19 +472,19 @@
   }
 
   function syncChrome() {
-    var cfg = TABS[state.tab];
-    els.viewTitle.textContent = cfg.title;
+    var cfg = composerConfig();
+    els.viewTitle.textContent = TAB_TITLES[state.tab] || "Chat Prac";
     els.composerHint.textContent = cfg.hint;
-    els.input.placeholder = cfg.placeholder;
+    els.input.placeholder = cfg.ph;
     els.input.value = state.drafts[state.tab] || "";
     autoGrow();
     focusInputIfDesktop();
   }
 
-  /* 地址栏定位：#words / #sentences / #practice（便于分享链接，也方便打包成 App 时做深链） */
+  /* 地址栏定位：#words / #sentences / #practice / #dialogue（便于分享链接，也方便打包成 App 时做深链） */
   function readHashTab() {
     var hash = (window.location && window.location.hash || "").replace(/^#\/?/, "");
-    return TABS[hash] ? hash : null;
+    return TAB_TITLES[hash] ? hash : null;
   }
 
   function writeHash(tab) {
@@ -400,8 +499,65 @@
     } catch (e) { /* file:// 下个别浏览器会拒绝，忽略即可 */ }
   }
 
+  /* ============================== 模式：查询 / 学习 ============================== */
+  // 只更新导航与按钮的显示，不动当前板块（避免和 switchTab 互相递归）
+  function applyModeUi() {
+    var allowed = tabsForMode(state.mode);
+    $$(".nav-item", els.nav).forEach(function (btn) {
+      var modes = (btn.getAttribute("data-modes") || "").split(/\s+/);
+      btn.hidden = modes.indexOf(state.mode) < 0;
+      btn.classList.toggle("is-active", btn.getAttribute("data-tab") === state.tab);
+    });
+    $$(".mode-btn", els.modeSwitch).forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-mode") === state.mode);
+    });
+    return allowed;
+  }
+
+  function initMode() {
+    var saved = null;
+    try { saved = localStorage.getItem("chatprac-mode"); } catch (e) {}
+    if (saved === "study" || saved === "search") state.mode = saved;
+  }
+
+  function saveMode() {
+    try { localStorage.setItem("chatprac-mode", state.mode); } catch (e) {}
+  }
+
+  function setMode(mode) {
+    if (mode !== "search" && mode !== "study") return;
+    if (state.mode === mode) { closeMenu(); return; }
+    state.mode = mode;
+    saveMode();
+    var allowed = applyModeUi();
+    if (allowed.indexOf(state.tab) < 0) {
+      switchTab("words");
+    } else {
+      renderCurrent();
+      syncChrome();
+    }
+    els.viewport.scrollTop = 0;
+    closeMenu();
+  }
+
+  // 当前板块该由哪个渲染函数负责
+  function renderCurrent() {
+    if (state.tab === "words") renderWords();
+    else if (state.tab === "sentences") renderSentences();
+    else if (state.tab === "dialogue") renderDialogues();
+    // practice 是聊天界面，重渲染会丢记录，这里不动
+  }
+
   function switchTab(tab) {
-    if (!TABS[tab]) return;
+    if (!TAB_TITLES[tab]) return;
+
+    // 该板块不属于当前模式时（比如从深链进来），自动切到对应模式
+    if (tabsForMode(state.mode).indexOf(tab) < 0) {
+      state.mode = tabsForMode("study").indexOf(tab) >= 0 ? "study" : "search";
+      saveMode();
+    }
+    applyModeUi();
+
     state.drafts[state.tab] = els.input.value;
 
     state.tab = tab;
@@ -413,6 +569,9 @@
     });
 
     if (tab === "practice") els.chatLog.scrollTop = els.chatLog.scrollHeight;
+
+    // 渲染是随"模式 + 板块"变的，所以切过去要重新渲染一次
+    renderCurrent();
 
     syncChrome();
     writeHash(tab);
@@ -438,6 +597,13 @@
       return;
     }
 
+    if (state.tab === "dialogue") {
+      state.talkQuery = text;
+      renderDialogues();
+      els.viewport.scrollTop = 0;
+      return;
+    }
+
     // 对话练习
     if (!text || state.busy) return;
     state.drafts.practice = "";
@@ -449,13 +615,16 @@
   function handleInput() {
     state.drafts[state.tab] = els.input.value;
     autoGrow();
-    // 检索板块支持实时筛选
+    // 检索类板块支持实时筛选
     if (state.tab === "words") {
       state.wordQuery = els.input.value;
       renderWords();
     } else if (state.tab === "sentences") {
       state.sentQuery = els.input.value;
       renderSentences();
+    } else if (state.tab === "dialogue") {
+      state.talkQuery = els.input.value;
+      renderDialogues();
     }
   }
 
@@ -465,6 +634,22 @@
       btn.addEventListener("click", function () {
         switchTab(btn.getAttribute("data-tab"));
       });
+    });
+
+    // 模式切换（查询 / 学习）
+    $$(".mode-btn", els.modeSwitch).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setMode(btn.getAttribute("data-mode"));
+      });
+    });
+
+    // 学习模式的 A-Z 字母索引
+    els.letterBar.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest(".letter-btn") : null;
+      if (!btn) return;
+      state.letter = btn.getAttribute("data-letter");
+      renderWords();
+      els.viewport.scrollTop = 0;
     });
 
     els.themeToggle.addEventListener("click", toggleTheme);
@@ -502,14 +687,17 @@
   function init() {
     initTheme();
     initStandalone();
+    initMode();
+    applyModeUi();
     renderWords();
     renderSentences();
+    renderDialogues();
     bind();
     registerServiceWorker();
 
     var deepLink = readHashTab();
     if (deepLink && deepLink !== state.tab) {
-      switchTab(deepLink);
+      switchTab(deepLink);       // 深链可能属于另一种模式，switchTab 里会自动切模式
     } else {
       syncChrome();
     }

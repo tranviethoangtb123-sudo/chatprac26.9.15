@@ -25,14 +25,17 @@ sw.js                        离线缓存（Service Worker，改内容后记得�
 交接文档.md                   给接手的人/另一个 AI 会话看的完整交接说明
 部署说明.md                  上传到免费托管 + 加到手机主屏幕的步骤
 assets/css/style.css         样式（浅色/深色、手机竖屏、DeepSeek 风格）
-assets/js/app.js             交互逻辑：抽屉、检索、板块切换、对话发送
-assets/js/data.words.js      词库 2000 词（由脚本生成，勿手工编辑）
+assets/js/app.js             交互逻辑：模式切换、抽屉、检索、板块切换、对话发送
+assets/js/data.words.js      词库 4198 词（由脚本生成，勿手工编辑）
+assets/js/data.collocations.js 固定搭配 8450 条（每词 2 条，由脚本合并生成）
 assets/js/data.sentences.js  句子库 180 条
 assets/js/data.dialogues.js  对话库 32 组（256 行）
 assets/js/data.practice.js   对话练习场景 + 模拟回复（当前界面未使用，备用）
-assets/icons/*.png           应用图标（由脚本生成）
+assets/icons/*.png           应用图标（白底黑字，由脚本生成）
 tools/fetch-data.js          下载 ECDICT 与 ipa-dict 到 tools/.cache/
 tools/build-words.js         从两个数据源生成 data.words.js
+tools/make-colloc-chunks.js  把词库切成小块（生成固定搭配用）
+tools/build-collocations.js  合并并校验固定搭配分片 → data.collocations.js
 tools/build-icons.ps1        生成主屏幕图标（白底黑字 "Chat Prac"；需要 Windows 字体渲染，已生成好并提交，平时不用跑）
 tools/build-dist.js          打包出可上传的 dist/ 目录
 tools/check-icons.js         检查图标确实是"白底黑字"（解码 PNG 统计，可打印字符画）
@@ -91,6 +94,14 @@ node tools/check-live.js  # 部署后自检：线上资源是否都能打开
 
 ## 已实现
 
+- **两种模式**（侧边栏最下方切换，选择会记住）：
+  - **查询模式**：单词 / 句子和对话 / 对话练习 —— 和以前一样，输入框是检索框，没输入时右侧留空。
+  - **学习模式**：只有 **单词** 和 **对话** 两个板块。
+    - 单词：4198 词按 **A-Z 排列**（顶部字母索引，默认 A），每张卡片带 **2 条固定搭配**；
+      输入关键词则变成全库检索。
+    - 对话：32 组场景对话整组直接可读，可输入关键词筛选。
+- 词库按「牛津核心 / 柯林斯星级 / 考纲标签」筛选并按词频排序，**并入了雅思标签词**（词频前 8000 内），
+  所以雅思基础词汇基本都在里面。
 - **手机竖屏优先**：三个板块收进左侧抽屉，默认收起，左上角三条横线拉出，**从屏幕左边缘往右滑也能拉出**；
   点遮罩或按 Esc 收起，选完板块自动关闭。顶部只有「菜单 / 板块名 / 主题切换」。
 - **App 手感**：装到主屏幕后是全屏独立窗口（无地址栏）；关掉下拉刷新与橡皮筋回弹；按钮无点击高亮、无双击缩放；
