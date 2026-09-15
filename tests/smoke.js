@@ -84,6 +84,8 @@ const byId = {};
   byId[id] = makeEl("div");
 });
 Object.assign(byId, { input: input, sendBtn: sendBtn, chatLog: chatLog });
+// 和 index.html 一样，这两个元素初始带 hidden 属性
+byId.letterBubble.hidden = true;
 
 const docListeners = {};
 const documentStub = {
@@ -156,8 +158,10 @@ try {
   if (byId.wordList.innerHTML.indexOf('class="w-ph"') < 0) problems.push("学习模式的单词行缺少音标字段");
   if (byId.wordList.innerHTML.indexOf('class="w-cn"') < 0) problems.push("学习模式的单词行缺少中文字段");
   if (byId.wordList.innerHTML.indexOf("w-phrase") < 0) problems.push("学习模式的单词行没有固定搭配");
-  if (byId.letterBar.innerHTML.indexOf("letter-item is-active") < 0) problems.push("右侧索引没有高亮当前字母");
+  if (byId.letterBar.innerHTML.indexOf('class="letter-item"') < 0) problems.push("右侧索引的字母结构不对");
+  if (byId.letterBar.innerHTML.indexOf("is-active") >= 0) problems.push("索引不该有高亮（复刻微信：纯字母）");
   console.log("  学习模式·单词：字母 A 下 " + letterA + " 行（英语/音标/中文 + 固定搭配）✔");
+  if (!byId.letterBubble.hidden) problems.push("大字母提示默认应该是隐藏的");
 
   // 切换字母（右侧索引）
   fire(byId.letterBar, "click", { target: { closest: () => makeEl("button", { "data-letter": "C" }) } });

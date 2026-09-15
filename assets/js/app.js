@@ -270,13 +270,12 @@
     return html + '</div>';
   }
 
-  // 右侧的 A-Z 索引（微信通讯录那种竖条）
+  // 右侧的 A-Z 索引（复刻微信通讯录：纯字母，没有底色和边框）
   function renderLetterBar() {
     var all = letters();
     if (all.indexOf(state.letter) < 0) state.letter = all[0] || "A";
     els.letterBar.innerHTML = all.map(function (L) {
-      return '<button type="button" class="letter-item' + (L === state.letter ? " is-active" : "") +
-        '" data-letter="' + esc(L) + '">' + esc(L) + '</button>';
+      return '<button type="button" class="letter-item" data-letter="' + esc(L) + '">' + esc(L) + '</button>';
     }).join("");
   }
 

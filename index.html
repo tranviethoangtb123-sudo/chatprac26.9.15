@@ -77,19 +77,21 @@
   <main class="main">
 
     <header class="topbar">
-      <button class="icon-btn" id="menuBtn" type="button" title="菜单" aria-label="菜单" aria-expanded="false" aria-controls="sidebar">
-        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 7h12"/>
-          <path d="M6 12h12"/>
-          <path d="M6 17h12"/>
-        </svg>
-      </button>
-      <h1 class="topbar-title" id="viewTitle">单词</h1>
-      <button class="icon-btn" id="themeToggle" type="button" title="切换主题" aria-label="切换主题">
-        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
-        </svg>
-      </button>
+      <div class="topbar-inner">
+        <button class="icon-btn" id="menuBtn" type="button" title="菜单" aria-label="菜单" aria-expanded="false" aria-controls="sidebar">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h12"/>
+            <path d="M6 12h12"/>
+            <path d="M6 17h12"/>
+          </svg>
+        </button>
+        <h1 class="topbar-title" id="viewTitle">单词</h1>
+        <button class="icon-btn" id="themeToggle" type="button" title="切换主题" aria-label="切换主题">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/>
+          </svg>
+        </button>
+      </div>
     </header>
 
     <!-- 进入板块时是空的，输入后才出现结果 -->
@@ -156,5 +158,6 @@
 <script src="assets/js/data.dialogues.js"></script>
 <script src="assets/js/data.practice.js"></script>
 <script src="assets/js/app.js"></script>
+
 </body>
 </html>
