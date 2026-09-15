@@ -319,6 +319,14 @@
   }
 
   /* ============================== 顶部栏 / 输入区联动 ============================== */
+  // 手机上不自动聚焦：程序化 focus() 会把软键盘顶上来，挡住半个屏幕。
+  // 只有"鼠标类"设备（桌面）才自动聚焦，触屏设备一律等用户自己点输入框。
+  function focusInputIfDesktop() {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    els.input.focus();
+  }
+
   function syncChrome() {
     var cfg = TABS[state.tab];
     els.viewTitle.textContent = cfg.title;
@@ -326,7 +334,7 @@
     els.input.placeholder = cfg.placeholder;
     els.input.value = state.drafts[state.tab] || "";
     autoGrow();
-    els.input.focus();
+    focusInputIfDesktop();
   }
 
   /* 地址栏定位：#words / #sentences / #practice（便于分享链接，也方便打包成 App 时做深链） */

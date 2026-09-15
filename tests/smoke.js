@@ -10,6 +10,7 @@ process.on("unhandledRejection", (e) => problems.push("未捕获的异步错误:
 
 /* ---------------- 最小 DOM 桩 ---------------- */
 const listeners = new WeakMap();
+let touchDevice = true;   // 默认模拟手机（触屏）：用来验证"不自动拉起键盘"
 
 function makeEl(tag, attrs) {
   const el = {
@@ -45,7 +46,7 @@ function makeEl(tag, attrs) {
     },
     querySelectorAll(sel) { return documentStub.querySelectorAll(sel); },
     closest() { return null; },
-    focus() {}
+    focus() { el.focusCount = (el.focusCount || 0) + 1; }
   };
   return el;
 }
@@ -86,7 +87,7 @@ const documentStub = {
 globalThis.window = globalThis;
 globalThis.document = documentStub;
 globalThis.localStorage = { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } };
-globalThis.matchMedia = () => ({ matches: false });
+globalThis.matchMedia = (q) => ({ matches: String(q).includes("hover") ? !touchDevice : false });
 globalThis.location = { hash: "" };
 globalThis.history = {
   replaceState(_s, _t, url) { globalThis.location.hash = url; }
@@ -126,6 +127,17 @@ try {
   if (byId.wordEmpty.hidden !== true) problems.push("未输入时不应显示空状态");
   if (byId.sentList.innerHTML !== "") problems.push("未输入时句子列表不为空");
   console.log("  未输入时右侧留空 ✔");
+
+  // 触屏设备（手机）不应该自动聚焦输入框——否则软键盘会被顶上来
+  if (byId.input.focusCount) problems.push("手机（触屏）上不该自动聚焦输入框，实际聚焦了 " + byId.input.focusCount + " 次");
+  console.log("  手机（触屏）不自动聚焦：聚焦次数 " + (byId.input.focusCount || 0));
+
+  // 桌面（鼠标设备）应该自动聚焦，方便直接打字
+  touchDevice = false;
+  fire(navButtons[0], "click");
+  if (!byId.input.focusCount) problems.push("桌面（鼠标设备）上应该自动聚焦输入框");
+  console.log("  桌面（鼠标）自动聚焦：聚焦次数 " + (byId.input.focusCount || 0));
+  touchDevice = true;
 
   // 检索：中文关键词（词库变大后可能命中多个，检查包含目标词即可）
   byId.input.value = "机会";
