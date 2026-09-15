@@ -96,8 +96,6 @@
     <div class="viewport" id="viewport">
 
       <section class="view" id="view-words">
-        <!-- 学习模式下的 A-Z 字母索引 -->
-        <div class="letter-bar" id="letterBar" hidden></div>
         <div class="card-list" id="wordList"></div>
         <div class="empty" id="wordEmpty" hidden>
           <div class="empty-emoji">🔍</div>
@@ -144,6 +142,10 @@
       </div>
       <p class="composer-hint" id="composerHint">Enter 搜索 · Shift + Enter 换行</p>
     </footer>
+
+    <!-- 学习模式：右侧 A-Z 字母索引（微信通讯录那种），滑动时中间显示大字 -->
+    <div class="letter-index" id="letterBar" hidden></div>
+    <div class="letter-bubble" id="letterBubble" hidden></div>
 
   </main>
 </div>

@@ -27,7 +27,7 @@ sw.js                        离线缓存（Service Worker，改内容后记得�
 assets/css/style.css         样式（浅色/深色、手机竖屏、DeepSeek 风格）
 assets/js/app.js             交互逻辑：模式切换、抽屉、检索、板块切换、对话发送
 assets/js/data.words.js      词库 4198 词（由脚本生成，勿手工编辑）
-assets/js/data.collocations.js 固定搭配 8450 条（每词 2 条，由脚本合并生成）
+assets/js/data.collocations.js 固定搭配（取自 ECDICT 的短语词条，如 take off / in charge of）
 assets/js/data.sentences.js  句子库 180 条
 assets/js/data.dialogues.js  对话库 32 组（256 行）
 assets/js/data.practice.js   对话练习场景 + 模拟回复（当前界面未使用，备用）
@@ -64,6 +64,7 @@ Compress-Archive -Path "dist\*" -DestinationPath "ChatPrac-网站包.zip" -Force
 | --- | --- | --- |
 | 词库：中文释义、词性、词频、考试标签 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT License |
 | 词库：音标（美式 IPA） | [ipa-dict](https://github.com/open-dict-data/ipa-dict) | MIT License |
+| 固定搭配（take off / in charge of 这类短语词条） | [ECDICT](https://github.com/skywind3000/ECDICT) 的短语词条 | MIT License |
 | 句子库、对话库、练习场景 | Chat Prac 原创编写 | 随本项目，可自由修改 |
 
 选词依据：ECDICT 里带「牛津 3000 核心词 / 柯林斯星级 / 中考·高考·四六级·考研·雅思·托福」标签的词条，
@@ -97,9 +98,9 @@ node tools/check-live.js  # 部署后自检：线上资源是否都能打开
 - **两种模式**（侧边栏最下方切换，选择会记住）：
   - **查询模式**：单词 / 句子和对话 / 对话练习 —— 和以前一样，输入框是检索框，没输入时右侧留空。
   - **学习模式**：只有 **单词** 和 **对话** 两个板块。
-    - 单词：4198 词按 **A-Z 排列**（顶部字母索引，默认 A），每张卡片带 **2 条固定搭配**；
-      输入关键词则变成全库检索。
-    - 对话：32 组场景对话整组直接可读，可输入关键词筛选。
+    - 单词：4198 词按 **A-Z 排列**，右侧是**微信通讯录那种竖向字母索引**（点/滑都能跳，中间弹出大字母提示）；
+      列表是紧凑行：**英语 + 音标 + 中文**，下面一行是该词的**固定搭配**（取自词典短语词条，如 take off、in charge of）。
+    - 对话：目前留空（内容待定）。
 - 词库按「牛津核心 / 柯林斯星级 / 考纲标签」筛选并按词频排序，**并入了雅思标签词**（词频前 8000 内），
   所以雅思基础词汇基本都在里面。
 - **手机竖屏优先**：三个板块收进左侧抽屉，默认收起，左上角三条横线拉出，**从屏幕左边缘往右滑也能拉出**；

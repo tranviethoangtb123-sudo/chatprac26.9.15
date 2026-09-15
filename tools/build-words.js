@@ -256,8 +256,9 @@ function main() {
   Object.entries(stats).forEach(([k, v]) => console.log("  " + k + "：" + v));
 
   const body = words.map((w) =>
-    '  { w: "' + w.w + '", ph: "' + w.ph + '", pos: "' + w.pos + '", cn: "' + w.cn + '", frq: ' + w.frq +
-    (w.tag ? ', tag: "' + w.tag + '"' : "") + " }"
+    "  { w: " + JSON.stringify(w.w) + ", ph: " + JSON.stringify(w.ph) + ", pos: " + JSON.stringify(w.pos) +
+    ", cn: " + JSON.stringify(w.cn) + ", frq: " + w.frq +
+    (w.tag ? ", tag: " + JSON.stringify(w.tag) : "") + " }"
   ).join(",\n");
 
   const out = `/* ============================================================================

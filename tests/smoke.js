@@ -78,9 +78,9 @@ const chatLog = makeEl("div");
 
 const byId = {};
 ["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "viewTitle", "themeToggle", "viewport",
- "view-words", "view-sentences", "view-practice", "view-dialogue", "letterBar", "wordList", "wordEmpty",
- "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog", "input", "sendBtn",
- "composerHint"].forEach((id) => {
+ "view-words", "view-sentences", "view-practice", "view-dialogue", "letterBar", "letterBubble",
+ "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
+ "input", "sendBtn", "composerHint"].forEach((id) => {
   byId[id] = makeEl("div");
 });
 Object.assign(byId, { input: input, sendBtn: sendBtn, chatLog: chatLog });
@@ -128,6 +128,7 @@ console.log("  数据规模：单词 " + DATA.words.length + " 个（固定搭�
   " 词）、句子 " + DATA.sentences.length + " 条、对话 " + DATA.dialogues.length + " 组");
 
 const count = (v) => (v.match(/<article class="card">/g) || []).length;
+const countRows = (v) => (v.match(/class="wrow"/g) || []).length;
 const visibleTabs = () => navButtons.filter((b) => !b.hidden).map((b) => b.attrs["data-tab"]);
 
 /* ---------------- 断言 ---------------- */
@@ -147,36 +148,30 @@ try {
   if (globalThis.localStorage.getItem("chatprac-mode") !== "study") problems.push("模式没有存进 localStorage");
   console.log("  学习模式导航：" + visibleTabs().join("、") + "（已记住选择）");
 
-  // 学习模式下的单词：没输入时按 A-Z 展示，带固定搭配
-  if (byId.letterBar.hidden) problems.push("学习模式应该显示 A-Z 字母索引");
-  const letterA = count(byId.wordList.innerHTML);
+  // 学习模式下的单词：没输入时按 A-Z 展示，紧凑行 + 词典固定搭配
+  if (byId.letterBar.hidden) problems.push("学习模式应该显示右侧 A-Z 索引");
+  const letterA = countRows(byId.wordList.innerHTML);
   if (letterA < 5) problems.push("学习模式 A 字母下词数太少：" + letterA);
-  if (byId.wordList.innerHTML.indexOf("colloc-title") < 0) problems.push("学习模式的单词卡没有固定搭配");
-  if (byId.letterBar.innerHTML.indexOf('class="letter-btn is-active"') < 0) problems.push("字母索引没有高亮当前字母");
-  console.log("  学习模式·单词：字母 A 下 " + letterA + " 词，卡片含固定搭配 ✔");
+  if (byId.wordList.innerHTML.indexOf('class="w-en"') < 0) problems.push("学习模式的单词行缺少英语字段");
+  if (byId.wordList.innerHTML.indexOf('class="w-ph"') < 0) problems.push("学习模式的单词行缺少音标字段");
+  if (byId.wordList.innerHTML.indexOf('class="w-cn"') < 0) problems.push("学习模式的单词行缺少中文字段");
+  if (byId.wordList.innerHTML.indexOf("w-phrase") < 0) problems.push("学习模式的单词行没有固定搭配");
+  if (byId.letterBar.innerHTML.indexOf("letter-item is-active") < 0) problems.push("右侧索引没有高亮当前字母");
+  console.log("  学习模式·单词：字母 A 下 " + letterA + " 行（英语/音标/中文 + 固定搭配）✔");
 
-  // 切换字母
+  // 切换字母（右侧索引）
   fire(byId.letterBar, "click", { target: { closest: () => makeEl("button", { "data-letter": "C" }) } });
-  const letterC = count(byId.wordList.innerHTML);
+  const letterC = countRows(byId.wordList.innerHTML);
   if (letterC < 5) problems.push("切到字母 C 后词数太少：" + letterC);
-  if (byId.wordList.innerHTML.indexOf("<h3 class=\"card-word\">c") < 0) problems.push("字母 C 列表里出现的不是 c 开头的词");
-  console.log("  学习模式·单词：切到字母 C → " + letterC + " 词 ✔");
+  if (byId.wordList.innerHTML.indexOf('<span class="w-en">c') < 0) problems.push("字母 C 列表里出现的不是 c 开头的词");
+  if (byId.letterBubble.textContent !== "C") problems.push("切字母时中间的大字母提示没显示");
+  console.log("  学习模式·单词：切到字母 C → " + letterC + " 行，中间提示大字母 " + byId.letterBubble.textContent + " ✔");
 
-  // 学习模式下的对话板块：整组对话直接可读
+  // 学习模式下的对话板块：目前留空（内容待定）
   fire(navByTab.dialogue, "click");
   if (byId.viewTitle.textContent !== "对话") problems.push("学习模式·对话标题不对：" + byId.viewTitle.textContent);
-  const dlgCount = count(byId.dialogueList.innerHTML);
-  if (dlgCount !== DATA.dialogues.length) problems.push("学习模式·对话应列出全部 " + DATA.dialogues.length + " 组，实际 " + dlgCount);
-  console.log("  学习模式·对话：" + dlgCount + " 组全部列出 ✔");
-
-  // 学习模式下搜索
-  byId.input.value = "酒店";
-  fire(byId.input, "input");
-  const dlgHit = count(byId.dialogueList.innerHTML);
-  if (dlgHit < 1 || dlgHit >= dlgCount) problems.push("学习模式·对话搜索「酒店」结果异常：" + dlgHit);
-  console.log("  学习模式·对话：搜索「酒店」→ " + dlgHit + " 组 ✔");
-  byId.input.value = "";
-  fire(byId.input, "input");
+  if (byId.dialogueList.innerHTML !== "") problems.push("学习模式·对话应该先留空");
+  console.log("  学习模式·对话：当前留空（待定）✔");
 
   // 切回查询模式：导航恢复三个板块，单词板块重新留空
   fire(modeByKey.search, "click");

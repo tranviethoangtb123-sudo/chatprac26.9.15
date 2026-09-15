@@ -60,7 +60,7 @@
       return { ph: "用英文说点什么，Enter 发送…", hint: "Enter 发送 · Shift + Enter 换行" };
     }
     if (state.tab === "dialogue") {
-      return { ph: "搜索对话：酒店、点餐、面试…", hint: "Enter 搜索 · 共 " + (DATA.dialogues || []).length + " 组场景对话" };
+      return { ph: "搜索…", hint: "对话板块：内容待定" };
     }
     if (state.mode === "study") {
       return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · 学习模式：" + DATA.words.length + " 词按 A-Z 排列，含固定搭配" };
@@ -89,6 +89,7 @@
       dialogue: $("#view-dialogue")
     },
     letterBar: $("#letterBar"),
+    letterBubble: $("#letterBubble"),
     wordList: $("#wordList"),
     wordEmpty: $("#wordEmpty"),
     sentList: $("#sentList"),
@@ -240,50 +241,83 @@
     return (DATA.collocations && DATA.collocations[word]) || null;
   }
 
-  // withColloc：学习模式下才显示固定搭配，查询模式保持简洁
-  function wordCardHtml(it, q, withColloc) {
-    var html = '' +
+  // 查询模式用的单词卡（简洁：单词 / 音标 / 词性 / 中文）
+  function wordCardHtml(it, q) {
+    return '' +
       '<article class="card">' +
         '<div class="card-top">' +
           '<h3 class="card-word">' + highlight(it.w, q) + '</h3>' +
           '<span class="card-phon">' + highlight(it.ph, q) + '</span>' +
           (it.pos ? '<span class="card-pos">' + esc(it.pos) + '</span>' : '') +
         '</div>' +
-        '<p class="card-cn">' + highlight(it.cn, q) + '</p>';
-
-    var col = withColloc ? collocationsOf(it.w) : null;
-    if (col && col.length) {
-      html += '<div class="colloc"><p class="colloc-title">固定搭配</p>' +
-        col.map(function (c) {
-          return '<p class="colloc-item">' +
-            '<span class="colloc-en">' + esc(c[0]) + '</span>' +
-            '<span class="colloc-cn">' + esc(c[1]) + '</span>' +
-            '</p>';
-        }).join("") + '</div>';
-    }
-    return html + '</article>';
+        '<p class="card-cn">' + highlight(it.cn, q) + '</p>' +
+      '</article>';
   }
 
+  // 学习模式的紧凑行：英语 + 音标 + 中文，下面一行是词典里的固定搭配
+  function wordRowHtml(it, q) {
+    var col = collocationsOf(it.w);
+    var html = '<div class="wrow"><div class="wrow-main">' +
+      '<span class="w-en">' + highlight(it.w, q) + '</span>' +
+      '<span class="w-ph">' + highlight(it.ph, q) + '</span>' +
+      '<span class="w-cn">' + highlight(it.cn, q) + '</span>' +
+      '</div>';
+    if (col && col.length) {
+      html += '<div class="w-phrase">' + col.map(function (c) {
+        return '<span class="w-phrase-en">' + esc(c[0]) + '</span> ' + esc(c[1]);
+      }).join(" · ") + '</div>';
+    }
+    return html + '</div>';
+  }
+
+  // 右侧的 A-Z 索引（微信通讯录那种竖条）
   function renderLetterBar() {
     var all = letters();
     if (all.indexOf(state.letter) < 0) state.letter = all[0] || "A";
     els.letterBar.innerHTML = all.map(function (L) {
-      return '<button type="button" class="letter-btn' + (L === state.letter ? " is-active" : "") +
+      return '<button type="button" class="letter-item' + (L === state.letter ? " is-active" : "") +
         '" data-letter="' + esc(L) + '">' + esc(L) + '</button>';
     }).join("");
+  }
+
+  var bubbleTimer = null;
+  function showLetterBubble(L) {
+    els.letterBubble.textContent = L;
+    els.letterBubble.hidden = false;
+    if (bubbleTimer) clearTimeout(bubbleTimer);
+    bubbleTimer = setTimeout(function () { els.letterBubble.hidden = true; }, 700);
+  }
+
+  function jumpToLetter(L) {
+    if (!L) return;
+    if (L !== state.letter) {
+      state.letter = L;
+      renderWords();
+      els.viewport.scrollTop = 0;
+    }
+    showLetterBubble(L);
+  }
+
+  // 手指/鼠标在索引上滑过时，取当前位置对应的字母
+  function letterFromPoint(x, y) {
+    if (typeof document.elementFromPoint !== "function") return null;
+    var el = document.elementFromPoint(x, y);
+    if (!el || !el.closest) return null;
+    var item = el.closest(".letter-item");
+    return item ? item.getAttribute("data-letter") : null;
   }
 
   function renderWords() {
     var q = state.wordQuery.trim();
     var study = state.mode === "study";
 
-    // 学习模式、没输入 → A-Z 列表
+    // 学习模式、没输入 → 按字母浏览（紧凑行 + 固定搭配）
     if (study && !q) {
       els.letterBar.hidden = false;
       renderLetterBar();
       var list = wordsOfLetter(state.letter);
       els.wordEmpty.hidden = list.length > 0;
-      els.wordList.innerHTML = list.map(function (it) { return wordCardHtml(it, "", true); }).join("");
+      els.wordList.innerHTML = list.map(function (it) { return wordRowHtml(it, ""); }).join("");
       return;
     }
 
@@ -300,7 +334,9 @@
     });
 
     els.wordEmpty.hidden = hits.length > 0;
-    els.wordList.innerHTML = hits.map(function (it) { return wordCardHtml(it, q, study); }).join("");
+    els.wordList.innerHTML = hits.map(function (it) {
+      return study ? wordRowHtml(it, q) : wordCardHtml(it, q);
+    }).join("");
   }
 
   /* ============================== 板块二：句子和对话 ============================== */
@@ -355,19 +391,11 @@
       '</article>';
   }
 
-  /* ==================== 板块四：对话（学习模式专用，按场景读整组对话） ==================== */
+  /* ==================== 板块四：对话（学习模式，内容待定） ==================== */
   function renderDialogues() {
-    var q = state.talkQuery.trim();
-    var list = (DATA.dialogues || []).filter(function (d) {
-      var fields = [d.title || "", d.tag || ""];
-      d.lines.forEach(function (l) { fields.push(l.en, l.cn); });
-      return matches(q, fields);
-    });
-
-    els.dialogueEmpty.hidden = list.length > 0;
-    els.dialogueList.innerHTML = list.map(function (d) {
-      return dialogueCardHtml(d, q);
-    }).join("");
+    // 这一块先留空，等具体方案确定后再做
+    els.dialogueList.innerHTML = "";
+    els.dialogueEmpty.hidden = true;
   }
 
   /* ============================== 板块三：对话练习 ============================== */
@@ -503,6 +531,7 @@
   // 只更新导航与按钮的显示，不动当前板块（避免和 switchTab 互相递归）
   function applyModeUi() {
     var allowed = tabsForMode(state.mode);
+    els.app.classList.toggle("is-study", state.mode === "study");
     $$(".nav-item", els.nav).forEach(function (btn) {
       var modes = (btn.getAttribute("data-modes") || "").split(/\s+/);
       btn.hidden = modes.indexOf(state.mode) < 0;
@@ -643,14 +672,24 @@
       });
     });
 
-    // 学习模式的 A-Z 字母索引
+    // 学习模式的 A-Z 索引：点一下跳到该字母，按住上下滑也切字母
     els.letterBar.addEventListener("click", function (e) {
-      var btn = e.target && e.target.closest ? e.target.closest(".letter-btn") : null;
-      if (!btn) return;
-      state.letter = btn.getAttribute("data-letter");
-      renderWords();
-      els.viewport.scrollTop = 0;
+      var item = e.target && e.target.closest ? e.target.closest(".letter-item") : null;
+      if (item) jumpToLetter(item.getAttribute("data-letter"));
     });
+
+    function indexTouch(e) {
+      var t = e.touches && e.touches[0];
+      var L = null;
+      if (t) L = letterFromPoint(t.clientX, t.clientY);
+      if (!L && e.target && e.target.closest) {
+        var item = e.target.closest(".letter-item");
+        if (item) L = item.getAttribute("data-letter");
+      }
+      if (L) jumpToLetter(L);
+    }
+    els.letterBar.addEventListener("touchstart", indexTouch, { passive: true });
+    els.letterBar.addEventListener("touchmove", indexTouch, { passive: true });
 
     els.themeToggle.addEventListener("click", toggleTheme);
     els.sendBtn.addEventListener("click", handleSend);
