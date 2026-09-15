@@ -147,6 +147,51 @@
     setMenu(false);
   }
 
+  /* --------------------- App 模式：装到主屏幕后的一些适配 --------------------- */
+  // 判断是不是"独立窗口"运行（PWA 安装后、iOS 主屏幕图标打开）
+  function isStandalone() {
+    if (typeof window !== "undefined" && typeof window.matchMedia === "function" &&
+        window.matchMedia("(display-mode: standalone)").matches) {
+      return true;
+    }
+    return typeof navigator !== "undefined" && navigator.standalone === true; // iOS Safari
+  }
+
+  function initStandalone() {
+    if (isStandalone()) document.documentElement.classList.add("is-app");
+  }
+
+  // 从屏幕左边缘往右滑 → 拉出侧边栏（手机上的 App 手感）
+  function bindEdgeSwipe() {
+    var tracking = false;
+    var startX = 0;
+    var startY = 0;
+
+    document.addEventListener("touchstart", function (e) {
+      var t = e.touches && e.touches[0];
+      if (!t || t.clientX > 28) return;
+      if (els.app.classList.contains("is-menu-open")) return;
+      tracking = true;
+      startX = t.clientX;
+      startY = t.clientY;
+    }, { passive: true });
+
+    document.addEventListener("touchmove", function (e) {
+      if (!tracking) return;
+      var t = e.touches && e.touches[0];
+      if (!t) return;
+      var dx = t.clientX - startX;
+      var dy = Math.abs(t.clientY - startY);
+      if (dx > 48 && dy < 40) {   // 主要往右滑，避免和上下滚动抢手势
+        tracking = false;
+        setMenu(true);
+      }
+    }, { passive: true });
+
+    document.addEventListener("touchend", function () { tracking = false; }, { passive: true });
+    document.addEventListener("touchcancel", function () { tracking = false; }, { passive: true });
+  }
+
   /* ============================== 板块一：单词 ============================== */
   // 没有输入时右侧留空，只有输入后才出现结果
   function renderWords() {
@@ -432,6 +477,7 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeMenu();
     });
+    bindEdgeSwipe();   // 手机上从左边往右滑也能拉出
 
     els.input.addEventListener("keydown", function (e) {
       if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
@@ -455,6 +501,7 @@
 
   function init() {
     initTheme();
+    initStandalone();
     renderWords();
     renderSentences();
     bind();

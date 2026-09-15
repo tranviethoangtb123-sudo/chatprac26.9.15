@@ -59,6 +59,8 @@
 html, body {
   height: 100%;
   margin: 0;
+  /* App 手感：关掉下拉刷新和橡皮筋回弹 */
+  overscroll-behavior: none;
 }
 
 body {
@@ -70,6 +72,17 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
 }
+
+/* 按钮类元素：去掉点击高亮、双击缩放，也不让长按选中文字 */
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 主屏幕图标打开时（独立窗口）少一层浏览器外观，这里只做微调 */
+html.is-app body { overscroll-behavior: none; }
 
 .ic {
   width: 20px;
@@ -575,6 +588,14 @@ mark {
   .chat { gap: 14px; }
   .bubble { max-width: 88%; }
   .empty { padding: 52px 16px; }
+
+  /* iOS 上输入框字号小于 16px 会自动放大页面，这里顶到 16px 避免"跳一下" */
+  #input { font-size: 16px; }
+}
+
+/* 触屏设备：隐藏"Enter / Shift+Enter"这种键盘提示（手机上是另一套键盘） */
+@media (hover: none) {
+  .composer-hint { display: none; }
 }
 
 /* 窄屏手机（竖屏） */

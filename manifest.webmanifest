@@ -3,12 +3,15 @@
   "short_name": "Chat Prac",
   "description": "单词、句子和对话、对话练习 —— 随身英语练习工具",
   "lang": "zh-CN",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#4d6bfe",
+  "categories": ["education", "productivity"],
   "icons": [
     {
       "src": "./assets/icons/icon-192.png",
@@ -27,6 +30,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "单词",
+      "short_name": "单词",
+      "description": "检索词库（2000 词）",
+      "url": "./#words",
+      "icons": [{ "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "句子和对话",
+      "short_name": "句子",
+      "description": "检索句子与整组对话",
+      "url": "./#sentences",
+      "icons": [{ "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "对话练习",
+      "short_name": "练习",
+      "description": "开口练对话",
+      "url": "./#practice",
+      "icons": [{ "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

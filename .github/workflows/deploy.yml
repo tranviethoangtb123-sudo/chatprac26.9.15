@@ -26,11 +26,12 @@ jobs:
         with:
           node-version: "22"
 
-      # 自检 + 重新生成图标 + 打包（都不需要联网，也不依赖第三方 npm 包）
+      # 自检 + 打包（都不需要联网，也不依赖第三方 npm 包）
+      # 图标是提交进仓库的现成文件（生成脚本需要 Windows 的字体渲染，CI 里不跑）
       - name: 检查与打包
         run: |
           node tests/selfcheck.js
-          node tools/build-icons.js
+          node tests/smoke.js
           node tools/build-dist.js
 
       # 注意：GitHub 不允许 workflow 用 GITHUB_TOKEN 自己开通 Pages

@@ -10,7 +10,8 @@ process.on("unhandledRejection", (e) => problems.push("未捕获的异步错误:
 
 /* ---------------- 最小 DOM 桩 ---------------- */
 const listeners = new WeakMap();
-let touchDevice = true;   // 默认模拟手机（触屏）：用来验证"不自动拉起键盘"
+let touchDevice = true;      // 默认模拟手机（触屏）：验证"不自动拉起键盘"
+let standaloneMode = true;   // 默认模拟"已装到主屏幕"：验证 App 模式标记
 
 function makeEl(tag, attrs) {
   const el = {
@@ -87,7 +88,12 @@ const documentStub = {
 globalThis.window = globalThis;
 globalThis.document = documentStub;
 globalThis.localStorage = { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } };
-globalThis.matchMedia = (q) => ({ matches: String(q).includes("hover") ? !touchDevice : false });
+globalThis.matchMedia = (q) => {
+  const s = String(q);
+  if (s.includes("display-mode: standalone")) return { matches: standaloneMode };
+  if (s.includes("hover")) return { matches: !touchDevice };
+  return { matches: false };
+};
 globalThis.location = { hash: "" };
 globalThis.history = {
   replaceState(_s, _t, url) { globalThis.location.hash = url; }
@@ -117,6 +123,20 @@ try {
 
   fire(byId.backdrop, "click");
   if (menuOpen()) problems.push("点遮罩后侧边栏没有收起");
+
+  // 手机上从左边往右滑，也能拉出抽屉
+  (docListeners.touchstart || []).forEach((fn) => fn({ touches: [{ clientX: 8, clientY: 300 }] }));
+  (docListeners.touchmove || []).forEach((fn) => fn({ touches: [{ clientX: 92, clientY: 306 }] }));
+  if (!menuOpen()) problems.push("左边缘右滑没有拉出侧边栏");
+  fire(byId.backdrop, "click");
+  console.log("  抽屉：左边缘右滑也能拉出 ✔");
+
+  // App 模式（装到主屏幕后应该给 html 加上 is-app 标记）
+  if (!documentStub.documentElement.classList.contains("is-app")) {
+    problems.push("独立窗口模式下没有加上 is-app 标记");
+  }
+  console.log("  App 模式标记 is-app：" + documentStub.documentElement.classList.contains("is-app"));
+
   fire(byId.menuBtn, "click");
   (docListeners.keydown || []).forEach((fn) => fn({ key: "Escape" }));
   if (menuOpen()) problems.push("按 Esc 后侧边栏没有收起");
