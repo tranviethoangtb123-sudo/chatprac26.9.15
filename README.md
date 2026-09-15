@@ -21,7 +21,8 @@ python -m http.server 5173
 ```
 index.html                   页面结构：顶部栏 + 抽屉式侧边栏 + 底部输入区
 manifest.webmanifest         PWA 配置（手机加到主屏幕用）
-sw.js                        离线缓存（Service Worker）
+sw.js                        离线缓存（Service Worker，改内容后记得把 VERSION 加一）
+交接文档.md                   给接手的人/另一个 AI 会话看的完整交接说明
 部署说明.md                  上传到免费托管 + 加到手机主屏幕的步骤
 assets/css/style.css         样式（浅色/深色、手机竖屏、DeepSeek 风格）
 assets/js/app.js             交互逻辑：抽屉、检索、板块切换、对话发送
