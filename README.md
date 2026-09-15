@@ -1,6 +1,8 @@
 # Chat Prac
 
-英语学习工具的首版界面：**单词** / **句子和对话** / **对话练习** 三个板块，版式参考 DeepSeek。
+英语学习工具：**单词** / **句子和对话** / **对话练习** 三个板块，版式参考 DeepSeek。手机竖屏优先，可加到主屏幕离线使用。
+
+**线上地址：<https://tranviethoangtb123-sudo.github.io/chatprac26.9.15/>**（源码：<https://github.com/tranviethoangtb123-sudo/chatprac26.9.15>）
 
 ## 打开方式
 
