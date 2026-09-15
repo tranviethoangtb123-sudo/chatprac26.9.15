@@ -794,15 +794,76 @@ mark {
 
 .vinput:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
 
+/* ---------- 学习模式·单词列表行：第一行 英文+音标+中文，第二行 三键 ---------- */
+
 .vrow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px;
-  margin-top: 11px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-.vrow .vbtn { flex: 0 1 auto; }
+.vrow-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vrow-w {
+  font-size: 15.5px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.vrow-p {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.vrow-c {
+  font-size: 13.5px;
+  color: var(--text-2);
+  margin-left: auto;
+  text-align: right;
+}
+
+.vrow-tag {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 11px;
+}
+
+.vrow-keys {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
+}
+
+.vk {
+  flex: 1;
+  padding: 7px 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.vk:hover { background: var(--card-hover); }
+.vk:active { background: var(--accent-soft); }
+
+.vk-ok { color: #2f9e6f; border-color: #b8e0cd; }
+.vk-mid { color: #a8801a; border-color: #ead9a8; }
+.vk-no { color: #c0392b; border-color: #ecc4be; }
+
+[data-theme="dark"] .vk-ok { color: #6fd3a3; border-color: #2c5a46; }
+[data-theme="dark"] .vk-mid { color: #e0bd6a; border-color: #5c4d24; }
+[data-theme="dark"] .vk-no { color: #ef8b7f; border-color: #5e3330; }
 
 .vselect {
   padding: 10px 11px;

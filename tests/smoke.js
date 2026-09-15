@@ -172,108 +172,75 @@ try {
   if (globalThis.localStorage.getItem("chatprac-mode") !== "study") problems.push("模式没有存进 localStorage");
   console.log("  学习模式导航：" + visibleTabs().join("、") + "（已记住选择）");
 
-  // ============ 学习模式·单词：6 板块 + 三键循环 ============
+  // ============ 学习模式·单词：三个板块（今日新词 / 已学习 / 全部单词）+ 每行三键 ============
   if (byId.vocabBoard.hidden) problems.push("学习模式应该显示 vocabBoard");
-  if (byId.wordList.innerHTML !== "") problems.push("学习模式不该再渲染 A-Z 单词行");
+  if (byId.wordList.innerHTML !== "") problems.push("学习模式不该渲染查询用的单词列表");
 
   const vHome = byId.vocabBoard.innerHTML;
-  ["收词台", "今日新词", "待复习", "已掌握", "听写轨", "语块库"].forEach((t) => {
+  ["今日新词", "已学习", "全部单词"].forEach((t) => {
     if (vHome.indexOf(t) < 0) problems.push("学习模式缺少板块：" + t);
   });
-  if (vHome.indexOf("vtabs") < 0) problems.push("学习模式缺少板块切换条");
-  if (vHome.indexOf("vstat") < 0) problems.push("学习模式缺少今日进度条");
-  if (vHome.indexOf("wrow") >= 0 || vHome.indexOf("letter-item") >= 0) {
-    problems.push("学习模式还在渲染旧的 A-Z 列表");
-  }
-  console.log("  学习模式·单词：6 个板块都在 ✔");
-
-  // 门禁：预置了一条到期记录，今日新词应该先拦下来
-  if (byId.vocabBoard.innerHTML.indexOf("vgate") < 0) {
-    problems.push("待复习没清完时，今日新词应该显示门禁提示");
-  }
-  if (byId.vocabBoard.innerHTML.indexOf('data-vgo="review"') < 0) {
-    problems.push("门禁提示缺少「先去复习」入口");
-  }
-  console.log("  门禁：待复习 1 条未清 → 今日新词被拦下 ✔");
-
-  // 点「先去复习」→ 切到待复习，出学习卡
-  vclick({ "data-vgo": "review" });
-  const vReview = byId.vocabBoard.innerHTML;
-  if (vReview.indexOf("vcard") < 0) problems.push("待复习没有渲染学习卡");
-  if (vReview.indexOf("agree") < 0) problems.push("待复习没有取到到期的那条记录");
-  if (vReview.indexOf("vdot") < 0) problems.push("学习卡没有记忆盒进度");
-  if (vReview.indexOf('data-vshow="1"') < 0) problems.push("学习卡初始应先给「显示释义」");
-  if (vReview.indexOf('data-vans="know"') >= 0) problems.push("没显示释义前不该出现三键");
-  console.log("  待复习：出卡 + 记忆盒进度，释义未展开时只有「显示释义」✔");
-
-  // 显示释义 → 出现三键
-  vclick({ "data-vshow": "1" });
-  const vRevealed = byId.vocabBoard.innerHTML;
-  ["know", "fuzzy", "no"].forEach((k) => {
-    if (vRevealed.indexOf('data-vans="' + k + '"') < 0) problems.push("三键缺少：" + k);
+  ["收词台", "待复习", "已掌握", "听写轨", "语块库"].forEach((t) => {
+    if (vHome.indexOf(t) >= 0) problems.push("不该再有这个板块：" + t);
   });
-  if (vRevealed.indexOf("vreveal is-hidden") >= 0) problems.push("点「显示释义」后释义仍然是隐藏的");
-  console.log("  三键：不认识 / 模糊 / 认识 都在，释义已展开 ✔");
+  if (vHome.indexOf("vtabs") < 0) problems.push("缺少板块切换条");
+  console.log("  学习模式·单词：今日新词 / 已学习 / 全部单词 三个板块 ✔");
 
-  // 答「认识」→ 记忆盒从 1 推进到 2
-  vclick({ "data-vans": "know" });
+  // 每行格式：第一行 英文 + 音标 + 中文，第二行三个键
+  const firstRow = (byId.vocabBoard.innerHTML.match(/<div class="vrow">[\s\S]*?<\/div><\/div>/) || [""])[0];
+  ["vrow-main", "vrow-w", "vrow-p", "vrow-c", "vrow-keys"].forEach((c) => {
+    if (firstRow.indexOf(c) < 0) problems.push("单词行缺少 " + c);
+  });
+  ["know", "fuzzy", "no"].forEach((k) => {
+    if (firstRow.indexOf('data-vans="' + k + '"') < 0) problems.push("单词行缺少按键：" + k);
+  });
+  if (!/class="vrow-w"[^>]*>[a-z][a-z']*</.test(firstRow)) problems.push("第一行没先写英文单词");
+  if (!/vrow-p">\//.test(firstRow)) problems.push("第一行缺少音标");
+  if (!/vrow-c">[\u4e00-\u9fa5]/.test(firstRow)) problems.push("第一行缺少中文");
+  console.log("  单词行：第一行 英文+音标+中文，第二行三键 ✔");
+
+  // 今日新词里应有一批词（每天上限 50）
+  const todayRows = (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length;
+  const reviewRows = (byId.vocabBoard.innerHTML.match(/class="vrow-tag">复习</g) || []).length;
+  const todayWords = todayRows - reviewRows;
+  if (todayWords < 1) problems.push("今日新词是空的");
+  if (todayWords > 50) problems.push("今日新词超过每日上限 50，实际 " + todayWords);
+  console.log("  今日新词：" + todayWords + " 个新词 + " + reviewRows + " 个到期复习（新词上限 50）✔");
+
+  // 抽第一条词，答「认识」→ 进已学习，记忆盒推进
+  const firstWord = (byId.vocabBoard.innerHTML.match(/data-vword="([a-z'-]+)"/) || [])[1];
+  if (!firstWord) problems.push("取不到第一条词");
+  const boxBefore = readVocabState().box[firstWord] || 0;
+  vclick({ "data-vans": "know", "data-vword": firstWord });
   const st1 = readVocabState();
-  if (st1.box.agree !== 2) problems.push("答「认识」后记忆盒应推进到 2，实际 " + st1.box.agree);
-  if (!st1.due.agree || st1.due.agree <= Date.now()) problems.push("答「认识」后没有排下次复习时间");
-  if (byId.vocabBoard.innerHTML.indexOf("复习队列已清空") < 0) {
-    problems.push("清空到期记录后应提示复习队列已清空");
-  }
-  console.log("  三键：答「认识」→ 记忆盒 1→2，排队下次复习，队列清空 ✔");
+  if (st1.done[firstWord] !== 1) problems.push("答「认识」后应记入 done：" + firstWord);
+  if (st1.box[firstWord] !== boxBefore + 1) problems.push("答「认识」后记忆盒应 +1，实际 " + st1.box[firstWord]);
+  if (!st1.due[firstWord] || st1.due[firstWord] <= Date.now()) problems.push("答「认识」后没有排下次复习时间");
+  if (!st1.learnedAt[firstWord]) problems.push("答「认识」后应记录学习时间（已学习按它倒序）");
+  console.log("  答「认识」：" + firstWord + " 进已学习，记忆盒 " + boxBefore + "→" + st1.box[firstWord] + " ✔");
 
-  // 切回今日新词：门禁解除，出卡 → 答「不认识」→ 记忆盒归零
-  vclick({ "data-vtab": "today" });
-  if (byId.vocabBoard.innerHTML.indexOf("vgate") >= 0) problems.push("复习清完后门禁应该解除");
-  if (byId.vocabBoard.innerHTML.indexOf("vcard") < 0) problems.push("门禁解除后今日新词应出卡");
-  vclick({ "data-vshow": "1" });
-  const beforeNo = readVocabState();
-  const newTodayBefore = beforeNo.newToday;
-  vclick({ "data-vans": "no" });
+  // 已学习板块：应能查到这个词
+  vclick({ "data-vtab": "learned" });
+  if (byId.vocabBoard.innerHTML.indexOf(firstWord) < 0) problems.push("已学习里没有刚学的词：" + firstWord);
+  console.log("  已学习：" + (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length + " 个 ✔");
+
+  // 答「不认识」→ 记忆盒归零
+  vclick({ "data-vans": "no", "data-vword": firstWord });
   const st2 = readVocabState();
-  if (st2.newToday !== newTodayBefore + 1) {
-    problems.push("学掉一个新词后 newToday 应该 +1，实际 " + st2.newToday);
+  if (st2.box[firstWord] !== 0) problems.push("答「不认识」后记忆盒应归零，实际 " + st2.box[firstWord]);
+  console.log("  答「不认识」：记忆盒归零，10 分钟后再来 ✔");
+
+  // 全部单词：A-Z 排序，数量 = 词库总数
+  vclick({ "data-vtab": "all" });
+  const allHtml = byId.vocabBoard.innerHTML;
+  const allCount = (allHtml.match(/data-vans="know"/g) || []).length;
+  if (allCount !== VOCAB.words.length + st2.custom.length) {
+    problems.push("全部单词数量不对：期望 " + (VOCAB.words.length + st2.custom.length) + "，实际 " + allCount);
   }
-  const zeroBox = Object.keys(st2.box).filter((k) => k !== "agree" && st2.box[k] === 0);
-  if (!zeroBox.length) problems.push("答「不认识」后应该有词被打回记忆盒 0");
-  console.log("  三键：答「不认识」→ 记忆盒归零，今日新词计数 +1（" + st2.newToday + "）✔");
-
-  // 听写轨：只出声音，靠拼写
-  vclick({ "data-vtab": "spell" });
-  const vSpell = byId.vocabBoard.innerHTML;
-  if (vSpell.indexOf("vdinput") < 0) problems.push("听写轨没有出拼写输入框");
-  if (vSpell.indexOf("听发音，写出单词") < 0) problems.push("听写轨没有提示听音写词");
-  console.log("  听写轨：出音频按钮 + 拼写输入框 ✔");
-
-  // 收词台：粘贴导入
-  vclick({ "data-vtab": "inbox" });
-  if (byId.vocabBoard.innerHTML.indexOf("vimport") < 0) problems.push("收词台没有导入框");
-  const fakeImport = makeEl("textarea", { "data-vimport": "1" });
-  // 必须用基础学习词库里没有的词——库里有的话会被去重逻辑正确跳过，测不到入库
-  fakeImport.value = "concierge n 礼宾员";
-  fire(byId.vocabBoard, "input", { target: fakeImport });
-  vclick({ "data-vadd": "1" });
-  const st3 = readVocabState();
-  if (st3.custom.length !== 1) problems.push("收词台导入没有写进 custom，实际 " + st3.custom.length);
-  if (!byId.vocabBoard.innerHTML) problems.push("收词台重渲染后是空的");
-  console.log("  收词台：粘贴一行 → 入库 " + st3.custom.length + " 个 ✔");
-
-  // 语块库
-  vclick({ "data-vtab": "chunks" });
-  const vChunks = byId.vocabBoard.innerHTML;
-  if (vChunks.indexOf("make a decision") < 0) problems.push("语块库没有预置语块");
-  if (vChunks.indexOf('data-vchunkadd="1"') < 0) problems.push("语块库没有添加入口");
-  console.log("  语块库：" + VOCAB.chunks.length + " 条种子语块 ✔");
-
-  // 已掌握：初始应为空
-  vclick({ "data-vtab": "mastered" });
-  if (byId.vocabBoard.innerHTML.indexOf("还没有已掌握的词") < 0) {
-    problems.push("还没有已掌握的词时应显示空状态");
-  }
-  console.log("  已掌握：空状态正常 ✔");
+  const allWords = (allHtml.match(/class="vrow-w"[^>]*>([a-z'-]+)</g) || []).map((s) => (s.match(/>([a-z'-]+)</) || [])[1]);
+  const sorted = allWords.slice().sort();
+  if (allWords.join(",") !== sorted.join(",")) problems.push("全部单词没有按 A-Z 排序");
+  console.log("  全部单词：" + allCount + " 个，按 A-Z 排序 ✔");
 
   // 学习模式下的对话板块：仍然留空（内容待定）
   fire(navByTab.dialogue, "click");

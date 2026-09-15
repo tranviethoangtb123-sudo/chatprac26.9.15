@@ -253,7 +253,7 @@
   // 读取进度（键都用单词本身，导入时已去重）
   function vBlank() {
     return {
-      box: {}, due: {}, done: {}, mastered: {},
+      box: {}, due: {}, done: {}, mastered: {}, learnedAt: {},
       custom: [], chunks: null, day: "", newToday: 0
     };
   }
@@ -377,6 +377,8 @@
       vocab.done[w.w] = 1;
       if (w.track !== "L") vocab.newToday++;   // 听写轨不占今日新词额度
     }
+    // 「已学习」按学习时间倒序；老进度里没有这个字段的，这次补上
+    if (!vocab.learnedAt[w.w]) vocab.learnedAt[w.w] = now;
     vSave();
   }
 
@@ -410,24 +412,81 @@
       ? DATA.collocations[word] : null;
   }
 
+  // 三个板块：今日新词 / 已学习 / 全部单词
   var VTABS = [
-    { id: "inbox", label: "收词台" },
     { id: "today", label: "今日新词" },
-    { id: "review", label: "待复习" },
-    { id: "mastered", label: "已掌握" },
-    { id: "spell", label: "听写轨" },
-    { id: "chunks", label: "语块库" }
+    { id: "learned", label: "已学习" },
+    { id: "all", label: "全部单词" }
   ];
+
+  function vLearnedList() {
+    return vWords().filter(function (w) { return vocab.done[w.w]; })
+      .sort(function (a, b) { return (vocab.learnedAt[b.w] || 0) - (vocab.learnedAt[a.w] || 0); });
+  }
+
+  // 今日新词：先复习到期的，再按每天上限补新词（新词跨场景域打散）
+  function vTodayList() {
+    var due = vDueList().map(function (w) { return { w: w, tag: "复习" }; });
+    var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+    var fresh = vShuffle(vNewPool().slice()).slice(0, room)
+      .map(function (w) { return { w: w, tag: "" }; });
+    return due.concat(fresh);
+  }
+
+  function vAllList() {
+    return vWords().slice().sort(function (a, b) {
+      return a.w.toLowerCase() < b.w.toLowerCase() ? -1 : 1;
+    });
+  }
+
+  // 一行一个词：第一行「英文 + 音标 + 中文」，第二行三个键
+  function vRowHtml(w, tag) {
+    var phon = vPhon(w.w);
+    return '<div class="vrow">' +
+      '<div class="vrow-main">' +
+        '<span class="vrow-w" data-vspeak="' + esc(w.w) + '">' + esc(w.w) + "</span>" +
+        (phon ? '<span class="vrow-p">' + esc(phon) + "</span>" : "") +
+        '<span class="vrow-c">' + esc(w.cn) + "</span>" +
+        (tag ? '<span class="vrow-tag">' + esc(tag) + "</span>" : "") +
+      "</div>" +
+      '<div class="vrow-keys">' +
+        '<button type="button" class="vk vk-ok" data-vans="know" data-vword="' + esc(w.w) + '">认识</button>' +
+        '<button type="button" class="vk vk-mid" data-vans="fuzzy" data-vword="' + esc(w.w) + '">模糊</button>' +
+        '<button type="button" class="vk vk-no" data-vans="no" data-vword="' + esc(w.w) + '">不认识</button>' +
+      "</div>" +
+    "</div>";
+  }
+
+  function vListHtml(list) {
+    return '<div class="vlist">' + list.map(function (x) {
+      return vRowHtml(x.w, x.tag);
+    }).join("") + "</div>";
+  }
+
+  function vTodayHtml() {
+    var list = vTodayList();
+    if (!list.length) {
+      return '<p class="vempty">今天的量学完了 🎉 明天再来，或去「已学习」回看。</p>';
+    }
+    return vListHtml(list);
+  }
+
+  function vLearnedHtml() {
+    var list = vLearnedList();
+    if (!list.length) return '<p class="vempty">还没有学过的词，去「今日新词」开始吧。</p>';
+    return vListHtml(list.map(function (w) { return { w: w, tag: "" }; }));
+  }
+
+  function vAllHtml() {
+    return vListHtml(vAllList().map(function (w) { return { w: w, tag: "" }; }));
+  }
 
   function vCounts() {
     return {
-      inbox: vocab.custom.length,
-      today: Math.max(0, VNEW_PER_DAY - vocab.newToday),
+      today: vTodayList().length,
+      learned: vLearnedList().length,
+      all: vWords().length,
       todayDone: vocab.newToday,
-      review: vDueList().length,
-      mastered: vMasteredList().length,
-      spell: vSpellQueue().length,
-      chunks: vocab.chunks.length,
       total: vWords().length
     };
   }
@@ -611,23 +670,18 @@
   function renderVocab() {
     if (!els.vocabBoard) return;
     var c = vCounts();
-    var badge = {
-      inbox: c.inbox, today: c.today, review: c.review,
-      mastered: c.mastered, spell: c.spell, chunks: c.chunks
-    };
 
     var html = '<div class="vtabs">' + VTABS.map(function (t) {
       return '<button type="button" class="vtab' + (vs.tab === t.id ? " is-active" : "") + '" data-vtab="' + t.id + '">' +
-        esc(t.label) + (badge[t.id] ? "<em>" + badge[t.id] + "</em>" : "") + "</button>";
+        esc(t.label) + (c[t.id] ? "<em>" + c[t.id] + "</em>" : "") + "</button>";
     }).join("") + "</div>";
 
-    html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + VNEW_PER_DAY + "</b>　待复习 <b>" + c.review +
-      "</b>　已掌握 <b>" + c.mastered + "</b>　词库 <b>" + c.total + "</b></p>";
+    html += '<p class="vstat">今日已学 <b>' + c.todayDone + "/" + VNEW_PER_DAY +
+      "</b>　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b></p>";
 
-    if (vs.tab === "inbox") html += vInboxHtml();
-    else if (vs.tab === "chunks") html += vChunksHtml();
-    else if (vs.tab === "mastered") html += vMasteredHtml();
-    else html += vStudyHtml();
+    if (vs.tab === "learned") html += vLearnedHtml();
+    else if (vs.tab === "all") html += vAllHtml();
+    else html += vTodayHtml();
 
     els.vocabBoard.innerHTML = html;
   }
@@ -703,11 +757,11 @@
     renderVocab();
   }
 
-  // 底部输入框回车 → 快速加词
+  // 底部输入框回车 → 快速加词（直接进学习词库，出现在「今日新词」里）
   function vQuickAdd(text) {
     if (!text) return;
-    vs.importText = vs.importText ? vs.importText + "\n" + text : text;
-    vs.tab = "inbox";
+    vs.importText = text;
+    vs.tab = "today";
     els.input.value = "";
     state.drafts.words = "";
     autoGrow();
@@ -728,8 +782,14 @@
       return;
     }
     if ((el = t.closest("[data-vspeak]"))) { vSpeak(el.getAttribute("data-vspeak")); return; }
-    if ((el = t.closest("[data-vshow]"))) { vs.revealed = true; renderVocab(); return; }
-    if ((el = t.closest("[data-vans]"))) { vAnswerCurrent(el.getAttribute("data-vans")); return; }
+    if ((el = t.closest("[data-vans]"))) {
+      // 列表里的三键：直接对那一行作答
+      var kind = el.getAttribute("data-vans");
+      var word = el.getAttribute("data-vword");
+      var target = vWords().filter(function (x) { return x.w === word; })[0];
+      if (target) { vAnswer(target, kind); renderVocab(); }
+      return;
+    }
     if ((el = t.closest("[data-vgo]"))) {
       vs.tab = "review"; vs.forced = false; vBuildQueue(); renderVocab(); return;
     }
