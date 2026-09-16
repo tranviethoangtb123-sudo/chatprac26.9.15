@@ -808,6 +808,9 @@ mark {
   gap: 10px;
   padding: 4px 0;
   margin-bottom: 2px;
+  /* 「全部单词」有 8000+ 行，让浏览器跳过屏幕外元素的渲染，滚动才不卡 */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 42px;
 }
 
 .vtext { min-width: 0; }
@@ -875,6 +878,8 @@ mark {
   gap: 7px;
   padding: 3px 0;
   margin-bottom: 2px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 26px;
 }
 
 .vdesc-inline {

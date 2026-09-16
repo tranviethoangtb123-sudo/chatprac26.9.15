@@ -296,7 +296,32 @@
     spell: { typed: "", result: null }
   };
 
-  function vWords() { return (V.words || []).concat(vocab.custom); }
+  // 学习词池 = 查询模式那套 4198 词大词库（含雅思词）+ 原学习词库的 162 词 + 自己加的
+  // 只取 单词/词性/中文 三个字段，音标仍然从 DATA.words 借（vPhon）
+  var vPoolBase = null;
+  function vPoolInit() {
+    if (vPoolBase) return vPoolBase;
+    var seen = {};
+    var out = [];
+
+    (DATA.words || []).forEach(function (x) {
+      var key = x.w.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = 1;
+      out.push({ w: x.w, pos: x.pos || "", cn: x.cn || "" });
+    });
+    (V.words || []).forEach(function (x) {
+      var key = x.w.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = 1;
+      out.push({ w: x.w, pos: x.pos || "", cn: x.cn || "", track: x.track });
+    });
+
+    vPoolBase = out;
+    return vPoolBase;
+  }
+
+  function vWords() { return vPoolInit().concat(vocab.custom); }
   function vIsNew(w) { return !vocab.done[w.w]; }
   function vIsMastered(w) { return !!vocab.mastered[w.w]; }
   function vIsDue(w) {
@@ -791,8 +816,7 @@
     });
 
     vs.importText = "";
-    vAllCache = null;    // 词库变了，「全部单词」的缓存要重建
-    vSave();
+    vAllCache = null;    // 词库变了，「全部单词」的缓存要重建    vSave();
     renderVocab();
 
     if (added || dup) {

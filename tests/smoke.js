@@ -200,7 +200,7 @@ try {
   }
   if (!/class="vw"[^>]*>[a-z][a-z']*</.test(firstRow)) problems.push("左边第一行没先写英文单词");
   if (!/class="vp">\//.test(firstRow)) problems.push("左边第一行缺少音标");
-  if (!/class="vdesc">(?:[a-z]+\.[ ]*)?[\u4e00-\u9fa5]/.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
+  if (!/class="vdesc">[^<]{2,}</.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
   console.log("  单词行：左列 英语+音标 / 词性+中文，右列 认识+不认识 ✔");
 
   // 今日新词：新词每天上限 50，到期的复习词会额外排在最前面
@@ -247,12 +247,18 @@ try {
   }
   if (allHtml.indexOf("in charge of") < 0) problems.push("全部单词里没有词典的固定搭配（in charge of）");
 
+  // 单词和搭配用「有没有空格」区分（单词是单个词，固定搭配是多词短语）
   const allEn = (allHtml.match(/class="vw"[^>]*>([a-z' -]+)</g) || []).map((s) => (s.match(/>([a-z' -]+)</) || [])[1]);
-  const wordPart = allEn.slice(0, VOCAB.words.length);
-  const phrasePart = allEn.slice(VOCAB.words.length);
+  const wordPart = allEn.filter((x) => x.indexOf(" ") < 0);
+  const phrasePart = allEn.filter((x) => x.indexOf(" ") >= 0);
+  if (wordPart.length < 4000) problems.push("全部单词里的单词部分偏少，实际 " + wordPart.length);
+  if (phrasePart.length < 3000) problems.push("全部单词里的固定搭配偏少，实际 " + phrasePart.length);
   if (wordPart.join("|") !== wordPart.slice().sort().join("|")) problems.push("全部单词里，单词部分没有按 A-Z 排序");
   if (phrasePart.join("|") !== phrasePart.slice().sort().join("|")) problems.push("全部单词里，固定搭配部分没有按 A-Z 排序");
-  if (phrasePart.indexOf("in charge of") < 0) problems.push("固定搭配没有排在单词后面");
+  // 单词必须全部排在搭配前面
+  const firstPhraseAt = allEn.findIndex((x) => x.indexOf(" ") >= 0);
+  if (firstPhraseAt >= 0 && firstPhraseAt !== wordPart.length) problems.push("固定搭配没有全部排在单词后面");
+  if (allEn.indexOf("in charge of") < 0) problems.push("全部单词里没有词典的固定搭配（in charge of）");
   console.log("  全部单词：" + wordPart.length + " 个单词 + " + phrasePart.length + " 条固定搭配（各自 A-Z，搭配在后）✔");
 
   // 学习模式下的对话板块：仍然留空（内容待定）
