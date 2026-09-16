@@ -1859,6 +1859,356 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 05-03 Presentation 与 Q&A 被质疑 ==================== */
+    {
+      id: "s05-03",
+      domain: "05",
+      title: "Presentation 与 Q&A 被质疑",
+      ielts: "口语 P3 学术 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同学 · 课堂展示",
+          register: "半正式",
+          channel: "面对面（教室）",
+          barrier: "无",
+          result: "达成（答得住，并拿到一条改进意见）",
+          lines: [
+            { who: "同学", en: "Thanks for that. I've got a question about your second chart.", cn: "谢谢你的展示。我对你第二张图有个问题。" },
+            { who: "讲者", en: "Go ahead.", cn: "请。" },
+            { who: "同学", en: "You said the two groups were comparable. They look like different sizes to me.", cn: "你说两组是可比的。在我看来人数不一样。" },
+            { who: "讲者", en: "They are different sizes, which is why I used percentages rather than counts.", cn: "人数确实不一样，所以我才用百分比而不是人数。" },
+            { who: "同学", en: "Does the percentage hide the smaller group's outliers?", cn: "百分比会不会把小组里的异常值盖住了？" },
+            { who: "讲者", en: "It can. I checked that: the smaller group has one outlier, and it moves the result by two points.", cn: "有可能。我查过了：小组里有一个异常值，会让结果移动两个百分点。" },
+            { who: "同学", en: "Two points out of what?", cn: "两个百分点相对于多少？" },
+            { who: "讲者", en: "Out of thirty-eight. I should have put that on the slide.", cn: "相对于三十八。这一点我该写在幻灯片上。" },
+            { who: "同学", en: "That's my point, and it's a small one.", cn: "这就是我的意思，是个小问题。" },
+            { who: "讲者", en: "It's a fair one. I'll add it before we hand in.", cn: "问得中肯。交之前我加上。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "学生 · 答辩委员",
+          register: "半正式偏正式",
+          channel: "面对面（答辩）",
+          barrier: "无",
+          result: "达成（守住结论，同时承认局限）",
+          lines: [
+            { who: "委员", en: "You conclude that the intervention worked. Your sample is nineteen people.", cn: "你的结论是这项干预有效。你的样本是十九个人。" },
+            { who: "学生", en: "Nineteen, yes. I would not claim it generalises.", cn: "是十九个。我不会声称它可以推广。" },
+            { who: "委员", en: "Then what are you claiming?", cn: "那你在声称什么？" },
+            { who: "学生", en: "That in this setting, with these participants, the change was consistent across every measure we took.", cn: "在这个场景、这些参与者中，我们采取的每一项指标上的变化都是一致的。" },
+            { who: "委员", en: "Consistent is a strong word for nineteen people.", cn: "对十九个人来说，一致是个很强的词。" },
+            { who: "学生", en: "It is. I can show you the raw scores if that helps.", cn: "确实。如果您愿意，我可以把原始分数给您看。" },
+            { who: "委员", en: "...Let me see them. Yes. That is more consistent than I expected.", cn: "……给我看看。好。比我预想的更一致。" },
+            { who: "学生", en: "I would still want a larger study before anyone changes their practice.", cn: "但在有人改变做法之前，我还是希望能有更大规模的研究。" },
+            { who: "委员", en: "Good. Put that sentence in the abstract. It will protect you.", cn: "好。把这句话写进摘要，它会保护你。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "讲者 · 听众（提问者）",
+          register: "半正式",
+          channel: "面对面（问答环节）",
+          barrier: "被问到你没有数据支撑的数字，硬答就会出错",
+          result: "折中（当场承认不知道，承诺会后给答复）",
+          lines: [
+            { who: "听众", en: "What is the effect size in the follow-up study?", cn: "后续研究里的效应量是多少？" },
+            { who: "讲者", en: "I don't have that number with me.", cn: "我手边没有那个数字。" },
+            { who: "听众", en: "It is in the paper you cited.", cn: "就在你引用的那篇论文里。" },
+            { who: "讲者", en: "It may well be. I cited it for the method, and I read it four months ago.", cn: "很可能是。我引用它是因为方法，而且是四个月前读的。" },
+            { who: "听众", en: "So you don't know.", cn: "所以你不知道。" },
+            { who: "讲者", en: "I don't. I would rather say that than give you a number I am guessing at.", cn: "不知道。我宁愿这么说，也不想给您一个我瞎猜的数字。" },
+            { who: "听众", en: "Fair. Can you get it to me?", cn: "公平。能发给我吗？" },
+            { who: "讲者", en: "I'll look it up tonight and email you tomorrow, whether it supports my argument or not.", cn: "我今晚查，明天之前邮件发您，不管它是否支持我的论点。" },
+            { who: "听众", en: "That last part is the part I believe.", cn: "我信的是最后那半句。" },
+            { who: "讲者", en: "It is also the part that is true.", cn: "那也是真的那半句。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "讲者 · 听众",
+          register: "半正式",
+          channel: "面对面（问答环节）",
+          barrier: "听错了问题，答非所问，提问者追问两遍才发现",
+          result: "修复（重述问题，把漏洞写成局限）",
+          lines: [
+            { who: "听众", en: "How did you control for the time of day?", cn: "你怎么控制一天中的时段因素？" },
+            { who: "讲者", en: "We ran all the sessions in the morning.", cn: "我们把所有场次都安排在上午。" },
+            { who: "听众", en: "That's the scheduling, not the control.", cn: "那是排期，不是控制。" },
+            { who: "讲者", en: "Sorry, I think I answered a different question. Could you say it again?", cn: "抱歉，我想我答的是另一个问题。您能再说一遍吗？" },
+            { who: "听众", en: "How do you know the morning effect isn't doing the work?", cn: "你怎么知道不是上午这个因素在起作用？" },
+            { who: "讲者", en: "Ah. I don't, and you are right to push. We tested it in the pilot with an afternoon group.", cn: "啊。我不知道，你问得对。我们在预实验里用过下午组测。" },
+            { who: "听众", en: "And?", cn: "结果呢？" },
+            { who: "讲者", en: "The afternoon group improved less. That could be the intervention or the time of day.", cn: "下午组进步更小。这可能是干预的效果，也可能是时段本身。" },
+            { who: "听众", en: "So it is a limitation, not a finding.", cn: "那这是一条局限，不是一个发现。" },
+            { who: "讲者", en: "It is a limitation. I'm writing it into the discussion, and I'm crediting you in the seminar.", cn: "是局限。我把它写进讨论部分，并在研讨会上注明是你提的。" },
+            { who: "听众", en: "You don't have to do that.", cn: "不用这样。" },
+            { who: "讲者", en: "I do. It's your point.", cn: "要的。这是你提的。" }
+          ]
+        },
+        {
+          variant: "情绪型（被连问三问到慌）",
+          relation: "讲者 · 听众（语气不善）",
+          register: "半正式（情绪化）",
+          channel: "面对面（问答环节）",
+          barrier: "对方连问三问、语气不善，讲者一度慌掉",
+          result: "达成（争取到十秒钟，稳住后答完）",
+          lines: [
+            { who: "听众", en: "This is the third time you have moved the goalposts. Which metric are you actually claiming?", cn: "这是你第三次挪动标准了。你到底在声称哪个指标？" },
+            { who: "讲者", en: "...Sorry. Can I take that in two parts?", cn: "……抱歉。能让我分两部分回答吗？" },
+            { who: "听众", en: "Answer the metric question.", cn: "回答指标那个问题。" },
+            { who: "讲者", en: "I am going to. I just need ten seconds, because I'm getting flustered and you'll get a worse answer.", cn: "我会答。只是我需要十秒，因为我现在有点慌，仓促答对您也没好处。" },
+            { who: "听众", en: "...Take them.", cn: "……请。" },
+            { who: "讲者", en: "Okay. The metric is completion rate. I moved the target twice, and that is a fair criticism.", cn: "好。指标是完成率。我确实两次调整了目标，这个批评站得住。" },
+            { who: "听众", en: "Thank you. That is all I wanted.", cn: "谢谢。我要的就是这个。" },
+            { who: "讲者", en: "Then may I add one thing? Both times, I told my supervisor before I changed it.", cn: "那我能补一句吗？两次调整之前我都跟导师说过。" },
+            { who: "听众", en: "That helps.", cn: "这有用。" },
+            { who: "讲者", en: "I'll put the dates in the appendix.", cn: "我会把日期写进附录。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上展示）",
+          relation: "讲者 · 线上听众",
+          register: "半正式",
+          channel: "线上会议（问答）",
+          barrier: "网络卡顿，提问全在聊天框，要靠主持人转达",
+          result: "达成（逐个转达并答完，写进跟进邮件）",
+          lines: [
+            { who: "主持", en: "We have about eight minutes for questions. I'll read them out.", cn: "我们大概有八分钟提问。我来念问题。" },
+            { who: "主持", en: "First one: how long did the pilot run?", cn: "第一个：预实验跑了多久？" },
+            { who: "讲者", en: "Six weeks. And the audio dropped for a moment, so tell me if I missed anything.", cn: "六周。另外刚才音频断了片刻，如果漏了什么请告诉我。" },
+            { who: "主持", en: "You cut out in the middle of the sampling part.", cn: "你在抽样那段讲到一半断了。" },
+            { who: "讲者", en: "Then let me redo that in one sentence: we sampled every third student on the list.", cn: "那我用一句话重讲：我们按名单每三个抽一个。" },
+            { who: "主持", en: "Next: two people are asking whether the materials are available.", cn: "下一个：有两个人问材料能不能公开。" },
+            { who: "讲者", en: "They are, with one exception. The test items are under embargo until June.", cn: "可以，只有一处例外。测验题目到六月前不能公开。" },
+            { who: "主持", en: "Someone is asking why.", cn: "有人问为什么。" },
+            { who: "讲者", en: "Because the same items are used with the June cohort, and I would be handing them the answers.", cn: "因为六月那批还会用同一套题目，公开就等于把答案给他们了。" },
+            { who: "主持", en: "That is a better answer than mine would have been.", cn: "这比我原本要答的好。" },
+            { who: "讲者", en: "Put it in the follow-up email and I'll stop repeating myself.", cn: "写进跟进邮件里吧，省得我重复。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "会议讲者 · 资深教授（提问）",
+          register: "正式",
+          channel: "面对面（分会场问答）",
+          barrier: "无（但需正式、有礼、守住学术分寸）",
+          result: "达成（接受更精确的表述并纳入下一份申请）",
+          lines: [
+            { who: "教授", en: "May I press you on one point?", cn: "我可以在一点上追问您吗？" },
+            { who: "讲者", en: "By all means.", cn: "当然可以。" },
+            { who: "教授", en: "You attribute the improvement to the feedback rather than to the extra contact hours. How do you separate them?", cn: "您把进步归因于反馈，而不是额外的课时。您如何区分两者？" },
+            { who: "讲者", en: "By design, imperfectly. The control group received the same contact hours, but from a different tutor.", cn: "在设计上并不完美。对照组有相同的课时，但由另一位教师授课。" },
+            { who: "教授", en: "Then the tutor is your confound, not the hours.", cn: "那么您的混淆变量是教师，不是课时。" },
+            { who: "讲者", en: "That is a precise way of putting it, and I shall adopt it.", cn: "这个说法很精确，我接受。" },
+            { who: "教授", en: "Are you able to replicate with the same tutor?", cn: "您能用同一位教师重复吗？" },
+            { who: "讲者", en: "Not within this project. It is the first item in the next proposal.", cn: "在本项目内做不到。这是下一份申请里的第一项。" },
+            { who: "教授", en: "Then you are ahead of most people in this room. Thank you.", cn: "那您已经领先这屋里大多数人了。谢谢。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同学 · 排练",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Rob", en: "how did it go", cn: "怎么样" },
+            { who: "Sam", en: "he destroyed me", cn: "他把我打穿了" },
+            { who: "Rob", en: "who", cn: "谁" },
+            { who: "Sam", en: "the guy with the beard. three questions", cn: "那个留胡子的。连问三个" },
+            { who: "Rob", en: "did you answer them", cn: "你答上来了吗" },
+            { who: "Sam", en: "two", cn: "两个" },
+            { who: "Rob", en: "that's not bad", cn: "不算差" },
+            { who: "Sam", en: "the third one i said i don't know", cn: "第三个我说我不知道" },
+            { who: "Rob", en: "good", cn: "好" },
+            { who: "Sam", en: "good??", cn: "好？？" },
+            { who: "Rob", en: "saying you don't know is a skill. most people just talk", cn: "说不知道是一种本事。大部分人只会瞎说" },
+            { who: "Sam", en: "then i'm basically excellent", cn: "那我基本算优秀了" },
+            { who: "Rob", en: "don't push it", cn: "别得寸进尺" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 05-04 导师会谈与论文反馈 ==================== */
+    {
+      id: "s05-04",
+      domain: "05",
+      title: "导师会谈与论文反馈",
+      ielts: "口语 P3 学术 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同门师兄 · 你",
+          register: "随意",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（拿到一条能立刻动手的改法）",
+          lines: [
+            { who: "师兄", en: "I read your chapter. It's better than the last one.", cn: "我看了你那章。比上一章好。" },
+            { who: "你", en: "That's a low bar. What's wrong with it?", cn: "这标准太低了。哪里有问题？" },
+            { who: "师兄", en: "Nothing is wrong. The problem is that I can't tell what you are arguing until page nine.", cn: "没有错。问题是我到第九页才知道你在论证什么。" },
+            { who: "你", en: "The argument is in the middle, because that is where the evidence is.", cn: "论点在中间，因为证据在那儿。" },
+            { who: "师兄", en: "Then say it on page one and prove it in the middle. Same chapter, different order.", cn: "那就在第一页说清，中间去证明。同一章，换个顺序。" },
+            { who: "你", en: "Wouldn't that be repetitive?", cn: "那不会显得重复吗？" },
+            { who: "师兄", en: "It is how every chapter you admire is built. Go and look at the one you keep quoting.", cn: "你欣赏的每一章都是这么搭的。去看你老引的那一章。" },
+            { who: "你", en: "...Fine. I'll look.", cn: "……行，我去看。" },
+            { who: "师兄", en: "Send me the new first page tomorrow. One page.", cn: "明天把新的第一页发我。就一页。" },
+            { who: "你", en: "One page.", cn: "就一页。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "学生 · 导师",
+          register: "半正式",
+          channel: "面对面（导师办公室）",
+          barrier: "无",
+          result: "达成（三层修改清单 + 十天期限）",
+          lines: [
+            { who: "导师", en: "I've read the draft. Sit down, this will take twenty minutes.", cn: "稿子我看了。坐下，这要二十分钟。" },
+            { who: "学生", en: "That sounds like a lot.", cn: "听起来问题不少。" },
+            { who: "导师", en: "Three things, and only one is serious. First, the literature review is a list.", cn: "三件事，只有一件严重。第一，文献综述是个清单。" },
+            { who: "学生", en: "A list?", cn: "清单？" },
+            { who: "导师", en: "Author, year, finding. Author, year, finding. I learn nothing about why they disagree.", cn: "作者、年份、结论。作者、年份、结论。我不知道他们为什么有分歧。" },
+            { who: "学生", en: "I didn't want to put words in their mouths.", cn: "我不想替他们下判断。" },
+            { who: "导师", en: "Summarising a debate is not putting words in anyone's mouth. Have an opinion and defend it.", cn: "概括一场争论不算替人下判断。你要有判断，并且为它辩护。" },
+            { who: "学生", en: "And the serious one?", cn: "那严重的那件呢？" },
+            { who: "导师", en: "Chapter four uses the wrong measure. That one costs you a week.", cn: "第四章用错了测量方式。这一件要花你一周。" },
+            { who: "学生", en: "Can I fix it without redoing the analysis?", cn: "能不重做分析就改好吗？" },
+            { who: "导师", en: "You can convert the scores, yes. I'll send you the note I wrote on it.", cn: "可以把分数换算过来，可以。我把我写的说明发你。" },
+            { who: "学生", en: "Then I'll have all three done in ten days.", cn: "那我十天之内把三件都做完。" },
+            { who: "导师", en: "Ten days. Send me the review first. I want to see whether the argument works.", cn: "十天。综述先发我。我要看论证立不立得住。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "学生 · 导师",
+          register: "半正式",
+          channel: "面对面（导师办公室）",
+          barrier: "学生要求提前半年提交，导师不同意",
+          result: "折中（三月底先交一章当试点，通过再定提交时间）",
+          lines: [
+            { who: "学生", en: "I'd like to submit in June instead of December.", cn: "我想六月提交，不是十二月。" },
+            { who: "导师", en: "June is not realistic. Two chapters are still drafts.", cn: "六月不现实。两章还是草稿。" },
+            { who: "学生", en: "My funding ends in July. After that I can't afford to stay.", cn: "我的资助七月结束。之后我留不下来。" },
+            { who: "导师", en: "That is a real constraint and I am not dismissing it. But a bad thesis costs you more than three months.", cn: "这是真实的限制，我没有不当回事。但一篇糟糕的论文让你损失的比三个月多。" },
+            { who: "学生", en: "So what do we do?", cn: "那我们怎么办？" },
+            { who: "导师", en: "Give me chapter three as a finished piece by the end of March. If it holds up, we go for June, and I'll say so in writing.", cn: "三月底之前把第三章做成完整成品给我。如果立得住，我们就冲六月，而且我书面说明。" },
+            { who: "学生", en: "And if it doesn't hold up?", cn: "如果立不住呢？" },
+            { who: "导师", en: "Then we know in March rather than in May. That is the point of the test.", cn: "那我们三月就知道，而不是五月。这就是这次测试的意义。" },
+            { who: "学生", en: "March it is. Who else reads it?", cn: "那就三月。还有谁看？" },
+            { who: "导师", en: "One external reader. I'll ask someone who doesn't like your framework.", cn: "一位外部读者。我会找一个不喜欢你这套框架的人。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "学生 · 导师",
+          register: "半正式",
+          channel: "邮件批注 → 面对面",
+          barrier: "一句批注被误解成否定整章，学生白删了八页",
+          result: "修复（当面澄清并改用面谈）",
+          lines: [
+            { who: "学生", en: "I got your note on chapter two. I've rewritten the whole chapter.", cn: "我收到您在第二章的批注。我把整章重写了。" },
+            { who: "导师", en: "The note said the section could be tighter.", cn: "批注说的是这一节可以更紧凑。" },
+            { who: "学生", en: "Which I read as: it is bloated and the argument is weak.", cn: "我理解成：太臃肿，论证很弱。" },
+            { who: "导师", en: "It says it could be tighter. That is four sentences, not four weeks.", cn: "上面写的是可以更紧凑。那是四句话的事，不是四周的事。" },
+            { who: "学生", en: "...I've already cut eight pages.", cn: "……我已经删了八页。" },
+            { who: "导师", en: "Put them back. Half of that was the evidence.", cn: "加回去。删掉的一半是证据。" },
+            { who: "学生", en: "I wish you had written that.", cn: "我希望您当时就这么写。" },
+            { who: "导师", en: "So do I. Notes are a bad medium for this, and I keep using them.", cn: "我也希望。批注是种糟糕的沟通方式，而我一直用它。" },
+            { who: "学生", en: "Can we do fifteen minutes instead of notes next time?", cn: "下次能不能用十五分钟面谈代替批注？" },
+            { who: "导师", en: "Fifteen minutes is cheaper than eight deleted pages. Yes.", cn: "十五分钟比删掉八页便宜。可以。" }
+          ]
+        },
+        {
+          variant: "情绪型（想放弃）",
+          relation: "学生 · 导师",
+          register: "半正式（情绪化）",
+          channel: "面对面（导师办公室）",
+          barrier: "学生被反复打回，情绪崩到想放弃",
+          result: "达成（把大目标拆成这周只做一件事）",
+          lines: [
+            { who: "导师", en: "You asked to see me. What's happening?", cn: "你要求见面。出什么事了？" },
+            { who: "学生", en: "I think I should stop. I've been on this chapter for five months and it keeps coming back.", cn: "我觉得我该停下。这一章我写了五个月，一直被打回来。" },
+            { who: "导师", en: "It has come back three times. Do you know what the three objections had in common?", cn: "是被打回三次。你知道这三次的意见有什么共同点吗？" },
+            { who: "学生", en: "That I can't write.", cn: "说明我不会写。" },
+            { who: "导师", en: "That the sample section keeps changing. All three times, the same section.", cn: "是样本那一节一直在变。三次都是同一节。" },
+            { who: "学生", en: "...That's true.", cn: "……确实。" },
+            { who: "导师", en: "So it isn't the chapter and it isn't you. It is one section you haven't decided about.", cn: "所以问题不在这一章，也不在你。是你有一节还没做决定。" },
+            { who: "学生", en: "I don't know which sample to use.", cn: "我不知道该用哪个样本。" },
+            { who: "导师", en: "Then that is the only task this week. Not writing. Deciding.", cn: "那这就是这周唯一的任务。不是写，是做决定。" },
+            { who: "学生", en: "And if I decide wrong?", cn: "要是决定错了呢？" },
+            { who: "导师", en: "You will have decided, which is further than you are now. Bring me the answer on Friday.", cn: "那你就做了决定，已经比现在靠前。周五把答案带来。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上会议 + 文档批注）",
+          relation: "学生 · 导师（线上）",
+          register: "半正式",
+          channel: "线上会议 + 文档批注",
+          barrier: "批注和上次口头意见相反，学生不知道听哪个",
+          result: "达成（以会议记录为准，当场删掉那条批注）",
+          lines: [
+            { who: "学生", en: "Before we start: there are forty comments in the document.", cn: "开始之前：文档里有四十条批注。" },
+            { who: "导师", en: "There are. Most of them are small.", cn: "是有。大部分是小问题。" },
+            { who: "学生", en: "Comment twelve says reconsider the whole approach. Is that small?", cn: "第十二条写的是重新考虑整个方法。这算小问题吗？" },
+            { who: "导师", en: "That was a bad comment. I wrote it at midnight.", cn: "那条批注写得不好。我半夜写的。" },
+            { who: "学生", en: "So which do I follow, that or what you said in the last meeting?", cn: "那我按哪个来，这条还是上次会上您说的？" },
+            { who: "导师", en: "The meeting. And I'll delete twelve now, while we're talking.", cn: "按会上的。我现在就把它删掉，正好我们在通话。" },
+            { who: "学生", en: "Can we do this every time? A five-line summary after the meeting, in writing?", cn: "以后每次都这样行吗？会后来个五行的书面小结？" },
+            { who: "导师", en: "You write it, I'll correct it. That way the record is yours.", cn: "你写，我改。这样记录是你的。" },
+            { who: "学生", en: "Then comment twelve never happens again.", cn: "那第十二条这种事就不会再有了。" },
+            { who: "导师", en: "Comment twelve never happens again.", cn: "第十二条不会再有了。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "博士生 · 导师组（年度评审）",
+          register: "正式",
+          channel: "面对面（年度评审会）",
+          barrier: "无（但需正式陈述进度并回应质询）",
+          result: "达成（评审通过，附条件）",
+          lines: [
+            { who: "主席", en: "We have read your progress report. Would you summarise the past year in two minutes?", cn: "我们读了你的进度报告。你能用两分钟总结过去一年吗？" },
+            { who: "学生", en: "I shall. One chapter submitted, one in revision, and the fieldwork complete.", cn: "好的。一章已提交，一章在修改，田野调查已完成。" },
+            { who: "主席", en: "Your report says the fieldwork generated less data than planned.", cn: "你的报告说田野调查产生的数据少于计划。" },
+            { who: "学生", en: "It did. Two of the five sites withdrew in March, for reasons outside my control.", cn: "确实。五个站点中的两个在三月退出，原因不在我控制范围内。" },
+            { who: "主席", en: "What did you change as a result?", cn: "你因此改了什么？" },
+            { who: "学生", en: "I added a document-based strand, and I narrowed the claims in chapter four accordingly.", cn: "我增加了一条基于文献的路径，并相应收窄了第四章的结论。" },
+            { who: "委员", en: "Was that agreed with your supervisor before the withdrawal or after it?", cn: "这是在站点退出之前还是之后与导师商定的？" },
+            { who: "学生", en: "After, within a fortnight, and it was minuted.", cn: "之后，两周内定的，而且有会议纪要。" },
+            { who: "主席", en: "Then we are satisfied. The review is passed, on condition that the narrowed claims are held to.", cn: "那我们满意了。评审通过，条件是把收窄后的结论坚持到底。" },
+            { who: "学生", en: "Understood. Thank you.", cn: "明白。谢谢。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同门",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Sam", en: "how bad was it", cn: "有多惨" },
+            { who: "Rob", en: "three pages of comments", cn: "三页批注" },
+            { who: "Sam", en: "on how many pages", cn: "原稿多少页" },
+            { who: "Rob", en: "four", cn: "四页" },
+            { who: "Sam", en: "so basically he rewrote it", cn: "那基本等于他重写了" },
+            { who: "Rob", en: "he says he's helping", cn: "他说他是在帮忙" },
+            { who: "Sam", en: "did you cry", cn: "你哭了吗" },
+            { who: "Rob", en: "nearly. then i read the last one", cn: "差点。然后我看了最后一条" },
+            { who: "Sam", en: "what did it say", cn: "写的什么" },
+            { who: "Rob", en: "the argument in this section is excellent", cn: "这一节的论证非常出色" },
+            { who: "Sam", en: "so you're fine", cn: "那你没事了" },
+            { who: "Rob", en: "i'm fine", cn: "我没事" }
+          ]
+        }
+      ]
     }
   ];
 
