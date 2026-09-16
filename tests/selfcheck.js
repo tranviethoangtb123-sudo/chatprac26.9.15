@@ -255,6 +255,15 @@ scList.forEach((s) => {
 });
 ok.push(`场景对话库：${scDomains.length} 个域 / 规划 ${plannedTotal} 场景，已收录 ${scList.length} 场景 ${scDialogues} 段 ${scLines} 话轮`);
 
+/* --- 规划里的每个场景名都必须已收录（一个不漏，标题逐字一致） --- */
+let missingScn = 0;
+scDomains.forEach((d) => {
+  (d.scenarios || []).forEach((name) => {
+    if (!scTitles.has(name)) { fail(`域「${d.name}」规划的「${name}」还没收录`); missingScn++; }
+  });
+});
+if (!missingScn) ok.push(`场景覆盖：${plannedTotal} 个规划场景全部收录，标题逐字一致`);
+
 /* ============================ 输出 ============================ */
 
 console.log(ok.map((s) => "  ✓ " + s).join("\n"));

@@ -14,9 +14,10 @@
    为什么必须这样收：只收集顺利对话 = 只覆盖约三成真实互动，一遇追问、异议、
    打断就断——那正是 5.5 卡到 7.0 的地方。
 
-   进度：按《对话收集 30 天排期》逐日补充，当前 2/60 个场景。
+   进度：**60/60 个场景全部收录完成**（12 域 × 规划场景，每场景 8 种变体 = 480 段）。
    手工增补：往 SCENARIOS 里加一个对象即可，结构照抄现有的；DOMAINS 里
-   scenarios 数组列的是规划中的全部 60 个场景名。
+   scenarios 数组列的是规划中的全部 60 个场景名，加新场景时请保持标题与之一致。
+   标题必须与 DOMAINS 里的规划名完全一致——tests/selfcheck.js 会逐域核对，缺一个就报错。
    ============================================================================ */
 
 (function () {
@@ -9946,6 +9947,296 @@
             { who: "乙", en: "once", cn: "用过一次" },
             { who: "甲", en: "worth it then", cn: "那还值" },
             { who: "乙", en: "exactly once", cn: "就那一次" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 12-04 讲一次经历 ==================== */
+    {
+      id: "s12-04",
+      domain: "12",
+      title: "讲一次经历",
+      ielts: "口语 P2 经历 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位朋友（旅行经历）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（把「没赶上」讲成整趟最好的事）",
+          lines: [
+            { who: "甲", en: "How was the trip?", cn: "那趟旅行怎么样？" },
+            { who: "乙", en: "We missed the ferry by four minutes, and it turned out to be the best thing that happened.", cn: "我们差四分钟没赶上渡轮，结果那是整趟里最好的事。" },
+            { who: "甲", en: "How?", cn: "怎么说？" },
+            { who: "乙", en: "The next one was six hours later, so we ate in the port and ended up talking to a fisherman for two hours.", cn: "下一班要等六小时，所以我们就在港口吃饭，最后跟一个渔民聊了两小时。" },
+            { who: "甲", en: "What did you talk about?", cn: "聊了什么？" },
+            { who: "乙", en: "The price of fuel, mostly. And his daughter, who studies in the city I used to live in.", cn: "主要是油价。还有他女儿，她读书的城市正是我以前住的地方。" },
+            { who: "甲", en: "That's a better story than the ferry.", cn: "这比赶上渡轮是更好的故事。" },
+            { who: "乙", en: "It's the only reason I remember the trip at all.", cn: "这也是我唯一记得这趟旅行的原因。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "候选人 · 面试官（讲一次棘手经历）",
+          register: "半正式",
+          channel: "面试",
+          barrier: "无（但先给预警再给方案，顺序反常规）",
+          result: "达成（如实说明晚了三天，并解释为何先通知）",
+          lines: [
+            { who: "面试官", en: "Tell me about a time you handled a difficult situation.", cn: "请讲一次你处理棘手情况的经历。" },
+            { who: "候选人", en: "Last March a supplier failed in the week of a launch. I had four days.", cn: "去年三月，一个供应商在发布当周掉链子。我有四天。" },
+            { who: "面试官", en: "What did you do first?", cn: "你先做了什么？" },
+            { who: "候选人", en: "I told the client before I had a solution. That is the part people avoid.", cn: "我在还没有方案的时候就告诉了客户。这一点大家都会回避。" },
+            { who: "面试官", en: "Why in that order?", cn: "为什么按这个顺序？" },
+            { who: "候选人", en: "Because they needed the warning more than they needed my comfort, and it bought me the four days.", cn: "因为他们需要预警，胜过需要我安慰他们，而且这为我争取了那四天。" },
+            { who: "面试官", en: "How did it end?", cn: "结果如何？" },
+            { who: "候选人", en: "We shipped three days late and they renewed. I would rather tell you that than pretend it was on time.", cn: "我们晚了三天发货，他们续约了。我宁愿告诉你这个，也不想假装它准时。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位同事（最糟的一天 vs 失败的项目）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "被要求讲「最糟的一天」，但真正有用的是失败的项目",
+          result: "折中（把两者合成一个不戏剧性但有用的版本）",
+          lines: [
+            { who: "甲", en: "Tell me about your worst day at work.", cn: "说说你工作上最糟的一天。" },
+            { who: "乙", en: "The project that failed is more useful than the dramatic day.", cn: "失败的那个项目比戏剧性的那天更有用。" },
+            { who: "甲", en: "I asked for the worst day.", cn: "我问的是最糟的一天。" },
+            { who: "乙", en: "Then let me give you both in one: the day I realised the project had failed, which was not dramatic at all.", cn: "那我把两件事合成一件：我意识到项目已经失败的那天，一点都不戏剧性。" },
+            { who: "甲", en: "Go on.", cn: "说。" },
+            { who: "乙", en: "I spent the morning writing a status report that was accurate and that nobody wanted to read.", cn: "我一上午在写一份准确、但没人想看的进度报告。" },
+            { who: "甲", en: "That's the useful version.", cn: "这才是有用的版本。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同事（教训被听成埋怨）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "听众把「教训」理解成指责供应商",
+          result: "修复（把教训改成可执行的自我动作）",
+          lines: [
+            { who: "甲", en: "So the lesson is don't trust suppliers.", cn: "所以教训是别信供应商。" },
+            { who: "乙", en: "That isn't the lesson. The lesson is that I checked the supplier's capacity in January and not in March.", cn: "不是这个教训。教训是我在一月核过供应商的产能，三月没有。" },
+            { who: "甲", en: "Those sound like the same thing.", cn: "这两句听起来一样。" },
+            { who: "乙", en: "One blames them, the other changes what I do. Only one of them is useful next time.", cn: "一句是怪他们，另一句是改变我的做法。只有一句对下次有用。" },
+            { who: "甲", en: "Then say that one.", cn: "那就说那句。" },
+            { who: "乙", en: "Check capacity every quarter, on a date in the calendar rather than when I remember.", cn: "每季度核一次产能，写进日历，而不是想起来才做。" }
+          ]
+        },
+        {
+          variant: "情绪型（讲一段很重的经历）",
+          relation: "两位朋友（事故）",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "经历沉重，需要控制细节的量才讲得下去",
+          result: "达成（用「两年后才想明白」收束）",
+          lines: [
+            { who: "甲", en: "You've never told me about the accident.", cn: "你从来没跟我说过那次事故。" },
+            { who: "乙", en: "I can, if you want the version without the detail.", cn: "可以，如果你要的是没有细节的版本。" },
+            { who: "甲", en: "Whichever you can say.", cn: "你能说哪个就说哪个。" },
+            { who: "乙", en: "It was a Tuesday. I was in hospital for nine days and back at work in six weeks, which was too soon.", cn: "那是个周二。我住院九天，六周后回去上班，那太早了。" },
+            { who: "甲", en: "Who told you it was too soon?", cn: "谁告诉你太早了？" },
+            { who: "乙", en: "Nobody. I worked it out two years later. That is why I say it.", cn: "没人。我两年后才想明白。所以我才说。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上录制讲述）",
+          relation: "主持 · 讲述者（录制访谈）",
+          register: "半正式",
+          channel: "录音访谈",
+          barrier: "「就当我没在」这类要求让讲述者无从开口",
+          result: "达成（改成用提问给起点，断了就从满意那句重录）",
+          lines: [
+            { who: "主持", en: "We're recording. Tell it as if I'm not here.", cn: "我们在录。就当我没在。" },
+            { who: "讲述者", en: "That's harder than it sounds. Could you ask me the question again instead?", cn: "这比听起来难。您能把问题再问一遍吗？" },
+            { who: "主持", en: "Of course. What happened when you arrived?", cn: "当然。你到了之后发生了什么？" },
+            { who: "讲述者", en: "Better. A question gives me a place to start.", cn: "好多了。一个问题给了我起点。" },
+            { who: "主持", en: "And if you lose the thread?", cn: "如果断了思路呢？" },
+            { who: "讲述者", en: "Stop recording and start again from the last sentence I was happy with.", cn: "停录，从我满意的那句重新开始。" },
+            { who: "主持", en: "That's the professional answer.", cn: "这是专业的回答。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "主席 · 证人（正式作证）",
+          register: "正式",
+          channel: "正式听证",
+          barrier: "无（但每个时间点都要有来源，不靠回忆）",
+          result: "达成（时间全部有记录可查，明确不依赖记忆）",
+          lines: [
+            { who: "主席", en: "You were present at the incident. Please describe what happened, in order.", cn: "事发时您在场。请按顺序描述经过。" },
+            { who: "证人", en: "At fourteen oh five I heard an alarm. At fourteen oh six I left by the west door. At fourteen ten I called the number on the notice board.", cn: "十四点零五分我听到警报。十四点零六分我从西门离开。十四点十分我拨了告示牌上的号码。" },
+            { who: "主席", en: "You give times. How do you know them?", cn: "您给出了时间。怎么知道的？" },
+            { who: "证人", en: "The alarm is logged, my call is logged, and the west door has a camera. I have not relied on memory.", cn: "警报有记录、我的通话有记录、西门有摄像头。我没有依赖记忆。" },
+            { who: "主席", en: "That distinction will matter.", cn: "这个区分很重要。" },
+            { who: "证人", en: "It is why I checked before I came rather than reconstructing it here.", cn: "所以我才会来之前去核查，而不是在这儿回忆重建。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位朋友（倒霉的经历）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "what happened", cn: "怎么了" },
+            { who: "乙", en: "long story", cn: "说来话长" },
+            { who: "甲", en: "short version", cn: "说短的" },
+            { who: "乙", en: "missed the train", cn: "没赶上火车" },
+            { who: "甲", en: "and", cn: "然后" },
+            { who: "乙", en: "slept on a bench", cn: "在长椅上睡了" },
+            { who: "甲", en: "on purpose", cn: "故意的？" },
+            { who: "乙", en: "no", cn: "不是" },
+            { who: "甲", en: "rough", cn: "够惨" },
+            { who: "乙", en: "wouldn't repeat it", cn: "不想再来一次" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 12-05 表达偏好并解释 ==================== */
+    {
+      id: "s12-05",
+      domain: "12",
+      title: "表达偏好并解释",
+      ielts: "口语 P2 偏好 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位朋友（喝茶还是咖啡）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（偏好背后有具体理由，不是习惯）",
+          lines: [
+            { who: "甲", en: "Tea or coffee?", cn: "茶还是咖啡？" },
+            { who: "乙", en: "Coffee in the morning, tea after four. It isn't a rule, it's just what happens.", cn: "早上咖啡，四点以后茶。不是规矩，就是这么发生了。" },
+            { who: "甲", en: "Why the cut-off?", cn: "为什么有这个分界？" },
+            { who: "乙", en: "Coffee after four and I'm awake at two. I learned that the hard way for about a year.", cn: "四点后喝咖啡，我两点还醒着。我用大约一年时间才弄明白。" },
+            { who: "甲", en: "That's a specific reason.", cn: "这是个很具体的理由。" },
+            { who: "乙", en: "Preferences people can't explain are usually habits they haven't tested.", cn: "讲不出理由的偏好，通常只是没验证过的习惯。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "候选人 · 面试官（单独还是团队）",
+          register: "半正式",
+          channel: "面试",
+          barrier: "无（但把「都行」换成有条件的偏好）",
+          result: "达成（说清两种条件，并把担心变成实际提问）",
+          lines: [
+            { who: "面试官", en: "Do you prefer working alone or in a team?", cn: "你更愿意独立工作还是团队合作？" },
+            { who: "候选人", en: "Alone for the first draft, in a team for the second. The two need different conditions.", cn: "第一稿独立，第二稿团队。两者需要不同的环境。" },
+            { who: "面试官", en: "That's an unusual answer.", cn: "这回答不常见。" },
+            { who: "候选人", en: "It's the honest one. Asked to choose, I'd pick the team, because I can write anywhere but I can't get feedback alone.", cn: "这是诚实的回答。如果非选一个，我选团队，因为我在哪都能写，但一个人拿不到反馈。" },
+            { who: "面试官", en: "And if the role were mostly alone?", cn: "如果这个岗位大部分时间是一个人做呢？" },
+            { who: "候选人", en: "Then I'd ask how feedback is meant to reach me. Not as a challenge, as a practical question.", cn: "那我会问反馈打算怎么到我这儿。不是挑战，是实际问题。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位同事（会议时间偏好冲突）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "个人偏好与全团队时间冲突，只能让一步",
+          result: "折中（接受早会，换来四点后不开会）",
+          lines: [
+            { who: "甲", en: "I'd rather we didn't meet before nine.", cn: "我希望我们别在九点前开会。" },
+            { who: "乙", en: "That's the only time the whole team is available.", cn: "那是全团队唯一都有空的时间。" },
+            { who: "甲", en: "Then my preference loses, and I'd like one thing in exchange.", cn: "那我的偏好就没戏了，但我想换一样东西。" },
+            { who: "乙", en: "What?", cn: "什么？" },
+            { who: "甲", en: "No meetings after four either, so that the day has a shape.", cn: "四点以后也不要开会，这样一天有个形状。" },
+            { who: "乙", en: "Morning-heavy, ending early. That's workable.", cn: "重心在上午、早点结束。这可行。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同事（偏好被听成反对）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "对某个条目的异议被当成否定整个方案",
+          result: "修复（改成精确到条目的取舍表述）",
+          lines: [
+            { who: "甲", en: "You don't like the plan.", cn: "你不喜欢这个方案。" },
+            { who: "乙", en: "I like the plan. I dislike one item in it, and those are different sentences.", cn: "我喜欢这个方案。我不喜欢里面的一项，这是两句不同的话。" },
+            { who: "甲", en: "It didn't sound different.", cn: "听起来没什么不同。" },
+            { who: "乙", en: "Then let me say it precisely: I would keep items one to four and replace five.", cn: "那我精确地说：一到四项我保留，第五项我想换掉。" },
+            { who: "甲", en: "That I can act on.", cn: "这个我能处理。" },
+            { who: "乙", en: "Preference without a proposal sounds like obstruction.", cn: "只表达偏好不给方案，听起来像阻挠。" }
+          ]
+        },
+        {
+          variant: "情绪型（偏好与成长背景）",
+          relation: "两位室友（要不要开窗睡）",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "开窗不是口味问题，而是成长方式，难以各让一半",
+          result: "达成（各自房间各自开，不再每晚协商）",
+          lines: [
+            { who: "甲", en: "You always want the window open.", cn: "你总想把窗户打开。" },
+            { who: "乙", en: "Always, and it isn't a preference, it's how I grew up. We slept with the window open all year.", cn: "总是，而且这不是偏好，是我长大的方式。我们一年四季都开着窗睡。" },
+            { who: "甲", en: "It's four degrees outside.", cn: "外面四度。" },
+            { who: "乙", en: "I know. I'd rather be cold than shut in, and I can put a jumper on.", cn: "我知道。我宁愿冷，也不想被关着，而且我可以加件毛衣。" },
+            { who: "甲", en: "Then we'll open yours and keep mine shut, and stop negotiating every night.", cn: "那你的开、我的关，别再每晚谈一次。" },
+            { who: "乙", en: "That's the first solution that respects both.", cn: "这是第一个两边都顾及的办法。" }
+          ]
+        },
+        {
+          variant: "渠道变体（用表格/问卷表达偏好）",
+          relation: "两位同事（问卷只给一个词）",
+          register: "半正式",
+          channel: "线上问卷",
+          barrier: "问卷只允许一个词，真实偏好需要条件",
+          result: "达成（用一个词加备注栏准确作答）",
+          lines: [
+            { who: "甲", en: "The form asks for my preference in one word.", cn: "表格要求用一个词写出我的偏好。" },
+            { who: "乙", en: "Which question?", cn: "哪一题？" },
+            { who: "甲", en: "Do you prefer mornings or evenings?", cn: "你喜欢早上还是晚上？" },
+            { who: "乙", en: "Then write mornings, if the work is writing, and use the comment box.", cn: "那就写「早上，如果是写作的话」，并用备注栏。" },
+            { who: "甲", en: "That breaks the format.", cn: "那不符合格式。" },
+            { who: "乙", en: "It answers the question accurately, and the box exists for exactly that.", cn: "它准确回答了问题，而备注栏就是为这个设的。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "委员会主席 · 委员（两个场地选一个）",
+          register: "正式",
+          channel: "正式会议",
+          barrier: "无（但偏好必须附带判断标准）",
+          result: "达成（按「哪个后期可改」作标准表达偏好）",
+          lines: [
+            { who: "主席", en: "The committee must choose between the two sites. Do you have a preference?", cn: "委员会必须在两个场地中选一个。您有偏好吗？" },
+            { who: "委员", en: "I prefer the second, and I should state my reason and my reservation.", cn: "我倾向于第二个，并说明我的理由和顾虑。" },
+            { who: "主席", en: "Please do.", cn: "请。" },
+            { who: "委员", en: "The second has better access and worse acoustics. I prefer it because access cannot be fixed later and acoustics can.", cn: "第二个交通更好、音效更差。我倾向它，因为交通后期改不了，音效可以。" },
+            { who: "主席", en: "That is a preference with a criterion attached.", cn: "这是附带判断标准的偏好。" },
+            { who: "委员", en: "Without a criterion it is only taste, and taste should not decide public money.", cn: "没有标准就只是口味，而口味不该决定公共资金。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位朋友（茶还是咖啡）",
+          register: "随意（极简、俚语）",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "tea or coffee", cn: "茶还是咖啡" },
+            { who: "乙", en: "coffee", cn: "咖啡" },
+            { who: "甲", en: "why", cn: "为什么" },
+            { who: "乙", en: "tea tastes like nothing", cn: "茶没味道" },
+            { who: "甲", en: "you drink it wrong", cn: "你喝法不对" },
+            { who: "乙", en: "probably", cn: "大概" },
+            { who: "甲", en: "milk and sugar?", cn: "加奶加糖吗" },
+            { who: "乙", en: "no", cn: "不加" },
+            { who: "甲", en: "then it isn't the tea", cn: "那就不是茶的问题" },
+            { who: "乙", en: "it's still the tea", cn: "还是茶的问题" }
           ]
         }
       ]
