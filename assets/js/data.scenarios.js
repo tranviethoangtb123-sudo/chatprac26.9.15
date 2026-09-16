@@ -439,6 +439,352 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 04-03 邀约与婉拒 ==================== */
+    {
+      id: "s04-03",
+      domain: "04",
+      title: "邀约与婉拒",
+      ielts: "口语 P1 社交 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "好友 · 同学",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（两人都去）",
+          lines: [
+            { who: "Nadia", en: "So, are we doing the coast trip or what? The forecast looks decent for Saturday.", cn: "那，海边那趟到底去不去？周六的天气预报还行。" },
+            { who: "Ben", en: "I'm in. What time are you thinking?", cn: "我去。你想几点出发？" },
+            { who: "Nadia", en: "Early. Leave after nine and we'll sit in traffic for two hours.", cn: "早点。九点以后出门，得在路上堵两个小时。" },
+            { who: "Ben", en: "How early is early?", cn: "早就早到几点？" },
+            { who: "Nadia", en: "Seven. I can pick you up, I've got the car this week.", cn: "七点。我可以来接你，这周车在我这儿。" },
+            { who: "Ben", en: "Seven it is. Do you want me to bring anything?", cn: "那就七点。要我带点什么吗？" },
+            { who: "Nadia", en: "Coffee. And that cool box, if it fits in the back.", cn: "咖啡。还有那个保温箱，后备箱塞得下的话。" },
+            { who: "Ben", en: "It fits. I'll do sandwiches as well, saves us stopping.", cn: "塞得下。我再做点三明治，省得路上停。" },
+            { who: "Nadia", en: "Perfect. Oh, Priya might come too, she's checking with work.", cn: "太好了。对了，Priya 可能也来，她在跟公司确认。" },
+            { who: "Ben", en: "The more the better. Let me know tonight so I buy enough food.", cn: "人越多越好。今晚告诉我，我好按人数买吃的。" },
+            { who: "Nadia", en: "Will do. Text me your address again, I always get the number wrong.", cn: "好。地址再发我一遍，我老记错门牌号。" },
+            { who: "Ben", en: "Sent already. See you Saturday.", cn: "已经发了。周六见。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "下属 · 主管",
+          register: "中性偏正式",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（主管答应，时间待确认）",
+          lines: [
+            { who: "Owen", en: "Rachel, have you got a minute? It's not about the project.", cn: "Rachel，你有空吗？不是项目的事。" },
+            { who: "Rachel", en: "Go ahead.", cn: "你说。" },
+            { who: "Owen", en: "A few of us are doing a dinner on Friday for Marco, he leaves at the end of the month. We'd love you to come.", cn: "我们几个周五给 Marco 办个饭局，他月底就走。希望你能来。" },
+            { who: "Rachel", en: "That's kind of you to organise. Where?", cn: "你们想得挺周到。在哪家？" },
+            { who: "Owen", en: "The Italian place on Bridge Street. Half past seven.", cn: "桥街那家意大利餐厅。七点半。" },
+            { who: "Rachel", en: "I have a call with Singapore at six, but that should be done by seven.", cn: "我六点跟新加坡有个电话会，不过七点前应该能结束。" },
+            { who: "Owen", en: "So that works?", cn: "那就是能来？" },
+            { who: "Rachel", en: "It should. Send me the details and I'll confirm on Thursday.", cn: "应该可以。把详细信息发我，我周四给你准信。" },
+            { who: "Owen", en: "Of course. And it's Dutch, by the way. We're splitting it.", cn: "好。顺便说一下是 AA，大家平摊。" },
+            { who: "Rachel", en: "Naturally. I'll bring cash.", cn: "那当然。我带现金。" },
+            { who: "Owen", en: "Great. Thanks, Rachel.", cn: "太好了。谢谢 Rachel。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "同事 · 周末徒步小团体",
+          register: "中性",
+          channel: "面对面",
+          barrier: "对方提出要你长期固定参加的邀请",
+          result: "折中（改成每月第一个周日去一次）",
+          lines: [
+            { who: "Sofia", en: "We're doing the ridge walk again on Sunday. You should come, you said you wanted to get out more.", cn: "周日我们又去走山脊那条线。你来吧，你说过想多出去走走。" },
+            { who: "Marcus", en: "I did say that. But Sunday is my only proper day off this month.", cn: "我是说过。可这个月周日是我唯一像样的休息日。" },
+            { who: "Sofia", en: "It's not work, though. That's the whole point.", cn: "这又不是上班。重点就在这儿。" },
+            { who: "Marcus", en: "I know. It's just that six hours on a hill isn't rest for me right now.", cn: "我知道。只是现在对我来说，在山上走六个小时不算休息。" },
+            { who: "Sofia", en: "Fair enough. It runs every Sunday anyway, you could come when you feel like it.", cn: "也有道理。反正每周日都有，你想来的时候来就行。" },
+            { who: "Marcus", en: "How about once a month? First Sunday, and I'll actually turn up.", cn: "一个月一次怎么样？第一个周日，我保证到。" },
+            { who: "Sofia", en: "Once a month beats never. I'm holding you to the first Sunday.", cn: "一个月一次总比不来强。第一个周日我可盯着你。" },
+            { who: "Marcus", en: "Deal. I'll bring the good flask.", cn: "说定了。我带那个好保温壶。" },
+            { who: "Sofia", en: "Now you're talking.", cn: "这话我爱听。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "朋友 · 临时饭局",
+          register: "随意",
+          channel: "电话",
+          barrier: "邀约信息只发给了部分人，时间对不上",
+          result: "修复（当场补通知，四十分钟后赶到）",
+          lines: [
+            { who: "Emma", en: "Hi, it's Emma. Are you on your way? We're all here.", cn: "喂，我是 Emma。你在路上了吗？我们都到了。" },
+            { who: "Jake", en: "On my way where? I thought it was tomorrow.", cn: "在去哪儿的路上？我以为明天。" },
+            { who: "Emma", en: "No, tonight. I put it in the group.", cn: "不是，今晚。我在群里发了。" },
+            { who: "Jake", en: "I must have missed it. That group has been dead for weeks.", cn: "我肯定漏看了。那个群好几周没动静了。" },
+            { who: "Emma", en: "Hang on... no, you're right. I only told Dan and Leo. I meant to send it to everyone.", cn: "等等……不，你说得对。我只跟 Dan 和 Leo 说了。本来要发群里，忘了。" },
+            { who: "Jake", en: "Right. Well, I can be there in forty minutes if that's not too late.", cn: "这样。要是不算太晚，我四十分钟能到。" },
+            { who: "Emma", en: "We haven't even ordered. Come.", cn: "我们还没点菜呢。来吧。" },
+            { who: "Jake", en: "What's the address? The place we went to last time?", cn: "地址是哪儿？还是上次那家？" },
+            { who: "Emma", en: "Same street, but the one with the red door. I'll send a pin now.", cn: "同一条街，红门那家。我这就发定位。" },
+            { who: "Jake", en: "Got it. Sorry about the confusion.", cn: "收到了。不好意思，搞混了。" },
+            { who: "Emma", en: "My fault, not yours. See you in a bit.", cn: "是我的错，不怪你。一会儿见。" }
+          ]
+        },
+        {
+          variant: "情绪型（被拒绝后受伤）",
+          relation: "多年好友",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "对方把你的婉拒听成人际疏远，情绪先上来",
+          result: "达成（说明真实原因后和解）",
+          lines: [
+            { who: "Lena", en: "So that's a no, then. Third time.", cn: "所以这就是不去。第三次了。" },
+            { who: "Ada", en: "It isn't about you, honestly.", cn: "真的不是针对你。" },
+            { who: "Lena", en: "It never is. Everyone's just busy, and then one day nobody calls.", cn: "从来都不是。大家都忙，然后有一天就没人打电话了。" },
+            { who: "Ada", en: "Lena. Look at me. My mum's been in hospital since March. That's where my weekends go.", cn: "Lena，看着我。我妈三月就住院了，我的周末都在那儿。" },
+            { who: "Lena", en: "...You never said.", cn: "……你从来没说过。" },
+            { who: "Ada", en: "I didn't want to make it a thing. I'm sorry, I should have told you.", cn: "我不想搞得那么沉重。对不起，我该告诉你的。" },
+            { who: "Lena", en: "No, I'm sorry. I've been sitting here counting.", cn: "不，是我对不起。我还坐在这儿数次数。" },
+            { who: "Ada", en: "Come with me on Thursday, if you like. Visiting hours are generous.", cn: "你要愿意，周四陪我去吧。探视时间挺长的。" },
+            { who: "Lena", en: "I will. And I'll bring those biscuits she likes.", cn: "我去。我带她爱吃的那种饼干。" },
+            { who: "Ada", en: "She'll love that.", cn: "她会很高兴的。" }
+          ]
+        },
+        {
+          variant: "渠道变体（群聊 / 多人）",
+          relation: "同学群 · 五人",
+          register: "随意",
+          channel: "群聊（文字）",
+          barrier: "多人插话，地点和人数始终定不下来",
+          result: "达成（换到车站的酒吧，七点半）",
+          lines: [
+            { who: "Tina", en: "ok saturday dinner. who's in", cn: "周六吃饭。谁去" },
+            { who: "Rob", en: "in", cn: "我" },
+            { who: "Sam", en: "in. where", cn: "我。哪儿" },
+            { who: "Tina", en: "that thai place? the one on mill road", cn: "那家泰国菜？磨坊路那家" },
+            { who: "Rob", en: "that place is tiny, we'll never get five in", cn: "那家店很小，五个人根本坐不下" },
+            { who: "Sam", en: "true. also i hate thai", cn: "确实。而且我讨厌泰国菜" },
+            { who: "Tina", en: "sam you eat nothing but toast", cn: "Sam 你除了吐司什么都不吃" },
+            { who: "Sam", en: "correct, and i'm thriving", cn: "没错，而且我过得很好" },
+            { who: "Rob", en: "what about the pub by the station? big tables, food's fine", cn: "车站那家酒吧怎么样？桌子大，吃的也还行" },
+            { who: "Tina", en: "fine by me. 7.30?", cn: "我没问题。七点半？" },
+            { who: "Rob", en: "7.30", cn: "七点半" },
+            { who: "Sam", en: "7.30. i'll book a table", cn: "七点半。我来订位" },
+            { who: "Tina", en: "sam booking a table is the most organised thing you've done all year", cn: "Sam 订桌子是你今年最有条理的一件事" },
+            { who: "Sam", en: "don't tell anyone", cn: "别跟人说" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "会议主办方 · 受邀讲者",
+          register: "正式",
+          channel: "面对面（会后）",
+          barrier: "无（但需正式措辞、讲究礼数）",
+          result: "达成",
+          lines: [
+            { who: "主办", en: "Dr Whitfield, thank you again for the keynote. It provoked a great deal of discussion.", cn: "Whitfield 博士，再次感谢您的主题演讲，引起了大量讨论。" },
+            { who: "讲者", en: "That's very kind. You have an engaged group here.", cn: "您太客气了。你们这里的人都很投入。" },
+            { who: "主办", en: "We wondered whether you might join us for dinner this evening. The committee would be delighted.", cn: "我们想请您今晚与我们共进晚餐。委员会会非常高兴。" },
+            { who: "讲者", en: "I'd be honoured. May I ask where and at what hour?", cn: "我很荣幸。请问地点和时间？" },
+            { who: "主办", en: "The Old Hall, at half past seven. I shall send a car if that is convenient.", cn: "老礼堂，七点半。如果方便，我派车接您。" },
+            { who: "讲者", en: "A car is not necessary, though I appreciate the offer. I shall walk over.", cn: "车就不必了，不过多谢您的好意。我走过去。" },
+            { who: "主办", en: "As you prefer. May I ask whether you have any dietary requirements?", cn: "随您。请问您饮食上有什么禁忌吗？" },
+            { who: "讲者", en: "None at all. I look forward to it.", cn: "完全没有。我很期待。" },
+            { who: "主办", en: "Splendid. I shall meet you at the entrance at twenty past.", cn: "太好了。我七点二十在门口等您。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "室友",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Kai", en: "you around sat", cn: "周六在吗" },
+            { who: "Jo", en: "depends", cn: "看情况" },
+            { who: "Kai", en: "depends on what", cn: "看什么情况" },
+            { who: "Jo", en: "on what you're about to ask me", cn: "看你要问我什么" },
+            { who: "Kai", en: "mate's thing. bbq. his garden. free food", cn: "哥们儿的事。烧烤。他家花园。白吃" },
+            { who: "Jo", en: "why didn't you lead with free food", cn: "你干嘛不先说白吃" },
+            { who: "Kai", en: "so that's a yes", cn: "那就是去" },
+            { who: "Jo", en: "it's a yes", cn: "是去" },
+            { who: "Kai", en: "he said bring nothing", cn: "他说不用带东西" },
+            { who: "Jo", en: "i'm bringing crisps anyway", cn: "我还是带薯片" },
+            { who: "Kai", en: "obviously", cn: "那当然" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 04-04 道歉与和解 ==================== */
+    {
+      id: "s04-04",
+      domain: "04",
+      title: "道歉与和解",
+      ielts: "口语 P2 人际 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "好友",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（和好）",
+          lines: [
+            { who: "Tom", en: "I'm sorry about last night. I said I'd be there and I wasn't.", cn: "昨晚的事对不起。我说了会去，结果没去。" },
+            { who: "Ana", en: "You weren't. I waited forty minutes.", cn: "你是没去。我等了四十分钟。" },
+            { who: "Tom", en: "I know. I got caught up with my brother's thing and just... didn't text. That's the part I'm sorry about.", cn: "我知道。我被我哥的事绊住了，就……没发消息。这部分才是我要道歉的。" },
+            { who: "Ana", en: "The waiting I can forgive. The not texting is what made me angry.", cn: "等我可以原谅。让我生气的是你没发消息。" },
+            { who: "Tom", en: "Fair. It won't happen again, and if it does, I'll be the one waiting.", cn: "说得对。不会有下次；真有，就换我等。" },
+            { who: "Ana", en: "I'll hold you to that.", cn: "那我可记住了。" },
+            { who: "Tom", en: "Coffee is on me for a week. Starting now.", cn: "一周的咖啡我请。从现在开始。" },
+            { who: "Ana", en: "Now that's an apology I understand.", cn: "这种道歉我才听得懂。" },
+            { who: "Tom", en: "I know my audience.", cn: "我懂我的听众。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "下属 · 主管",
+          register: "中性偏正式",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（补救方案被接受）",
+          lines: [
+            { who: "Priya", en: "Have you got five minutes? I need to tell you something before the client does.", cn: "你有五分钟吗？有件事我得在客户之前告诉你。" },
+            { who: "Daniel", en: "That is never a good opening.", cn: "这开场白从来都不是好事。" },
+            { who: "Priya", en: "I sent the March figures with the wrong quarter in the header. They've had it since Monday.", cn: "我发的三月数据，表头写错了季度。他们周一就收到了。" },
+            { who: "Daniel", en: "How wrong?", cn: "错得多严重？" },
+            { who: "Priya", en: "The numbers are right. The labels are not. Anyone reading quickly would think we're down twelve percent.", cn: "数字是对的，标签不对。快速扫一眼的人会以为我们下滑了百分之十二。" },
+            { who: "Daniel", en: "Have you told them?", cn: "你告诉他们了吗？" },
+            { who: "Priya", en: "Not yet. I wanted to tell you first, and I've drafted the correction email for you to look at.", cn: "还没有。我想先跟你说，改正的邮件我写好了草稿，等你过目。" },
+            { who: "Daniel", en: "Send it within the hour and copy me. Add a line saying we'll walk them through it on Thursday.", cn: "一小时内发出去，抄送我。再加一句，说我们周四会跟他们逐项过一遍。" },
+            { who: "Priya", en: "I'll do it now. I'm sorry, Daniel.", cn: "我马上办。对不起，Daniel。" },
+            { who: "Daniel", en: "You caught it before they did. That's the job.", cn: "你在他们发现之前就抓到了。这就是本事。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "前同事 · 借钱未还",
+          register: "中性",
+          channel: "面对面",
+          barrier: "对方不接受一句口头道歉，要求实际方案",
+          result: "折中（分期写清，先按每月两百五）",
+          lines: [
+            { who: "Nadia", en: "I owe you an apology, and some money.", cn: "我欠你一个道歉，还有一笔钱。" },
+            { who: "Rob", en: "You owe me eleven hundred and eight months of silence.", cn: "你欠我一千一，还有八个月的沉默。" },
+            { who: "Nadia", en: "That's fair. I'm sorry. I should have called even when I couldn't pay.", cn: "说得对。对不起，就算还不上，我也该打电话。" },
+            { who: "Rob", en: "Sorry is cheap at this point.", cn: "到这一步，对不起不值钱。" },
+            { who: "Nadia", en: "I know. I'm not asking you to say it's fine. I'm asking what would actually fix it.", cn: "我知道。我不是要你说没事。我是问，怎么样才算真的解决。" },
+            { who: "Rob", en: "A plan. Written down. With dates.", cn: "一个计划，写下来，有日期。" },
+            { who: "Nadia", en: "Two hundred a month, from the first of next month. Twelve months, the last one smaller.", cn: "每月两百，下个月一号开始。十二个月，最后一个月少一点。" },
+            { who: "Rob", en: "Two fifty, and I stop being angry by month three.", cn: "两百五，而且我第三个月起不再生气。" },
+            { who: "Nadia", en: "Two fifty. Send me your account details.", cn: "两百五。把你账号发我。" },
+            { who: "Rob", en: "I'll text them tonight. And Nadia, thanks for not disappearing again.", cn: "今晚发你。还有 Nadia，谢谢你没再消失。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "同事 · 群聊里的玩笑",
+          register: "随意",
+          channel: "文字消息 → 电话",
+          barrier: "道歉的文字被读成讽刺，越解释越糟",
+          result: "修复（改当面道歉）",
+          lines: [
+            { who: "Mo", en: "hey. about the thing in the group chat", cn: "嘿。群里那事儿" },
+            { who: "Alex", en: "which thing", cn: "哪件事" },
+            { who: "Mo", en: "the one everyone laughed at. my message. it came out wrong", cn: "大家都笑的那件。我那条消息。写得不对。" },
+            { who: "Alex", en: "it came out like you were mocking her presentation", cn: "看起来像你在嘲笑她的演讲" },
+            { who: "Mo", en: "i was mocking my own slides, honestly. then i re-read it and, yeah. it reads badly", cn: "我本意是嘲我自己的幻灯片。后来重读了一遍，嗯，读起来确实很糟。" },
+            { who: "Alex", en: "it does read badly", cn: "确实很糟" },
+            { who: "Mo", en: "can i call you? typing this is making it worse", cn: "能打电话吗？越打字越糟" },
+            { who: "Alex", en: "yeah, call", cn: "行，打吧" },
+            { who: "Mo", en: "Right. Short version: I'm sorry. I'll post a correction in the group.", cn: "好。简短版：对不起。我会在群里发一条更正。" },
+            { who: "Alex", en: "Don't post a correction, that makes it a bigger thing. Say it to her face tomorrow.", cn: "别发更正，那样反而闹大。明天你当面跟她说。" },
+            { who: "Mo", en: "That's better. I'll do that.", cn: "这样好。我明天说。" }
+          ]
+        },
+        {
+          variant: "情绪型（积压不满）",
+          relation: "室友",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "对方积压已久，先要发泄完才谈得下去",
+          result: "达成（定下新规矩，当场动手）",
+          lines: [
+            { who: "Jo", en: "The kitchen. Again.", cn: "厨房。又是这样。" },
+            { who: "Kai", en: "I was going to do it in the morning.", cn: "我打算早上弄的。" },
+            { who: "Jo", en: "You always say that. It's been four days.", cn: "你每次都说。已经四天了。" },
+            { who: "Kai", en: "All right, I'm sorry. I'll do them now.", cn: "好吧，对不起。我现在就洗。" },
+            { who: "Jo", en: "It's not the pans, Kai. It's that I asked you three times and you said yeah three times.", cn: "不是锅的事，Kai。是我问了你三次，你三次都说好。" },
+            { who: "Kai", en: "...Yeah. I do that. I say yeah and then I don't.", cn: "……是。我确实这样。嘴上说好，然后不做。" },
+            { who: "Jo", en: "That's the bit that's exhausting.", cn: "累人的就是这一点。" },
+            { who: "Kai", en: "Okay. New rule: I don't say yeah unless I'm doing it now. And I'm doing the pans now.", cn: "好。新规矩：不是马上做，我就不说好。现在我马上洗锅。" },
+            { who: "Jo", en: "Do them badly and I'll still be annoyed.", cn: "洗不干净我还是会烦。" },
+            { who: "Kai", en: "Noted. Loudly.", cn: "记下了，大声记下。" }
+          ]
+        },
+        {
+          variant: "渠道变体（语音留言 / 电话）",
+          relation: "老朋友 · 搬家失约",
+          register: "中性",
+          channel: "语音留言 → 电话",
+          barrier: "留言断在半句，道歉没说完，只能再打一次",
+          result: "达成（周六来搬箱子）",
+          lines: [
+            { who: "Lea", en: "You left a voicemail.", cn: "你留了条语音。" },
+            { who: "Sam", en: "I did. Did you get it?", cn: "留了。你收到了吗？" },
+            { who: "Lea", en: "The first half. You cut out at I'm sorry.", cn: "前半段。你说到「对不起」就断了。" },
+            { who: "Sam", en: "Perfect. Then I'll say it again: I'm sorry. I had the van booked and I cancelled it for a work thing.", cn: "真巧。那我再说一次：对不起。我订好了车，又因为工作的事取消了。" },
+            { who: "Lea", en: "We carried a sofa up three flights.", cn: "我们抬着沙发上三楼。" },
+            { who: "Sam", en: "I know. I've been avoiding this call for a week.", cn: "我知道。这个电话我躲了一周。" },
+            { who: "Lea", en: "That's the part I mind. Not the work thing. The week.", cn: "我介意的是这个。不是工作的事，是那一周。" },
+            { who: "Sam", en: "Fair. I'll come on Saturday and take the boxes to the tip. All of them.", cn: "说得对。我周六来，把箱子都送去垃圾站，全部。" },
+            { who: "Lea", en: "There are eleven.", cn: "有十一个。" },
+            { who: "Sam", en: "There are eleven. Fine.", cn: "十一个。行。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "供应商 · 客户",
+          register: "正式",
+          channel: "面对面（正式会谈）",
+          barrier: "无（但需正式致歉并给补偿方案）",
+          result: "达成（继续合作）",
+          lines: [
+            { who: "客户", en: "Thank you for coming in. I would rather hear it from you than read it in an email.", cn: "感谢您亲自过来。我更愿意听您当面说，而不是从邮件里读到。" },
+            { who: "供应商", en: "Of course. On behalf of the company, I apologise for the delay. It was our error, not the carrier's.", cn: "当然。我代表公司为这次延误致歉。是我们的失误，不是承运方的问题。" },
+            { who: "客户", en: "Two weeks late on a launch date is not a small thing.", cn: "发布会日期晚了两周，这不是小事。" },
+            { who: "供应商", en: "It is not, and we are not treating it as one. Your order has moved to the front of the queue and the expedited fee is waived.", cn: "确实不是，我们也没有当作小事处理。您的订单已调到最前面，加急费免除。" },
+            { who: "客户", en: "And the shortfall? We were forty units short.", cn: "那缺的部分呢？我们少了四十台。" },
+            { who: "供应商", en: "Those forty ship tomorrow by air, at our cost. I can put that in writing today.", cn: "那四十台明天空运发出，费用我们承担。我今天就可以书面确认。" },
+            { who: "客户", en: "In writing, yes. And I would like a single point of contact for the next order.", cn: "书面确认，好。另外下一单我想要一个固定的对接人。" },
+            { who: "供应商", en: "That would be me, directly. Here is my card.", cn: "就是我，直接找我。这是我名片。" },
+            { who: "客户", en: "Then I think we can continue. Thank you for not making excuses.", cn: "那我想我们可以继续合作。谢谢您没有找借口。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "兄弟",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Nick", en: "you were a dick last night", cn: "你昨晚挺混蛋的" },
+            { who: "Will", en: "yeah", cn: "嗯" },
+            { who: "Nick", en: "that's it? yeah?", cn: "就这？嗯？" },
+            { who: "Will", en: "i'm getting there", cn: "我在组织语言" },
+            { who: "Will", en: "ok. sorry. i was a dick", cn: "好了。对不起。我是挺混蛋的" },
+            { who: "Nick", en: "better", cn: "这还差不多" },
+            { who: "Will", en: "pub tonight? my round. all night", cn: "今晚酒吧？我请，全程" },
+            { who: "Nick", en: "all night is a big promise", cn: "全程可是个大承诺" },
+            { who: "Will", en: "i'm good for it", cn: "我出得起" },
+            { who: "Nick", en: "you're not. but i'll come", cn: "你出不起。不过我来" }
+          ]
+        }
+      ]
     }
   ];
 
