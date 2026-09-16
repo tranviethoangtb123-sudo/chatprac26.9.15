@@ -5548,6 +5548,530 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 01-11 换汇银行与邮局快递 ==================== */
+    {
+      id: "s01-11",
+      domain: "01",
+      title: "换汇银行与邮局快递",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 银行柜员",
+          register: "半正式",
+          channel: "面对面（银行柜台）",
+          barrier: "无",
+          result: "达成（算清手续费与汇率后换汇）",
+          lines: [
+            { who: "顾客", en: "I'd like to change some euros into sterling.", cn: "我想把一些欧元换成英镑。" },
+            { who: "柜员", en: "How much, and do you have an account with us?", cn: "换多少？您在我们这儿有账户吗？" },
+            { who: "顾客", en: "Three hundred euros. No account, I'm here for a week.", cn: "三百欧。没有账户，我来一周。" },
+            { who: "柜员", en: "Without an account there's a commission of four pounds.", cn: "没有账户要收四镑手续费。" },
+            { who: "顾客", en: "What rate do I get as a visitor?", cn: "作为游客我用什么汇率？" },
+            { who: "柜员", en: "One point one six, and the commission is waived above five hundred.", cn: "一点一六，五百以上免手续费。" },
+            { who: "顾客", en: "So if I change six hundred I save four pounds.", cn: "那我换六百就省下四镑。" },
+            { who: "柜员", en: "You do, but you'd be carrying three hundred more in cash than you need.", cn: "是的，但您会多带三百现金在身上。" },
+            { who: "顾客", en: "Good point. Three hundred, and I'll pay the four.", cn: "说得好。换三百，那四镑我付。" },
+            { who: "柜员", en: "Sensible. Would you like twenties, or some smaller notes?", cn: "明智。您要二十镑的，还是加一些小面额？" },
+            { who: "顾客", en: "A mix. Two fifties and the rest in tens, please.", cn: "混合吧。两张五十，其余十镑的。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 银行柜员（大额存入）",
+          register: "半正式",
+          channel: "面对面（银行柜台）",
+          barrier: "无（但要配合合规询问并提供来源证明）",
+          result: "达成（一次存入并留档）",
+          lines: [
+            { who: "柜员", en: "You'd like to deposit five thousand in cash. May I ask where it came from?", cn: "您要存五千现金。请问这钱来自哪里？" },
+            { who: "顾客", en: "From selling a car, in cash, before I left.", cn: "我出发前卖了车，收的现金。" },
+            { who: "柜员", en: "Do you have the sale document?", cn: "有交易凭证吗？" },
+            { who: "顾客", en: "I have the transfer of ownership form and a copy of the advert.", cn: "我有过户表和那份广告的截图。" },
+            { who: "柜员", en: "That will do. Above ten thousand we would need more, but this is below the threshold.", cn: "可以。超过一万我们需要更多材料，但您这笔在门槛以下。" },
+            { who: "顾客", en: "Do you need to know what I'll spend it on?", cn: "你们需要知道我要花在哪儿吗？" },
+            { who: "柜员", en: "For this amount, no. I record the source, not the plan.", cn: "这个金额不用。我记录来源，不记录用途。" },
+            { who: "顾客", en: "And if I deposit the rest next month?", cn: "如果我下个月把剩下的也存进来呢？" },
+            { who: "柜员", en: "Then bring the same document, and I'd suggest one visit rather than three small ones.", cn: "那带同样的凭证，而且我建议一次存完，不要分三次小额。" },
+            { who: "顾客", en: "Why one visit?", cn: "为什么一次存完？" },
+            { who: "柜员", en: "Small deposits in a row look like structuring, even when they aren't, and it costs you paperwork.", cn: "连续小额会被当成拆分规避，即使并不是，而且会给你带来额外材料。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 邮局职员（包裹超尺寸）",
+          register: "中性",
+          channel: "面对面（邮局）",
+          barrier: "包裹超尺寸两厘米，不能按普通邮件寄",
+          result: "折中（书拿出来单独按印刷品寄，省下大半邮费）",
+          lines: [
+            { who: "顾客", en: "I'd like to send this to Canada, standard.", cn: "我想把这个寄到加拿大，普通件。" },
+            { who: "职员", en: "It's over the size limit. It has to go as a parcel, which is three times the price.", cn: "超过尺寸上限。必须按包裹寄，价格是三倍。" },
+            { who: "顾客", en: "How much over?", cn: "超多少？" },
+            { who: "职员", en: "Two centimetres on the length. That's the frustrating kind.", cn: "长度超两厘米。就是这种最气人的。" },
+            { who: "顾客", en: "Can I repack it here?", cn: "我能在这儿重新打包吗？" },
+            { who: "职员", en: "There's a table by the window and tape at the counter.", cn: "窗边有张桌子，胶带在柜台。" },
+            { who: "顾客", en: "If I take the books out and send them separately, does the rest fit?", cn: "如果我把书拿出来单独寄，剩下的能塞进去吗？" },
+            { who: "职员", en: "It would, and books go at the printed-paper rate, which is cheaper than parcels anyway.", cn: "能。书按印刷品寄，本来就比包裹便宜。" },
+            { who: "顾客", en: "Then I'll do that. Two parcels, one cheap.", cn: "那就这样。两个包裹，一个便宜。" },
+            { who: "职员", en: "And mark the second one printed papers, or it gets charged as a parcel.", cn: "第二个标上印刷品，不然会按包裹收费。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 快递客服（邮编写反）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "客服把邮编数字写反，包裹被退回",
+          result: "修复（免费重寄并补发更正标签照片）",
+          lines: [
+            { who: "顾客", en: "My parcel came back to me. The tracking says wrong address.", cn: "我的包裹被退回来了。追踪显示地址错误。" },
+            { who: "客服", en: "The postcode on the label belongs to a street two kilometres away.", cn: "标签上的邮编对应的是两公里外的另一条街。" },
+            { who: "顾客", en: "I gave the address on the phone and it was read back to me.", cn: "我是在电话里报的地址，而且被复述确认过。" },
+            { who: "客服", en: "I can see the note. The agent wrote the postcode digits the other way round.", cn: "我看到记录了。客服把邮编的数字写反了。" },
+            { who: "顾客", en: "So the label was wrong, not me.", cn: "所以是标签错了，不是我。" },
+            { who: "客服", en: "It was our error. I'll re-label it and it goes out tonight at our cost.", cn: "是我们的错误。我重新打标签，今晚发出，费用我们承担。" },
+            { who: "顾客", en: "The original postage, do I get that back?", cn: "原来的邮费退吗？" },
+            { who: "客服", en: "No, because the service was attempted. But the second attempt is free.", cn: "不退，因为服务已经尝试过。但第二次寄免费。" },
+            { who: "顾客", en: "Could you send me a photo of the corrected label before it goes?", cn: "发出之前能把更正后的标签拍照发我吗？" },
+            { who: "客服", en: "That's a good idea and almost nobody asks. Sending it now.", cn: "这主意好，几乎没人这么要求。现在发。" }
+          ]
+        },
+        {
+          variant: "情绪型（重要文件寄丢）",
+          relation: "顾客 · 邮局主管（急件未到）",
+          register: "半正式（着急）",
+          channel: "面对面（邮局）",
+          barrier: "签证材料寄丢，截止日临近",
+          result: "达成（启动追查、免费重寄、出具书面说明）",
+          lines: [
+            { who: "顾客", en: "I sent documents here eleven days ago and they haven't arrived.", cn: "我十一天前在这儿寄了文件，还没到。" },
+            { who: "主管", en: "Express or standard?", cn: "加急还是普通？" },
+            { who: "顾客", en: "Express, and I paid for tracking. The last scan is this office.", cn: "加急，而且我付了追踪费。最后一次扫描就在这个网点。" },
+            { who: "主管", en: "Then it never left. I'm sorry.", cn: "那它根本没离开这里。对不起。" },
+            { who: "顾客", en: "It's a visa application. The deadline is Friday and I can't reapply.", cn: "是签证申请。截止是周五，我没法重新申请。" },
+            { who: "主管", en: "Let me do three things now: search the cage, start a formal trace, and give you a letter confirming it.", cn: "我现在做三件事：查库房、正式立案追查、给你一封说明信。" },
+            { who: "顾客", en: "Will the letter help with the embassy?", cn: "那封信对使馆有用吗？" },
+            { who: "主管", en: "It usually does. It states the date, the service, and that the failure is ours.", cn: "通常有用。上面写明日期、服务类型，并说明是我们的失误。" },
+            { who: "顾客", en: "And if you find it?", cn: "如果找到了呢？" },
+            { who: "主管", en: "Then it goes tonight at our cost, and I call you either way by five.", cn: "那今晚免费发出，而且无论结果如何我五点前都给你打电话。" },
+            { who: "顾客", en: "Calling either way is what I needed to hear.", cn: "无论结果如何都打电话，这是我想听到的。" }
+          ]
+        },
+        {
+          variant: "渠道变体（手机银行跨境汇款）",
+          relation: "顾客 · 银行电话客服",
+          register: "半正式",
+          channel: "手机银行 + 电话",
+          barrier: "汇款显示已完成但没到账，实际卡在审核队列",
+          result: "达成（补交材料 + 拿到单号与预计到账日）",
+          lines: [
+            { who: "顾客", en: "I sent a transfer on the app this morning. It says completed, but my landlord says nothing arrived.", cn: "我今早在应用上转了钱。显示已完成，但房东说没收到。" },
+            { who: "客服", en: "International transfers show as completed before they clear.", cn: "跨境汇款在清算前就显示已完成。" },
+            { who: "顾客", en: "Then the word completed is doing a lot of work.", cn: "那已完成这个词承担了太多含义。" },
+            { who: "客服", en: "It is. Yours is in a review queue because it's a new payee.", cn: "确实。您这笔在审核队列里，因为是新收款人。" },
+            { who: "顾客", en: "How long is the queue?", cn: "队列要多久？" },
+            { who: "客服", en: "Twenty-four hours, and it clears the next working day after that.", cn: "二十四小时，之后下一个工作日到账。" },
+            { who: "顾客", en: "Can you release it now? I can send you the tenancy agreement.", cn: "能现在放行吗？我可以把租约发您。" },
+            { who: "客服", en: "I can't release it, but I can add the document to the file so the reviewer doesn't ask.", cn: "我没法放行，但可以把材料加进档案，这样审核员不会再问。" },
+            { who: "顾客", en: "Then send me a reference so I can prove the timing to my landlord.", cn: "那给我一个单号，我好向房东证明时间。" },
+            { who: "客服", en: "Reference and expected date, in writing, now.", cn: "单号和预计到账日，书面，现在发。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "公司财务 · 银行客户经理",
+          register: "正式",
+          channel: "面对面（银行会议室）",
+          barrier: "无（但需正式议定汇率与费用安排）",
+          result: "达成（做六期远期，费用与汇率分列）",
+          lines: [
+            { who: "经理", en: "Thank you for coming in. You wished to discuss your exposure to the euro.", cn: "谢谢您过来。您想讨论欧元敞口的问题。" },
+            { who: "财务", en: "We invoice in euros and pay in sterling. The gap costs us every month.", cn: "我们用欧元开票、用英镑付款。这个缺口每月都在损钱。" },
+            { who: "经理", en: "How much are we speaking about, and over what period?", cn: "大概多少，周期多长？" },
+            { who: "财务", en: "About two hundred thousand a quarter, for the next two years.", cn: "每季度约二十万，未来两年。" },
+            { who: "经理", en: "At that size a forward contract is appropriate. Would you prefer a fixed rate or a range?", cn: "这个规模适合做远期。您希望固定汇率还是区间？" },
+            { who: "财务", en: "A fixed rate, because our board cannot manage a range it has to explain.", cn: "固定汇率，因为我们的董事会无法解释一个区间。" },
+            { who: "经理", en: "Then I shall prepare a forward in six tranches, with a schedule of costs.", cn: "那我准备分六期的远期方案，附费用表。" },
+            { who: "财务", en: "May I see the fees separately from the rate?", cn: "费用能和汇率分开列吗？" },
+            { who: "经理", en: "You may, and I would insist on it. Blended pricing is how banks hide margin.", cn: "可以，而且我会坚持这么做。混合报价正是银行藏利润的方式。" },
+            { who: "财务", en: "That is the most reassuring thing a banker has said to me.", cn: "这是银行人士对我说过最让人放心的一句话。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 邮局职员（寄明信片）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（邮局）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "how much to send this to japan", cn: "这个寄到日本多少钱" },
+            { who: "职员", en: "letter or parcel", cn: "信件还是包裹" },
+            { who: "顾客", en: "it's a postcard", cn: "是明信片" },
+            { who: "职员", en: "then it's cheap. two fifty", cn: "那便宜。两块五" },
+            { who: "顾客", en: "will it get there", cn: "能到吗" },
+            { who: "职员", en: "eventually", cn: "最终能" },
+            { who: "顾客", en: "how eventually", cn: "多最终" },
+            { who: "职员", en: "two weeks. or three", cn: "两周。或者三周" },
+            { who: "顾客", en: "i'll take my chances", cn: "我碰碰运气" },
+            { who: "职员", en: "everyone does", cn: "大家都这样" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 03-01 看房与租房 ==================== */
+    {
+      id: "s03-01",
+      domain: "03",
+      title: "看房与租房",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "租客 · 中介（看房）",
+          register: "半正式",
+          channel: "面对面（看房现场）",
+          barrier: "无",
+          result: "达成（问清费用与条款后决定申请）",
+          lines: [
+            { who: "中介", en: "This is the one-bedroom on the second floor. No lift, I'm afraid.", cn: "这是二楼的一居室。抱歉，没有电梯。" },
+            { who: "租客", en: "That's fine. How long has it been empty?", cn: "没关系。空了多久了？" },
+            { who: "中介", en: "Three weeks. The last tenant left in June.", cn: "三周。上一位租客六月走的。" },
+            { who: "租客", en: "Is the heating gas or electric?", cn: "暖气是燃气还是电的？" },
+            { who: "中介", en: "Gas, and the boiler was replaced last year. Here's the certificate.", cn: "燃气，锅炉去年换过。这是证书。" },
+            { who: "租客", en: "What's included in the rent?", cn: "租金包含什么？" },
+            { who: "中介", en: "Water and building maintenance. Electricity and internet are yours.", cn: "水费和公共维修。电费和网络自理。" },
+            { who: "租客", en: "And the deposit?", cn: "押金呢？" },
+            { who: "中介", en: "Five weeks' rent, held in a protection scheme. You'll get the certificate.", cn: "五周租金，存在押金保护计划里。你会拿到凭证。" },
+            { who: "租客", en: "How much notice do I give if I leave?", cn: "如果我要搬走，需要提前多久通知？" },
+            { who: "中介", en: "One month, in writing, any time after the first six.", cn: "一个月，书面，头六个月之后随时。" },
+            { who: "租客", en: "I'd like to apply. What do you need from me?", cn: "我想申请。需要我提供什么？" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "租客 · 房东（入住前修窗）",
+          register: "半正式",
+          channel: "面对面（看房现场）",
+          barrier: "无（但要把口头承诺写进合同才肯签）",
+          result: "达成（十四天内修好，租金从修好日起算）",
+          lines: [
+            { who: "租客", en: "The window in the bedroom doesn't close properly.", cn: "卧室的窗户关不严。" },
+            { who: "房东", en: "It sticks in summer. You get used to it.", cn: "夏天有点卡。你会习惯的。" },
+            { who: "租客", en: "I'd rather not get used to it. There's a draught and the road is loud.", cn: "我宁愿不习惯。有穿堂风，而且马路上很吵。" },
+            { who: "房东", en: "I can have someone look at it after you move in.", cn: "你搬进来之后我可以让人看看。" },
+            { who: "租客", en: "I'd prefer before, because after usually means never.", cn: "我希望在搬进来之前修，因为「之后」通常等于永远不修。" },
+            { who: "房东", en: "That is a fair point, unfortunately.", cn: "这话没错，可惜是真的。" },
+            { who: "租客", en: "Could we put it in the agreement as a condition of the tenancy?", cn: "能作为租约条件写进合同吗？" },
+            { who: "房东", en: "I'll write it in as a repair within fourteen days, with the rent starting when it's done.", cn: "我写成十四天内修好，租金从修好那天起算。" },
+            { who: "租客", en: "That is more than I asked for.", cn: "这比我要求的还多。" },
+            { who: "房东", en: "It's cheaper than an argument in November.", cn: "这比十一月吵一架便宜。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "租客 · 中介（中介费与押金）",
+          register: "半正式",
+          channel: "面对面（中介办公室）",
+          barrier: "中介费不肯减，只好改谈押金分期",
+          result: "折中（签十八个月换押金分两期）",
+          lines: [
+            { who: "租客", en: "The agency fee is one month's rent plus tax. Can it be reduced?", cn: "中介费是一个月租金加税。能减吗？" },
+            { who: "中介", en: "The fee is fixed by the agency and I can't move it.", cn: "费用是公司定的，我动不了。" },
+            { who: "租客", en: "Then I won't argue about the fee. I'd like to ask about the deposit instead.", cn: "那我不争费用。我想问押金。" },
+            { who: "中介", en: "Five weeks, as advertised.", cn: "五周，如广告所示。" },
+            { who: "租客", en: "Could it be paid in two parts, with the second half at the end of the first month?", cn: "能分两期付吗，第二期在第一个月底？" },
+            { who: "中介", en: "The landlord wants it before the keys.", cn: "房东希望交钥匙前付清。" },
+            { who: "租客", en: "Then let me offer something in exchange: I'll sign for eighteen months instead of twelve.", cn: "那我给个交换条件：我签十八个月，而不是十二个月。" },
+            { who: "中介", en: "...That changes the calculation. I'll ask him.", cn: "……那算法就不一样了。我去问他。" },
+            { who: "租客", en: "And if he says no?", cn: "如果他说不呢？" },
+            { who: "中介", en: "Then you pay in full, and I'll take the fee question to my manager.", cn: "那你付全款，我去跟经理谈费用的事。" },
+            { who: "租客", en: "That's two offers instead of one no.", cn: "这是两个方案，而不是一个不字。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "租客 · 中介（广告与实况不符）",
+          register: "半正式",
+          channel: "面对面（看房现场）",
+          barrier: "广告写「带家具」，实际只有一张床",
+          result: "修复（次日中午前书面答复：补齐或改广告）",
+          lines: [
+            { who: "租客", en: "The advert said furnished. This has a bed and nothing else.", cn: "广告写的是带家具。这里只有一张床，其他什么都没有。" },
+            { who: "中介", en: "Furnished means different things to different landlords.", cn: "带家具对不同房东意思不一样。" },
+            { who: "租客", en: "Then let's make it mean one thing. May I photograph the advert?", cn: "那我们把它统一成一个意思。我能拍一下广告吗？" },
+            { who: "中介", en: "You can. ...It does say sofa, table and washing machine.", cn: "可以。……确实写了沙发、桌子和洗衣机。" },
+            { who: "租客", en: "So the advert is a list, and the flat is missing three items.", cn: "所以广告是份清单，而房子缺了三样。" },
+            { who: "中介", en: "It was the previous tenant's furniture that went, not ours. He took the sofa.", cn: "走掉的是上一位租客的家具，不是我们的。他把沙发搬走了。" },
+            { who: "租客", en: "That's his problem and yours, not mine.", cn: "那是他和你们的问题，不是我的。" },
+            { who: "中介", en: "Fair. Give me until tomorrow and I'll either replace them or amend the advert.", cn: "说得对。给我到明天，我要么补齐，要么改广告。" },
+            { who: "租客", en: "Replace or amend, but tell me which in writing.", cn: "补齐或者改广告都行，但书面告诉我是哪一种。" },
+            { who: "中介", en: "In writing by noon tomorrow.", cn: "明天中午前书面给你。" }
+          ]
+        },
+        {
+          variant: "情绪型（押金被扣）",
+          relation: "租客 · 房东（退租检查）",
+          register: "半正式（情绪化）",
+          channel: "面对面（退租房屋）",
+          barrier: "房东用「磨损」和清洁费扣掉全部押金",
+          result: "达成（照片对上入住清单，只扣坏掉的百叶窗）",
+          lines: [
+            { who: "房东", en: "I'm keeping three hundred for cleaning and the mark on the wall.", cn: "我要扣三百，清洁费和墙上的印子。" },
+            { who: "租客", en: "The mark was there when I moved in. It's on the inventory.", cn: "那印子我搬进来时就有。清单上有。" },
+            { who: "房东", en: "The inventory isn't a photograph.", cn: "清单不是照片。" },
+            { who: "租客", en: "It isn't, but I have photographs. Forty of them, dated the day I got the keys.", cn: "不是，但我有照片。四十张，日期就是我拿钥匙那天。" },
+            { who: "房东", en: "...Let me see the wall.", cn: "……让我看看那面墙。" },
+            { who: "租客", en: "Here. Same mark, same corner. And the cleaning: I paid a company, and here's the receipt.", cn: "这里。同一个印子，同一个角落。清洁也一样：我请了公司，这是收据。" },
+            { who: "房东", en: "Then the cleaning shouldn't be charged either.", cn: "那清洁费也不该收。" },
+            { who: "租客", en: "So what is left to charge?", cn: "那还剩什么可扣的？" },
+            { who: "房东", en: "The broken blind, which is genuinely mine to charge.", cn: "那个坏掉的百叶窗，这个确实该扣。" },
+            { who: "租客", en: "The blind I'll accept. I'd like the rest back within ten days.", cn: "百叶窗我认。其余的希望在十天内退回。" },
+            { who: "房东", en: "Ten days, and I'll say in writing what the blind cost.", cn: "十天。而且我会书面写明百叶窗花了多少。" }
+          ]
+        },
+        {
+          variant: "渠道变体（视频看房）",
+          relation: "租客 · 中介（视频看房）",
+          register: "半正式",
+          channel: "视频看房",
+          barrier: "镜头只对着好的一面，看不出噪音与环境",
+          result: "达成（指定补拍位置 + 举稳听环境声）",
+          lines: [
+            { who: "租客", en: "Could you turn the camera towards the window? I want to see what's outside.", cn: "能把镜头转向窗户吗？我想看看外面是什么。" },
+            { who: "中介", en: "It's a quiet street.", cn: "是条安静的街。" },
+            { who: "租客", en: "Quiet streets are usually quiet because there's a motorway behind them. Could you show me?", cn: "安静的街通常是因为后面有条高速。能让我看看吗？" },
+            { who: "中介", en: "Ha. Fair. Give me a second. ...It's a car park, actually.", cn: "哈，有道理。等一下。……其实是个停车场。" },
+            { who: "租客", en: "Thank you. That's the sort of thing I need to know before paying a deposit from another country.", cn: "谢谢。这正是在国外付押金之前需要知道的事。" },
+            { who: "中介", en: "What else would you like to see?", cn: "您还想看什么？" },
+            { who: "租客", en: "The boiler, the water pressure, and inside the cupboards.", cn: "锅炉、水压，还有柜子里面。" },
+            { who: "中介", en: "The pressure I can show you by running the tap.", cn: "水压我可以开龙头给您看。" },
+            { who: "租客", en: "And could you hold the phone steady for ten seconds without talking? I want to hear the road.", cn: "还有，能举稳手机十秒不说话吗？我想听听马路的声音。" },
+            { who: "中介", en: "Nobody has ever asked me that.", cn: "从来没人这么要求过。" },
+            { who: "租客", en: "It's the only part a video can actually prove.", cn: "这是视频唯一能真正证明的东西。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "租客 · 房东代理（签约）",
+          register: "正式",
+          channel: "面对面（签约）",
+          barrier: "无（但需逐条确认并当日取得副本）",
+          result: "达成（签约，维修与押金条款明确）",
+          lines: [
+            { who: "代理", en: "We have the tenancy agreement. Shall we go through the clauses you queried?", cn: "租约在这里。我们过一遍您提出疑问的条款，好吗？" },
+            { who: "租客", en: "Please. First, the repair obligation and the timescale.", cn: "好。第一，维修义务和时限。" },
+            { who: "代理", en: "Clause nine: urgent repairs within twenty-four hours, others within fourteen days.", cn: "第九条：紧急维修二十四小时内，其他十四天内。" },
+            { who: "租客", en: "And if the fourteen days pass?", cn: "如果十四天过了呢？" },
+            { who: "代理", en: "You may instruct a contractor and deduct the cost, provided you give notice in writing first.", cn: "您可以自行请人维修并从租金中扣除，前提是先书面通知。" },
+            { who: "租客", en: "That is acceptable. Second, the deposit scheme and the certificate.", cn: "这条可以。第二，押金计划和凭证。" },
+            { who: "代理", en: "The deposit is registered within thirty days, and you receive the certificate directly from the scheme.", cn: "押金三十天内登记，凭证由押金计划直接寄给您。" },
+            { who: "租客", en: "Directly is the important word. Third, the inventory.", cn: "「直接」是关键词。第三，房屋清单。" },
+            { who: "代理", en: "You have seven days to amend it, and we both sign the amendment.", cn: "您有七天时间修改，修改后双方签字。" },
+            { who: "租客", en: "Then I am content to sign, and I should like a copy of everything today.", cn: "那我愿意签，并且希望今天拿到全部文件的副本。" },
+            { who: "代理", en: "You shall have it before you leave the room.", cn: "您离开这间屋子之前就会拿到。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "租客 · 中介（看房）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（看房）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "租客", en: "how much", cn: "多少钱" },
+            { who: "中介", en: "nine fifty a month", cn: "每月九百五" },
+            { who: "租客", en: "bills", cn: "账单呢" },
+            { who: "中介", en: "not included", cn: "不含" },
+            { who: "租客", en: "so eleven hundred really", cn: "那实际是一千一" },
+            { who: "中介", en: "about that", cn: "差不多" },
+            { who: "租客", en: "when can i move in", cn: "什么时候能搬进来" },
+            { who: "中介", en: "first of the month", cn: "一号" },
+            { who: "租客", en: "i'll take it", cn: "我要了" },
+            { who: "中介", en: "deposit first", cn: "先付押金" },
+            { who: "租客", en: "obviously", cn: "那当然" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 03-02 签合同与押金纠纷 ==================== */
+    {
+      id: "s03-02",
+      domain: "03",
+      title: "签合同与押金纠纷",
+      ielts: "口语 P3 场景 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "租客 · 有经验的朋友（看合同）",
+          register: "随意",
+          channel: "面对面（咖啡馆）",
+          barrier: "无",
+          result: "达成（找出三处该改的条款）",
+          lines: [
+            { who: "朋友", en: "Before you sign, read me the clause about the deposit.", cn: "签之前，把押金那条念给我听。" },
+            { who: "租客", en: "It says the deposit may be withheld for any breach of the agreement.", cn: "写的是：任何违约都可以扣押金。" },
+            { who: "朋友", en: "Any breach is doing a lot of work there. Ask them to list what counts.", cn: "「任何违约」这个词太含糊。让他们列明哪些算。" },
+            { who: "租客", en: "And the notice period?", cn: "那通知期呢？" },
+            { who: "朋友", en: "Two months? Standard is one.", cn: "两个月？标准是一个月。" },
+            { who: "租客", en: "Two. They said it protects them if I leave in winter.", cn: "两个月。他们说这样如果我在冬天搬走能保护他们。" },
+            { who: "朋友", en: "Then it should be one for you and one for them, or neither.", cn: "那就该对你对他都是一个月，或者都别要。" },
+            { who: "租客", en: "There's also a line saying the landlord may enter with reasonable notice.", cn: "还有一条，说房东可在合理通知后进入。" },
+            { who: "朋友", en: "Reasonable needs a number. Write twenty-four hours and put it in.", cn: "「合理」需要个数字。写成二十四小时，加进去。" },
+            { who: "租客", en: "Three changes, then, and none of them is unreasonable.", cn: "那就三处改动，而且没有一处不讲理。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "租客 · 房东（不公平条款）",
+          register: "半正式",
+          channel: "面对面（签约前）",
+          barrier: "无（但要逐条顶住不对等条款）",
+          result: "达成（删掉两条、维修责任封顶五十镑）",
+          lines: [
+            { who: "租客", en: "Clause eleven lets you enter without notice in an emergency. What counts as an emergency?", cn: "第十一条说紧急情况下您可无需通知进入。什么算紧急？" },
+            { who: "房东", en: "Water, fire, that sort of thing.", cn: "漏水、火灾这类。" },
+            { who: "租客", en: "Then write those words in, because as it stands it covers anything.", cn: "那就把这两个词写进去，因为照现在这样它涵盖一切。" },
+            { who: "房东", en: "It's standard.", cn: "这是标准条款。" },
+            { who: "租客", en: "It isn't, and if it were, it would still be worth writing down.", cn: "不是；就算是，也值得写清楚。" },
+            { who: "房东", en: "And clause fourteen?", cn: "那第十四条呢？" },
+            { who: "租客", en: "It makes me responsible for all repairs, including structural ones.", cn: "那条让我负责所有维修，包括结构性的。" },
+            { who: "房东", en: "Not the roof.", cn: "不包括屋顶。" },
+            { who: "租客", en: "It says structural repairs are the tenant's where caused by neglect. Everything is caused by neglect if you argue hard enough.", cn: "它写的是因疏忽造成的结构维修由租客负责。只要争得够狠，什么都能说成疏忽。" },
+            { who: "房东", en: "...We'll delete fourteen and cap your repairs at fifty pounds.", cn: "……那删掉第十四条，把您的维修责任上限设成五十镑。" },
+            { who: "租客", en: "Then I'll sign today.", cn: "那我今天就签。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "租客 · 房东（补充函）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "房东拒绝改合同正文，租客不肯照签",
+          result: "折中（正文不动，另签一页补充函存档）",
+          lines: [
+            { who: "租客", en: "You won't change the contract, and I won't sign clause six as it is.", cn: "您不改合同，而第六条照现在这样我不签。" },
+            { who: "房东", en: "It's a printed contract. I use it for all four flats.", cn: "这是印刷合同。我四套房都用这个。" },
+            { who: "租客", en: "I understand that. Then let's not touch the printed part.", cn: "我理解。那我们不动印刷部分。" },
+            { who: "房东", en: "What's the alternative?", cn: "那怎么办？" },
+            { who: "租客", en: "A one-page side letter saying the pets clause does not apply to my cat, signed by both of us.", cn: "一页补充函，写明宠物条款不适用于我的猫，双方签字。" },
+            { who: "房东", en: "A side letter has no legal weight.", cn: "补充函没有法律效力。" },
+            { who: "租客", en: "It does if it's signed and refers to the clause. That is how a variation works.", cn: "如果签字并援引条款就有。合同变更就是这么做的。" },
+            { who: "房东", en: "You've done this before.", cn: "你以前干过这事。" },
+            { who: "租客", en: "I've been a tenant for eleven years.", cn: "我租了十一年房。" },
+            { who: "房东", en: "One page, both signatures, and it goes in the file.", cn: "一页，双方签字，存档。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "租客 · 中介（合同与口头不一致）",
+          register: "半正式",
+          channel: "面对面（中介办公室）",
+          barrier: "合同写的租期与租金跟周二口头谈的不一样",
+          result: "修复（重出合同，修订处用颜色标出）",
+          lines: [
+            { who: "租客", en: "The contract says twelve months. We agreed eighteen, with a break at twelve.", cn: "合同写的是十二个月。我们谈好的是十八个月，第十二个月可解约。" },
+            { who: "中介", en: "The landlord's standard term is twelve.", cn: "房东的标准期限是十二个月。" },
+            { who: "租客", en: "Then either he changed his mind, or this was typed before the conversation.", cn: "那要么他改主意了，要么这份是谈话之前就打好字的。" },
+            { who: "中介", en: "It was prepared last week.", cn: "是上周准备的。" },
+            { who: "租客", en: "So the conversation on Tuesday never reached the document.", cn: "那周二的谈话没进这份文件。" },
+            { who: "中介", en: "It appears not. I'll reissue it with the break clause.", cn: "看来没有。我重新出一份，加上解约条款。" },
+            { who: "租客", en: "And mark the changed parts, so we can both see what moved.", cn: "而且把改动处标出来，我们都看得见变了什么。" },
+            { who: "中介", en: "Tracked changes, in a different colour.", cn: "修订模式，用不同颜色。" },
+            { who: "租客", en: "Then I'll read it tonight and sign tomorrow.", cn: "那我今晚看，明天签。" },
+            { who: "中介", en: "I'll send the rent figure again too, because that was also different.", cn: "我把租金数字也再发一遍，那个也不一样。" }
+          ]
+        },
+        {
+          variant: "情绪型（押金被全额扣且无人回复）",
+          relation: "租客 · 中介（三周无回复）",
+          register: "半正式（情绪化）",
+          channel: "电话 + 邮件",
+          barrier: "三周四封邮件无人回复，押金已被全额扣走",
+          result: "达成（中介限期举证，否则转押金计划争议）",
+          lines: [
+            { who: "租客", en: "I've emailed four times in three weeks. Nobody has replied.", cn: "三周里我发了四封邮件。没人回。" },
+            { who: "中介", en: "The property manager left. Your file was reassigned.", cn: "房管离职了。您的档案被转给了别人。" },
+            { who: "租客", en: "And in the meantime the whole deposit was deducted.", cn: "然后押金就被全额扣掉了。" },
+            { who: "中介", en: "For cleaning and damage.", cn: "用于清洁和损坏。" },
+            { who: "租客", en: "Which damage, and where is the evidence?", cn: "哪里的损坏，证据在哪？" },
+            { who: "中介", en: "There's a report.", cn: "有份报告。" },
+            { who: "租客", en: "A report written by the person who wants to keep my money is not evidence. I have the check-in inventory and forty photographs.", cn: "由想要留下我钱的人写的报告不算证据。我有入住清单和四十张照片。" },
+            { who: "中介", en: "I'll ask for the check-out photographs.", cn: "我去要退租时的照片。" },
+            { who: "租客", en: "If they don't exist, I'm opening a dispute with the deposit scheme on Monday.", cn: "如果没有，我周一向押金计划提起争议。" },
+            { who: "中介", en: "That isn't necessary.", cn: "没这个必要。" },
+            { who: "租客", en: "It became necessary the moment three weeks passed without a reply.", cn: "三周没有回复的那一刻起，它就有必要了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（押金计划在线申请）",
+          relation: "租客 · 押金计划客服",
+          register: "半正式",
+          channel: "在线申请 + 电话",
+          barrier: "在线表格要求房东回应，房东不配合",
+          result: "达成（单方提交程序，第一天先上传证据）",
+          lines: [
+            { who: "租客", en: "I'm starting a dispute. The form asks for the landlord's response.", cn: "我要提起争议。表格要求房东回应。" },
+            { who: "客服", en: "You can submit without it. We invite them, and the clock runs either way.", cn: "没有也可以提交。我们会邀请他们，时限照走。" },
+            { who: "租客", en: "What if he ignores the invitation?", cn: "如果他不理邀请呢？" },
+            { who: "客服", en: "Then it's decided on the evidence you send, which is why photographs matter.", cn: "那就根据您提交的证据裁定，所以照片很重要。" },
+            { who: "租客", en: "I have forty photographs and the signed inventory.", cn: "我有四十张照片和签过字的清单。" },
+            { who: "客服", en: "Send those first, not last. Evidence uploaded on day one carries more weight.", cn: "那些先传，不要最后传。第一天上传的证据分量更重。" },
+            { who: "租客", en: "Is that a rule or an impression?", cn: "这是规则还是感觉？" },
+            { who: "客服", en: "An impression from handling these cases. The adjudicator reads the first file first.", cn: "是处理这些案子得出的感觉。裁定人先读第一份。" },
+            { who: "租客", en: "Then I'll upload everything tonight.", cn: "那我今晚全部上传。" },
+            { who: "客服", en: "And keep the originals. If it goes further, you'll want them dated.", cn: "原件留着。如果再往上走，你需要带日期的原件。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "租客 · 押金裁定员（书面听证）",
+          register: "正式",
+          channel: "书面陈述与听证",
+          barrier: "无（但需正式陈述并举证）",
+          result: "达成（按证据裁定，酌减后退还大部分押金）",
+          lines: [
+            { who: "裁定员", en: "You are claiming the return of the deposit in full. Please summarise your evidence.", cn: "您主张全额退还押金。请概述您的证据。" },
+            { who: "租客", en: "I rely on three documents: the check-in inventory, forty dated photographs, and a cleaning receipt.", cn: "我依据三份材料：入住清单、四十张带日期的照片，和一张清洁收据。" },
+            { who: "裁定员", en: "The landlord relies on a check-out report and an invoice for repainting.", cn: "房东依据退租报告和一张重新粉刷的发票。" },
+            { who: "租客", en: "The invoice is dated eleven days after I returned the keys, and the flat was re-let within a week.", cn: "那张发票的日期是我交还钥匙十一天后，而房子一周内就重新出租了。" },
+            { who: "裁定员", en: "You suggest the work was not done?", cn: "您是说那项工作没做？" },
+            { who: "租客", en: "I suggest it cannot be shown to relate to my tenancy. I do not allege dishonesty.", cn: "我是说无法证明那与我这次租住相关。我不是在指控不诚实。" },
+            { who: "裁定员", en: "That is the correct way to put it. Is the cleaning deduction also disputed?", cn: "这个说法恰当。清洁费的扣除也有争议吗？" },
+            { who: "租客", en: "It is, and I have the receipt for the clean I paid for on the day of departure.", cn: "有争议，而且我有离房当天自己付的清洁收据。" },
+            { who: "裁定员", en: "The decision will be issued in writing within ten working days.", cn: "裁决将在十个工作日内书面发出。" },
+            { who: "租客", en: "Thank you. I have no further submissions.", cn: "谢谢。我没有其他陈述。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "合租室友之间",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Sam", en: "landlord's keeping the deposit", cn: "房东不退押金" },
+            { who: "Rob", en: "all of it", cn: "全不退？" },
+            { who: "Sam", en: "all of it", cn: "全不退" },
+            { who: "Rob", en: "why", cn: "为什么" },
+            { who: "Sam", en: "cleaning", cn: "清洁" },
+            { who: "Rob", en: "we cleaned it", cn: "我们打扫过了" },
+            { who: "Sam", en: "he says not enough", cn: "他说不够干净" },
+            { who: "Rob", en: "photos", cn: "照片呢" },
+            { who: "Sam", en: "i took some", cn: "我拍了几张" },
+            { who: "Rob", en: "then he's not keeping it", cn: "那他留不住" },
+            { who: "Sam", en: "you think", cn: "你觉得？" },
+            { who: "Rob", en: "i know. send them monday", cn: "我知道。周一发过去" }
+          ]
+        }
+      ]
     }
   ];
 
