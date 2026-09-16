@@ -9518,6 +9518,437 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 12-01 描述一个人 ==================== */
+    {
+      id: "s12-01",
+      domain: "12",
+      title: "描述一个人",
+      ielts: "口语 P2 人物 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位朋友（认出某人）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（用行为特征把两个人区分开）",
+          lines: [
+            { who: "甲", en: "Who's the one in the green jacket?", cn: "穿绿夹克的那位是谁？" },
+            { who: "乙", en: "That's Marta. She's the one who runs the Saturday market.", cn: "那是 Marta。她就是办周六市集的人。" },
+            { who: "甲", en: "What's she like?", cn: "她人怎么样？" },
+            { who: "乙", en: "Direct. She'll tell you your stall is in the wrong place and then help you move it.", cn: "直接。她会告诉你摊位摆错了，然后帮你搬。" },
+            { who: "甲", en: "Tall, short hair, glasses?", cn: "高个、短发、眼镜？" },
+            { who: "乙", en: "Short hair, no glasses. The glasses are her sister, who looks nothing like her.", cn: "短发，不戴眼镜。戴眼镜的是她妹妹，两人一点都不像。" },
+            { who: "甲", en: "So how would I recognise the sister?", cn: "那我怎么认出她妹妹？" },
+            { who: "乙", en: "She's the one standing still. Marta never stands still.", cn: "她是站着不动的那位。Marta 从来不停下来。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "证人 · 警官（人物笔录）",
+          register: "半正式",
+          channel: "面对面（笔录）",
+          barrier: "无（但要说清哪些自己不敢确定）",
+          result: "达成（用「不会猜」换到更可靠的描述）",
+          lines: [
+            { who: "警官", en: "Describe the person you saw.", cn: "描述一下你看到的那个人。" },
+            { who: "证人", en: "About forty, taller than me, and he had a beard.", cn: "大概四十岁，比我高，留胡子。" },
+            { who: "警官", en: "About forty is a wide range. What made you think forty?", cn: "大概四十岁范围很宽。你凭什么觉得是四十？" },
+            { who: "证人", en: "Grey at the temples and lines here, but he moved like someone younger.", cn: "两鬓有白发，这里有些纹路，但动作像更年轻的人。" },
+            { who: "警官", en: "That is far more useful. What was he wearing?", cn: "这样有用多了。他穿什么？" },
+            { who: "证人", en: "A dark jacket. I couldn't say the colour in that light, so I won't guess.", cn: "深色夹克。那种光线下我说不出具体颜色，所以我不猜。" },
+            { who: "警官", en: "Saying what you cannot say is the most valuable part of a statement.", cn: "说清你说不了什么，是笔录里最有价值的部分。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位朋友（一个词能不能形容人）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "被要求用一个词形容，但一个词会给出错误印象",
+          result: "折中（改成三个词，一个词不够但三个够）",
+          lines: [
+            { who: "甲", en: "Just describe him in one word.", cn: "就用一个词形容他。" },
+            { who: "乙", en: "One word won't do it, and you'll get the wrong picture.", cn: "一个词不够，而且你会想到错的人。" },
+            { who: "甲", en: "Try.", cn: "试试。" },
+            { who: "乙", en: "Reliable. And that tells you nothing about how he talks, what he wears, or why people follow him.", cn: "可靠。而这告诉你他会怎么说话、穿什么、为什么有人跟随他吗？一条都没有。" },
+            { who: "甲", en: "Then give me three.", cn: "那给我三个。" },
+            { who: "乙", en: "Reliable, slow to speak, and funny when you least expect it.", cn: "可靠、不爱抢话，而且总在你没想到的时候好笑。" },
+            { who: "甲", en: "Three words and I can see him.", cn: "三个词我就能看见他了。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同事（形容性格导致认错人）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "用性格词指人，指向了两个可能的对象",
+          result: "修复（改用行为描述，唯一命中）",
+          lines: [
+            { who: "甲", en: "I meant the tall one with the beard.", cn: "我说的是那个高个留胡子的。" },
+            { who: "乙", en: "You said the quiet one, and there are two quiet ones.", cn: "你说的是安静的那个，而安静的有两个。" },
+            { who: "甲", en: "I should have used the name.", cn: "我该直接用名字的。" },
+            { who: "乙", en: "Or described what he does rather than what he is like. Character words are ambiguous; actions aren't.", cn: "或者描述他做什么，而不是他是什么样。形容性格的词有歧义，行为没有。" },
+            { who: "甲", en: "He's the one who always brings the coffee.", cn: "他就是那个总带咖啡的人。" },
+            { who: "乙", en: "Now there is only one person that could be.", cn: "现在只可能是一个人。" }
+          ]
+        },
+        {
+          variant: "情绪型（描述已故的人）",
+          relation: "两位朋友（说起祖父）",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "描述外貌会说不下去，需要换一种描述方式",
+          result: "达成（改从「做的事」而不是「长相」入手）",
+          lines: [
+            { who: "甲", en: "Tell me about your grandfather.", cn: "说说你爷爷吧。" },
+            { who: "乙", en: "He was short and he stood very straight, which is a combination you remember.", cn: "他个子矮，但站得很直，这种组合你会记住。" },
+            { who: "甲", en: "What did he do?", cn: "他做什么的？" },
+            { who: "乙", en: "He repaired watches for fifty years and never once raised his voice.", cn: "他修了五十年表，从来没提过嗓门。" },
+            { who: "甲", en: "That's a good way to describe someone.", cn: "这样描述人很好。" },
+            { who: "乙", en: "It's the only way I can. If I describe his face I'll stop talking.", cn: "我只能这么描述。要是我描述他的脸，我就说不下去了。" },
+            { who: "甲", en: "Then describe the watches.", cn: "那就描述那些表。" }
+          ]
+        },
+        {
+          variant: "渠道变体（电话里描述一个人）",
+          relation: "两位朋友（车站找人）",
+          register: "随意",
+          channel: "手机通话",
+          barrier: "电话里看不见，需要五秒内能认出的特征",
+          result: "达成（改用动作与配饰特征，当场找到）",
+          lines: [
+            { who: "甲", en: "I'm at the station and I can't find him.", cn: "我在车站，找不到他。" },
+            { who: "乙", en: "What does he look like?", cn: "他长什么样？" },
+            { who: "甲", en: "On the phone that's useless. I need something I can spot in five seconds.", cn: "在电话里说这个没用。我需要五秒内能认出来的特征。" },
+            { who: "乙", en: "He'll be the only one standing still and reading a paper book.", cn: "他会是唯一站着不动、看纸质书的人。" },
+            { who: "甲", en: "That I can use. Anything else?", cn: "这我能用。还有吗？" },
+            { who: "乙", en: "Red scarf, and he holds it when he's nervous.", cn: "红围巾，紧张的时候会抓着它。" },
+            { who: "甲", en: "Found him.", cn: "找到了。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "主持 · 致答谢词者（正式致辞）",
+          register: "正式",
+          channel: "正式场合",
+          barrier: "无（但描述要落到证据而不是论断）",
+          result: "达成（用十一位博士生的证据把论断变成描述）",
+          lines: [
+            { who: "主持", en: "You are proposing the vote of thanks. Would you describe the recipient for those who do not know her?", cn: "由您致答谢词。您可以向不认识她的人描述一下她吗？" },
+            { who: "发言者", en: "I shall be brief and specific. She has taught in this department for twenty-nine years and has never declined a difficult student.", cn: "我尽量简短而具体。她在这个系教了二十九年，从未拒绝过一个难教的学生。" },
+            { who: "主持", en: "That is a claim rather than a description.", cn: "这是论断，不是描述。" },
+            { who: "发言者", en: "Then let me give the evidence: eleven doctoral students, four of whom arrived with a warning attached.", cn: "那我给证据：十一位博士生，其中四位来的时候还带着「难带」的评语。" },
+            { who: "主持", en: "Now it is a description.", cn: "现在是描述了。" },
+            { who: "发言者", en: "I should add what she refuses to do, which is talk about herself.", cn: "我再补充她拒绝做什么：谈她自己。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位朋友（指认某人）",
+          register: "随意（极简、俚语）",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "who's that", cn: "那是谁" },
+            { who: "乙", en: "the tall one", cn: "高个那个" },
+            { who: "甲", en: "there's three tall ones", cn: "有三个高个" },
+            { who: "乙", en: "the one with the dog", cn: "带狗那个" },
+            { who: "甲", en: "got it", cn: "知道了" },
+            { who: "乙", en: "he's alright", cn: "他人不错" },
+            { who: "甲", en: "the dog or him", cn: "狗还是他" },
+            { who: "乙", en: "both", cn: "都" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 12-02 描述一个地方 ==================== */
+    {
+      id: "s12-02",
+      domain: "12",
+      title: "描述一个地方",
+      ielts: "口语 P2 地点 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位朋友（说说喜欢的地方）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（给出路线、时长的实用描述）",
+          lines: [
+            { who: "甲", en: "What's your favourite place round here?", cn: "你在这儿最喜欢哪里？" },
+            { who: "乙", en: "The reservoir, about forty minutes out. It's the only place where I can't hear traffic.", cn: "水库，出去四十分钟。那是唯一听不到车声的地方。" },
+            { who: "甲", en: "What's it like?", cn: "什么样？" },
+            { who: "乙", en: "A track round the water, pine on one side, nothing on the other. It takes about two hours.", cn: "绕水一圈的小路，一边是松树，一边什么都没有。走完大概两小时。" },
+            { who: "甲", en: "Is it busy?", cn: "人多吗？" },
+            { who: "乙", en: "Weekends, yes. Go on a Tuesday morning and you'll pass three people.", cn: "周末多。周二早上去，你会遇到三个人。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "住户 · 评估员（房产状况）",
+          register: "半正式",
+          channel: "面对面（正式查看）",
+          barrier: "无（但要用照片说明图纸与实际不符）",
+          result: "达成（指出图纸与建筑不一致，附三角度照片）",
+          lines: [
+            { who: "评估员", en: "Describe the property as you found it.", cn: "请描述您看到时该房产的状况。" },
+            { who: "住户", en: "Two bedrooms, both with windows onto the internal courtyard rather than the street.", cn: "两间卧室，窗户都朝内院而不是街道。" },
+            { who: "评估员", en: "Is that what the plans show?", cn: "图纸上是这样吗？" },
+            { who: "住户", en: "No. The plan shows one window to the street, and that wall is solid.", cn: "不是。图纸上画了一扇朝街的窗，而那面墙是实心的。" },
+            { who: "评估员", en: "Then the plan and the building disagree, which is the useful finding.", cn: "那图纸和建筑不一致，这是最有用的发现。" },
+            { who: "住户", en: "I have photographs from three angles, each with the date.", cn: "我有三个角度的照片，每张带日期。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位朋友（怎么形容一个地方）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "「漂亮」这类形容词对深夜到达的人没有用",
+          result: "折中（白天说漂亮，到达时说三条实用信息）",
+          lines: [
+            { who: "甲", en: "Describe it in a few words.", cn: "用几个词描述一下。" },
+            { who: "乙", en: "Pretty isn't useful if you're arriving at eleven at night.", cn: "如果你是晚上十一点到，「漂亮」没用。" },
+            { who: "甲", en: "Fine. What is useful?", cn: "行。那什么有用？" },
+            { who: "乙", en: "Whether the street is lit, whether the entrance is on the main road, and whether a taxi will stop there.", cn: "街上有没有灯、入口是不是在主路上、出租车肯不肯停。" },
+            { who: "甲", en: "Three useful things, and none of them is pretty.", cn: "三样都有用，而且没有一样是「漂亮」。" },
+            { who: "乙", en: "Say both. Pretty for the daytime, those three for the arrival.", cn: "两样都说。白天说漂亮，到达时说那三条。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位朋友（指路认错教堂）",
+          register: "随意",
+          channel: "面对面 + 电话",
+          barrier: "两座教堂外形相似，第一次指路走错",
+          result: "修复（改用「红门 + 公交站」当锚点重述路线）",
+          lines: [
+            { who: "甲", en: "Go past the church and turn left.", cn: "过了教堂左转。" },
+            { who: "乙", en: "There are two churches and I turned at the wrong one.", cn: "有两座教堂，我在错的那座转了。" },
+            { who: "甲", en: "My fault. Both are white and both have towers.", cn: "是我的问题。两座都是白的，都有塔。" },
+            { who: "乙", en: "What distinguishes them?", cn: "怎么区分？" },
+            { who: "甲", en: "The one you want has a red door and a bus stop outside it.", cn: "你要去的那座有红门，门口有个公交站。" },
+            { who: "乙", en: "Red door. Now describe the rest again with that as the start.", cn: "红门。现在以它为起点把剩下的重说一遍。" },
+            { who: "甲", en: "From the red door, straight for two hundred metres, then the third turning.", cn: "从红门起直走两百米，然后第三个路口。" }
+          ]
+        },
+        {
+          variant: "情绪型（故乡变了）",
+          relation: "两位朋友（长大的地方）",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "街道还在，熟悉的东西都没了",
+          result: "达成（改用「不再有理由停下」作结）",
+          lines: [
+            { who: "甲", en: "You grew up here?", cn: "你在这儿长大的？" },
+            { who: "乙", en: "On that street. The house is still there and nothing else is.", cn: "就在那条街上。房子还在，别的都没了。" },
+            { who: "甲", en: "What went?", cn: "什么没了？" },
+            { who: "乙", en: "The corner shop, the tree in front of it, and the noise. It's quiet now, and it shouldn't be.", cn: "街角的小店、店前那棵树，还有那些声音。现在很安静，而它不该安静。" },
+            { who: "甲", en: "Do you go back?", cn: "你会回去吗？" },
+            { who: "乙", en: "I drive past. I don't stop, because there's no reason to stop any more.", cn: "我开车经过。我不停，因为现在没有理由停了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（用照片描述一个地方）",
+          relation: "两位朋友（看房子的照片）",
+          register: "随意",
+          channel: "即时消息 + 照片",
+          barrier: "房东只拍好看的角落，照片会误导",
+          result: "达成（每面墙一张 + 窗外 + 配电箱）",
+          lines: [
+            { who: "甲", en: "Send me a photo of the flat.", cn: "发张房子的照片给我。" },
+            { who: "乙", en: "A photo will lie to you. Every landlord photographs the good corner.", cn: "照片会骗你。每个房东都拍好的那个角。" },
+            { who: "甲", en: "Then send me four, one per wall.", cn: "那你发四张，每面墙一张。" },
+            { who: "乙", en: "One per wall, plus one out of the window and one of the fuse box.", cn: "每面墙一张，加一张窗外的，再加一张配电箱的。" },
+            { who: "甲", en: "Why the fuse box?", cn: "为什么要配电箱？" },
+            { who: "乙", en: "Because nobody photographs it, and it tells you how the building is maintained.", cn: "因为没人拍它，而它能告诉你这栋楼维护得怎么样。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "委员 · 专家（遗产场地描述）",
+          register: "正式",
+          channel: "正式会议",
+          barrier: "无（但要把原物与后改部分逐项写明）",
+          result: "达成（1954 年屋顶影响描述不影响价值，逐项注明）",
+          lines: [
+            { who: "委员", en: "Describe the site for the record.", cn: "请为记录描述该场地。" },
+            { who: "专家", en: "A nineteenth-century market hall: cast iron frame, brick infill, and a roof replaced in 1954 with material of a different profile.", cn: "十九世纪的市场大厅：铸铁框架、砖填充，屋顶在 1954 年更换，材料规格与原建不同。" },
+            { who: "委员", en: "Does the 1954 roof affect the listing?", cn: "1954 年的屋顶是否影响列入名录？" },
+            { who: "专家", en: "It affects the description, not the significance. The frame is intact, and that is what carries the value.", cn: "影响描述，不影响价值。框架完好，而价值就在框架上。" },
+            { who: "委员", en: "Then the description should say so explicitly rather than leaving it to interpretation.", cn: "那描述就该明说，而不是留给人解释。" },
+            { who: "专家", en: "I shall add a sentence on what is original and what is not, item by item.", cn: "我会逐项加一句说明哪些是原物、哪些不是。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位朋友（去不去某个地方）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "where is it", cn: "在哪儿" },
+            { who: "乙", en: "behind the station", cn: "车站后面" },
+            { who: "甲", en: "anything there", cn: "那儿有什么" },
+            { who: "乙", en: "not much", cn: "没什么" },
+            { who: "甲", en: "worth going", cn: "值得去吗" },
+            { who: "乙", en: "for the view", cn: "为了风景" },
+            { who: "甲", en: "how long", cn: "要多久" },
+            { who: "乙", en: "twenty minutes up", cn: "上去二十分钟" },
+            { who: "甲", en: "fine", cn: "行" },
+            { who: "乙", en: "wear proper shoes", cn: "穿双合适的鞋" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 12-03 描述一件物品 ==================== */
+    {
+      id: "s12-03",
+      domain: "12",
+      title: "描述一件物品",
+      ielts: "口语 P2 物品 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位朋友（说起一台老相机）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（说明限制正是它被留下的原因）",
+          lines: [
+            { who: "甲", en: "What's that you're carrying?", cn: "你拿的那个是什么？" },
+            { who: "乙", en: "A camera my father used. Fully manual, no battery, forty years old.", cn: "我父亲用过的相机。全手动，不用电池，四十年了。" },
+            { who: "甲", en: "Does it still work?", cn: "还能用吗？" },
+            { who: "乙", en: "It works, and it makes you slower. Thirty-six photographs and then you stop.", cn: "能用，而且它让你变慢。三十六张，然后你就得停。" },
+            { who: "甲", en: "That sounds like a limitation.", cn: "这听起来像限制。" },
+            { who: "乙", en: "It's the reason people still use them. You think before each one.", cn: "正因如此还有人用。每按一次之前你都会想。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "投保人 · 理赔员（物品索赔）",
+          register: "半正式",
+          channel: "电话 + 书面",
+          barrier: "无（但主动说明估价已过期）",
+          result: "达成（附三角度照片说明工匠标记）",
+          lines: [
+            { who: "理赔员", en: "Describe the item you are claiming for.", cn: "请描述您索赔的物品。" },
+            { who: "投保人", en: "A ring, yellow gold, with a single stone and a maker's mark inside the band.", cn: "一枚戒指，黄金，单颗宝石，戒圈内侧有工匠标记。" },
+            { who: "理赔员", en: "Do you have a valuation?", cn: "有估价吗？" },
+            { who: "投保人", en: "From 2019. It is out of date, and I would rather say so than rely on it.", cn: "2019 年的。已经过期，我宁愿说明，而不是拿它当依据。" },
+            { who: "理赔员", en: "That honesty saves us a dispute later.", cn: "这种坦白省了后面一场争议。" },
+            { who: "投保人", en: "There are also three photographs showing the mark from different angles.", cn: "另外有三张照片，从不同角度拍到了那个标记。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位朋友（照片能不能说明价值）",
+          register: "随意",
+          channel: "面对面 + 即时消息",
+          barrier: "照片看不出无款识素碗的价值，需要别的指标",
+          result: "折中（照片 + 重量 + 直径，并说明不知道的部分）",
+          lines: [
+            { who: "甲", en: "Just send a photo and I'll tell you what it's worth.", cn: "发张照片我就告诉你它值多少。" },
+            { who: "乙", en: "I can send one, and it won't tell you much: it's a plain bowl with no mark.", cn: "我可以发，但说明不了什么：一只没有款识的素碗。" },
+            { who: "甲", en: "Weight?", cn: "重量？" },
+            { who: "乙", en: "That's the useful measure for this kind of thing. Six hundred and forty grams.", cn: "这类东西有用的指标是这个。六百四十克。" },
+            { who: "甲", en: "Then send a photo, the weight and the diameter, and I'll say what I can.", cn: "那把照片、重量和直径都发来，我说我能说的。" },
+            { who: "乙", en: "And I'll say what I don't know, which is more than those three put together.", cn: "我也会说明我不知道的部分，那比这三样加起来还多。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同事（买错充电器）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "用大小和颜色描述电子配件，导致买错",
+          result: "修复（改用伏特与安培读数，唯一命中）",
+          lines: [
+            { who: "甲", en: "I need a charger for a laptop.", cn: "我要一个笔记本充电器。" },
+            { who: "乙", en: "Which model?", cn: "哪个型号？" },
+            { who: "甲", en: "The small one, silver.", cn: "小的那个，银色的。" },
+            { who: "乙", en: "Every laptop for ten years has been small and silver. Read me the number on the old one.", cn: "十年的笔记本都是又小又银。把旧充电器上的编号念给我。" },
+            { who: "甲", en: "It says nineteen volts, three point four two amps.", cn: "写的是十九伏、三点四二安。" },
+            { who: "乙", en: "That number is the whole answer. Volts and amps, not size or colour.", cn: "这个数字就是全部答案。伏和安，不是大小和颜色。" }
+          ]
+        },
+        {
+          variant: "情绪型（有纪念意义的物品）",
+          relation: "两位朋友（不会走的表）",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "遗物停走多年，修与不修都难以决定",
+          result: "达成（不急着决定，先放在能看见的地方）",
+          lines: [
+            { who: "甲", en: "You kept the watch even though it doesn't run.", cn: "这表不走了，你还留着。" },
+            { who: "乙", en: "It stopped the year my mother died and I never had it repaired.", cn: "它在我母亲去世那年停了，我一直没去修。" },
+            { who: "甲", en: "Do you want it repaired?", cn: "你想修吗？" },
+            { who: "乙", en: "I don't know. A working watch is just a watch.", cn: "我不知道。会走的表就只是一块表了。" },
+            { who: "甲", en: "Then don't decide now. Put it somewhere you'll see it.", cn: "那就别现在决定。放在你能看到的地方。" },
+            { who: "乙", en: "It's on the shelf by the door, which is why I haven't decided.", cn: "它就在门边架子上，所以我才一直没决定。" }
+          ]
+        },
+        {
+          variant: "渠道变体（二手平台描述物品）",
+          relation: "买家 · 卖家（线上交易）",
+          register: "随意",
+          channel: "二手交易平台",
+          barrier: "划痕位置说不清，买家要求参照物",
+          result: "达成（硬币作参照 + 开闪光补拍）",
+          lines: [
+            { who: "买家", en: "Is the scratch on the screen or on the case?", cn: "划痕在屏幕上还是外壳上？" },
+            { who: "卖家", en: "On the case, at the corner. The screen is clean.", cn: "在外壳，角上。屏幕是干净的。" },
+            { who: "买家", en: "Can you photograph it with something for scale?", cn: "能放个参照物拍一下吗？" },
+            { who: "卖家", en: "A coin next to it, and one photo with the flash on.", cn: "旁边放枚硬币，再拍一张开闪光的。" },
+            { who: "买家", en: "That's more than most sellers do.", cn: "这比大多数卖家做得都多。" },
+            { who: "卖家", en: "Because I'd rather you knew before you paid than asked for a refund afterwards.", cn: "因为我宁愿你在付钱前知道，而不是付完再要求退款。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "策展人 · 编目员（藏品图录）",
+          register: "正式",
+          channel: "正式会议 + 书面",
+          barrier: "无（但「未识别」要写清依据与对照清单）",
+          result: "达成（写成「对照后未识别」并列出四个标记）",
+          lines: [
+            { who: "策展人", en: "Provide a catalogue description of the object.", cn: "请给这件藏品写一段图录描述。" },
+            { who: "编目员", en: "Silver-gilt cup, fifteen centimetres high, maker's mark unidentified, engraved with a date and two initials.", cn: "镀银杯，高十五厘米，工匠标记未识别，刻有一个日期和两个缩写字母。" },
+            { who: "策展人", en: "Unidentified is a claim. How sure are you?", cn: "「未识别」是个论断。你有多确定？" },
+            { who: "编目员", en: "I have compared it with four published marks and it matches none. That is the basis.", cn: "我对照了四个已发表的标记，没有一个一致。依据就是这个。" },
+            { who: "策展人", en: "Then write it as unidentified after comparison with, and list the four.", cn: "那就写成「与……对照后未识别」，并列出那四个。" },
+            { who: "编目员", en: "That way the next person can extend the list rather than start again.", cn: "这样下一个人可以接着扩充，而不用从头再来。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位朋友（多功能工具）",
+          register: "随意（极简、俚语）",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "what's that", cn: "那是什么" },
+            { who: "乙", en: "a multitool", cn: "一把多功能工具" },
+            { who: "甲", en: "what for", cn: "干什么用" },
+            { who: "乙", en: "everything", cn: "什么都干" },
+            { who: "甲", en: "like what", cn: "比如" },
+            { who: "乙", en: "bottles. screws. that tiny saw", cn: "开瓶。拧螺丝。那个小锯子" },
+            { who: "甲", en: "ever used the saw", cn: "锯子用过吗" },
+            { who: "乙", en: "once", cn: "用过一次" },
+            { who: "甲", en: "worth it then", cn: "那还值" },
+            { who: "乙", en: "exactly once", cn: "就那一次" }
+          ]
+        }
+      ]
     }
   ];
 
