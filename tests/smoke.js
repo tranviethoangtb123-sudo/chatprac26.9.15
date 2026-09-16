@@ -288,13 +288,15 @@ try {
     if (!has && openHtml.indexOf(dom.name) >= 0) problems.push("还没收录内容的域不该出现：" + dom.name);
   });
   // 只写两级：域 + 变体。场景标题、雅思标签、元数据说明都不上屏
+  const allVariants = SC.scenarios.reduce((a, s) => a.concat(s.dialogues.map((d) => d.variant)), []);
   SC.scenarios.forEach((s) => {
     if (openHtml.indexOf(s.title) >= 0) problems.push("选择器里不该出现场景标题：" + s.title);
     if (s.ielts && openHtml.indexOf(s.ielts) >= 0) problems.push("选择器里不该出现雅思标签：" + s.ielts);
     s.dialogues.forEach((d) => {
       ["relation", "register", "channel", "barrier", "result"].forEach((k) => {
         const v = d[k];
-        if (!v || v.length < 3 || d.variant.indexOf(v) >= 0) return;   // 太短或本来就是变体名的一部分就跳过
+        if (!v || v.length < 3) return;                                 // 太短，可能是常用词
+        if (allVariants.some((x) => x.indexOf(v) >= 0)) return;          // 本来就写在某个变体名里（如「渠道变体（视频会议）」）
         if (openHtml.indexOf(v) >= 0) problems.push("不该显示元数据说明（" + k + "）：" + v);
       });
     });
