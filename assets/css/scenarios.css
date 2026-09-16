@@ -1,184 +1,124 @@
 /* ==========================================================================
-   Chat Prac — 学习模式·对话板块 的样式（12 域场景对话库）
-   单独一个文件，方便和主样式分开维护。变量沿用 style.css 里的定义。
+   Chat Prac — 学习模式·对话板块 的样式（场景对话库 · 两级选择器）
+   界面文字只有两级：域（社交人际）+ 变体（顺利达成（对等））。
+   变量沿用 style.css 里的定义。
    ========================================================================== */
 
-/* ------------------------------ 顶部说明条 ------------------------------ */
+/* ------------------------------ 选择器 ------------------------------ */
 
-.dlgstat {
-  margin: 0 0 14px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  background: var(--accent-soft);
-  color: var(--text-2);
-  font-size: 12.5px;
-  line-height: 1.7;
-}
+.dlgpick { margin-bottom: 12px; }
 
-.dlgstat b { color: var(--accent-text); font-weight: 650; }
-
-/* ------------------------------ 域 ------------------------------ */
-
-.dlgdom {
-  margin-bottom: 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  background: var(--card);
-  overflow: hidden;
-}
-
-.dlgdomhead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 13px 14px;
-  cursor: pointer;
-  transition: background .15s ease;
-}
-
-.dlgdomhead:hover { background: var(--card-hover); }
-
-.dlgdomhead-todo { cursor: default; opacity: .62; }
-.dlgdomhead-todo:hover { background: none; }
-
-.dlgdomname { font-size: 14.5px; font-weight: 600; }
-
-.dlgcount {
-  flex: none;
-  font-size: 12px;
-  color: var(--text-3);
-  text-align: right;
-}
-
-.dlgdombody {
-  padding: 0 14px 14px;
-  border-top: 1px solid var(--border);
-}
-
-.dlgtodo {
-  margin: 0;
-  padding: 0 14px 13px;
-  color: var(--text-3);
-  font-size: 12.5px;
-  line-height: 1.9;
-}
-
-/* ------------------------------ 场景 ------------------------------ */
-
-.dlgscn { margin-top: 10px; }
-
-.dlgscnhead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: var(--bg-side);
-  cursor: pointer;
-  transition: background .15s ease;
-}
-
-.dlgscnhead:hover { background: var(--card-hover); }
-
-.dlgscntitle { font-size: 14px; font-weight: 600; }
-
-.dlgscnmeta {
-  flex: none;
-  font-size: 11.5px;
-  color: var(--text-3);
-  text-align: right;
-}
-
-.dlgscnbody { padding: 8px 0 0 2px; }
-
-/* ------------------------------ 一段对话 ------------------------------ */
-
-.dlgitem {
-  margin-top: 8px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  overflow: hidden;
-}
-
-.dlgitemhead {
+.dlgpick-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-  padding: 10px 12px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.dlgpick-btn:hover { background: var(--card-hover); }
+.dlgpick-btn.is-open { border-color: var(--border-strong); }
+
+.dlgpick-val {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dlgpick-val.is-ph { color: var(--text-3); }
+
+.dlgpick-arrow {
+  flex: none;
+  color: var(--text-3);
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* 展开后的选项：按域分组，一拍即选 */
+.dlgpick-list {
+  margin-top: 6px;
+  padding: 6px;
+  max-height: 46vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+
+.dlgdomlabel {
+  margin: 8px 0 4px;
+  padding: 0 9px;
+  color: var(--text-3);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dlgpick-list > .dlgdomlabel:first-child { margin-top: 2px; }
+
+.dlgpick-item {
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  text-align: left;
   cursor: pointer;
   transition: background .15s ease;
 }
 
-.dlgitemhead:hover { background: var(--card-hover); }
+.dlgpick-item:hover { background: var(--card-hover); }
+.dlgpick-item:active { background: var(--accent-soft); }
 
-.dlgvariant {
-  font-size: 13.5px;
-  font-weight: 600;
+.dlgpick-item.is-active {
+  background: var(--accent-soft);
   color: var(--accent-text);
+  font-weight: 600;
 }
 
-.dlgtag {
-  padding: 2px 7px;
-  border-radius: 5px;
-  background: rgba(125, 140, 180, .12);
+.dlgpick-none {
+  margin: 0;
+  padding: 10px;
   color: var(--text-3);
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 12.5px;
 }
 
-.dlgtags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 12px 10px;
-}
+/* ------------------------------ 对话正文 ------------------------------ */
 
-.dlgspeak {
-  margin-left: auto;
-  flex: none;
-  padding: 3px 9px;
+.dlgview {
+  padding: 2px 13px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   background: var(--card);
-  color: var(--text-2);
-  font: inherit;
-  font-size: 11.5px;
-  cursor: pointer;
 }
 
-.dlgspeak:hover { background: var(--bg-side); }
-
-/* ------------------------------ 话轮 ------------------------------ */
-
-.dlglines {
-  padding: 4px 12px 12px;
-  border-top: 1px solid var(--border);
-}
+.dlglines { padding: 4px 0; }
 
 .dlgline {
   display: flex;
   align-items: flex-start;
-  gap: 9px;
-  padding: 7px 0;
+  gap: 10px;
+  padding: 9px 0;
   border-bottom: 1px dashed var(--border);
 }
 
 .dlgline:last-child { border-bottom: none; }
-
-.dlgwho {
-  flex: none;
-  width: 62px;
-  padding-top: 1px;
-  color: var(--text-3);
-  font-size: 11.5px;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
 
 .dlgbody { flex: 1; min-width: 0; }
 .dlgbody p { margin: 0; }
@@ -196,19 +136,37 @@
   line-height: 1.6;
 }
 
-.dlgline .dlgspeak {
-  margin-left: 0;
+.dlgsaygroup {
+  flex: none;
+  display: flex;
+  gap: 5px;
   align-self: center;
-  padding: 2px 6px;
 }
+
+.dlgspeak {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 11.5px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.dlgspeak:hover { background: var(--card-hover); border-color: var(--accent); }
+.dlgspeak:active { background: var(--accent-soft); color: var(--accent-text); }
 
 /* ------------------------------ 手机窄屏 ------------------------------ */
 
 @media (max-width: 520px) {
-  .dlgdomhead, .dlgscnhead, .dlgitemhead { padding-left: 11px; padding-right: 11px; }
-  .dlgdombody { padding-left: 11px; padding-right: 11px; }
-  .dlgwho { width: 50px; font-size: 11px; }
+  .dlgpick-list { max-height: 42vh; }
+  .dlgview { padding: 2px 11px; }
   .dlgen { font-size: 13.5px; }
   .dlgcn { font-size: 12px; }
-  .dlgcount, .dlgscnmeta { font-size: 11px; }
+  .dlgspeak { width: 25px; height: 25px; font-size: 11px; }
 }

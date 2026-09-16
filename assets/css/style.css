@@ -284,6 +284,7 @@ html.is-app body { overscroll-behavior: none; }
   padding: 4px 16px 24px;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;   /* 出现滚动条时内容宽度不跳，右边缘始终对齐 */
 }
 
 .view {
