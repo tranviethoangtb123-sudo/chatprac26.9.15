@@ -274,36 +274,65 @@ try {
   if (dHtml().indexOf("dlgline") >= 0) problems.push("还没选场景时不该出现对话正文");
   console.log("  进板块：只有「选择场景」，没统计条、没正文 ✔");
 
-  // 展开选择器：一行一个变体，按域分组；没收录内容的域不出现
+  // 展开选择器：一级标题（域）默认收起，一次只展开一个
   dclick({ "data-dlgpick": "1" });
   const openHtml = dHtml();
   const segTotal = SC.scenarios.reduce((n, s) => n + s.dialogues.length, 0);
-  const itemCount = (openHtml.match(/class="dlgpick-item/g) || []).length;
-  if (itemCount !== segTotal) problems.push("展开后应有 " + segTotal + " 个变体选项，实际 " + itemCount);
-  if (openHtml.indexOf('class="dlgdomlabel"') < 0) problems.push("选项没有按域分组（缺 dlgdomlabel）");
   const withContent = new Set(SC.scenarios.map((s) => s.domain));
+  const headCount = (openHtml.match(/class="dlgdomlabel/g) || []).length;
+  if (headCount !== withContent.size) {
+    problems.push("一级标题数应为 " + withContent.size + "，实际 " + headCount);
+  }
+  if ((openHtml.match(/class="dlgpick-item/g) || []).length !== 0) {
+    problems.push("一级标题默认应该收起，不该直接铺开全部选项");
+  }
   SC.domains.forEach((dom) => {
     const has = withContent.has(dom.id);
     if (has && openHtml.indexOf(dom.name) < 0) problems.push("缺了域：" + dom.name);
     if (!has && openHtml.indexOf(dom.name) >= 0) problems.push("还没收录内容的域不该出现：" + dom.name);
   });
-  // 选项文字 = 场景名 · 变体（同一个域里变体名会重复，所以必须带场景名）；
-  // 但雅思标签、关系/语域/渠道/障碍/结果 这些说明都不上屏
-  const pickLabels = (openHtml.match(/data-dlgseg="[^"]*">([^<]*)</g) || [])
-    .map((s) => s.replace(/^.*">/, "").replace(/<$/, ""));
+  console.log("  展开选择器：默认只看到 " + headCount + " 个域标题（收起状态）✔");
+
+  // 逐个点开域标题：一次只展开一个（手风琴），选项文字 = 场景名 · 变体
+  const pickLabels = [];
   const allVariants = SC.scenarios.reduce((a, s) => a.concat(s.dialogues.map((d) => d.variant)), []);
+  let expandedHtml = openHtml;
+  let lastOpened = "";
+  SC.domains.filter((dom) => withContent.has(dom.id)).forEach((dom) => {
+    dclick({ "data-dlgdom": dom.id });
+    lastOpened = dom.id;
+    const one = dHtml();
+    expandedHtml += one;
+    const mine = one.match(/data-dlgseg="[^"]*">([^<]*)</g) || [];
+    if (mine.length !== 8 * SC.scenarios.filter((s) => s.domain === dom.id).length) {
+      problems.push("点开「" + dom.name + "」后的选项数不对：" + mine.length);
+    }
+    if ((one.match(/class="dlgdomlabel is-open"/g) || []).length !== 1) {
+      problems.push("「" + dom.name + "」展开时应该只有一个域是展开的（手风琴）");
+    }
+    [].push.apply(pickLabels, mine.map((s) => s.replace(/^.*">/, "").replace(/<$/, "")));
+  });
+  if (pickLabels.length !== segTotal) problems.push("逐域展开后应有 " + segTotal + " 个选项，实际 " + pickLabels.length);
+  if (new Set(pickLabels).size !== pickLabels.length) {
+    problems.push("选项文字有重复，说明没带上场景名（" + pickLabels.length + " 项里只有 " + new Set(pickLabels).size + " 个不同）");
+  }
+  // 雅思标签、关系/语域/渠道/障碍/结果 这些说明都不上屏
   SC.scenarios.forEach((s) => {
-    if (s.ielts && openHtml.indexOf(s.ielts) >= 0) problems.push("选择器里不该出现雅思标签：" + s.ielts);
+    if (s.ielts && expandedHtml.indexOf(s.ielts) >= 0) problems.push("选择器里不该出现雅思标签：" + s.ielts);
     s.dialogues.forEach((d) => {
       ["relation", "register", "channel", "barrier", "result"].forEach((k) => {
         const v = d[k];
         if (!v || v.length < 3) return;                                 // 太短，可能是常用词
         if (allVariants.some((x) => x.indexOf(v) >= 0)) return;          // 本来就写在某个变体名里（如「渠道变体（视频会议）」）
-        if (openHtml.indexOf(v) >= 0) problems.push("不该显示元数据说明（" + k + "）：" + v);
+        if (expandedHtml.indexOf(v) >= 0) problems.push("不该显示元数据说明（" + k + "）：" + v);
       });
     });
   });
-  console.log("  展开选择器：" + itemCount + " 个变体按域分组，选项文字 =「场景 · 变体」✔");
+  console.log("  逐域展开：" + pickLabels.length + " 个选项文字全部唯一（场景 · 变体）✔");
+  // 再点一次同一个域标题 → 收起
+  dclick({ "data-dlgdom": lastOpened });
+  if ((dHtml().match(/class="dlgpick-item/g) || []).length !== 0) problems.push("再点一次域标题应该收起");
+  console.log("  再点一次一级标题：收起 ✔");
 
   // 选中一段 → 收起选择器，直接呈现对话；每句配 美 / 英
   const scn0 = SC.scenarios[0];
@@ -322,14 +351,7 @@ try {
   if (selHtml.indexOf("整条朗读") >= 0) problems.push("不该再有「整条朗读」");
   const dom0 = SC.domains.filter((x) => x.id === scn0.domain)[0];
   if (selHtml.indexOf(scn0.title + " · " + d0.variant) < 0) problems.push("选择器没显示「场景 · 变体」");
-  if (!pickLabels.length || pickLabels.length !== itemCount) {
-    problems.push("选择器选项文字没解析出来：" + pickLabels.length);
-  }
-  if (new Set(pickLabels).size !== pickLabels.length) {
-    problems.push("选择器选项文字有重复，说明没带上场景名（" + pickLabels.length + " 项里只有 " + new Set(pickLabels).size + " 个不同）");
-  } else {
-    console.log("  选项文字唯一性：" + pickLabels.length + " 项全部可区分 ✔");
-  }
+  if (pickLabels.length !== segTotal) problems.push("选项总数不对：" + pickLabels.length);
   void dom0;
   console.log("  选中一段：" + d0.lines.length + " 句 + 美/英双朗读，无姓名/无标签/无整条朗读 ✔");
 

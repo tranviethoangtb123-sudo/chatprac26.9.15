@@ -57,13 +57,52 @@
   background: var(--card);
 }
 
+/* 一级标题（域）：点一下展开/收起这个域的选项 */
 .dlgdomlabel {
-  margin: 8px 0 4px;
-  padding: 0 9px;
-  color: var(--text-3);
-  font-size: 12px;
-  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0 2px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--bg-side);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
 }
+
+.dlgdomlabel:hover { background: var(--card-hover); }
+
+.dlgdomlabel:active { background: var(--accent-soft); }
+
+.dlgdomlabel.is-open {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.dlgdomname {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dlgdomarrow {
+  flex: none;
+  color: var(--text-3);
+  font-size: 9px;
+  line-height: 1;
+}
+
+.dlgdomlabel.is-open .dlgdomarrow { color: var(--accent-text); }
 
 .dlgpick-list > .dlgdomlabel:first-child { margin-top: 2px; }
 

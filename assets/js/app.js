@@ -1030,6 +1030,7 @@
   var SC = window.CHAT_PRAC_SCENARIOS || { domains: [], scenarios: [] };
   var dlgOpen = false;   // 选择器是否展开
   var dlgSel = "";       // 当前选中的对话，键形如 "s04-01:3"（场景 id : 变体序号）
+  var dlgDomOpen = null; // 选择器里展开的一级标题（域 id）——手风琴，一次只开一个
 
   // 扁平化成「一行一个变体」的列表，顺序按 域 → 场景 → 变体
   function dlgFlat() {
@@ -1099,7 +1100,7 @@
     return it.scn.title + " · " + it.d.variant;
   }
 
-  function dlgPickHtml(list, curIdx) {
+  function dlgPickHtml(list, curIdx, q) {
     var picked = curIdx >= 0 ? list[curIdx] : null;
     var html = '<div class="dlgpick">' +
       '<button type="button" class="dlgpick-btn' + (dlgOpen ? " is-open" : "") + '"' +
@@ -1111,15 +1112,31 @@
       "</button>";
 
     if (dlgOpen) {
-      html += '<div class="dlgpick-list">';
-      var lastDom = null;
+      // 一级标题（域）可折叠，手风琴式：一次只展开一个，否则翻完一个域要滑很久
+      var groups = [];
       list.forEach(function (it) {
-        if (it.dom.name !== lastDom) {
-          html += '<p class="dlgdomlabel">' + esc(it.dom.name) + "</p>";
-          lastDom = it.dom.name;
+        var g = groups[groups.length - 1];
+        if (!g || g.id !== it.dom.id) {
+          g = { id: it.dom.id, name: it.dom.name, items: [] };
+          groups.push(g);
         }
-        html += '<button type="button" class="dlgpick-item' + (it.key === dlgSel ? " is-active" : "") +
-          '" data-dlgseg="' + esc(it.key) + '">' + esc(dlgLabel(it)) + "</button>";
+        g.items.push(it);
+      });
+
+      html += '<div class="dlgpick-list">';
+      groups.forEach(function (g) {
+        var open = q ? true : dlgDomOpen === g.id;   // 搜索时全部展开，免得结果藏着
+        html += '<button type="button" class="dlgdomlabel' + (open ? " is-open" : "") +
+          '" data-dlgdom="' + esc(g.id) + '"' +
+          ' aria-expanded="' + (open ? "true" : "false") + '">' +
+          '<span class="dlgdomname">' + esc(g.name) + "</span>" +
+          '<span class="dlgdomarrow">' + (open ? "▲" : "▼") + "</span>" +
+        "</button>";
+        if (!open) return;
+        g.items.forEach(function (it) {
+          html += '<button type="button" class="dlgpick-item' + (it.key === dlgSel ? " is-active" : "") +
+            '" data-dlgseg="' + esc(it.key) + '">' + esc(dlgLabel(it)) + "</button>";
+        });
       });
       if (!list.length) html += '<p class="dlgpick-none">没有匹配的对话</p>';
       html += "</div>";
@@ -1161,14 +1178,14 @@
       if (curIdx < 0 && list.length) { curIdx = 0; dlgSel = list[0].key; }
     }
 
-    var html = dlgPickHtml(list, curIdx);
+    var html = dlgPickHtml(list, curIdx, q);
     if (curIdx >= 0) html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
 
     els.dialogueList.innerHTML = html;
     els.dialogueEmpty.hidden = !(q && !list.length);
   }
 
-  // 事件委托顺序由内到外：朗读 → 选变体 → 展开/收起
+  // 事件委托顺序由内到外：朗读 → 选变体 → 折叠一级标题 → 展开/收起选择器
   function onDialogueClick(e) {
     var t = e.target;
     if (!t || !t.closest) return;
@@ -1183,11 +1200,19 @@
     if ((el = t.closest("[data-dlgseg]"))) {
       dlgSel = el.getAttribute("data-dlgseg");
       dlgOpen = false;                 // 选完就收起，直接看对话
+      dlgDomOpen = null;
+      renderDialogues();
+      return;
+    }
+    if ((el = t.closest("[data-dlgdom]"))) {
+      var id = el.getAttribute("data-dlgdom");
+      dlgDomOpen = dlgDomOpen === id ? null : id;   // 再点一下收起，点别的域就换过去
       renderDialogues();
       return;
     }
     if (t.closest("[data-dlgpick]")) {
       dlgOpen = !dlgOpen;
+      dlgDomOpen = null;               // 每次打开列表都是收起的，先看到几个域名
       renderDialogues();
     }
   }
