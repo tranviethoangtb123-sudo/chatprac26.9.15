@@ -186,18 +186,19 @@ try {
   if (vHome.indexOf("vtabs") < 0) problems.push("缺少板块切换条");
   console.log("  学习模式·单词：今日新词 / 已学习 / 全部单词 三个板块 ✔");
 
-  // 每行格式：第一行「英语 / 音标 / 三键」，第二行「词性 + 中文」
-  const firstRow = (byId.vocabBoard.innerHTML.match(/<div class="vrow">[\s\S]*?<\/div><\/div>/) || [""])[0];
-  ["vtop", "vleft", "vw", "vp", "vkeys", "vdesc"].forEach((c) => {
+  // 每行格式：左边两行文字（英语+音标 / 词性+中文），右边按键列，按键整列垂直居中
+  const rows = byId.vocabBoard.innerHTML.split('<div class="vrow">');
+  const firstRow = rows[1] || "";
+  ["vtext", "vline", "vw", "vp", "vkeys", "vdesc"].forEach((c) => {
     if (firstRow.indexOf('class="' + c + '"') < 0) problems.push("单词行缺少 " + c);
   });
   ["know", "fuzzy", "no"].forEach((k) => {
     if (firstRow.indexOf('data-vans="' + k + '"') < 0) problems.push("单词行缺少按键：" + k);
   });
-  if (!/class="vw">[a-z][a-z']*</.test(firstRow)) problems.push("第一行没先写英文单词");
-  if (!/class="vp">\//.test(firstRow)) problems.push("第一行缺少音标");
-  if (!/class="vdesc">(?:[a-z]+\.[ ]*)?[\u4e00-\u9fa5]/.test(firstRow)) problems.push("第二行缺少词性+中文释义");
-  console.log("  单词行：第一行 英语+音标+三键，第二行 词性+中文 ✔");
+  if (!/class="vw"[^>]*>[a-z][a-z']*</.test(firstRow)) problems.push("左边第一行没先写英文单词");
+  if (!/class="vp">\//.test(firstRow)) problems.push("左边第一行缺少音标");
+  if (!/class="vdesc">(?:[a-z]+\.[ ]*)?[\u4e00-\u9fa5]/.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
+  console.log("  单词行：左列 英语+音标 / 词性+中文，右列三键 ✔");
 
   // 今日新词：新词每天上限 50，到期的复习词会额外排在最前面
   const todayRows = (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length;
@@ -228,7 +229,7 @@ try {
   if (st2.box[firstWord] !== 0) problems.push("答「不认识」后记忆盒应归零，实际 " + st2.box[firstWord]);
   console.log("  答「不认识」：记忆盒归零，10 分钟后再来 ✔");
 
-  // 全部单词：一行式，A-Z 排序，且包含词典里的固定搭配
+  // 全部单词：一行式；先单词（A-Z），再固定搭配（A-Z）放在最后
   vclick({ "data-vtab": "all" });
   const allHtml = byId.vocabBoard.innerHTML;
   const flatCount = (allHtml.match(/class="vflat"/g) || []).length;
@@ -243,10 +244,13 @@ try {
   }
   if (allHtml.indexOf("in charge of") < 0) problems.push("全部单词里没有词典的固定搭配（in charge of）");
 
-  const allWords = (allHtml.match(/class="vw"[^>]*>([a-z' -]+)</g) || []).map((s) => (s.match(/>([a-z' -]+)</) || [])[1]);
-  const sorted = allWords.slice().sort();
-  if (allWords.join("|") !== sorted.join("|")) problems.push("全部单词没有按 A-Z 排序");
-  console.log("  全部单词：" + flatCount + " 条（含 " + collocTotal + " 条词典固定搭配），A-Z 排序 ✔");
+  const allEn = (allHtml.match(/class="vw"[^>]*>([a-z' -]+)</g) || []).map((s) => (s.match(/>([a-z' -]+)</) || [])[1]);
+  const wordPart = allEn.slice(0, VOCAB.words.length);
+  const phrasePart = allEn.slice(VOCAB.words.length);
+  if (wordPart.join("|") !== wordPart.slice().sort().join("|")) problems.push("全部单词里，单词部分没有按 A-Z 排序");
+  if (phrasePart.join("|") !== phrasePart.slice().sort().join("|")) problems.push("全部单词里，固定搭配部分没有按 A-Z 排序");
+  if (phrasePart.indexOf("in charge of") < 0) problems.push("固定搭配没有排在单词后面");
+  console.log("  全部单词：" + wordPart.length + " 个单词 + " + phrasePart.length + " 条固定搭配（各自 A-Z，搭配在后）✔");
 
   // 学习模式下的对话板块：仍然留空（内容待定）
   fire(navByTab.dialogue, "click");

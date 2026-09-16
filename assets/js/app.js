@@ -432,37 +432,40 @@
     return due.concat(fresh);
   }
 
-  // 全部单词：学习词库 + 词典里的固定搭配，一起按 A-Z 排
+  // 全部单词：先学习词库（A-Z），再词典里的固定搭配（A-Z）放到最后
   var vAllCache = null;
+  function vByEn(a, b) {
+    var x = a.w.toLowerCase(), y = b.w.toLowerCase();
+    return x < y ? -1 : (x > y ? 1 : 0);
+  }
   function vAllList() {
     if (vAllCache) return vAllCache;
-    var items = [];
-    var seen = {};
 
-    vWords().forEach(function (w) {
-      var key = w.w.toLowerCase();
-      seen[key + "|" + w.cn] = 1;
-      items.push({
-        key: key,
+    var words = vWords().map(function (w) {
+      return {
         w: w.w,
         ph: vPhon(w.w),
         desc: (w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn
-      });
-    });
+      };
+    }).sort(vByEn);
 
+    var seen = {};
+    words.forEach(function (it) { seen[it.w.toLowerCase()] = 1; });
+
+    var phrases = [];
     var col = DATA.collocations || {};
     Object.keys(col).forEach(function (head) {
       col[head].forEach(function (pair) {
         var key = String(pair[0]).toLowerCase();
-        if (seen[key + "|" + pair[1]]) return;
-        seen[key + "|" + pair[1]] = 1;
-        items.push({ key: key, w: pair[0], ph: "", desc: pair[1] });
+        if (seen[key]) return;                 // 和学习词库重复的不再列一遍
+        seen[key] = 1;
+        phrases.push({ w: pair[0], ph: "", desc: pair[1] });
       });
     });
+    phrases.sort(vByEn);
 
-    items.sort(function (a, b) { return a.key < b.key ? -1 : (a.key > b.key ? 1 : 0); });
-    vAllCache = items;
-    return items;
+    vAllCache = words.concat(phrases);          // 单词在前，固定搭配在后
+    return vAllCache;
   }
 
   // 小按钮组：今日新词三个键，已学习两个键
@@ -477,27 +480,29 @@
 
   // 第一行左边：英语 + 音标（点一下发音）
   function vWordPart(w, phon) {
-    return '<span class="vleft" data-vspeak="' + esc(w) + '">' +
-      '<span class="vw">' + esc(w) + "</span>" +
-      (phon ? '<span class="vp">' + esc(phon) + "</span>" : "") +
-      "</span>";
+    return '<span class="vw" data-vspeak="' + esc(w) + '">' + esc(w) + "</span>" +
+      (phon ? '<span class="vp">' + esc(phon) + "</span>" : "");
   }
 
-  // 今日新词：第一行「英语/音标 + 认识/模糊/不认识」（两端对齐），第二行 词性+中文
-  function vRowHtml(w) {
-    return '<div class="vrow">' +
-      '<div class="vtop">' + vWordPart(w.w, vPhon(w.w)) +
-        '<span class="vkeys">' + vKeysHtml(w.w, ["know", "fuzzy", "no"]) + "</span></div>" +
+  // 左侧两行文字：第一行 英语+音标，第二行 词性+中文
+  function vTextHtml(w) {
+    return '<div class="vtext">' +
+      '<div class="vline">' + vWordPart(w.w, vPhon(w.w)) + "</div>" +
       '<div class="vdesc">' + esc((w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn) + "</div>" +
     "</div>";
   }
 
-  // 已学习：第一行「英语/音标 + 认识/不认识」，第二行 词性+中文
+  // 今日新词：左边两行文字，右边三个键（键在整行里垂直居中 = 与两行文字之间的缝平行）
+  function vRowHtml(w) {
+    return '<div class="vrow">' + vTextHtml(w) +
+      '<div class="vkeys">' + vKeysHtml(w.w, ["know", "fuzzy", "no"]) + "</div>" +
+    "</div>";
+  }
+
+  // 已学习：同上，只有 认识 / 不认识 两个键
   function vLearnedRowHtml(w) {
-    return '<div class="vrow">' +
-      '<div class="vtop">' + vWordPart(w.w, vPhon(w.w)) +
-        '<span class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</span></div>" +
-      '<div class="vdesc">' + esc((w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn) + "</div>" +
+    return '<div class="vrow">' + vTextHtml(w) +
+      '<div class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</div>" +
     "</div>";
   }
 

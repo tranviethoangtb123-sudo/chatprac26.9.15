@@ -795,24 +795,24 @@ mark {
 .vinput:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
 
 /* ---------- 学习模式·单词列表 ----------
-   今日新词 / 已学习：第一行「英语 音标 ……… 三键」（两端对齐），第二行 词性+中文
+   今日新词 / 已学习：左边两行文字（① 英语+音标 ② 词性+中文），右边三个键；
+     按键整列垂直居中 → 键的中心与两行文字之间那条缝平行
    全部单词：一行「英语 音标 词性+中文」
    行与行之间间隔 2px
    ------------------------------------------------------------------------ */
 
 .vrow {
+  display: flex;
+  align-items: center;            /* 按键在整行里垂直居中 */
+  justify-content: space-between; /* 两端对齐：文字靠左，按键靠右 */
+  gap: 10px;
   padding: 4px 0;
   margin-bottom: 2px;
 }
 
-.vtop {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-}
+.vtext { min-width: 0; }
 
-.vleft { min-width: 0; }
+.vline { display: block; }
 
 .vw {
   font-size: 15.5px;
@@ -835,6 +835,7 @@ mark {
 .vkeys {
   flex: none;
   display: flex;
+  align-items: center;
   gap: 6px;
 }
 
