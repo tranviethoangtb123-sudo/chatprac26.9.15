@@ -1,0 +1,214 @@
+/* ==========================================================================
+   Chat Prac — 学习模式·对话板块 的样式（12 域场景对话库）
+   单独一个文件，方便和主样式分开维护。变量沿用 style.css 里的定义。
+   ========================================================================== */
+
+/* ------------------------------ 顶部说明条 ------------------------------ */
+
+.dlgstat {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--accent-soft);
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.dlgstat b { color: var(--accent-text); font-weight: 650; }
+
+/* ------------------------------ 域 ------------------------------ */
+
+.dlgdom {
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.dlgdomhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 14px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.dlgdomhead:hover { background: var(--card-hover); }
+
+.dlgdomhead-todo { cursor: default; opacity: .62; }
+.dlgdomhead-todo:hover { background: none; }
+
+.dlgdomname { font-size: 14.5px; font-weight: 600; }
+
+.dlgcount {
+  flex: none;
+  font-size: 12px;
+  color: var(--text-3);
+  text-align: right;
+}
+
+.dlgdombody {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--border);
+}
+
+.dlgtodo {
+  margin: 0;
+  padding: 0 14px 13px;
+  color: var(--text-3);
+  font-size: 12.5px;
+  line-height: 1.9;
+}
+
+/* ------------------------------ 场景 ------------------------------ */
+
+.dlgscn { margin-top: 10px; }
+
+.dlgscnhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--bg-side);
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.dlgscnhead:hover { background: var(--card-hover); }
+
+.dlgscntitle { font-size: 14px; font-weight: 600; }
+
+.dlgscnmeta {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--text-3);
+  text-align: right;
+}
+
+.dlgscnbody { padding: 8px 0 0 2px; }
+
+/* ------------------------------ 一段对话 ------------------------------ */
+
+.dlgitem {
+  margin-top: 8px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.dlgitemhead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.dlgitemhead:hover { background: var(--card-hover); }
+
+.dlgvariant {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.dlgtag {
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: rgba(125, 140, 180, .12);
+  color: var(--text-3);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.dlgtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 10px;
+}
+
+.dlgspeak {
+  margin-left: auto;
+  flex: none;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.dlgspeak:hover { background: var(--bg-side); }
+
+/* ------------------------------ 话轮 ------------------------------ */
+
+.dlglines {
+  padding: 4px 12px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.dlgline {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.dlgline:last-child { border-bottom: none; }
+
+.dlgwho {
+  flex: none;
+  width: 62px;
+  padding-top: 1px;
+  color: var(--text-3);
+  font-size: 11.5px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.dlgbody { flex: 1; min-width: 0; }
+.dlgbody p { margin: 0; }
+
+.dlgen {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.dlgcn {
+  margin-top: 2px;
+  color: var(--text-3);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.dlgline .dlgspeak {
+  margin-left: 0;
+  align-self: center;
+  padding: 2px 6px;
+}
+
+/* ------------------------------ 手机窄屏 ------------------------------ */
+
+@media (max-width: 520px) {
+  .dlgdomhead, .dlgscnhead, .dlgitemhead { padding-left: 11px; padding-right: 11px; }
+  .dlgdombody { padding-left: 11px; padding-right: 11px; }
+  .dlgwho { width: 50px; font-size: 11px; }
+  .dlgen { font-size: 13.5px; }
+  .dlgcn { font-size: 12px; }
+  .dlgcount, .dlgscnmeta { font-size: 11px; }
+}

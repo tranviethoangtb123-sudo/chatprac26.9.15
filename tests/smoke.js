@@ -138,22 +138,24 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
 
 const DATA = globalThis.CHAT_PRAC_DATA;
 const VOCAB = globalThis.CHAT_PRAC_VOCAB;
+const SC = globalThis.CHAT_PRAC_SCENARIOS;
 console.log("  数据规模：检索词库 " + DATA.words.length + " 个、学习词库 " + VOCAB.words.length +
   " 个（语块 " + VOCAB.chunks.length + " 条）、句子 " + DATA.sentences.length +
-  " 条、对话 " + DATA.dialogues.length + " 组");
+  " 条、对话 " + DATA.dialogues.length + " 组、场景对话 " + SC.scenarios.length + " 个场景");
 
 const count = (v) => (v.match(/<article class="card">/g) || []).length;
 const visibleTabs = () => navButtons.filter((b) => !b.hidden).map((b) => b.attrs["data-tab"]);
 const readVocabState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-vocab-study"));
 // 学习板块整块用事件委托，测试里就照着 data-* 造一个目标元素丢进去
 const vclick = (attrs) => fire(byId.vocabBoard, "click", { target: makeEl("button", attrs) });
+const dclick = (attrs) => fire(byId.dialogueList, "click", { target: makeEl("button", attrs) });
 
 /* ---------------- 断言 ---------------- */
 try {
@@ -261,11 +263,62 @@ try {
   if (allEn.indexOf("in charge of") < 0) problems.push("全部单词里没有词典的固定搭配（in charge of）");
   console.log("  全部单词：" + wordPart.length + " 个单词 + " + phrasePart.length + " 条固定搭配（各自 A-Z，搭配在后）✔");
 
-  // 学习模式下的对话板块：仍然留空（内容待定）
+  // ============ 学习模式·对话：12 域场景对话库（四层折叠 + 搜索 + 朗读） ============
   fire(navByTab.dialogue, "click");
   if (byId.viewTitle.textContent !== "对话") problems.push("学习模式·对话标题不对：" + byId.viewTitle.textContent);
-  if (byId.dialogueList.innerHTML !== "") problems.push("学习模式·对话应该先留空");
-  console.log("  学习模式·对话：当前留空（待定）✔");
+
+  const dHtml = () => byId.dialogueList.innerHTML;
+  if (dHtml().indexOf("dlgstat") < 0) problems.push("对话板块缺少顶部说明条 dlgstat");
+  if ((dHtml().match(/class="dlgdom"/g) || []).length < 12) problems.push("对话板块没列出 12 个域");
+  SC.domains.forEach((dom) => {
+    if (dHtml().indexOf(dom.name) < 0) problems.push("缺了域：" + dom.name);
+  });
+  if (dHtml().indexOf('data-dlgdom="04"') < 0) problems.push("域 04 的折叠头不对");
+  console.log("  对话板块：" + (dHtml().match(/class="dlgdom"/g) || []).length + " 个域都在 ✔");
+
+  // 域 04 默认展开 → 看得到场景标题，但变体默认收起
+  if (dHtml().indexOf('data-dlgscn="s04-01"') < 0) problems.push("域 04 没有默认展开（看不到场景）");
+  if (dHtml().indexOf('data-dlgitem="') >= 0) problems.push("场景默认应该收起，不该直接看到变体");
+  console.log("  域 04 默认展开、场景默认收起 ✔");
+
+  // 点场景 → 8 种变体 + 「整条朗读」
+  dclick({ "data-dlgscn": "s04-01" });
+  const scnHtml = dHtml();
+  if ((scnHtml.match(/class="dlgitem"/g) || []).length !== 8) {
+    problems.push("展开场景后应有 8 种变体，实际 " + (scnHtml.match(/class="dlgitem"/g) || []).length);
+  }
+  if (scnHtml.indexOf("整条朗读") < 0) problems.push("变体缺少「整条朗读」");
+  if (scnHtml.indexOf("dlgvariant") < 0) problems.push("变体缺少标题 dlgvariant");
+  console.log("  展开场景：8 种变体 + 整条朗读 ✔");
+
+  // 点变体 → 出元数据标签 + 话轮
+  dclick({ "data-dlgitem": "s04-01:0" });
+  const itemHtml = dHtml();
+  ["dlgtags", "dlgtag", "dlgline", "dlgwho", "dlgen", "dlgcn", "dlgsay"].forEach((c) => {
+    if (itemHtml.indexOf(c) < 0) problems.push("展开变体后缺少 " + c);
+  });
+  console.log("  展开变体：元数据标签 + 话轮 + 逐句朗读 ✔");
+
+  // 搜索：命中对话正文（wallet 在第 8 段低正式语域里）并自动展开
+  byId.input.value = "wallet";
+  fire(byId.input, "input");
+  const hitHtml = dHtml();
+  if (hitHtml.indexOf("wallet") < 0) problems.push("搜索 wallet 没有命中对话正文");
+  if (hitHtml.indexOf("dlgline") < 0) problems.push("搜索命中后没有自动展开到话轮");
+  if (hitHtml.indexOf("学术学习") >= 0) problems.push("搜索时不该显示没命中的域");
+  console.log("  搜索「wallet」：命中并自动展开，没命中的域不显示 ✔");
+
+  // 搜索：命中元数据字段（「折中」出现在 result/variant 里）
+  byId.input.value = "折中";
+  fire(byId.input, "input");
+  if (dHtml().indexOf("dlgscn") < 0) problems.push("搜索元数据字段没命中场景");
+  if (dHtml().indexOf("dlgline") < 0) problems.push("搜索元数据命中后没有出现话轮");
+  byId.input.value = "zzzz";
+  fire(byId.input, "input");
+  if (byId.dialogueEmpty.hidden !== false) problems.push("搜索无结果时应出现空状态");
+  byId.input.value = "";
+  fire(byId.input, "input");
+  console.log("  搜索元数据 / 无结果空状态 ✔");
 
   // 切回查询模式：导航恢复三个板块，学习板块整体收起
   fire(modeByKey.search, "click");

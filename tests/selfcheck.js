@@ -8,7 +8,7 @@ const read = (p) => fs.readFileSync(path.join(root, p), "utf8");
 
 const html = read("index.html");
 const app = read("assets/js/app.js");
-const css = read("assets/css/style.css");
+const css = read("assets/css/style.css") + "\n" + read("assets/css/scenarios.css");
 
 const problems = [];
 const ok = [];
@@ -86,11 +86,12 @@ ok.push(`动态 class：${new Set(dynamicClasses).size} 个都有样式`);
 
 global.window = global;
 global.window.CHAT_PRAC_DATA = {};
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 const DATA = global.window.CHAT_PRAC_DATA;
 const VOCAB = global.window.CHAT_PRAC_VOCAB;
+const SC = global.window.CHAT_PRAC_SCENARIOS;
 
 const CJK = /[\u4e00-\u9fa5]/;
 const isAscii = (s) => !/[^\x00-\x7F]/.test(s);
@@ -207,6 +208,52 @@ vchunks.forEach((c, i) => {
   if (!CJK.test(c.cn)) fail(`语块第 ${i + 1} 条中文不含汉字`);
 });
 ok.push(`语块库：${vchunks.length} 条`);
+
+/* --- 场景对话库（学习模式·对话板块） --- */
+const scDomains = (SC && SC.domains) || [];
+const scList = (SC && SC.scenarios) || [];
+const plannedTotal = scDomains.reduce((n, d) => n + (d.scenarios || []).length, 0);
+if (plannedTotal !== 60) fail(`场景对话库规划的场数应为 60，实际 ${plannedTotal}`);
+const domainIds = new Set(scDomains.map((d) => d.id));
+const scTitles = new Set();
+let scDialogues = 0, scLines = 0;
+
+scList.forEach((s) => {
+  const at = `场景「${s.title || s.id}」`;
+  if (!s.id || !s.title || !s.domain) fail(`${at} 缺 id/title/domain`);
+  if (!domainIds.has(s.domain)) fail(`${at} 的 domain ${s.domain} 不在 domains 里`);
+  if (scTitles.has(s.title)) fail(`${at} 标题重复`);
+  scTitles.add(s.title);
+
+  const ds = s.dialogues || [];
+  if (ds.length !== 8) fail(`${at} 应该有 8 段变体，实际 ${ds.length}`);
+
+  ds.forEach((d, i) => {
+    const dat = `${at} 第 ${i + 1} 段`;
+    ["variant", "relation", "register", "channel", "barrier", "result"].forEach((k) => {
+      if (!d[k]) fail(`${dat} 缺字段 ${k}`);
+    });
+    // 第 3~7 段必须带障碍；第 8 段是低正式语域对照，允许无障碍
+    if (i >= 2 && i <= 6 && (!d.barrier || d.barrier === "无")) {
+      fail(`${dat} 的 barrier 不能是「无」（第 3~7 段必须有障碍）`);
+    }
+    const lines = d.lines || [];
+    if (lines.length < 6 || lines.length > 20) fail(`${dat} 的话轮数 ${lines.length} 不在 6~20`);
+    const speakers = new Set();
+    lines.forEach((l, j) => {
+      const lat = `${dat} 第 ${j + 1} 行`;
+      if (!l.who || !l.en || !l.cn) fail(`${lat} 缺 who/en/cn`);
+      if (/["\\]/.test(l.en || "")) fail(`${lat} 英文含引号或反斜杠`);
+      // 人名/拼写/数字类话轮没有汉字可写，cn 很短时允许不含汉字
+      if (!CJK.test(l.cn || "") && String(l.cn || "").length > 12) fail(`${lat} 中文不含汉字`);
+      speakers.add(l.who);
+    });
+    if (speakers.size < 2) fail(`${dat} 至少要有 2 个不同说话人`);
+    scDialogues++;
+    scLines += lines.length;
+  });
+});
+ok.push(`场景对话库：${scDomains.length} 个域 / 规划 ${plannedTotal} 场景，已收录 ${scList.length} 场景 ${scDialogues} 段 ${scLines} 话轮`);
 
 /* ============================ 输出 ============================ */
 

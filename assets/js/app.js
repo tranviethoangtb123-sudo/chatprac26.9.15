@@ -60,7 +60,10 @@
       return { ph: "用英文说点什么，Enter 发送…", hint: "Enter 发送 · Shift + Enter 换行" };
     }
     if (state.tab === "dialogue") {
-      return { ph: "搜索…", hint: "对话板块：内容待定" };
+      return {
+        ph: "搜索场景、对话内容、关系或障碍…",
+        hint: "Enter 搜索 · 场景对话按 12 个域组织，每个场景 8 种变体"
+      };
     }
     // 学习模式的单词板块：输入框用来快速加词，不再做检索
     if (state.mode === "study") {
@@ -1015,11 +1018,176 @@
       '</article>';
   }
 
-  /* ==================== 板块四：对话（学习模式，内容待定） ==================== */
+  /* ==================== 板块四：对话（学习模式·场景对话库） ====================
+     四层折叠：域 → 场景 → 变体 → 话轮；整块用事件委托，每次动作整体重渲染。
+     数据来自 data.scenarios.js（window.CHAT_PRAC_SCENARIOS）。
+     ========================================================================= */
+
+  var SC = window.CHAT_PRAC_SCENARIOS || { domains: [], scenarios: [] };
+  // 展开状态：默认展开域 04，进板块第一眼就有东西
+  var dlgOpen = { domains: { "04": true }, scenarios: {}, items: {} };
+  var dlgIndex = [];   // 按渲染顺序记录变体，朗读按钮靠它定位
+
+  function dlgScenariosOf(domainId) {
+    return (SC.scenarios || []).filter(function (s) { return s.domain === domainId; });
+  }
+
+  function dlgCountDialogues(list) {
+    return (list || []).reduce(function (n, s) { return n + (s.dialogues || []).length; }, 0);
+  }
+
+  function dlgCountLines(list) {
+    var n = 0;
+    (list || []).forEach(function (s) {
+      (s.dialogues || []).forEach(function (d) { n += (d.lines || []).length; });
+    });
+    return n;
+  }
+
+  // 搜索命中：场景标题 + 对话正文 + 关系/语域/渠道/障碍/结果 五个元数据
+  function dlgMatch(scn, q) {
+    if (!q) return true;
+    var fields = [scn.title || "", scn.ielts || ""];
+    (scn.dialogues || []).forEach(function (d) {
+      fields.push(d.variant, d.relation, d.register, d.channel, d.barrier, d.result);
+      (d.lines || []).forEach(function (l) { fields.push(l.en, l.cn); });
+    });
+    return matches(q, fields);
+  }
+
+  // 单段对话自己是否命中（搜索时用它决定要不要自动展开这一段）
+  function dlgMatchDialogue(d, q) {
+    if (!q) return false;
+    var fields = [d.variant, d.relation, d.register, d.channel, d.barrier, d.result];
+    (d.lines || []).forEach(function (l) { fields.push(l.en, l.cn); });
+    return matches(q, fields);
+  }
+
+  function dlgTagsHtml(d) {
+    return '<div class="dlgtags">' + [d.relation, d.register, d.channel, d.barrier, d.result]
+      .filter(Boolean)
+      .map(function (t) { return '<span class="dlgtag">' + esc(t) + "</span>"; })
+      .join("") + "</div>";
+  }
+
+  function dlgLinesHtml(d, idx) {
+    return '<div class="dlglines">' + (d.lines || []).map(function (l, i) {
+      return '<div class="dlgline">' +
+        '<span class="dlgwho">' + esc(l.who) + "</span>" +
+        '<div class="dlgbody">' +
+          '<p class="dlgen">' + esc(l.en) + "</p>" +
+          '<p class="dlgcn">' + esc(l.cn) + "</p>" +
+        "</div>" +
+        '<button type="button" class="dlgspeak" data-dlgsay="' + idx + ":" + i + '" aria-label="朗读这句">🔊</button>' +
+      "</div>";
+    }).join("") + "</div>";
+  }
+
+  function dlgSpeakAll(idx) {
+    var d = dlgIndex[idx];
+    if (!d) return;
+    vSpeak((d.lines || []).map(function (l) { return l.en; }).join(" "));
+  }
+
+  function dlgScnHtml(scn, q) {
+    var open = q ? true : !!dlgOpen.scenarios[scn.id];   // 搜索时自动展开
+    var html = '<div class="dlgscn">' +
+      '<div class="dlgscnhead" data-dlgscn="' + esc(scn.id) + '">' +
+        '<span class="dlgscntitle">' + highlight(scn.title, q) + "</span>" +
+        '<span class="dlgscnmeta">' + (scn.dialogues || []).length + " 种变体 · " + esc(scn.ielts || "") + "</span>" +
+      "</div>";
+
+    if (open) {
+      html += '<div class="dlgscnbody">' + (scn.dialogues || []).map(function (d, vi) {
+        var idx = dlgIndex.length;
+        dlgIndex.push(d);
+        var key = scn.id + ":" + vi;
+        // 搜索时，命中的那一段自动展开（不然搜正文看不到结果）
+        var itemOpen = q ? dlgMatchDialogue(d, q) : !!dlgOpen.items[key];
+        return '<div class="dlgitem">' +
+          '<div class="dlgitemhead" data-dlgitem="' + esc(key) + '">' +
+            '<span class="dlgvariant">' + esc(d.variant) + "</span>" +
+            '<button type="button" class="dlgspeak" data-dlgall="' + idx + '">整条朗读</button>' +
+          "</div>" +
+          (itemOpen ? dlgTagsHtml(d) + dlgLinesHtml(d, idx) : "") +
+        "</div>";
+      }).join("") + "</div>";
+    }
+    return html + "</div>";
+  }
+
   function renderDialogues() {
-    // 这一块先留空，等具体方案确定后再做
-    els.dialogueList.innerHTML = "";
-    els.dialogueEmpty.hidden = true;
+    var q = (state.talkQuery || "").trim();
+    dlgIndex = [];
+
+    var domains = SC.domains || [];
+    var planned = domains.reduce(function (n, d) { return n + (d.scenarios || []).length; }, 0);
+
+    var html = '<p class="dlgstat">场景对话库：<b>' + domains.length + "</b> 个域 / 规划 <b>" + planned +
+      "</b> 个场景，已收录 <b>" + (SC.scenarios || []).length + "</b> 个场景 <b>" +
+      dlgCountDialogues(SC.scenarios) + "</b> 段 <b>" + dlgCountLines(SC.scenarios) + "</b> 话轮</p>";
+
+    var shown = 0;
+    domains.forEach(function (dom) {
+      var list = dlgScenariosOf(dom.id).filter(function (s) { return dlgMatch(s, q); });
+      var names = dom.scenarios || [];
+
+      // 搜索时：这个域既没命中已收录的场景，规划的场名字也没命中，就整块不显示
+      if (q && !list.length && !matches(q, names)) return;
+      shown++;
+
+      // 还没收录内容的域：灰显，把规划中的场景名当路线图列出来
+      if (!list.length) {
+        html += '<div class="dlgdom">' +
+          '<div class="dlgdomhead dlgdomhead-todo">' +
+            '<span class="dlgdomname">' + esc(dom.name) + "</span>" +
+            '<span class="dlgcount">待收录 · 规划 ' + names.length + " 个场景" +
+              (dom.priority ? " · " + esc(dom.priority) : "") + "</span>" +
+          "</div>" +
+          '<p class="dlgtodo">' + names.map(function (n) { return esc(n); }).join(" · ") + "</p>" +
+        "</div>";
+        return;
+      }
+
+      var open = q ? true : !!dlgOpen.domains[dom.id];
+      html += '<div class="dlgdom">' +
+        '<div class="dlgdomhead" data-dlgdom="' + esc(dom.id) + '">' +
+          '<span class="dlgdomname">' + esc(dom.name) + "</span>" +
+          '<span class="dlgcount">已收录 ' + list.length + " 个场景 · " + dlgCountLines(list) + " 话轮</span>" +
+        "</div>";
+      if (open) {
+        html += '<div class="dlgdombody">' + list.map(function (s) { return dlgScnHtml(s, q); }).join("") + "</div>";
+      }
+      html += "</div>";
+    });
+
+    els.dialogueList.innerHTML = html;
+    els.dialogueEmpty.hidden = shown > 0;
+  }
+
+  function toggleDlg(kind, id) {
+    if (kind === "dom") dlgOpen.domains[id] = !dlgOpen.domains[id];
+    else if (kind === "scn") dlgOpen.scenarios[id] = !dlgOpen.scenarios[id];
+    else dlgOpen.items[id] = !dlgOpen.items[id];
+    renderDialogues();
+  }
+
+  // 事件委托：顺序必须由内到外，否则点「整条朗读」会被外层折叠截住
+  function onDialogueClick(e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var el;
+
+    if ((el = t.closest("[data-dlgsay]"))) {
+      var pos = String(el.getAttribute("data-dlgsay")).split(":");
+      var d = dlgIndex[Number(pos[0])];
+      if (d && d.lines && d.lines[Number(pos[1])]) vSpeak(d.lines[Number(pos[1])].en);
+      return;
+    }
+    if ((el = t.closest("[data-dlgall]"))) { dlgSpeakAll(Number(el.getAttribute("data-dlgall"))); return; }
+    if ((el = t.closest("[data-dlgitem]"))) { toggleDlg("item", el.getAttribute("data-dlgitem")); return; }
+    if ((el = t.closest("[data-dlgscn]"))) { toggleDlg("scn", el.getAttribute("data-dlgscn")); return; }
+    if ((el = t.closest("[data-dlgdom]"))) { toggleDlg("dom", el.getAttribute("data-dlgdom")); return; }
   }
 
   /* ============================== 板块三：对话练习 ============================== */
@@ -1304,6 +1472,9 @@
     els.vocabBoard.addEventListener("input", onVocabInput);
     els.vocabBoard.addEventListener("change", onVocabChange);
     els.vocabBoard.addEventListener("keydown", onVocabKeydown);
+
+    // 对话板块（学习模式）：整块事件委托
+    els.dialogueList.addEventListener("click", onDialogueClick);
 
     els.themeToggle.addEventListener("click", toggleTheme);
     els.sendBtn.addEventListener("click", handleSend);

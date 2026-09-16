@@ -23,6 +23,8 @@ const FILES = [
   "assets/js/data.sentences.js",
   "assets/js/data.dialogues.js",
   "assets/js/data.practice.js",
+  "assets/js/data.scenarios.js",
+  "assets/css/scenarios.css",
   "assets/icons/icon-192.png",
   "assets/icons/icon-512.png",
   "assets/icons/icon-maskable-512.png",
