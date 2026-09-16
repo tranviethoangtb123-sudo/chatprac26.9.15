@@ -518,6 +518,14 @@ mark {
 
 .mode-btn.is-active:hover { background: var(--accent-hover); }
 
+/* 侧边栏底部的版本号：用来判断手机上是不是最新版 */
+.build {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
 /* --------------- 学习模式·单词板块：6 板块 + 三键循环 --------------- */
 
 .vocab { max-width: 780px; }
