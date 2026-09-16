@@ -2209,6 +2209,1416 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 05-05 选课与申请延期 ==================== */
+    {
+      id: "s05-05",
+      domain: "05",
+      title: "选课与申请延期",
+      ielts: "口语 P3 学术 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同学 · 同学",
+          register: "随意",
+          channel: "面对面（食堂）",
+          barrier: "无",
+          result: "达成（选课方案定了）",
+          lines: [
+            { who: "Mei", en: "Have you signed up for the statistics module yet?", cn: "你报统计那门课了吗？" },
+            { who: "Dan", en: "Not yet. I keep going back and forth.", cn: "还没有。我一直拿不定主意。" },
+            { who: "Mei", en: "What's the hesitation?", cn: "犹豫什么？" },
+            { who: "Dan", en: "It's the Thursday nine a.m. slot. And I'm not sure I need it.", cn: "是周四早上九点那节。而且我不确定我需不需要。" },
+            { who: "Mei", en: "You're writing a dissertation with survey data. You need it.", cn: "你要写的论文要用问卷数据。你需要。" },
+            { who: "Dan", en: "I could learn it online.", cn: "我可以在网上学。" },
+            { who: "Mei", en: "You could. You won't.", cn: "可以。但你不会。" },
+            { who: "Dan", en: "...That's probably fair.", cn: "……这话大概没错。" },
+            { who: "Mei", en: "Take it now, while it still counts as optional. Next year it is a requirement and the room is smaller.", cn: "趁现在还算选修就报。明年就变必修，教室还更小。" },
+            { who: "Dan", en: "Fine. Thursday, nine a.m. Remind me why I know you.", cn: "行。周四早上九点。提醒我一下我为什么认识你。" },
+            { who: "Mei", en: "Because I'm right about everything.", cn: "因为我什么都对。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "学生 · 课程负责人",
+          register: "半正式",
+          channel: "面对面（办公时间）",
+          barrier: "无",
+          result: "达成（延期两周获批，并抄送讨论课老师）",
+          lines: [
+            { who: "学生", en: "Thank you for seeing me. I'd like to request an extension on the second assignment.", cn: "谢谢您见我。我想申请第二次作业延期。" },
+            { who: "老师", en: "How long, and on what grounds?", cn: "延多久，理由是什么？" },
+            { who: "学生", en: "Two weeks. I had a medical appointment on the fourth and it turned into a referral.", cn: "两周。四号我去看病，后来转成了转诊。" },
+            { who: "老师", en: "Do you have documentation?", cn: "有证明材料吗？" },
+            { who: "学生", en: "I have the referral letter. I can bring the rest when it arrives.", cn: "我有转诊单。其余的一到我就送来。" },
+            { who: "老师", en: "That will do. Two weeks, to the twenty-second, and I'll note it on the system.", cn: "可以。两周，到二十二号，我在系统里标注。" },
+            { who: "学生", en: "Thank you. Should I also tell my seminar tutor?", cn: "谢谢您。我还要告诉讨论课老师吗？" },
+            { who: "老师", en: "I'll copy her into the email, so you don't have to explain it twice.", cn: "我会把邮件抄给她，你不用讲两遍。" },
+            { who: "学生", en: "That saves me a conversation I was dreading.", cn: "这省了我一场我很怕的谈话。" },
+            { who: "老师", en: "People dread it because they wait until the day before. You came four days early.", cn: "大家怕，是因为都拖到前一天。你提前了四天。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "学生 · 课程负责人",
+          register: "半正式",
+          channel: "面对面（办公时间）",
+          barrier: "迟交三天才来申请免罚，按规定不能免",
+          result: "折中（接受六十分上限，但按完整标准批改 + 下次提纲提前看）",
+          lines: [
+            { who: "学生", en: "I know I'm three days late. I'd like to ask for the late penalty to be waived.", cn: "我知道我迟了三天。我想申请免掉迟交扣分。" },
+            { who: "老师", en: "On what grounds? I should say the answer to that request has been no all term.", cn: "理由是什么？我得说明，这个请求整学期我都没同意过。" },
+            { who: "学生", en: "The reasons are real but they aren't documented. So I'm not going to argue about the penalty.", cn: "理由是真实的，但没有书面证明。所以我不打算争这个扣分。" },
+            { who: "老师", en: "That is an unusually honest opening.", cn: "这个开场少见的诚实。" },
+            { who: "学生", en: "I would rather ask for something you can actually give. Could it be marked against the full rubric, so I know what to fix?", cn: "我更想提一个您真能给的东西。能不能按完整评分标准批改，让我知道该改什么？" },
+            { who: "老师", en: "I do that anyway. The mark is capped at sixty; the comments are the same as for anyone else.", cn: "我本来就是这么做的。分数上限六十，评语跟其他人一样。" },
+            { who: "学生", en: "That's more than I expected.", cn: "比我预想的多。" },
+            { who: "老师", en: "Then let me add one thing you didn't ask for: bring me the plan for the next assignment a week early and I'll read it.", cn: "那再加一条你没要求的：下次作业提前一周把提纲给我，我看。" },
+            { who: "学生", en: "I'll take that.", cn: "我接受。" },
+            { who: "老师", en: "Good. And next time, email me on day one, not day three.", cn: "好。还有下次，第一天就给我发邮件，不是第三天。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "学生 · 教务办公室",
+          register: "半正式",
+          channel: "面对面（教务窗口）",
+          barrier: "刷新页面生成了重复选课，系统把你塞进没选的课",
+          result: "修复（删除错误记录并加书面说明）",
+          lines: [
+            { who: "学生", en: "I'm on the list for two modules that clash, but I only chose one.", cn: "我的名单上有两门时间冲突的课，但我只选了一门。" },
+            { who: "教务", en: "The system doesn't add modules by itself.", cn: "系统不会自己加课。" },
+            { who: "学生", en: "I know. That's why I'm here.", cn: "我知道。所以我才来。" },
+            { who: "教务", en: "Give me your number. ...You registered for this one on the ninth and again on the twelfth.", cn: "给我你的学号。……你九号注册过一次，十二号又注册了一次。" },
+            { who: "学生", en: "The twelfth was when the page froze and I refreshed it.", cn: "十二号那次是页面卡住，我刷新了。" },
+            { who: "教务", en: "Then it created a second registration, and the second one is the one that held.", cn: "那就生成了第二条注册记录，生效的是第二条。" },
+            { who: "学生", en: "So refreshing the page put me in a course I never picked.", cn: "所以我刷新页面，就被塞进了一门我没选的课。" },
+            { who: "教务", en: "It did. I'm removing it now and I'll put a note on your record.", cn: "确实。我现在删掉它，并在你的记录上加一条说明。" },
+            { who: "学生", en: "Could the note say why, so nobody asks me about it again?", cn: "说明里能写清原因吗？这样不会再有人来问我。" },
+            { who: "教务", en: "It says system error, duplicate registration, removed at the student's request.", cn: "写的是：系统错误、重复注册、应学生要求删除。" },
+            { who: "学生", en: "Thank you. And if it happens to someone else?", cn: "谢谢。要是别人也遇到呢？" },
+            { who: "教务", en: "Tell them to come and see me rather than refreshing again.", cn: "告诉他们来找我，别再刷新。" }
+          ]
+        },
+        {
+          variant: "情绪型（撑不住想退课）",
+          relation: "学生 · 学业辅导员",
+          register: "半正式（情绪化）",
+          channel: "面对面（辅导室）",
+          barrier: "学生自认要挂两门课，情绪先崩",
+          result: "达成（退一门免手续费 + 统计延两周，下周再看）",
+          lines: [
+            { who: "辅导员", en: "You booked this slot. What's going on?", cn: "你约了这个时间。怎么了？" },
+            { who: "学生", en: "I'm going to fail two modules, and I have never failed anything.", cn: "我有两门课要挂，而我从来没挂过任何东西。" },
+            { who: "辅导员", en: "Two, or the same one twice?", cn: "两门，还是同一门两次？" },
+            { who: "学生", en: "...I don't know. It feels like all of them.", cn: "……我不知道。感觉是全部。" },
+            { who: "辅导员", en: "Let's write them down. Names, deadlines, and what is actually done.", cn: "我们写下来。课名、截止日期、实际完成的部分。" },
+            { who: "学生", en: "This is going to look stupid on paper.", cn: "写在纸上肯定显得很蠢。" },
+            { who: "辅导员", en: "It usually looks smaller on paper. Start with the one you're most afraid of.", cn: "写在纸上通常显得更小。从你最怕的那门开始。" },
+            { who: "学生", en: "...Statistics. I haven't opened it since week four.", cn: "……统计。我从第四周起就没打开过。" },
+            { who: "辅导员", en: "Then here is what I can do today: one module dropped without a fee, and a fortnight's extension on statistics.", cn: "那我今天能办的是：退掉一门不收手续费，统计那门延两周。" },
+            { who: "学生", en: "That doesn't fix all of it.", cn: "这没把所有问题都解决。" },
+            { who: "辅导员", en: "No. But it is two things fewer, and we can look again next week.", cn: "没有。但少了两件事，下周我们可以再看一次。" }
+          ]
+        },
+        {
+          variant: "渠道变体（电话 + 邮件）",
+          relation: "学生 · 任课老师",
+          register: "半正式",
+          channel: "电话 + 邮件",
+          barrier: "邮件三天没回，只能打电话追",
+          result: "达成（电话里当场批准，邮件确认留档）",
+          lines: [
+            { who: "学生", en: "Hello, is that Dr Ahmed? I emailed you on Monday about an extension.", cn: "您好，是 Ahmed 老师吗？我周一给您发过关于延期的邮件。" },
+            { who: "老师", en: "I saw it. I have four hundred emails and I answer the urgent ones first.", cn: "我看到了。我有四百封邮件，先回紧急的。" },
+            { who: "学生", en: "I understand. Mine becomes urgent tomorrow, which is why I'm calling.", cn: "我明白。我的从明天起就紧急，所以我才打电话。" },
+            { who: "老师", en: "Go on.", cn: "说。" },
+            { who: "学生", en: "I need five days. I have the medical note and I can send it in the next ten minutes.", cn: "我需要五天。我有医生证明，十分钟内能发过去。" },
+            { who: "老师", en: "Send it. Five days. And put the deadline in the subject line of your next email.", cn: "发过来。五天。下次邮件把截止日期写在标题里。" },
+            { who: "学生", en: "In the subject line. Understood.", cn: "写在标题里。明白了。" },
+            { who: "老师", en: "I'm not annoyed with you. I'm annoyed with the three hundred people who don't do that.", cn: "我不是生你的气。我是气那三百个不这么做的人。" },
+            { who: "学生", en: "Then I'll do it from now on.", cn: "那我以后都这么写。" },
+            { who: "老师", en: "Do. And confirm this call by email, so we both have it in writing.", cn: "好。再把这通电话用邮件确认一下，双方都有书面记录。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "学生 · 学院委员会（听证）",
+          register: "正式",
+          channel: "面对面（委员会听证）",
+          barrier: "无（但需正式陈述并提交证据）",
+          result: "达成（延期四周获准并记入纪要）",
+          lines: [
+            { who: "主席", en: "You have applied for an extension of four weeks. Please state your case.", cn: "你申请延期四周。请陈述理由。" },
+            { who: "学生", en: "I shall keep it brief. On the fourteenth of February I was admitted to hospital and discharged on the twenty-first.", cn: "我尽量简短。二月十四日我入院，二十一日出院。" },
+            { who: "主席", en: "Do you have the discharge summary with you?", cn: "你带出院小结了吗？" },
+            { who: "学生", en: "I do, together with a letter from my supervisor confirming the agreed plan for the remaining work.", cn: "带了，还有导师确认后续工作安排的信。" },
+            { who: "委员", en: "Were your other modules affected to the same degree?", cn: "其他课程也受到同样程度的影响吗？" },
+            { who: "学生", en: "Two were, and I have already completed both. This one requires laboratory access, which was the part I could not do.", cn: "有两门受影响，那两门我已经完成了。这一门需要进实验室，那部分我当时做不了。" },
+            { who: "委员", en: "That is a reasonable distinction. I note no objection.", cn: "这个区分合理。我没有异议。" },
+            { who: "主席", en: "Then the extension is granted for four weeks and the reasons are minuted. You will be asked to submit a revised timetable by Friday.", cn: "那延期四周获准，理由记入纪要。请在周五前提交修订后的时间表。" },
+            { who: "学生", en: "I shall send it on Thursday. Thank you.", cn: "我周四发。谢谢。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同学",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成（学会分批要延期）",
+          lines: [
+            { who: "Sam", en: "did you get the extension", cn: "延期批了吗" },
+            { who: "Rob", en: "yeah", cn: "批了" },
+            { who: "Sam", en: "how", cn: "怎么批的" },
+            { who: "Rob", en: "i asked nicely", cn: "我好好问了" },
+            { who: "Sam", en: "that's not a strategy", cn: "这不算策略" },
+            { who: "Rob", en: "it worked though", cn: "但管用了" },
+            { who: "Sam", en: "how long", cn: "延多久" },
+            { who: "Rob", en: "a week", cn: "一周" },
+            { who: "Sam", en: "i need three", cn: "我需要三周" },
+            { who: "Rob", en: "then don't ask for three", cn: "那就别要三周" },
+            { who: "Sam", en: "what", cn: "什么" },
+            { who: "Rob", en: "ask for one. then ask for two more next week", cn: "先要一周。下周再要两周" },
+            { who: "Sam", en: "you're a bad person", cn: "你这人不行" },
+            { who: "Rob", en: "i'm a person with an extension", cn: "我是个延期批了的人" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 05-06 图书馆咨询与同学协作摩擦 ==================== */
+    {
+      id: "s05-06",
+      domain: "05",
+      title: "图书馆咨询与同学协作摩擦",
+      ielts: "口语 P2 学术 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "学生 · 图书馆员",
+          register: "随意",
+          channel: "面对面（咨询台）",
+          barrier: "无",
+          result: "达成（调阅成功，还学会按馆藏地点筛选）",
+          lines: [
+            { who: "学生", en: "Hi. I'm looking for a paper the catalogue says is here, but it isn't on the shelf.", cn: "你好。我在找一篇论文，目录显示馆里有，但架上没有。" },
+            { who: "馆员", en: "Have you got the reference?", cn: "有出处吗？" },
+            { who: "学生", en: "Yes. Journal of Applied Linguistics, volume forty, nineteen ninety-eight.", cn: "有。《应用语言学杂志》，第四十卷，一九九八年。" },
+            { who: "馆员", en: "That's in the off-site store. Everything before two thousand is.", cn: "那在馆外书库。两千年以前的都在那儿。" },
+            { who: "学生", en: "Can I get it today?", cn: "今天能拿到吗？" },
+            { who: "馆员", en: "I can order it. It arrives on Tuesday and you'll get an email.", cn: "我可以调阅。周二到，会给你发邮件。" },
+            { who: "学生", en: "The deadline is Friday, so Tuesday is fine.", cn: "截止是周五，周二可以。" },
+            { who: "馆员", en: "Good. While you're here, let me show you the search that would have told you that.", cn: "好。趁你在这儿，我教你一下本来能告诉你这件事的检索方法。" },
+            { who: "学生", en: "There's a filter for location.", cn: "有个按馆藏地点筛选的选项。" },
+            { who: "馆员", en: "There is. Most people find out the slow way, four times.", cn: "有。大部分人是用慢办法发现的，还得发现四回。" },
+            { who: "学生", en: "Not this time. Thanks.", cn: "这次不会了。谢谢。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "博士生 · 馆藏主管",
+          register: "半正式",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（拿到八周借期，还争取到研究间）",
+          lines: [
+            { who: "学生", en: "Thank you for the appointment. I'd like to ask about extended borrowing.", cn: "谢谢您安排见面。我想问一下延长借期的事。" },
+            { who: "主管", en: "Undergraduates get two weeks. Research students get eight, if they ask.", cn: "本科生两周。研究生八周，但要主动申请。" },
+            { who: "学生", en: "Nobody told me that in three years.", cn: "三年了没人告诉过我。" },
+            { who: "主管", en: "We tell the departments. Whether it travels any further is another matter.", cn: "我们通知的是院系。能不能再往下传是另一回事。" },
+            { who: "学生", en: "Could I have the eight weeks from today?", cn: "能从今天起给我八周吗？" },
+            { who: "主管", en: "You could. Do you have anything out at the moment?", cn: "可以。你现在有借出的书吗？" },
+            { who: "学生", en: "Eleven items, all a few days overdue.", cn: "十一本，都超期了几天。" },
+            { who: "主管", en: "Clear the fines first and I'll switch you over. I'll give you a carrel as well, since you're here.", cn: "先清掉罚款，然后我给你改。既然你来了，我再给你一间研究间。" },
+            { who: "学生", en: "A carrel? I thought there was a waiting list.", cn: "研究间？我以为要排队。" },
+            { who: "主管", en: "There is. It moves faster for people who turn up and ask.", cn: "是要排。不过对亲自来问的人，排得快一些。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "同班同学",
+          register: "随意",
+          channel: "面对面（图书馆）",
+          barrier: "同学要你把四个月的资料文件夹整套打包给他",
+          result: "折中（给检索式 + 三篇核心文献，不给全部笔记）",
+          lines: [
+            { who: "Dan", en: "Can you send me your folder? The one with all the sources.", cn: "你能把那个文件夹发我吗？就是所有资料那个。" },
+            { who: "Mei", en: "That is four months of work.", cn: "那是四个月的活儿。" },
+            { who: "Dan", en: "I know. I've got two weeks.", cn: "我知道。我有两周。" },
+            { who: "Mei", en: "Then two weeks of searching is what you've got. I'm not handing over the folder.", cn: "那你有两周的检索时间。文件夹我不给。" },
+            { who: "Dan", en: "That's a bit harsh.", cn: "这话有点狠。" },
+            { who: "Mei", en: "It isn't harsh, it's the difference between helping and doing it for you. Here's what I will give you.", cn: "不狠。这是帮忙和替你做之间的差别。我给你这个。" },
+            { who: "Dan", en: "What?", cn: "什么？" },
+            { who: "Mei", en: "The search string I used, and the three papers everything else hangs off.", cn: "我用的检索式，还有三篇核心文献，其他都是从这三篇长出来的。" },
+            { who: "Dan", en: "That's actually more useful.", cn: "这其实更有用。" },
+            { who: "Mei", en: "It's more useful and it takes you two days instead of two months. Bring me your draft on Friday and I'll read it.", cn: "更有用，而且只要两天不是两个月。周五把初稿带来，我看。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "同组同学",
+          register: "随意",
+          channel: "面对面（图书馆）",
+          barrier: "两人都以为对方订了研讨间，四个人白等在走廊",
+          result: "修复（当场补订空房，定下「发截图」的规矩）",
+          lines: [
+            { who: "Rob", en: "We're outside room three. Where are you?", cn: "我们在三号间外面。你在哪儿？" },
+            { who: "Tina", en: "I'm at the desk. Room three was booked for two o'clock, not four.", cn: "我在服务台。三号间订的是两点，不是四点。" },
+            { who: "Rob", en: "I thought you booked four.", cn: "我以为你订的是四点。" },
+            { who: "Tina", en: "I booked two and told you in the group.", cn: "我订的是两点，而且在群里说了。" },
+            { who: "Rob", en: "I read the first line and assumed the rest.", cn: "我看了第一行，剩下的靠猜。" },
+            { who: "Tina", en: "So four of us are standing in a corridor.", cn: "那我们四个人现在站在走廊里。" },
+            { who: "Rob", en: "Three of us. Sam went for coffee.", cn: "三个人。Sam 去买咖啡了。" },
+            { who: "Tina", en: "There's a free room at half past. I'm booking it now, while we talk.", cn: "半点有一间空房。我趁说话这就订。" },
+            { who: "Rob", en: "Do it. And from now on, whoever books it posts a screenshot.", cn: "订吧。以后谁订谁发截图。" },
+            { who: "Tina", en: "A screenshot, not a message.", cn: "发截图，不是发消息。" },
+            { who: "Rob", en: "A screenshot. That's the rule.", cn: "发截图。就这条规矩。" }
+          ]
+        },
+        {
+          variant: "情绪型（有人反复改我的段落）",
+          relation: "同组同学",
+          register: "随意（情绪化）",
+          channel: "面对面（图书馆）",
+          barrier: "同组的人半夜反复重写你的段落，还不告知",
+          result: "达成（定下只写批注、不改正文）",
+          lines: [
+            { who: "Mei", en: "This is the third version of my section.", cn: "这是我那节的第三个版本了。" },
+            { who: "Rob", en: "I was improving it.", cn: "我在帮你改好。" },
+            { who: "Mei", en: "You rewrote it. There's a difference, and you did it without telling me.", cn: "你是重写了。这不一样，而且你没告诉我。" },
+            { who: "Rob", en: "You weren't answering.", cn: "你没回我。" },
+            { who: "Mei", en: "I was asleep. It was midnight.", cn: "我在睡觉。那是半夜。" },
+            { who: "Rob", en: "Fine. I thought you'd be pleased.", cn: "行。我以为你会高兴。" },
+            { who: "Mei", en: "I'd be pleased if you left a comment saying why. Now I can't tell which ideas are mine.", cn: "你要是留条批注说明原因，我会高兴。现在我看不出哪些观点是我的了。" },
+            { who: "Rob", en: "...I didn't think of it that way.", cn: "……我没这么想过。" },
+            { who: "Mei", en: "I know. So: comments only, no edits, until we merge on Sunday.", cn: "我知道。所以：只写批注，别改正文，周日合并的时候再说。" },
+            { who: "Rob", en: "Comments only. And I'll put your version back.", cn: "只写批注。我把你的版本放回去。" },
+            { who: "Mei", en: "Thank you. That is all I wanted.", cn: "谢谢。我要的就是这个。" }
+          ]
+        },
+        {
+          variant: "渠道变体（在线咨询）",
+          relation: "学生 · 图书馆在线咨询",
+          register: "半正式",
+          channel: "在线咨询（聊天）",
+          barrier: "机器人先拦一轮，换了三次说法才转人工",
+          result: "达成（拿到扫描件与两个工作日承诺）",
+          lines: [
+            { who: "系统", en: "Hello, I'm the library assistant. How can I help today?", cn: "你好，我是图书馆助手。今天需要什么帮助？" },
+            { who: "学生", en: "I need a scan of an article chapter. Is that possible?", cn: "我需要一篇文章章节的扫描件。可以吗？" },
+            { who: "系统", en: "Please choose: borrowing, fines, rooms, scans, other.", cn: "请选择：借阅、罚款、房间、扫描、其他。" },
+            { who: "学生", en: "other", cn: "其他" },
+            { who: "系统", en: "I'm sorry, I didn't understand. Please rephrase.", cn: "抱歉，我没听懂。请换一种说法。" },
+            { who: "学生", en: "human", cn: "人工" },
+            { who: "馆员", en: "Hi, this is Priya. You wanted a scan?", cn: "你好，我是 Priya。你需要扫描件？" },
+            { who: "学生", en: "Yes. One chapter, about thirty pages, from a book we only have in print.", cn: "是的。一章，大概三十页，一本书我们只有纸质版。" },
+            { who: "馆员", en: "Within the copyright limits, yes. Send me the details and it'll be in your inbox in two working days.", cn: "在版权允许范围内可以。把信息发我，两个工作日内发到你邮箱。" },
+            { who: "学生", en: "The chat assistant asked me to rephrase three times.", cn: "聊天助手让我换了三次说法。" },
+            { who: "馆员", en: "It does that. Next time, type the word human first.", cn: "它就是这样。下次先打人工两个字。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "研究者 · 特藏馆员",
+          register: "正式",
+          channel: "面对面（特藏阅览室）",
+          barrier: "无（但需正式申请并遵守规程）",
+          result: "达成（获准查阅，预约好下次座位）",
+          lines: [
+            { who: "研究者", en: "Good morning. I have an appointment to consult the Marchand papers.", cn: "早上好。我预约了查阅 Marchand 手稿。" },
+            { who: "馆员", en: "You do. May I see your reader's card and a form of identification?", cn: "是的。可以看一下您的读者证和一份身份证件吗？" },
+            { who: "研究者", en: "Certainly. I understand that only pencils are permitted.", cn: "当然。我了解这里只允许用铅笔。" },
+            { who: "馆员", en: "Pencils, and no bags at the desk. Lockers are by the entrance.", cn: "铅笔，桌上不能放包。储物柜在入口旁。" },
+            { who: "研究者", en: "I shall leave everything there. Am I permitted to photograph the letters?", cn: "我会把东西都放那儿。信札可以拍照吗？" },
+            { who: "馆员", en: "For private study, yes, without flash. Publication requires written permission from the estate.", cn: "私人研究可以，不能开闪光灯。出版需要版权方的书面许可。" },
+            { who: "研究者", en: "I shall write to them this week. May I reserve the same seat for Thursday?", cn: "我这周就给他们写信。周四我可以预约同一个座位吗？" },
+            { who: "馆员", en: "I have noted it. The boxes you requested will be waiting.", cn: "我记下了。您要的档案盒会准备好。" },
+            { who: "研究者", en: "You have been most helpful. Thank you.", cn: "您帮了大忙。谢谢。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同学",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Sam", en: "are you in the library", cn: "你在图书馆吗" },
+            { who: "Rob", en: "yeah. third floor", cn: "在。三楼" },
+            { who: "Sam", en: "save me a seat", cn: "给我占个座" },
+            { who: "Rob", en: "no", cn: "不" },
+            { who: "Sam", en: "why", cn: "为什么" },
+            { who: "Rob", en: "because you talk", cn: "因为你老说话" },
+            { who: "Sam", en: "i won't talk", cn: "我不说话" },
+            { who: "Rob", en: "you always talk", cn: "你每次都说话" },
+            { who: "Sam", en: "i have headphones now", cn: "我现在有耳机了" },
+            { who: "Rob", en: "big ones", cn: "大耳机？" },
+            { who: "Sam", en: "big ones", cn: "大耳机" },
+            { who: "Rob", en: "fine. window side", cn: "行。靠窗" },
+            { who: "Sam", en: "you're a good person", cn: "你是个好人" },
+            { who: "Rob", en: "keep them on", cn: "耳机别摘" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-01 面试 ==================== */
+    {
+      id: "s06-01",
+      domain: "06",
+      title: "面试",
+      ielts: "口语 P2 工作 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "应聘者 · 未来同事（初筛）",
+          register: "半正式",
+          channel: "视频面试",
+          barrier: "无",
+          result: "达成（进入第二轮）",
+          lines: [
+            { who: "面试官", en: "Thanks for making time. This is a short screen, about twenty minutes, mostly about your last role.", cn: "谢谢你来。这是一次简短初筛，大概二十分钟，主要聊你上一份工作。" },
+            { who: "应聘者", en: "That works.", cn: "可以。" },
+            { who: "面试官", en: "So what were you responsible for there?", cn: "你在那边负责什么？" },
+            { who: "应聘者", en: "I ran the support queue for three products, about two hundred tickets a week, and I wrote the macros the team still uses.", cn: "我负责三个产品的支持工单，每周大约两百单，还写了团队现在还在用的快捷回复模板。" },
+            { who: "面试官", en: "Still uses, so you left over a year ago?", cn: "现在还在用——所以你已经离开一年多了？" },
+            { who: "应聘者", en: "Fourteen months. I checked with a friend there last week.", cn: "十四个月。我上周还跟那边的朋友确认过。" },
+            { who: "面试官", en: "Why did you leave?", cn: "为什么离开？" },
+            { who: "应聘者", en: "They moved the whole team to another time zone and offered a relocation I couldn't take.", cn: "他们把整个团队挪到了另一个时区，给的搬迁方案我没法接受。" },
+            { who: "面试官", en: "Fair. What are you looking for now?", cn: "明白。你现在想找什么样的？" },
+            { who: "应聘者", en: "The same kind of work, with more ownership of the process rather than just the tickets.", cn: "同类工作，但要能对流程本身负责，而不只是处理工单。" },
+            { who: "面试官", en: "That's honest, and it fits what we are building. I'll put you through to the second round.", cn: "这个回答很实在，也跟我们正在做的事对得上。我送你进第二轮。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "应聘者 · 招聘经理",
+          register: "半正式偏正式",
+          channel: "面对面（会议室）",
+          barrier: "无",
+          result: "达成（薪资范围对齐，约定周四给数字）",
+          lines: [
+            { who: "经理", en: "Let's talk about the role first, then money. What did you earn in your last position?", cn: "我们先谈岗位，再谈钱。你上一份工作的收入是多少？" },
+            { who: "应聘者", en: "I'd rather start with the range for this role, if that's all right. Then I can tell you whether we're close.", cn: "如果可以，我想先听这个岗位的薪资区间，然后我再说我们是否接近。" },
+            { who: "经理", en: "That's fair. The band is forty-two to fifty thousand, depending on experience.", cn: "合理。区间是四万二到五万，看经验。" },
+            { who: "应聘者", en: "Then we're close. I was on forty-eight with a bonus, and I'd be looking for the upper half of your band.", cn: "那我们接近。我上一份是四万八加奖金，我期望在你们区间的上半段。" },
+            { who: "经理", en: "Upper half means fifty, effectively.", cn: "上半段实际就是五万。" },
+            { who: "应聘者", en: "It means forty-seven and up. I'd need to see the whole package before I name a figure.", cn: "意思是四万七以上。在给出具体数字之前，我需要看完整待遇。" },
+            { who: "经理", en: "What in the package matters to you?", cn: "待遇里什么对你重要？" },
+            { who: "应聘者", en: "The training budget, and whether the on-call is paid. Those two move the number more than the base does.", cn: "培训预算，以及值班是否给钱。这两项对数字的影响比底薪大。" },
+            { who: "经理", en: "On-call is paid and training is two thousand a year. I'll send it in writing.", cn: "值班给钱，培训每年两千。我书面发你。" },
+            { who: "应聘者", en: "Then I can give you a figure by Thursday.", cn: "那我周四可以给你一个数字。" },
+            { who: "经理", en: "Thursday works.", cn: "周四可以。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "应聘者 · 招聘经理",
+          register: "半正式",
+          channel: "视频面试",
+          barrier: "对方要求做八小时不给钱的带回家作业",
+          result: "折中（改成九十分钟现场题 + 提供过往作品）",
+          lines: [
+            { who: "经理", en: "The next stage is a take-home task. It takes about eight hours.", cn: "下一轮是一个带回家的作业，大概要八小时。" },
+            { who: "应聘者", en: "Eight hours is most of a weekend. Is it paid?", cn: "八小时基本是一个周末。有报酬吗？" },
+            { who: "经理", en: "It isn't, and I know how that sounds.", cn: "没有。我知道这听起来不好。" },
+            { who: "应聘者", en: "Then I'd like to propose something different, and I'll accept it if the answer is no.", cn: "那我想提个别的方案，如果你们说不，我也接受。" },
+            { who: "经理", en: "Go on.", cn: "说。" },
+            { who: "应聘者", en: "Ninety minutes live, on a problem you haven't used before, and I'll send two pieces of past work with the client names removed.", cn: "现场做九十分钟，题目要是你们没用过的；另外我发两份过去的作品，客户名抹掉。" },
+            { who: "经理", en: "The live part is easy. The past work is harder, legally.", cn: "现场那部分好办。过往作品在法律上麻烦些。" },
+            { who: "应聘者", en: "I've done it before, with a signed note saying I wrote it and it's shared with permission.", cn: "我以前做过，附一份签名说明，写明是我写的、经许可分享。" },
+            { who: "经理", en: "Then that's what we'll do. Ninety minutes, Thursday.", cn: "那就这么办。周四，九十分钟。" },
+            { who: "应聘者", en: "And if I do the take-home anyway?", cn: "要是我还是做了那个作业呢？" },
+            { who: "经理", en: "Then you'd get the job and I'd feel bad about your weekend. Do the ninety minutes.", cn: "那你会拿到工作，而我会为你的周末感到抱歉。做九十分钟那个。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "应聘者 · 面试官（视频）",
+          register: "半正式",
+          channel: "视频面试",
+          barrier: "网络卡顿漏答，面试官以为你在回避问题",
+          result: "修复（说明断线并重答，约定卡住就再问一次）",
+          lines: [
+            { who: "面试官", en: "You didn't really answer the question about conflict.", cn: "你其实没有回答关于冲突的那个问题。" },
+            { who: "应聘者", en: "I think my answer didn't reach you. My connection dropped for about ten seconds.", cn: "我想我的回答没传到您那儿。我的网络断了大概十秒。" },
+            { who: "面试官", en: "It did freeze. Say it again.", cn: "确实卡住了。再说一遍。" },
+            { who: "应聘者", en: "Short version: a colleague and I disagreed about a release date. I asked him to walk me through his numbers, and he was right about two of the three.", cn: "简短版：我和同事对发布时间有分歧。我请他讲了讲他的数字，三项里有两项他是对的。" },
+            { who: "面试官", en: "And the third?", cn: "那第三项呢？" },
+            { who: "应聘者", en: "The third was mine, and we moved the date by four days instead of two weeks.", cn: "第三项是我的，我们把日期推后了四天，而不是两周。" },
+            { who: "面试官", en: "Better answer than the one I heard.", cn: "比刚才那个回答好。" },
+            { who: "应聘者", en: "May I suggest something for the rest of the call? If I freeze, ask me again rather than scoring me.", cn: "后面的通话我提个建议行吗？如果我卡住，请再问一次，而不是直接打分。" },
+            { who: "面试官", en: "That's reasonable. It happens on half my calls.", cn: "合理。我一半的电话面试都这样。" },
+            { who: "应聘者", en: "Then it's worth saying out loud.", cn: "那就值得说出来。" }
+          ]
+        },
+        {
+          variant: "情绪型（被贬低）",
+          relation: "应聘者 · 面试官（语气轻蔑）",
+          register: "半正式（紧张）",
+          channel: "面对面（面试）",
+          barrier: "面试官说你的经历不算数，情绪受影响",
+          result: "达成（稳住并扭转局面，面试官道歉）",
+          lines: [
+            { who: "面试官", en: "Support work isn't engineering. I'm not sure this counts.", cn: "支持工作不算工程。我不确定这算数。" },
+            { who: "应聘者", en: "It doesn't count as engineering. It counts as running a system under load, which is what the role does.", cn: "它确实不算工程。它算是在压力下维持系统运转，而这个岗位做的就是这件事。" },
+            { who: "面试官", en: "That's a stretch.", cn: "这话有点勉强。" },
+            { who: "应聘者", en: "It might be. May I give you one example, and you tell me if it's relevant?", cn: "也许。我举一个例子，您来判断相不相关，行吗？" },
+            { who: "面试官", en: "One.", cn: "一个。" },
+            { who: "应聘者", en: "In March we lost a payment provider for six hours. I wrote the fallback routing, told four hundred customers before they noticed, and we kept ninety-two percent of the transactions.", cn: "三月我们丢了一个支付通道六个小时。我写了回退路由，在四百个客户察觉之前通知了他们，保住了百分之九十二的交易。" },
+            { who: "面试官", en: "...Who signed that off?", cn: "……那是谁批准的？" },
+            { who: "应聘者", en: "I did, at two in the morning, and I told my manager at seven.", cn: "我批的，凌晨两点；七点告诉了我经理。" },
+            { who: "面试官", en: "That is relevant. I apologise for the earlier remark.", cn: "这确实相关。为刚才那句话我道歉。" },
+            { who: "应聘者", en: "Thank you. I would rather be asked than dismissed.", cn: "谢谢。我宁愿被追问，也不想被打发。" }
+          ]
+        },
+        {
+          variant: "渠道变体（电话初筛）",
+          relation: "应聘者 · 招聘专员（电话）",
+          register: "半正式",
+          channel: "电话初筛",
+          barrier: "信号差又在嘈杂处，几次听不清",
+          result: "达成（换安静地方继续，并约好断线就用文字）",
+          lines: [
+            { who: "专员", en: "Can you hear me okay?", cn: "能听清我说话吗？" },
+            { who: "应聘者", en: "Mostly. You cut out on the last sentence.", cn: "大致能。最后一句断了。" },
+            { who: "专员", en: "I said the role is hybrid, three days in the office.", cn: "我说这个岗位是混合办公，每周三天到办公室。" },
+            { who: "应聘者", en: "Three days works. Sorry, I'm on a train platform. Let me move.", cn: "三天可以。抱歉，我在站台上，我换个地方。" },
+            { who: "专员", en: "Take your time.", cn: "不着急。" },
+            { who: "应聘者", en: "Better. Where were we?", cn: "好多了。我们说到哪儿了？" },
+            { who: "专员", en: "Salary expectations.", cn: "薪资期望。" },
+            { who: "应聘者", en: "Then let me answer that straight: forty-seven to fifty-two, depending on the on-call.", cn: "那我直接回答：四万七到五万二，看值班安排。" },
+            { who: "专员", en: "That's inside the band. One more thing and I'll let you go.", cn: "在区间内。还有一件事就放你走。" },
+            { who: "应聘者", en: "Go ahead.", cn: "请说。" },
+            { who: "专员", en: "If the call drops again, text me and we'll finish by message. Nobody is judging you for being on a train.", cn: "要是再断线，给我发短信，我们用文字聊完。没人会因为你坐火车扣你分。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "应聘者 · 遴选委员会",
+          register: "正式",
+          channel: "面对面（委员会面试）",
+          barrier: "无（但需正式陈述、条理清楚）",
+          result: "达成（进入下一轮，周五前补交推荐人）",
+          lines: [
+            { who: "主席", en: "Thank you for attending. We have forty minutes and six questions. Shall we begin with your research plans?", cn: "感谢出席。我们有四十分钟、六个问题。先从您的研究计划开始，可以吗？" },
+            { who: "应聘者", en: "By all means. In brief: I propose to extend the 2023 fieldwork to two additional sites, using the same instruments.", cn: "当然。简要说：我计划把 2023 年的田野工作扩展到另外两个站点，使用同一套工具。" },
+            { who: "主席", en: "Why those two sites in particular?", cn: "为什么特别选这两个站点？" },
+            { who: "应聘者", en: "Because they differ in exactly one variable, the funding model, and everything else is held constant.", cn: "因为它们在恰好一个变量上不同——经费模式——其余条件都保持不变。" },
+            { who: "委员", en: "Who would supervise the fieldwork?", cn: "田野工作由谁指导？" },
+            { who: "应聘者", en: "I would lead it, with Professor Iyer as the named supervisor and a local co-investigator at each site.", cn: "我主导，由 Iyer 教授作为在册导师，每个站点配一位当地合作研究者。" },
+            { who: "委员", en: "And if the funding is not renewed?", cn: "如果经费没有续上呢？" },
+            { who: "应聘者", en: "Then the first site continues under existing funds and I publish from that alone. The proposal is designed to survive a partial award.", cn: "那第一个站点用现有经费继续，我就以那一个站点发表。这个方案是按能承受部分资助来设计的。" },
+            { who: "主席", en: "That is unusually prudent. We shall ask you for two references by Friday.", cn: "这种审慎很少见。请在周五前提供两位推荐人。" },
+            { who: "应聘者", en: "I shall send them today.", cn: "我今天就发。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "应聘者 · 创业公司创始人（咖啡馆）",
+          register: "随意",
+          channel: "面对面（咖啡馆）",
+          barrier: "无",
+          result: "达成（当场约定周一入职）",
+          lines: [
+            { who: "创始人", en: "So why us? Everyone asks that, sorry.", cn: "那为什么选我们？大家都问这句，抱歉。" },
+            { who: "应聘者", en: "Because you're small enough that the thing I do actually matters.", cn: "因为你们够小，我做的事真的有用。" },
+            { who: "创始人", en: "That's a good answer. Most people say the mission.", cn: "这回答不错。大部分人说的是使命愿景。" },
+            { who: "应聘者", en: "I don't know your mission yet.", cn: "我还不知道你们的使命。" },
+            { who: "创始人", en: "Honestly, neither do we. We know what we're building this quarter.", cn: "说实话我们也不知道。我们只知道这个季度要做什么。" },
+            { who: "应聘者", en: "That's more useful anyway.", cn: "那反而更有用。" },
+            { who: "创始人", en: "You'd be the fourth person. Everybody does support and everybody does sales.", cn: "你来了是第四个人。所有人都做支持，所有人都做销售。" },
+            { who: "应聘者", en: "Fine. I'd want the process side, the boring part nobody wants.", cn: "可以。我想要流程那一块，就是没人想干的枯燥部分。" },
+            { who: "创始人", en: "Nobody has ever asked for that in an interview.", cn: "面试里从来没人主动要过这个。" },
+            { who: "应聘者", en: "Then it's probably the job.", cn: "那大概就是这份工作了。" },
+            { who: "创始人", en: "Can you start on Monday?", cn: "周一能来吗？" },
+            { who: "应聘者", en: "I can start on Monday.", cn: "周一可以。" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-02 入职寒暄与同事相处 ==================== */
+    {
+      id: "s06-02",
+      domain: "06",
+      title: "入职寒暄与同事相处",
+      ielts: "口语 P1 工作 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "新同事 · 老同事",
+          register: "随意",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（有人带，顺利融入）",
+          lines: [
+            { who: "Rachel", en: "You must be the new one. I'm Rachel, two desks over.", cn: "你就是新来的吧。我是 Rachel，隔两张桌子。" },
+            { who: "Tom", en: "Tom. Nice to meet you.", cn: "Tom。很高兴认识你。" },
+            { who: "Rachel", en: "The coffee machine is a nightmare; the good one is on three. Lunch is usually about one, and nobody minds if you eat at your desk.", cn: "这台咖啡机很糟，好的那台在三楼。午饭一般一点左右，在座位上吃也没人管。" },
+            { who: "Tom", en: "That is the induction I actually needed.", cn: "这才是我真正需要的入职培训。" },
+            { who: "Rachel", en: "The official one takes two hours and tells you nothing. How's the laptop?", cn: "官方的要两小时，什么也没说。电脑怎么样？" },
+            { who: "Tom", en: "It arrived with someone else's files on it.", cn: "送来的时候里面还有别人的文件。" },
+            { who: "Rachel", en: "That's the second time this month. Tell IT and copy me; they move faster with two names on it.", cn: "这个月第二次了。告诉 IT 并抄送我，有两个人的名字他们动作快。" },
+            { who: "Tom", en: "Doing it now.", cn: "我这就发。" },
+            { who: "Rachel", en: "Good. And if anyone asks you to just quickly do something for their project this week, say you're still onboarding.", cn: "好。还有，这周要是有人让你顺手帮他们的项目做点事，你就说你还在入职期。" },
+            { who: "Tom", en: "And next week?", cn: "那下周呢？" },
+            { who: "Rachel", en: "Next week you decide for yourself.", cn: "下周你自己判断。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "新员工 · 直属主管",
+          register: "半正式",
+          channel: "面对面（一对一）",
+          barrier: "无",
+          result: "达成（定下优先顺序与汇报节奏）",
+          lines: [
+            { who: "主管", en: "First week talk. How's it going, honestly?", cn: "第一周谈话。说实话怎么样？" },
+            { who: "员工", en: "Honestly: too many introductions to remember, and I don't know what my priorities are yet.", cn: "说实话：要记的人太多，而且我还不清楚优先顺序。" },
+            { who: "主管", en: "That is the most useful thing anyone has said to me this week.", cn: "这是这周我听到的最有用的一句话。" },
+            { who: "员工", en: "May I ask for something specific? A single list of what matters, even if it's wrong.", cn: "我能提个具体要求吗？给我一份唯一的重要事项清单，哪怕是错的也行。" },
+            { who: "主管", en: "Wrong is fine at this stage. Here: these three, in this order. Ignore everything else for a fortnight.", cn: "这个阶段错了没关系。给你：这三件，按这个顺序。其他两周内都别管。" },
+            { who: "员工", en: "And if someone asks me for something urgent that isn't on the list?", cn: "如果有人让我做清单以外很急的事呢？" },
+            { who: "主管", en: "Send them to me. That isn't you being difficult, that's the process.", cn: "让他们来找我。这不是你难相处，这是流程。" },
+            { who: "员工", en: "How often do you want updates?", cn: "你希望多久汇报一次？" },
+            { who: "主管", en: "Friday, five lines, in writing. If it's longer than five lines, something is wrong.", cn: "周五，五行，书面。超过五行就说明有问题。" },
+            { who: "员工", en: "Five lines on Friday. Understood.", cn: "周五五行。明白。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "新同事 · 老同事",
+          register: "随意",
+          channel: "面对面",
+          barrier: "老同事想把做了三年的日常事务整体推给你",
+          result: "折中（只接夜间邮件分类，限期两周后再谈）",
+          lines: [
+            { who: "Marcus", en: "While you're settling in, do you want to take the inbox? It's a good way to learn the clients.", cn: "趁你刚来，要不要接管收件箱？这是熟悉客户的好办法。" },
+            { who: "员工", en: "How long has it been yours?", cn: "这个收件箱归你多久了？" },
+            { who: "Marcus", en: "Three years.", cn: "三年。" },
+            { who: "员工", en: "Then it isn't an onboarding task, it's your job. But I'll take one part of it.", cn: "那它就不是入职任务，是你的工作。不过我可以接一部分。" },
+            { who: "Marcus", en: "Which part?", cn: "哪部分？" },
+            { who: "员工", en: "The overnight emails. I'll triage them before nine for two weeks, and after that we review whether it's still useful.", cn: "夜间的邮件。我两周内在九点前分好类，之后我们再看还有没有必要。" },
+            { who: "Marcus", en: "Two weeks is short.", cn: "两周太短了。" },
+            { who: "员工", en: "Two weeks is what I'm offering while I'm still learning.", cn: "在我还在学的阶段，我能给的就是两周。" },
+            { who: "Marcus", en: "Fair enough. And if it works?", cn: "有道理。要是有用呢？" },
+            { who: "员工", en: "Then we talk about it properly, with it written into my tasks.", cn: "那我们正式谈，写进我的任务里。" },
+            { who: "Marcus", en: "You've done this before.", cn: "你以前干过这种事。" },
+            { who: "员工", en: "I've been the new person before.", cn: "我以前当过新人。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "新同事 · 老同事",
+          register: "随意",
+          channel: "面对面（茶水间）",
+          barrier: "老同事的玩笑被新人当成排挤，心里结疙瘩",
+          result: "修复（解释玩笑 + 约定以后有话直说）",
+          lines: [
+            { who: "员工", en: "Can I ask you something awkward?", cn: "我能问个尴尬的问题吗？" },
+            { who: "Rachel", en: "You can.", cn: "可以。" },
+            { who: "员工", en: "Yesterday, when I asked about the deadline, you said good luck with that. Was that about me?", cn: "昨天我问截止日期的时候，你说『祝你好运』。那是在说我吗？" },
+            { who: "Rachel", en: "It was about the deadline. It's a joke we all make, because the deadline is impossible.", cn: "是说那个截止日期。这是我们都会开的玩笑，因为那个日期根本不可能。" },
+            { who: "员工", en: "I spent yesterday evening thinking I'd said something wrong.", cn: "我昨晚一直在想我是不是说错了话。" },
+            { who: "Rachel", en: "You didn't. I should have explained the joke.", cn: "你没有。我该解释一下这个玩笑。" },
+            { who: "员工", en: "It's fine, but may I ask for one thing?", cn: "没关系，但我能提一个请求吗？" },
+            { who: "Rachel", en: "Go on.", cn: "说。" },
+            { who: "员工", en: "If I have actually got something wrong, say it plainly. I'd rather have that than guess.", cn: "如果我真做错了什么，请直接说。我宁愿那样，也不想靠猜。" },
+            { who: "Rachel", en: "That I can do. And I'll stop making jokes that need three years of context.", cn: "可以。我也不再开那种需要三年背景才懂的玩笑了。" }
+          ]
+        },
+        {
+          variant: "情绪型（第一周被压垮）",
+          relation: "新员工 · 同期老同事",
+          register: "随意（情绪化）",
+          channel: "面对面（楼梯间）",
+          barrier: "信息量太大，新人第一周就崩了",
+          result: "达成（被接住，并得到可执行的减负办法）",
+          lines: [
+            { who: "Rachel", en: "You're in the stairwell. Everything okay?", cn: "你在楼梯间。还好吗？" },
+            { who: "员工", en: "I've been here four days and I've understood about ten minutes of it.", cn: "我来了四天，大概听懂了十分钟的内容。" },
+            { who: "Rachel", en: "That's day four. I cried on day six.", cn: "才第四天。我第六天哭的。" },
+            { who: "员工", en: "Really?", cn: "真的？" },
+            { who: "Rachel", en: "In the car park. Over a spreadsheet.", cn: "在停车场。因为一张表格。" },
+            { who: "员工", en: "I don't want to be the person who needs help every hour.", cn: "我不想成为那种每小时都要人帮的人。" },
+            { who: "Rachel", en: "Nobody minds the questions. They mind the same question twice. So write them down and ask in one go at four o'clock.", cn: "没人烦问题。大家烦的是同一个问题问两遍。所以你把问题记下来，下午四点一次性问。" },
+            { who: "员工", en: "One go at four.", cn: "四点一次性问。" },
+            { who: "Rachel", en: "And skip the all-hands tomorrow. You're allowed one induction session instead.", cn: "还有，明天那个全员大会别去。你可以改去一场入职培训。" },
+            { who: "员工", en: "Is that allowed?", cn: "这允许吗？" },
+            { who: "Rachel", en: "I'll tell them you were in training. Which you will be.", cn: "我跟他们说你在培训。你确实会在培训。" }
+          ]
+        },
+        {
+          variant: "渠道变体（远程入职 / 群聊）",
+          relation: "新员工 · 团队（远程）",
+          register: "随意",
+          channel: "远程 + 群聊",
+          barrier: "远程入职没人带，群里问事没人回",
+          result: "达成（找到对接人，定下每天早上十五分钟同步）",
+          lines: [
+            { who: "员工", en: "morning all. where do i find the client list", cn: "各位早。客户名单在哪儿找" },
+            { who: "员工", en: "anyone", cn: "有人吗" },
+            { who: "Rachel", en: "sorry, time zones. it's on the shared drive under clients", cn: "抱歉，时差。在共享盘的 clients 下面" },
+            { who: "员工", en: "i don't have access to the shared drive", cn: "我没有共享盘的权限" },
+            { who: "Rachel", en: "nobody does on day one. i'll raise it", cn: "第一天谁都没有。我去提" },
+            { who: "员工", en: "who do i ask about the daily report?", cn: "日报我问谁" },
+            { who: "Rachel", en: "that was marcus. he left in february", cn: "那是 Marcus。他二月走了" },
+            { who: "员工", en: "so who now", cn: "那现在是谁" },
+            { who: "Rachel", en: "good question. nobody, which is why it's late every day", cn: "好问题。没人，所以它每天都很晚" },
+            { who: "员工", en: "can i take it", cn: "我可以接吗" },
+            { who: "Rachel", en: "you've been here two days", cn: "你才来了两天" },
+            { who: "员工", en: "and nobody else wants it", cn: "而且没人想要" },
+            { who: "Rachel", en: "you're right. i'll be your contact for it. fifteen minutes every morning", cn: "你说得对。我来当你的对接人。每天早上十五分钟" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "新员工 · 部门负责人",
+          register: "正式",
+          channel: "面对面（正式会面）",
+          barrier: "无（但需正式得体地介绍自己）",
+          result: "达成（被记住，并获准直接沟通）",
+          lines: [
+            { who: "负责人", en: "You must be our new analyst. I am Mrs Okonjo; I oversee this division.", cn: "你就是我们新来的分析师。我是 Okonjo 女士，负责这个事业部。" },
+            { who: "员工", en: "It is a pleasure to meet you. Thomas Reid. I joined on Monday.", cn: "很高兴认识您。我是 Thomas Reid，周一入职。" },
+            { who: "负责人", en: "How have you found your first week?", cn: "第一周感觉如何？" },
+            { who: "员工", en: "Full of information, most of which I expect to need in six weeks rather than now.", cn: "信息量很大，其中大部分我想是六周后才会用到，而不是现在。" },
+            { who: "负责人", en: "That is a fair description of every first week here. Are you being well looked after?", cn: "这是这里每个第一周的准确写照。有人好好带你吗？" },
+            { who: "员工", en: "I am, by Rachel. She has been generous with her time.", cn: "有，Rachel。她很愿意花时间。" },
+            { who: "负责人", en: "I shall thank her for it. Should anything be unclear at my level, write to me directly.", cn: "我会谢谢她。如果有我这一层才说得清的事，直接写信给我。" },
+            { who: "员工", en: "I shall, and I shall keep it to matters that need you.", cn: "我会的，而且只写需要您处理的事。" },
+            { who: "负责人", en: "That is the right instinct. Welcome aboard.", cn: "这个判断是对的。欢迎加入。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "新同事 · 老同事",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Tom", en: "where do people eat", cn: "大家中午在哪吃" },
+            { who: "Rachel", en: "basement. don't", cn: "地下室。别去" },
+            { who: "Tom", en: "why", cn: "为什么" },
+            { who: "Rachel", en: "you'll find out. or you won't, if you don't go", cn: "你会知道的。或者你不去就永远不会知道" },
+            { who: "Tom", en: "that's not helpful", cn: "这话没用" },
+            { who: "Rachel", en: "there's a place on the corner. i go at one", cn: "转角有家店。我一点去" },
+            { who: "Tom", en: "i'm in", cn: "我加入" },
+            { who: "Rachel", en: "you don't have to say yes to everything this week", cn: "这周你不用什么都答应" },
+            { who: "Tom", en: "i'm saying yes to lunch", cn: "午饭我是答应的" },
+            { who: "Rachel", en: "that one's allowed", cn: "这个可以答应" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-03 会议发言与打断插话 ==================== */
+    {
+      id: "s06-03",
+      domain: "06",
+      title: "会议发言与打断插话",
+      ielts: "口语 P3 工作 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同事 · 同事（团队会）",
+          register: "中性",
+          channel: "面对面（会议室）",
+          barrier: "无",
+          result: "达成（把问题摆上台面并写进议程）",
+          lines: [
+            { who: "主持", en: "Next item: the support queue. Any thoughts?", cn: "下一项：支持队列。有什么想法？" },
+            { who: "Priya", en: "May I come in on that?", cn: "我能说一句吗？" },
+            { who: "主持", en: "Go ahead.", cn: "请。" },
+            { who: "Priya", en: "We've added two hundred tickets a week since January, with no extra capacity. I'd like us to say that out loud before we discuss anything else.", cn: "从一月起每周多了两百单，产能没变。我希望在讨论别的之前先把这件事说清楚。" },
+            { who: "主持", en: "That is a fair place to start.", cn: "这个起点很合理。" },
+            { who: "Rob", en: "The number is more like a hundred and fifty.", cn: "数字更像是一百五。" },
+            { who: "Priya", en: "It is two hundred and six if you count the chat channel, which we started counting in February.", cn: "如果把聊天渠道算上，是两百零六，我们二月就开始统计了。" },
+            { who: "Rob", en: "Then it is two hundred and six.", cn: "那就是两百零六。" },
+            { who: "Priya", en: "So the question is whether we hire, or drop a product.", cn: "所以问题是我们要招人，还是砍掉一个产品。" },
+            { who: "主持", en: "That is the question for the next meeting, and I'll put it in the agenda.", cn: "这是下次会议的问题，我把它写进议程。" },
+            { who: "Priya", en: "Good. I don't want it to be a surprise in March.", cn: "好。我不想它到三月才变成意外。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "员工 · 高级别与会者",
+          register: "半正式",
+          channel: "面对面（跨部门会议）",
+          barrier: "无",
+          result: "达成（插话成功，决定提前，风险写进纪要）",
+          lines: [
+            { who: "主持", en: "I think we have covered the timeline. Anything else?", cn: "时间线我想已经讨论完了。还有别的吗？" },
+            { who: "员工", en: "May I add one thing before we close the item? It's a risk rather than a comment.", cn: "在结束这一项之前我能补一点吗？是风险，不是评论。" },
+            { who: "主持", en: "Please.", cn: "请。" },
+            { who: "员工", en: "The supplier's lead time doubles in August. If we sign in July we're fine; in August we're six weeks late.", cn: "供应商的交付周期八月翻倍。七月签就没问题，八月签就要晚六周。" },
+            { who: "总监", en: "Where did that come from?", cn: "这个信息从哪来的？" },
+            { who: "员工", en: "Their own schedule, page four. I asked them to confirm it in writing and they did, last Thursday.", cn: "他们自己的排期表，第四页。我请他们书面确认，上周四确认了。" },
+            { who: "总监", en: "Nobody else has seen this.", cn: "别人都没看到过。" },
+            { who: "员工", en: "I only got it on Thursday. I'd rather interrupt now than in September.", cn: "我周四才拿到。我宁愿现在打断，也不想九月再说。" },
+            { who: "总监", en: "Quite right. Put it in the minutes and move the decision to July.", cn: "完全正确。写进纪要，把决定提前到七月。" },
+            { who: "员工", en: "I'll send the page round after this.", cn: "会后我把那页发给大家。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "同事 · 同事（被打断者）",
+          register: "中性",
+          channel: "面对面（会议）",
+          barrier: "发言被反复打断，一句话说不完",
+          result: "折中（用「给我两分钟」拿回话语权）",
+          lines: [
+            { who: "Rob", en: "That won't work, because—", cn: "那样不行，因为——" },
+            { who: "Priya", en: "Sorry, let me finish this sentence and then I'll stop.", cn: "抱歉，让我把这句话说完就停。" },
+            { who: "Rob", en: "But the numbers—", cn: "可那些数字——" },
+            { who: "Priya", en: "Two minutes. I'll take two minutes, and then you have the rest of the meeting.", cn: "两分钟。我要两分钟，剩下的时间都归你。" },
+            { who: "Rob", en: "...Fine. Two minutes.", cn: "……行。两分钟。" },
+            { who: "Priya", en: "Thank you. Three points. One: the volume doubled. Two: the error rate didn't. Three: that means the process is sound and the staffing isn't.", cn: "谢谢。三点。一，量翻倍了。二，错误率没有。三，这说明流程没问题，人手有问题。" },
+            { who: "Rob", en: "That is... a good argument.", cn: "这……是个好论证。" },
+            { who: "Priya", en: "It's your data. I only read it in order.", cn: "用的是你的数据。我只是按顺序读了一遍。" },
+            { who: "Rob", en: "Then I withdraw the objection.", cn: "那我撤回反对意见。" },
+            { who: "Priya", en: "You don't have to. Just say it after I finish, next time.", cn: "不必。下次等我说完再说就行。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "同事 · 同事（线上会）",
+          register: "中性",
+          channel: "线上会议",
+          barrier: "多人同时开口，会议陷入互相盖话",
+          result: "修复（开启举手功能，主持人点名）",
+          lines: [
+            { who: "主持", en: "Sorry, three people at once. Rob, you were first.", cn: "抱歉，三个人同时说。Rob，你先。" },
+            { who: "Rob", en: "I was going to say the same thing as Tina.", cn: "我要说的和 Tina 一样。" },
+            { who: "主持", en: "Tina?", cn: "Tina？" },
+            { who: "Tina", en: "Then it's been said. Can we agree a way of doing this? Half of this call is people talking over each other.", cn: "那就说完了。我们能定个办法吗？这通电话一半时间大家在互相盖话。" },
+            { who: "主持", en: "Suggest something.", cn: "你提一个。" },
+            { who: "Tina", en: "Raise your hand in the app and the host picks. It's one setting.", cn: "在应用里举手，主持人点名。就是一个设置。" },
+            { who: "Rob", en: "That slows everything down.", cn: "那会拖慢速度。" },
+            { who: "Tina", en: "We spent eleven minutes on one item. It can't slow down much further.", cn: "我们在一个议题上花了十一分钟。再慢也慢不到哪去了。" },
+            { who: "主持", en: "It's on. Let's try it for the rest of the call.", cn: "开了。剩下时间我们试试。" },
+            { who: "Rob", en: "Fine. Hand up.", cn: "行。我举手。" }
+          ]
+        },
+        {
+          variant: "情绪型（想法被无视后被别人复述）",
+          relation: "员工 · 同事（当场被抢话）",
+          register: "中性（情绪化）",
+          channel: "面对面（会议）",
+          barrier: "十分钟前提的想法没人接，别人复述后被认可",
+          result: "达成（平静标记归属，主持人改了收集意见的方式）",
+          lines: [
+            { who: "员工", en: "I said that ten minutes ago and it didn't land. I'd like to know what changed.", cn: "我十分钟前说过这个，当时没人接。我想知道是什么变了。" },
+            { who: "主持", en: "Sorry, which part?", cn: "抱歉，哪一部分？" },
+            { who: "员工", en: "The staged rollout. Marcus has just described it and now it's a good idea. I'd like the record to show it was on the table earlier.", cn: "分阶段上线。Marcus 刚刚描述了它，现在它成了好主意。我希望记录里体现它更早就被提过。" },
+            { who: "Marcus", en: "You did say it. I forgot who said it, and that's on me.", cn: "你确实说过。我忘了是谁说的，这是我的问题。" },
+            { who: "员工", en: "Thank you. That is all I wanted.", cn: "谢谢。我要的就是这个。" },
+            { who: "主持", en: "I'll note it in the minutes as your proposal.", cn: "我在纪要里记成你提的。" },
+            { who: "员工", en: "Not for credit. For the next time I say something and the room goes quiet.", cn: "不是为了功劳。是为了下次我说话时屋里别一片安静。" },
+            { who: "主持", en: "...That is fair, and it is a pattern. Let's take ideas in order from now on.", cn: "……这话有道理，而且这是个模式。以后按顺序收集意见。" },
+            { who: "Marcus", en: "Agreed. And I'll say who said what before I build on it.", cn: "同意。而且我以后在接着讲之前会说清是谁提的。" }
+          ]
+        },
+        {
+          variant: "渠道变体（混合会议：现场 + 线上）",
+          relation: "远程与会者 · 现场主持",
+          register: "中性",
+          channel: "混合会议",
+          barrier: "现场讨论太投入，线上的人被忘了，麦克风还对着墙",
+          result: "达成（主持人改为前五分钟先听远程）",
+          lines: [
+            { who: "远程", en: "Sorry to interrupt, we couldn't hear the last two minutes. The room mic is pointing at the wall.", cn: "抱歉打断一下，最后两分钟我们听不见。会议室麦克风冲着墙。" },
+            { who: "主持", en: "Sorry. Is that better?", cn: "抱歉。这样好点吗？" },
+            { who: "远程", en: "Much. But we also couldn't tell who was speaking.", cn: "好多了。不过我们也听不出是谁在说。" },
+            { who: "主持", en: "That was Rob, then Priya.", cn: "是 Rob，然后 Priya。" },
+            { who: "远程", en: "Then may I respond to Priya? I'm typing it as well, in case the audio goes again.", cn: "那我能回应 Priya 吗？我同时也打字，以防音频再断。" },
+            { who: "主持", en: "Please.", cn: "请。" },
+            { who: "远程", en: "The two-week window only works if the Berlin team is on the same release. They are a week behind.", cn: "两周的窗口只有在柏林团队同版本发布的前提下才成立。他们晚了一周。" },
+            { who: "主持", en: "We didn't know that.", cn: "我们不知道这个。" },
+            { who: "远程", en: "I know. That is why I stopped waiting to be asked.", cn: "我知道。所以我不等了，直接说。" },
+            { who: "主持", en: "Fair. From now on, remote first for the first five minutes.", cn: "有道理。以后前五分钟先听远程。" },
+            { who: "远程", en: "Then someone has to say that at the start of every meeting, not just this one.", cn: "那每次会议开头都得有人说这句，不只是这次。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "与会者 · 委员会主席",
+          register: "正式",
+          channel: "面对面（委员会会议）",
+          barrier: "无（但需正式请求发言并按程序动议）",
+          result: "达成（动议通过，事项延后至九月）",
+          lines: [
+            { who: "与会者", en: "Mr Chairman, may I speak to item four?", cn: "主席先生，我可以就第四项发言吗？" },
+            { who: "主席", en: "You may.", cn: "可以。" },
+            { who: "与会者", en: "I shall be brief. The proposal before us would commit the committee to a sum not yet audited.", cn: "我尽量简短。提交给我们的提案会让委员会承诺一笔尚未审计的款项。" },
+            { who: "主席", en: "The figure has been circulated.", cn: "数字已经传阅。" },
+            { who: "与会者", en: "It has, and it is an estimate rather than an account. I would move that we defer the decision until the audit is tabled.", cn: "是的，但那是估算而非账目。我提议推迟决定，待审计报告提交后再议。" },
+            { who: "委员", en: "Is there a seconder?", cn: "有人附议吗？" },
+            { who: "另一委员", en: "I second the motion.", cn: "我附议。" },
+            { who: "主席", en: "Then the motion is before the committee. Those in favour?", cn: "那么动议已提交委员会。赞成的请举手？" },
+            { who: "主席", en: "Carried. The matter returns to the agenda in September, with the audit.", cn: "通过。此事连同审计报告九月重回议程。" },
+            { who: "与会者", en: "Thank you, Mr Chairman.", cn: "谢谢主席先生。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "团队成员 · 每日站会",
+          register: "随意（极简、俚语）",
+          channel: "每日站会",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "主持", en: "go", cn: "开始" },
+            { who: "Rob", en: "shipped the fix. nothing blocked", cn: "修复上线了。没阻塞" },
+            { who: "主持", en: "sam", cn: "Sam" },
+            { who: "Sam", en: "still on the migration", cn: "还在弄迁移" },
+            { who: "主持", en: "how long", cn: "还要多久" },
+            { who: "Sam", en: "tuesday", cn: "周二" },
+            { who: "主持", en: "you said tuesday last tuesday", cn: "上个周二你也是说周二" },
+            { who: "Sam", en: "this tuesday", cn: "这个周二" },
+            { who: "主持", en: "right. anyone blocked", cn: "行。有人被卡住吗" },
+            { who: "Rob", en: "sam", cn: "Sam" },
+            { who: "Sam", en: "not blocked. slow", cn: "不是被卡。是慢" },
+            { who: "主持", en: "same thing. fifteen minutes after this, you and me", cn: "一回事。散会后你留一下，十五分钟" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-04 提出异议与进度汇报 ==================== */
+    {
+      id: "s06-04",
+      domain: "06",
+      title: "提出异议与进度汇报",
+      ielts: "口语 P3 工作 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同事 · 同事",
+          register: "中性",
+          channel: "面对面（办公室）",
+          barrier: "无",
+          result: "达成（先修一处，两周后用数据决定是否重做）",
+          lines: [
+            { who: "Priya", en: "I don't think we should rebuild the whole thing.", cn: "我认为我们不该整个重做。" },
+            { who: "Rob", en: "You saw the error rates.", cn: "你看了错误率。" },
+            { who: "Priya", en: "I did. Ninety percent of the errors come from one input field.", cn: "看了。百分之九十的错误来自一个输入框。" },
+            { who: "Rob", en: "So we fix the field.", cn: "那就修那个输入框。" },
+            { who: "Priya", en: "We fix the field, and if that doesn't move the number in two weeks, we rebuild.", cn: "先修输入框，如果两周后数字没动，我们再重做。" },
+            { who: "Rob", en: "That's two weeks of pretending.", cn: "那是两周的自欺欺人。" },
+            { who: "Priya", en: "It is two weeks of evidence. If I'm wrong, you get your rebuild and I support it in the meeting.", cn: "那是两周的证据。如果我错了，你提重做，我在会上支持你。" },
+            { who: "Rob", en: "...Fine. Two weeks.", cn: "……行。两周。" },
+            { who: "Priya", en: "And we write down now what number would prove me wrong.", cn: "而且我们现在就写下什么数字能证明我错了。" },
+            { who: "Rob", en: "Half the errors gone.", cn: "错误少一半。" },
+            { who: "Priya", en: "Half. Done.", cn: "少一半。就这么定。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "项目经理 · 总监",
+          register: "半正式",
+          channel: "面对面（一对一）",
+          barrier: "无",
+          result: "达成（砍掉没人要的模块，并当天告知客户）",
+          lines: [
+            { who: "总监", en: "Where are we?", cn: "进展到哪儿了？" },
+            { who: "经理", en: "Two weeks behind, and I'd like to say why before you ask the obvious question.", cn: "晚了两周，我想在您问那个显然的问题之前先说原因。" },
+            { who: "总监", en: "Go on.", cn: "说。" },
+            { who: "经理", en: "We spent nine days on the data migration because the vendor's export was wrong. That time is spent, not recoverable.", cn: "我们在数据迁移上花了九天，因为供应商的导出是错的。那段时间已经花掉，追不回来。" },
+            { who: "总监", en: "Could you have seen it earlier?", cn: "能更早发现吗？" },
+            { who: "经理", en: "Yes, by testing the export on day one instead of day four. That one is mine.", cn: "能，第一天就测导出数据，而不是第四天。这是我的失误。" },
+            { who: "总监", en: "Then what do you need?", cn: "那你需要什么？" },
+            { who: "经理", en: "One of two things: either the date moves to the twenty-fourth, or we drop the reporting module.", cn: "两件事选一件：要么日期改到二十四号，要么砍掉报表模块。" },
+            { who: "总监", en: "Which would you choose?", cn: "你选哪个？" },
+            { who: "经理", en: "Drop the module. It is the only part nobody has asked for.", cn: "砍模块。那是唯一没人要求过的部分。" },
+            { who: "总监", en: "Then drop it, and tell the client today rather than on the twenty-fourth.", cn: "那就砍掉，今天告诉客户，不要等到二十四号。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "员工 · 主管",
+          register: "半正式",
+          channel: "面对面（一对一）",
+          barrier: "主管要求周五交完整成品，时间上做不到",
+          result: "折中（周五交三个可用页面，其余两周后交）",
+          lines: [
+            { who: "主管", en: "The client wants it on Friday.", cn: "客户要周五交。" },
+            { who: "员工", en: "Friday isn't possible. I get the data on Thursday, and that is if the vendor is on time, which they aren't.", cn: "周五不可能。我周四才拿到数据，前提是供应商准时，但他们不准时。" },
+            { who: "主管", en: "Then make it possible.", cn: "那就让它可能。" },
+            { who: "员工", en: "I can make part of it possible, and I would rather offer you that than say yes and miss it.", cn: "我可以让一部分成为可能。我宁愿给你这个方案，也不想答应了再做不出来。" },
+            { who: "主管", en: "Which part?", cn: "哪部分？" },
+            { who: "员工", en: "The three screens that carry the workflow. Rough, no polish, working by Friday.", cn: "承载流程的那三个页面。粗糙、不美化，周五能用。" },
+            { who: "主管", en: "And the rest?", cn: "其余的呢？" },
+            { who: "员工", en: "Two weeks later, properly tested. If I promise all of it on Friday, you get all of it broken.", cn: "两周后，测试完整。如果我答应周五全交，你拿到的会是一堆坏掉的东西。" },
+            { who: "主管", en: "...I'll tell the client six screens by Friday and the rest in a fortnight.", cn: "……那我告诉客户周五交六个页面，其余两周后。" },
+            { who: "员工", en: "Say three screens. Then Friday looks like a win rather than a shortfall.", cn: "说三个页面。这样周五就是超额，而不是缺斤少两。" },
+            { who: "主管", en: "Three screens. I'll send it now.", cn: "三个页面。我这就发。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "员工 · 主管",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "「基本完成」被主管听成「已经完成」",
+          result: "修复（改用百分比 + 预计完成日期两个数字）",
+          lines: [
+            { who: "主管", en: "You told me last week it was basically done.", cn: "你上周跟我说基本完成了。" },
+            { who: "员工", en: "I said the build was basically done. The testing hasn't started.", cn: "我说的是构建基本完成。测试还没开始。" },
+            { who: "主管", en: "Those are the same sentence to me.", cn: "对我来说这是同一句话。" },
+            { who: "员工", en: "Then that is the problem, and it is mine as much as yours.", cn: "那这就是问题所在，责任我和你一样大。" },
+            { who: "主管", en: "Meaning?", cn: "什么意思？" },
+            { who: "员工", en: "I'll stop using words like basically and give two numbers: percent complete, and the date I expect to finish.", cn: "我以后不再用『基本』这类词，改给两个数字：完成百分比和预计完成日期。" },
+            { who: "主管", en: "Give me this week in that format.", cn: "这周就用这个格式给我。" },
+            { who: "员工", en: "Build ninety-four percent, testing zero, data dependent on Thursday, so the finish date is the twenty-second.", cn: "构建百分之九十四，测试百分之零，数据周四到位，所以完成日期是二十二号。" },
+            { who: "主管", en: "Now I know what to tell the client.", cn: "现在我知道该跟客户说什么了。" },
+            { who: "员工", en: "That is why I'm changing it. Not to protect myself.", cn: "所以我改这个，不是为了自保。" },
+            { who: "主管", en: "I believe you. Send it every Friday in that format.", cn: "我信。以后每周五都按这个格式发。" }
+          ]
+        },
+        {
+          variant: "情绪型（方案被否后说重话）",
+          relation: "员工 · 主管",
+          register: "半正式（情绪化）",
+          channel: "面对面（一对一）",
+          barrier: "方案被否，情绪上头说了重话",
+          result: "达成（收回重话，改成先做两天复盘）",
+          lines: [
+            { who: "员工", en: "So we're doing it the way that failed last year.", cn: "所以我们要按去年失败的那个做法来。" },
+            { who: "主管", en: "That's a bit much.", cn: "这话有点过了。" },
+            { who: "员工", en: "Sorry. That came out as an attack and it wasn't meant to be one.", cn: "抱歉。这句听起来像攻击，但我不是这个意思。" },
+            { who: "主管", en: "Then say the version you meant.", cn: "那就说你原本想说的版本。" },
+            { who: "员工", en: "I'm worried we're repeating a decision that cost us a quarter, and I don't think we have ever looked at why it failed.", cn: "我担心我们在重复一个害我们损失一个季度的决定，而且我不认为我们看过它为什么失败。" },
+            { who: "主管", en: "That is a different sentence and I can answer it: we haven't looked at it.", cn: "这是另一句话，而且我答得上：我们确实没看过。" },
+            { who: "员工", en: "May I spend two days on the post-mortem before we commit?", cn: "在定下来之前，我能花两天做复盘吗？" },
+            { who: "主管", en: "Two days is cheap against a quarter. Do it.", cn: "相对一个季度，两天很便宜。做吧。" },
+            { who: "员工", en: "And if it says the same as last time?", cn: "如果结论和上次一样呢？" },
+            { who: "主管", en: "Then I'll change my mind in front of everyone, which is also cheap.", cn: "那我就当着大家改主意，这也很便宜。" }
+          ]
+        },
+        {
+          variant: "渠道变体（书面周报 + 短会）",
+          relation: "员工 · 主管（异步）",
+          register: "中性",
+          channel: "书面周报 + 短会",
+          barrier: "周报写得太细没人读，风险藏在第四节",
+          result: "达成（改成顶部三行摘要 + 红黄绿）",
+          lines: [
+            { who: "主管", en: "I read your report. It took nine minutes and I still had to ask you where the risk was.", cn: "我读了你的报告。花了九分钟，而且我还得追着问你风险在哪。" },
+            { who: "员工", en: "It's all in there. Section four.", cn: "都在里面。第四节。" },
+            { who: "主管", en: "Which is why nobody reads it. Put the bad news first.", cn: "所以没人读。把坏消息放最前面。" },
+            { who: "员工", en: "Then it looks like a disaster every week.", cn: "那每周看起来都像灾难。" },
+            { who: "主管", en: "Then colour-code it. Green, amber, red, and the reader knows in two seconds.", cn: "那就标颜色。绿、黄、红，读者两秒就知道。" },
+            { who: "员工", en: "Three lines at the top, then the detail?", cn: "开头三行摘要，然后细节？" },
+            { who: "主管", en: "Three lines, one colour, then detail for anyone who wants it.", cn: "三行、一个颜色，然后给想看的人看细节。" },
+            { who: "员工", en: "This week would be amber.", cn: "这周会是黄色。" },
+            { who: "主管", en: "Why amber?", cn: "为什么是黄？" },
+            { who: "员工", en: "One dependency slips on Thursday and it costs us three days. Everything else is green.", cn: "有个依赖周四会滑，代价是三天。其他都是绿的。" },
+            { who: "主管", en: "That is the entire report. Send it like that from now on.", cn: "整份报告就这些。以后就这么发。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "项目经理 · 指导委员会",
+          register: "正式",
+          channel: "面对面（委员会汇报）",
+          barrier: "无（但需正式、准确、不掩饰风险）",
+          result: "达成（委员会批准缩减范围，附客户书面确认）",
+          lines: [
+            { who: "主席", en: "The committee has your written report. Would you summarise the position?", cn: "委员会已收到你的书面报告。请概述现状。" },
+            { who: "经理", en: "I shall. The project is eleven days behind schedule and within budget.", cn: "好的。项目进度晚十一天，预算未超。" },
+            { who: "委员", en: "Eleven days is not what your last report suggested.", cn: "十一天与上次报告的显示不符。" },
+            { who: "经理", en: "The last report did not include the vendor's revised lead times, which I received on the sixth and circulated on the seventh.", cn: "上次报告未包含供应商修订后的交付周期，我六号收到，七号传阅。" },
+            { who: "委员", en: "And the mitigation?", cn: "缓解措施呢？" },
+            { who: "经理", en: "Two options: the date moves to the twenty-fourth, or we reduce scope by one module. I recommend the second.", cn: "两个方案：日期改到二十四号，或削减一个模块的范围。我建议第二个。" },
+            { who: "主席", en: "What does the client say?", cn: "客户怎么说？" },
+            { who: "经理", en: "They were told today, before this meeting, so that they do not hear it first from the minutes.", cn: "今天已经告知他们，就在本次会议之前，以免他们先从纪要里看到。" },
+            { who: "主席", en: "That was the right order. Does the committee approve the reduction in scope?", cn: "这个顺序是对的。委员会是否批准缩减范围？" },
+            { who: "委员", en: "Approved, on condition that the client confirms in writing this week.", cn: "批准，条件是客户本周书面确认。" },
+            { who: "经理", en: "I shall obtain that by Friday.", cn: "我周五前拿到。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Rob", en: "did you tell him", cn: "你跟他说了吗" },
+            { who: "Sam", en: "not yet", cn: "还没" },
+            { who: "Rob", en: "you said you would", cn: "你说过你要说" },
+            { who: "Sam", en: "i know. he's in a mood", cn: "我知道。他心情不好" },
+            { who: "Rob", en: "he's always in a mood", cn: "他心情从来就没好过" },
+            { who: "Sam", en: "fair", cn: "有道理" },
+            { who: "Rob", en: "say it with numbers. he can't argue with numbers", cn: "用数字说。他没法跟数字争" },
+            { who: "Sam", en: "the number is three weeks", cn: "数字是三周" },
+            { who: "Rob", en: "then say three weeks", cn: "那就说三周" },
+            { who: "Sam", en: "he'll say no", cn: "他会说不" },
+            { who: "Rob", en: "then he's said no to three weeks. that's still information", cn: "那他就是对三周说了不。那也是信息" },
+            { who: "Sam", en: "ok. sending it", cn: "行。我发了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-05 电话会议与远程沟通 ==================== */
+    {
+      id: "s06-05",
+      domain: "06",
+      title: "电话会议与远程沟通",
+      ielts: "口语 P3 工作 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同事 · 同事（周会）",
+          register: "中性",
+          channel: "电话会议（两人）",
+          barrier: "无",
+          result: "达成（两项议题十一分钟走完，分工明确）",
+          lines: [
+            { who: "Priya", en: "Can you hear me?", cn: "能听到我吗？" },
+            { who: "Rob", en: "Loud and clear. Two items, right?", cn: "很清楚。两项，对吧？" },
+            { who: "Priya", en: "Two. First, the migration date.", cn: "两项。第一，迁移日期。" },
+            { who: "Rob", en: "I'd move it a week. The data won't be clean before then, and I'd rather do it once.", cn: "我会往后挪一周。数据在那之前干净不了，我宁愿只做一次。" },
+            { who: "Priya", en: "Then it's the twenty-fourth. Second: who tells the client?", cn: "那就二十四号。第二：谁去告诉客户？" },
+            { who: "Rob", en: "You, because you're better at it and I'd sound like an excuse.", cn: "你去，因为你更会讲，我说起来像找借口。" },
+            { who: "Priya", en: "I'll do it if you write the two lines explaining why.", cn: "我可以去，但你得写两句解释原因的话。" },
+            { who: "Rob", en: "Two lines by tonight.", cn: "今晚两句。" },
+            { who: "Priya", en: "Then we're done in eleven minutes, which is a record.", cn: "那我们十一分钟就开完了，破纪录。" },
+            { who: "Rob", en: "We should do this every week.", cn: "我们该每周都这样。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "员工 · 海外高管（电话）",
+          register: "半正式",
+          channel: "电话会议",
+          barrier: "无",
+          result: "达成（先认自己的那部分，拿到高管出面的一句话）",
+          lines: [
+            { who: "高管", en: "I have fifteen minutes. Start with the number I don't want to hear.", cn: "我有十五分钟。先说那个我不想听的数字。" },
+            { who: "员工", en: "We're nine days late on the second release.", cn: "第二个版本晚了九天。" },
+            { who: "高管", en: "Why?", cn: "为什么？" },
+            { who: "员工", en: "One dependency we don't control, and one we do. I'd like to talk about the second one first.", cn: "一个依赖我们控制不了，一个能控制。我想先说能控制的那个。" },
+            { who: "高管", en: "Go on.", cn: "说。" },
+            { who: "员工", en: "We tested it four days later than we should have. That one is ours, and I've changed the checklist so it can't happen again.", cn: "我们比应该的时间晚了四天才测。这是我们的问题，我已经改了检查清单，不会再发生。" },
+            { who: "高管", en: "Send me the checklist.", cn: "把清单发我。" },
+            { who: "员工", en: "It's in your inbox already, with the changes highlighted.", cn: "已经在您邮箱里了，改动的地方标出来了。" },
+            { who: "高管", en: "Then the nine days is an annoyance, not a problem. What do you need from me?", cn: "那这九天是件烦人事，不是问题。你需要我做什么？" },
+            { who: "员工", en: "One sentence to the client that the date moved, from you rather than from us.", cn: "给客户一句话说明日期变了，由您说，不是我们说。" },
+            { who: "高管", en: "I'll send it before the end of my day.", cn: "我下班前发。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "员工 · 项目经理（跨时区）",
+          register: "中性",
+          channel: "电话会议",
+          barrier: "对方要求你长期固定在凌晨六点开会",
+          result: "折中（时差轮换 + 三十分钟 + 录音）",
+          lines: [
+            { who: "经理", en: "So the standing call is Tuesdays at six a.m. your time.", cn: "那固定会议是每周二你那边早上六点。" },
+            { who: "员工", en: "That's a hard no long term. Not the call, the hour.", cn: "长期这样肯定不行。不是会议，是时间。" },
+            { who: "经理", en: "Someone has to take the bad slot.", cn: "总得有人占那个糟糕的时段。" },
+            { who: "员工", en: "Agreed, so let's rotate it. Six a.m. for me this month, then six a.m. for Berlin next month.", cn: "同意，所以轮着来。这个月我这边六点，下个月柏林那边六点。" },
+            { who: "经理", en: "Berlin won't like that.", cn: "柏林不会喜欢。" },
+            { who: "员工", en: "Neither do I, which is the point. Two more things while we're here.", cn: "我也不喜欢，这就是重点。趁现在再说两件。" },
+            { who: "经理", en: "Go on.", cn: "说。" },
+            { who: "员工", en: "Thirty minutes rather than an hour, with the agenda sent the day before. And a recording, so people who can't attend aren't guessing.", cn: "三十分钟而不是一小时，议程提前一天发。还要录音，让来不了的人不用靠猜。" },
+            { who: "经理", en: "The recording has to stop before the confidential item.", cn: "录音要在保密议题前停掉。" },
+            { who: "员工", en: "Then it stops there. Rotating, thirty minutes, recorded, and I'll write it up this week.", cn: "那就停在那儿。轮换、三十分钟、录音，我这周写下来。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "同事 · 同事（电话）",
+          register: "中性",
+          channel: "电话会议",
+          barrier: "把 fifteen 听成 fifty，差点按错误数量下单",
+          result: "修复（数字当场复述 + 重要事项一律书面）",
+          lines: [
+            { who: "员工", en: "So we order fifteen units.", cn: "那我们订十五台。" },
+            { who: "同事", en: "Fifty. I said fifty.", cn: "五十。我说的是五十。" },
+            { who: "员工", en: "I heard fifteen. That's a difference of thirty-five thousand.", cn: "我听成十五。这差三万五。" },
+            { who: "同事", en: "Good thing you read it back.", cn: "幸好你复述了一遍。" },
+            { who: "员工", en: "I didn't, actually. I caught it when I wrote the email.", cn: "其实我没有。是我写邮件的时候发现的。" },
+            { who: "同事", en: "Then let's fix that now. From today, any number on a call gets repeated back before we move on.", cn: "那我们现在就改。从今天起，电话里的任何数字都要复述一遍再往下走。" },
+            { who: "员工", en: "Fifty units, confirmed.", cn: "五十台，确认。" },
+            { who: "同事", en: "Fifty, correct.", cn: "五十，正确。" },
+            { who: "员工", en: "And I'll put it in the email anyway, because a call is a bad place for numbers.", cn: "我还是会写进邮件，因为电话不是放数字的地方。" },
+            { who: "同事", en: "Everything important goes in writing. That's the rule from now on.", cn: "重要的事都落在书面上。以后就这条规矩。" }
+          ]
+        },
+        {
+          variant: "情绪型（远程被忽略）",
+          relation: "远程员工 · 主管",
+          register: "半正式（情绪化）",
+          channel: "电话会议（一对一）",
+          barrier: "远程员工总是最后一个知道影响自己工作的决定",
+          result: "达成（主管承诺当天告知 + 公布前十五分钟预告）",
+          lines: [
+            { who: "员工", en: "May I raise something that isn't on the agenda?", cn: "我能说点议程以外的事吗？" },
+            { who: "主管", en: "Of course.", cn: "当然。" },
+            { who: "员工", en: "I found out about the reorganisation from the minutes. That's the fourth time this quarter.", cn: "我是从会议纪要里知道重组的。这是这个季度第四次了。" },
+            { who: "主管", en: "I didn't realise it was four.", cn: "我没意识到有四次。" },
+            { who: "员工", en: "It's four. And I'm not asking to be in every room; I'm asking not to be the last to know about work I have to do.", cn: "是四次。我不是要求进每个房间，我只是不想在必须做的事上最后一个知道。" },
+            { who: "主管", en: "That is a fair line and I have crossed it. What would fix it?", cn: "这条线划得合理，而我越线了。怎么改？" },
+            { who: "员工", en: "Two things: decisions that affect my work reach me the same day, and I get fifteen minutes before anything is announced.", cn: "两件事：影响我工作的决定当天告诉我；事情公布之前给我十五分钟。" },
+            { who: "主管", en: "Same day, and fifteen minutes' warning. I can do both.", cn: "当天，加提前十五分钟。两件我都能做到。" },
+            { who: "员工", en: "Then I'll stop keeping score.", cn: "那我就不再数次数了。" },
+            { who: "主管", en: "Keep score for another month, quietly. If I slip, I want to know.", cn: "你再悄悄数一个月。要是我又犯了，我要知道。" }
+          ]
+        },
+        {
+          variant: "渠道变体（全远程 / 异步）",
+          relation: "跨时区团队 · 团队负责人",
+          register: "中性",
+          channel: "异步（文字 + 短会）",
+          barrier: "时差导致响应慢，电话会变成单向念状态",
+          result: "达成（状态改成必读文档，会议只谈卡住的事）",
+          lines: [
+            { who: "负责人", en: "Half of you were asleep for that call. Let's fix the format.", cn: "那通电话会一半人在睡觉。我们来改形式。" },
+            { who: "Kim", en: "The call was a status update read aloud. That could have been a document.", cn: "那通会就是把状态更新念了一遍。那本可以是一份文档。" },
+            { who: "负责人", en: "Then it becomes a document. Who writes it?", cn: "那就变成文档。谁写？" },
+            { who: "Kim", en: "Rotate. But written by the end of your own day, so nobody waits a full cycle.", cn: "轮着写。但要按各自的当地下班时间写完，这样没人要多等一整个周期。" },
+            { who: "Rob", en: "And the questions?", cn: "那问题呢？" },
+            { who: "Kim", en: "In the thread. Anything unanswered within twenty-four hours becomes an agenda item.", cn: "在帖子里问。二十四小时内没答复的就变成议题。" },
+            { who: "负责人", en: "So the weekly call is only for the things that are stuck.", cn: "那每周的电话会只处理卡住的事。" },
+            { who: "Kim", en: "Thirty minutes, stuck items only, and optional if you have read the document.", cn: "三十分钟，只谈卡住的；读过文档的人可以不来。" },
+            { who: "负责人", en: "Optional worries me.", cn: "可以不来这点让我担心。" },
+            { who: "Kim", en: "Then make the document mandatory and the meeting optional. You'll get better attendance at both.", cn: "那就把文档定为必读、会议定为可选。两边出勤都会变好。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "项目负责人 · 客户（正式电话会）",
+          register: "正式",
+          channel: "电话会议",
+          barrier: "无（但需正式开场、按议程推进并留书面记录）",
+          result: "达成（日期先定，模块提交董事会，约定书面纪要）",
+          lines: [
+            { who: "负责人", en: "Good morning. Present on our side are myself, Ms Fenn and Mr Okafor. May I confirm who is with you?", cn: "早上好。我方出席的是我、Fenn 女士和 Okafor 先生。请问您那边是谁？" },
+            { who: "客户", en: "Our director and I. He has twenty minutes.", cn: "我们总监和我。他有二十分钟。" },
+            { who: "负责人", en: "Then I shall take the two decisions first and the detail afterwards. Item one concerns the delivery date.", cn: "那我先讲两项决定，再说细节。第一项关于交付日期。" },
+            { who: "客户", en: "Go ahead.", cn: "请。" },
+            { who: "负责人", en: "We propose the twenty-fourth, with a reduction of one module, and we would prefer to agree both today.", cn: "我们提议二十四号交付，并削减一个模块，希望今天两项都定下来。" },
+            { who: "客户", en: "The date is acceptable. The module is not our decision alone.", cn: "日期可以接受。模块不是我们一方能定的。" },
+            { who: "负责人", en: "Understood. May we proceed on the date and take the module to your board, with our note attached?", cn: "明白。那我们能否先把日期定下，模块连我们的说明一起提交贵方董事会？" },
+            { who: "客户", en: "That is the correct order. Send the note today.", cn: "这个顺序是对的。说明今天发过来。" },
+            { who: "负责人", en: "I shall send it within the hour, together with a written record of this call.", cn: "我一小时内发过去，并附本次通话的书面记录。" },
+            { who: "客户", en: "Thank you. That concludes our items.", cn: "谢谢。我们这边没有别的了。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事",
+          register: "随意（极简、俚语）",
+          channel: "电话（两人）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Rob", en: "you free", cn: "你有空吗" },
+            { who: "Sam", en: "for what", cn: "干什么" },
+            { who: "Rob", en: "two minutes", cn: "两分钟" },
+            { who: "Sam", en: "that's what you said last time", cn: "上次你也这么说" },
+            { who: "Rob", en: "this time it's true", cn: "这次是真的" },
+            { who: "Sam", en: "go", cn: "说" },
+            { who: "Rob", en: "can you take the client call thursday", cn: "周四的客户电话你能接吗" },
+            { who: "Sam", en: "why", cn: "为什么" },
+            { who: "Rob", en: "i'll be on a train", cn: "我在火车上" },
+            { who: "Sam", en: "trains have phones", cn: "火车上有电话" },
+            { who: "Rob", en: "trains don't have my laptop", cn: "火车上没有我的电脑" },
+            { who: "Sam", en: "fine. you owe me", cn: "行。你欠我的" },
+            { who: "Rob", en: "i owe you", cn: "我欠你的" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 06-06 谈判报价与客户投诉处理 ==================== */
+    {
+      id: "s06-06",
+      domain: "06",
+      title: "谈判报价与客户投诉处理",
+      ielts: "口语 P3 工作 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "采购方 · 供应商",
+          register: "半正式",
+          channel: "面对面（谈判）",
+          barrier: "无",
+          result: "达成（三年合同换六个点折扣 + 十八个月后重议数量）",
+          lines: [
+            { who: "采购", en: "Your quote is twelve percent above last year's.", cn: "你们的报价比去年高百分之十二。" },
+            { who: "供应商", en: "Our costs are up nine. That is most of it.", cn: "我们的成本涨了九个点。大部分在这儿。" },
+            { who: "采购", en: "I can accept that. What I can't accept is the same price for a one-year and a three-year commitment.", cn: "这我能接受。我不能接受的是：一年期和三年期一个价。" },
+            { who: "供应商", en: "What are you proposing?", cn: "你想怎么谈？" },
+            { who: "采购", en: "Three years, fixed volume, and we carry the delivery risk. In exchange, eight percent off the list.", cn: "三年、固定量、交付风险我们承担。交换条件是按价目表减八个点。" },
+            { who: "供应商", en: "Eight is more than I can sign.", cn: "八个点超出我能签的范围。" },
+            { who: "采购", en: "Then tell me what you can sign, and I'll tell you today whether it is enough.", cn: "那告诉我你能签多少，我今天就告诉你要不要。" },
+            { who: "供应商", en: "Five, and a fourth year at the same price.", cn: "五个点，再加第四年同价。" },
+            { who: "采购", en: "Six, and the fourth year at the same price.", cn: "六个点，第四年同价。" },
+            { who: "供应商", en: "Six, and we review the volume in eighteen months.", cn: "六个点，十八个月后重议数量。" },
+            { who: "采购", en: "Agreed. I'll have it drafted this week.", cn: "同意。我这周让人拟合同。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "客服主管 · 愤怒客户",
+          register: "半正式偏正式",
+          channel: "电话",
+          barrier: "无",
+          result: "达成（全额退款 + 免两月 + 专属对接，客户暂缓投诉升级）",
+          lines: [
+            { who: "客户", en: "I have been passed between four people. I want the person who can actually decide.", cn: "我被推给四个人了。我要能真正做决定的人。" },
+            { who: "主管", en: "That's me, and I'm sorry it took four. Tell me the problem in your own words.", cn: "就是我，抱歉让您转了四个人。请您用自己的话说一下问题。" },
+            { who: "客户", en: "Your system double-charged us for six months, and every month I was told it was fixed.", cn: "你们的系统连续六个月重复收费，每个月我都被告知已经修好了。" },
+            { who: "主管", en: "How much in total?", cn: "一共多少钱？" },
+            { who: "客户", en: "Eight hundred and forty.", cn: "八百四。" },
+            { who: "主管", en: "That will be refunded in full within three working days, and I'll confirm it by email today.", cn: "三个工作日内全额退回，我今天就用邮件确认。" },
+            { who: "客户", en: "And the six months of phone calls?", cn: "那六个月的电话呢？" },
+            { who: "主管", en: "That I can't refund, but I can do two things: two months free, and from now on you deal with me directly.", cn: "那我没法退，但我能做两件事：免两个月费用，而且以后您直接找我。" },
+            { who: "客户", en: "I don't want to deal with anyone else ever again.", cn: "我再也不想跟别人打交道了。" },
+            { who: "主管", en: "Then my number is in the email I'm sending in ten minutes.", cn: "那我的号码在十分钟后发的那封邮件里。" },
+            { who: "客户", en: "...Fine. Thank you. I'll hold off on the complaint.", cn: "……好。谢谢。我先不提投诉了。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "客服 · 客户",
+          register: "半正式",
+          channel: "电话",
+          barrier: "客户要求全额退款并保留服务，超出客服权限",
+          result: "折中（退一半 + 免费三个月 + 具名书面承诺）",
+          lines: [
+            { who: "客户", en: "I want a full refund and I want to keep the subscription.", cn: "我要全额退款，而且要保留订阅。" },
+            { who: "客服", en: "I can do one or the other. I can't do both.", cn: "两件里我能做一件，不能两件都做。" },
+            { who: "客户", en: "That's your problem, not mine.", cn: "那是你们的问题，不是我的。" },
+            { who: "客服", en: "It is our problem, and I still can't do both. May I offer the closest thing?", cn: "确实是我们的问题，但我还是不能两件都做。我能不能提一个最接近的方案？" },
+            { who: "客户", en: "Go on.", cn: "说。" },
+            { who: "客服", en: "Half the fee back, the next three months free, and a written commitment that if it happens again you get the whole year.", cn: "退回一半费用，接下来三个月免费，再加一份书面承诺：如果再发生，整年都退。" },
+            { who: "客户", en: "Written where? In an email nobody reads?", cn: "写在哪？写在一封没人看的邮件里？" },
+            { who: "客服", en: "On the invoice, in the service description, so it follows the account.", cn: "写在发票上、写进服务条款里，这样会跟着这个账户走。" },
+            { who: "客户", en: "And who signs it?", cn: "谁签？" },
+            { who: "客服", en: "My manager, by name. I'll send it today, and it will be there before you pay anything.", cn: "我经理，具名。我今天就发，会在您付任何费用之前到。" },
+            { who: "客户", en: "Then I'll wait for it.", cn: "那我等它。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "销售 · 客户",
+          register: "半正式",
+          channel: "邮件 + 电话",
+          barrier: "报价单没写清是否含安装，双方理解不同",
+          result: "修复（含三天安装，总价仍压在客户预算内）",
+          lines: [
+            { who: "客户", en: "Your quote says fifteen thousand. We assumed installation was included.", cn: "你们的报价是一万五。我们以为包含安装。" },
+            { who: "销售", en: "It isn't included. That is on the second page.", cn: "不包含。在第二页。" },
+            { who: "客户", en: "Nobody reads page two. We budgeted for one number.", cn: "没人看第二页。我们只按一个数字做的预算。" },
+            { who: "销售", en: "That is a fair criticism of our quote, not of your reading. Let me see what I can do.", cn: "这是对我们报价单的合理批评，不是您看漏了。我看看能怎么处理。" },
+            { who: "客户", en: "Please do.", cn: "请。" },
+            { who: "销售", en: "Installation is four days at two hundred a day, so eight hundred. I can include three of those days and charge for one.", cn: "安装是四天、每天两百，共八百。我可以含三天，只收一天。" },
+            { who: "客户", en: "Why not all four?", cn: "为什么不是四天全含？" },
+            { who: "销售", en: "Because then I'd have to raise the unit price and you would pay it anyway. This way the total stays inside your budget.", cn: "因为那样我得抬高单价，您最后还是付这笔钱。这样总价还在您预算内。" },
+            { who: "客户", en: "That's honest. Send the revised quote today.", cn: "这话实在。今天把修订后的报价发我。" },
+            { who: "销售", en: "Today, with a one-line summary at the top so nobody has to read page two.", cn: "今天发，顶部加一行摘要，省得没人看第二页。" }
+          ]
+        },
+        {
+          variant: "情绪型（客户开始骂人）",
+          relation: "客服 · 客户（情绪激烈）",
+          register: "半正式（紧张）",
+          channel: "电话",
+          barrier: "客户开始人身攻击，谈判濒临破裂",
+          result: "达成（划定界限后仍给出上门与换机承诺）",
+          lines: [
+            { who: "客户", en: "You people are useless. Every one of you.", cn: "你们这些人真没用。你们每一个。" },
+            { who: "客服", en: "I'll take the complaint about us seriously. I'd like you to stop there on the personal part.", cn: "关于我们的投诉我会认真处理。针对个人的那部分，希望您到此为止。" },
+            { who: "客户", en: "So now I can't even be angry.", cn: "所以我现在连生气都不行了。" },
+            { who: "客服", en: "You can be as angry as you like about the service. It's the words about me I'm asking you to drop.", cn: "对服务您想多生气都行。我请您收回的是针对我个人的那些话。" },
+            { who: "客户", en: "...Fine. It's the service I'm angry about.", cn: "……行。我气的是服务。" },
+            { who: "客服", en: "Then let's stay on that, because I can fix that and I can't fix the rest.", cn: "那我们就谈这个，因为这个我能解决，其余的解决不了。" },
+            { who: "客户", en: "It has failed three times.", cn: "它坏了三次。" },
+            { who: "客服", en: "Three times in five weeks. I'll put an engineer on site on Thursday and I'll call you myself on Friday morning.", cn: "五周内三次。我周四派工程师上门，周五早上我亲自给您打电话。" },
+            { who: "客户", en: "And if it fails again?", cn: "要是又坏了呢？" },
+            { who: "客服", en: "Then we replace the unit rather than repair it. That is within my authority and I'll put it in writing.", cn: "那我们就换机，而不是修。这在我的权限内，我会写成书面。" },
+            { who: "客户", en: "...All right. Thursday, then.", cn: "……好吧。那就周四。" }
+          ]
+        },
+        {
+          variant: "渠道变体（多方评标）",
+          relation: "供应商代表 · 采购评审组",
+          register: "半正式",
+          channel: "面对面（评标会）",
+          barrier: "评审组压价并要求加条款，时间只有两分钟",
+          result: "达成（守住单价，用服务与罚则条款交换）",
+          lines: [
+            { who: "评审", en: "Your price is the highest of the three. Justify it in two minutes.", cn: "你们的报价是三家里最高的。用两分钟说明理由。" },
+            { who: "代表", en: "Two minutes: we are the only bidder who has run this at your volume, and the only one quoting a fixed price for three years.", cn: "两分钟：我们是唯一按你们的量级做过这件事的投标方，也是唯一给出三年固定价的。" },
+            { who: "评审", en: "A fixed price means you carry the cost risk, not us. That is why it is high.", cn: "固定价意味着成本风险由你们承担，不是我们。所以它才贵。" },
+            { who: "代表", en: "That is exactly right, and it is worth about four percent to you.", cn: "完全正确，而这对你们值大约四个点。" },
+            { who: "评审", en: "Can you come down four?", cn: "能降四个点吗？" },
+            { who: "代表", en: "No. I can add something worth more than four to you and costing us less.", cn: "不能。我可以加一项对你们价值超过四个点、而我们成本更低的东西。" },
+            { who: "评审", en: "Which is?", cn: "是什么？" },
+            { who: "代表", en: "A named account manager, quarterly reviews, and a penalty clause if we miss the agreed dates.", cn: "一位具名客户经理、季度复盘，以及如果我们错过约定日期的罚则。" },
+            { who: "评审", en: "A penalty clause is unusual from a supplier.", cn: "供应商主动提罚则很少见。" },
+            { who: "代表", en: "It is the only honest way to say we are confident. And it is capped at five percent, so it is real but not fatal.", cn: "这是唯一诚实的方式，表明我们有信心。上限百分之五，所以是真的，但不会致命。" },
+            { who: "评审", en: "Put that in writing and we'll take it to the panel.", cn: "把这条写进书面，我们提交评审组。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "甲方代表 · 乙方代表",
+          register: "正式",
+          channel: "面对面（合同谈判）",
+          barrier: "无（但需正式措辞并逐条确认）",
+          result: "达成（条款对齐，约定十二号签署）",
+          lines: [
+            { who: "甲方", en: "We have reached clause seven. Would you care to state your position?", cn: "我们到第七条了。请陈述贵方立场。" },
+            { who: "乙方", en: "We accept the delivery schedule, and we seek a reciprocal obligation: no unilateral alteration of the specification.", cn: "我们接受交付排期，并希望对等义务：不得单方面修改规格说明。" },
+            { who: "甲方", en: "We require the right to alter it where safety demands.", cn: "在安全需要的情况下，我们要求修改权。" },
+            { who: "乙方", en: "Then we propose the words where safety demands, with written notice within twenty-four hours.", cn: "那我们建议措辞为：在安全需要时，须在二十四小时内书面通知。" },
+            { who: "甲方", en: "That is acceptable to us. Do you require anything further on liability?", cn: "我方可以接受。关于责任条款，贵方还有要求吗？" },
+            { who: "乙方", en: "Only that the cap be expressed as a figure rather than as a formula.", cn: "只要求把上限写成一个数字，而不是一个公式。" },
+            { who: "甲方", en: "A figure is clearer. Shall we say the contract value?", cn: "数字更清楚。就写合同金额，可以吗？" },
+            { who: "乙方", en: "That is more than we had anticipated, and we accept it.", cn: "这超出我们的预期，我们接受。" },
+            { who: "甲方", en: "Then the drafting will be amended and circulated tomorrow. Do you propose to sign on the twelfth?", cn: "那明天修订并传阅。贵方是否提议十二号签署？" },
+            { who: "乙方", en: "The twelfth is agreeable. We shall have it reviewed before then.", cn: "十二号可以。我们会在那之前完成审阅。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "老客户 · 小供应商",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "Sam", en: "your price went up", cn: "你涨价了" },
+            { who: "Rob", en: "everything went up", cn: "什么都涨了" },
+            { who: "Sam", en: "not by that much", cn: "没涨这么多" },
+            { who: "Rob", en: "by about that much, actually", cn: "其实差不多就这么多" },
+            { who: "Sam", en: "i'll take double if you hold the price", cn: "我量翻倍，你把价按住" },
+            { who: "Rob", en: "how long", cn: "多久" },
+            { who: "Sam", en: "a year", cn: "一年" },
+            { who: "Rob", en: "a year is a long time", cn: "一年很长" },
+            { who: "Sam", en: "six months then", cn: "那就半年" },
+            { who: "Rob", en: "six months, old price, double volume", cn: "半年，原价，双倍量" },
+            { who: "Sam", en: "deal", cn: "成交" },
+            { who: "Rob", en: "and you pay in fourteen days, not thirty", cn: "还有，你十四天付款，不是三十天" },
+            { who: "Sam", en: "now you're pushing it", cn: "这就过分了" },
+            { who: "Rob", en: "i had to try", cn: "总得试试" }
+          ]
+        }
+      ]
     }
   ];
 
