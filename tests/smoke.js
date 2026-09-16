@@ -287,10 +287,12 @@ try {
     if (has && openHtml.indexOf(dom.name) < 0) problems.push("缺了域：" + dom.name);
     if (!has && openHtml.indexOf(dom.name) >= 0) problems.push("还没收录内容的域不该出现：" + dom.name);
   });
-  // 只写两级：域 + 变体。场景标题、雅思标签、元数据说明都不上屏
+  // 选项文字 = 场景名 · 变体（同一个域里变体名会重复，所以必须带场景名）；
+  // 但雅思标签、关系/语域/渠道/障碍/结果 这些说明都不上屏
+  const pickLabels = (openHtml.match(/data-dlgseg="[^"]*">([^<]*)</g) || [])
+    .map((s) => s.replace(/^.*">/, "").replace(/<$/, ""));
   const allVariants = SC.scenarios.reduce((a, s) => a.concat(s.dialogues.map((d) => d.variant)), []);
   SC.scenarios.forEach((s) => {
-    if (openHtml.indexOf(s.title) >= 0) problems.push("选择器里不该出现场景标题：" + s.title);
     if (s.ielts && openHtml.indexOf(s.ielts) >= 0) problems.push("选择器里不该出现雅思标签：" + s.ielts);
     s.dialogues.forEach((d) => {
       ["relation", "register", "channel", "barrier", "result"].forEach((k) => {
@@ -301,7 +303,7 @@ try {
       });
     });
   });
-  console.log("  展开选择器：" + itemCount + " 个变体按域分组，只有「域 + 变体」两级文字 ✔");
+  console.log("  展开选择器：" + itemCount + " 个变体按域分组，选项文字 =「场景 · 变体」✔");
 
   // 选中一段 → 收起选择器，直接呈现对话；每句配 美 / 英
   const scn0 = SC.scenarios[0];
@@ -319,7 +321,16 @@ try {
   if (selHtml.indexOf("dlgwho") >= 0) problems.push("不该再显示说话人姓名");
   if (selHtml.indexOf("整条朗读") >= 0) problems.push("不该再有「整条朗读」");
   const dom0 = SC.domains.filter((x) => x.id === scn0.domain)[0];
-  if (selHtml.indexOf(dom0.name + " · " + d0.variant) < 0) problems.push("选择器没显示「域 · 变体」两级");
+  if (selHtml.indexOf(scn0.title + " · " + d0.variant) < 0) problems.push("选择器没显示「场景 · 变体」");
+  if (!pickLabels.length || pickLabels.length !== itemCount) {
+    problems.push("选择器选项文字没解析出来：" + pickLabels.length);
+  }
+  if (new Set(pickLabels).size !== pickLabels.length) {
+    problems.push("选择器选项文字有重复，说明没带上场景名（" + pickLabels.length + " 项里只有 " + new Set(pickLabels).size + " 个不同）");
+  } else {
+    console.log("  选项文字唯一性：" + pickLabels.length + " 项全部可区分 ✔");
+  }
+  void dom0;
   console.log("  选中一段：" + d0.lines.length + " 句 + 美/英双朗读，无姓名/无标签/无整条朗读 ✔");
 
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现

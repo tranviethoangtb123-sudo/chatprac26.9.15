@@ -1094,13 +1094,18 @@
 
   var dlgLabels = { uk: "英", us: "美" };
 
+  // 选项文字 = 场景名 · 变体（同一个域里有多个场景时，光看变体名分不出是哪一条）
+  function dlgLabel(it) {
+    return it.scn.title + " · " + it.d.variant;
+  }
+
   function dlgPickHtml(list, curIdx) {
     var picked = curIdx >= 0 ? list[curIdx] : null;
     var html = '<div class="dlgpick">' +
       '<button type="button" class="dlgpick-btn' + (dlgOpen ? " is-open" : "") + '"' +
         ' data-dlgpick="1" aria-expanded="' + (dlgOpen ? "true" : "false") + '">' +
         '<span class="dlgpick-val' + (picked ? "" : " is-ph") + '">' +
-          esc(picked ? picked.dom.name + " · " + picked.d.variant : "选择场景") +
+          esc(picked ? dlgLabel(picked) : "选择场景") +
         "</span>" +
         '<span class="dlgpick-arrow">' + (dlgOpen ? "▲" : "▼") + "</span>" +
       "</button>";
@@ -1114,7 +1119,7 @@
           lastDom = it.dom.name;
         }
         html += '<button type="button" class="dlgpick-item' + (it.key === dlgSel ? " is-active" : "") +
-          '" data-dlgseg="' + esc(it.key) + '">' + esc(it.d.variant) + "</button>";
+          '" data-dlgseg="' + esc(it.key) + '">' + esc(dlgLabel(it)) + "</button>";
       });
       if (!list.length) html += '<p class="dlgpick-none">没有匹配的对话</p>';
       html += "</div>";
