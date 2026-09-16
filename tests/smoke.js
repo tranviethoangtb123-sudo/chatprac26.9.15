@@ -85,7 +85,8 @@ const byId = {};
 ["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "viewTitle", "themeToggle", "viewport",
  "view-words", "view-sentences", "view-practice", "view-dialogue", "vocabBoard",
  "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
- "input", "sendBtn", "composerHint"].forEach((id) => {
+ "input", "sendBtn", "composerHint", "composer", "studyProgress",
+ "pbarAll", "pbarAllVal", "pbarDom", "pbarDomVal", "pbarDomName"].forEach((id) => {
   byId[id] = makeEl("div");
 });
 Object.assign(byId, { input: input, sendBtn: sendBtn, chatLog: chatLog });
@@ -173,6 +174,11 @@ try {
   if (!modeByKey.study.classList.contains("is-active")) problems.push("模式按钮没有高亮同步");
   if (globalThis.localStorage.getItem("chatprac-mode") !== "study") problems.push("模式没有存进 localStorage");
   console.log("  学习模式导航：" + visibleTabs().join("、") + "（已记住选择）");
+
+  // 学习模式下底部没有输入框；进度条只在「对话」板块显示
+  if (byId.composer.hidden !== true) problems.push("学习模式不该再显示底部输入框");
+  if (byId.studyProgress.hidden !== true) problems.push("单词板块不该显示场景进度条");
+  console.log("  学习模式·单词：底部输入框已移除、进度条不显示 ✔");
 
   // ============ 学习模式·单词：三个板块（今日新词 / 已学习 / 全部单词）+ 每行三键 ============
   if (byId.vocabBoard.hidden) problems.push("学习模式应该显示 vocabBoard");
@@ -385,6 +391,27 @@ try {
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if (goalState().mark[k0]) problems.push("再点一次「掌握」应该取消");
   console.log("  掌握 / 练习：就在下拉框每一行右边，点了记进 localStorage ✔");
+
+  // 底部进度条：全场景 + 当前一级标题（域）
+  dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 再记一次，好验证进度条
+  if (byId.studyProgress.hidden !== false) problems.push("对话板块应该显示底部进度条");
+  if (byId.composer.hidden !== true) problems.push("对话板块底部不该有输入框");
+  if (byId.pbarAllVal.textContent !== "1 / " + segTotal + " · 0.4%") {
+    problems.push("全场景进度不对：" + byId.pbarAllVal.textContent);
+  }
+  const domSegs = SC.scenarios.filter((s) => s.domain === scn0.domain)
+    .reduce((n, s) => n + s.dialogues.length, 0);
+  if (byId.pbarDomName.textContent !== (SC.domains.filter((d) => d.id === scn0.domain)[0] || {}).name) {
+    problems.push("当前一级标题名字不对：" + byId.pbarDomName.textContent);
+  }
+  if (byId.pbarDomVal.textContent !== "1 / " + domSegs + " · 1.6%") {
+    problems.push("当前一级标题进度不对：" + byId.pbarDomVal.textContent);
+  }
+  if (byId.pbarAll.style.width !== "0%" || byId.pbarDom.style.width !== "2%") {
+    problems.push("进度条宽度不对：" + byId.pbarAll.style.width + " / " + byId.pbarDom.style.width);
+  }
+  dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 取消掉，别影响后面的断言
+  console.log("  底部进度条：全场景 1 / " + segTotal + " / " + byId.pbarDomName.textContent + " 1 / " + domSegs + " ✔");
 
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现
   byId.input.value = "wallet";

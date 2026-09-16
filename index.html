@@ -73,7 +73,7 @@
       <button class="mode-btn" type="button" data-mode="study">学习</button>
     </div>
     <!-- 版本号：用来判断手机上是新版还是旧缓存（改版时和 sw.js 一起改） -->
-    <p class="build" id="buildTag">v32</p>
+    <p class="build" id="buildTag">v33</p>
   </aside>
 
   <!-- ============ 主区域 ============ -->
@@ -138,8 +138,8 @@
 
     </div>
 
-    <!-- 底部只保留：对话框 + 发送键 -->
-    <footer class="composer">
+    <!-- 查询模式：底部只保留 对话框 + 发送键 -->
+    <footer class="composer" id="composer">
       <div class="composer-inner">
         <textarea id="input" rows="1" placeholder="搜索单词…" autocomplete="off"></textarea>
         <button class="send-btn" id="sendBtn" type="button" aria-label="发送">
@@ -150,6 +150,20 @@
         </button>
       </div>
       <p class="composer-hint" id="composerHint">Enter 搜索 · Shift + Enter 换行</p>
+    </footer>
+
+    <!-- 学习模式：底部是进度（全场景 + 当前一级标题），没有文本框 -->
+    <footer class="progress-foot" id="studyProgress" hidden>
+      <div class="progress-inner">
+        <div class="pbar">
+          <p class="pbar-top"><span>全场景</span><span id="pbarAllVal">0 / 0 · 0%</span></p>
+          <div class="pbar-track"><i id="pbarAll"></i></div>
+        </div>
+        <div class="pbar">
+          <p class="pbar-top"><span id="pbarDomName">当前场景</span><span id="pbarDomVal">0 / 0 · 0%</span></p>
+          <div class="pbar-track"><i id="pbarDom"></i></div>
+        </div>
+      </div>
     </footer>
 
   </main>

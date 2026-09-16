@@ -65,10 +65,7 @@
         hint: "Enter 搜索 · 或点上方「选择场景」按域挑"
       };
     }
-    // 学习模式的单词板块：输入框用来快速加词，不再做检索
-    if (state.mode === "study") {
-      return { ph: "输入单词回车，快速加入收词台…", hint: "Enter 加入收词台 · 格式「单词 词性 中文」，后两项可省" };
-    }
+    // 学习模式底部是进度条，没有输入框（composerConfig 只在查询模式用得上）
     return { ph: "搜索单词：abandon、机会、/əˈbændən/…", hint: "Enter 搜索 · Shift + Enter 换行" };
   }
 
@@ -102,7 +99,14 @@
     chatLog: $("#chatLog"),
     input: $("#input"),
     sendBtn: $("#sendBtn"),
-    composerHint: $("#composerHint")
+    composerHint: $("#composerHint"),
+    composer: $("#composer"),
+    studyProgress: $("#studyProgress"),
+    pbarAll: $("#pbarAll"),
+    pbarAllVal: $("#pbarAllVal"),
+    pbarDom: $("#pbarDom"),
+    pbarDomVal: $("#pbarDomVal"),
+    pbarDomName: $("#pbarDomName")
   };
 
   /* ------------------------------ 工具 ------------------------------ */
@@ -837,17 +841,7 @@
     renderVocab();
   }
 
-  // 底部输入框回车 → 快速加词（直接进学习词库，出现在「今日新词」里）
-  function vQuickAdd(text) {
-    if (!text) return;
-    vs.importText = text;
-    vs.tab = "today";
-    els.input.value = "";
-    state.drafts.words = "";
-    autoGrow();
-    vAddImported();
-  }
-
+  // 底部输入框已从学习模式移除，所以「快速加词」入口也一起去掉（vAddImported 还留着，导入按钮可能用到）
   function onVocabClick(e) {
     var t = e.target;
     if (!t || !t.closest) return;
@@ -1211,6 +1205,7 @@
 
     els.dialogueList.innerHTML = html;
     els.dialogueEmpty.hidden = !(q && !list.length);
+    renderStudyProgress();   // 掌握/练习 一点，底部两条进度条要跟着动
   }
 
   // 事件委托顺序由内到外：掌握/练习 → 选二级标题（再点取消） → 一级标题 → 展开/收起选择器
@@ -1349,11 +1344,46 @@
     });
   }
 
+  // 一条进度条：已掌握 / 总数；不到 10% 时留一位小数，免得刚开始全是 0%
+  function pbarText(done, total) {
+    var pct = total ? done / total * 100 : 0;
+    var shown = (pct > 0 && pct < 10) ? pct.toFixed(1) : String(Math.round(pct));
+    return done + " / " + total + " · " + shown + "%";
+  }
+
+  // 底部进度：全场景 + 当前正在学的一级标题（域）
+  function renderStudyProgress() {
+    if (!els.studyProgress) return;
+    var studyDialogue = state.mode === "study" && state.tab === "dialogue";
+    els.studyProgress.hidden = !studyDialogue;
+    if (els.composer) els.composer.hidden = state.mode === "study";
+    if (!studyDialogue) return;
+
+    var all = dlgFlat();
+    var doneAll = 0;
+    all.forEach(function (it) { if (dlgMarkOf(it.key) === "ok") doneAll++; });
+
+    // 当前一级标题：优先选中那条所在的域，其次下拉里展开的域，最后退回第一个有内容的域
+    var cur = dlgFind(dlgSel);
+    var domId = cur ? cur.dom.id : (dlgDomOpen || (all[0] && all[0].dom.id));
+    var mine = all.filter(function (it) { return it.dom.id === domId; });
+    var doneDom = 0;
+    mine.forEach(function (it) { if (dlgMarkOf(it.key) === "ok") doneDom++; });
+    var domName = mine.length ? mine[0].dom.name : "当前场景";
+
+    els.pbarAllVal.textContent = pbarText(doneAll, all.length);
+    els.pbarAll.style.width = (all.length ? Math.round(doneAll / all.length * 100) : 0) + "%";
+    els.pbarDomName.textContent = domName;
+    els.pbarDomVal.textContent = pbarText(doneDom, mine.length);
+    els.pbarDom.style.width = (mine.length ? Math.round(doneDom / mine.length * 100) : 0) + "%";
+  }
+
   /* ============================== 顶部栏 / 输入区联动 ============================== */
   // 手机上不自动聚焦：程序化 focus() 会把软键盘顶上来，挡住半个屏幕。
   // 只有"鼠标类"设备（桌面）才自动聚焦，触屏设备一律等用户自己点输入框。
   function focusInputIfDesktop() {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+    if (els.composer && els.composer.hidden) return;   // 学习模式没有输入框
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     els.input.focus();
   }
@@ -1423,6 +1453,7 @@
     } else {
       renderCurrent();
       syncChrome();
+      renderStudyProgress();
     }
     els.viewport.scrollTop = 0;
     closeMenu();
@@ -1462,6 +1493,7 @@
     renderCurrent();
 
     syncChrome();
+    renderStudyProgress();
     writeHash(tab);
     closeMenu();
     els.viewport.scrollTop = 0;
@@ -1472,8 +1504,6 @@
     var text = els.input.value.trim();
 
     if (state.tab === "words") {
-      // 学习模式：输入框是「快速加词」，不是检索
-      if (state.mode === "study") { vQuickAdd(text); return; }
       state.wordQuery = text;
       renderWords();
       els.viewport.scrollTop = 0;
