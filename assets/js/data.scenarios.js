@@ -7101,6 +7101,512 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 11-02 运动健身与兴趣社团 ==================== */
+    {
+      id: "s11-02",
+      domain: "11",
+      title: "运动健身与兴趣社团",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 健身房前台（体验课）",
+          register: "中性",
+          channel: "面对面（健身房）",
+          barrier: "无",
+          result: "达成（问清装备与简化动作的做法）",
+          lines: [
+            { who: "前台", en: "Are you here for the trial?", cn: "您是来体验的吗？" },
+            { who: "顾客", en: "I am. I booked the seven o'clock class.", cn: "是的。我订了七点那节课。" },
+            { who: "前台", en: "It's beginners' circuit, forty minutes. Are you training for anything in particular?", cn: "是初级循环训练，四十分钟。您有特别的目标吗？" },
+            { who: "顾客", en: "Nothing specific. I sit down all day and I've stopped being able to run for a bus.", cn: "没有具体的。我整天坐着，现在连追公交都跑不动了。" },
+            { who: "前台", en: "That is the most common reason people come here.", cn: "这是大家来这儿最常见的原因。" },
+            { who: "顾客", en: "Do I need to bring anything?", cn: "需要自带什么吗？" },
+            { who: "前台", en: "Water and a towel. There are mats in the studio.", cn: "水和毛巾。教室里有垫子。" },
+            { who: "顾客", en: "And if the class is too hard?", cn: "如果课太难呢？" },
+            { who: "前台", en: "Tell the instructor before it starts. He'll give you the easier version of each station.", cn: "开始前告诉教练。他会给你每个站的简化版。" },
+            { who: "顾客", en: "I'll do that. Which changing room?", cn: "我会的。用哪个更衣室？" },
+            { who: "前台", en: "Left, and the lockers need a pound coin, which everybody forgets.", cn: "左边。储物柜要一枚一镑硬币，这个大家都忘。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 健身房销售（年卡推销）",
+          register: "半正式",
+          channel: "面对面（健身房）",
+          barrier: "无（但要用「人家二月就停」把年卡话术拆掉）",
+          result: "达成（改按月付，不入年卡）",
+          lines: [
+            { who: "销售", en: "The annual membership is the best value. It works out at thirty a month.", cn: "年卡最划算。折算下来每月三十。" },
+            { who: "顾客", en: "It's only good value if I come for twelve months.", cn: "只有我坚持十二个月它才划算。" },
+            { who: "销售", en: "Most people do.", cn: "大部分人都会。" },
+            { who: "顾客", en: "Most people also stop in February. What's the monthly?", cn: "大部分人二月就停了。月卡多少钱？" },
+            { who: "销售", en: "Forty-five, with a joining fee of twenty.", cn: "四十五，另收入会费二十。" },
+            { who: "顾客", en: "So the annual saves me two hundred, and the joining fee is the same either way?", cn: "所以年卡省我两百，而入会费两种都一样？" },
+            { who: "销售", en: "The joining fee is waived on the annual, actually.", cn: "其实年卡是免入会费的。" },
+            { who: "顾客", en: "Then here is my offer: I'll pay three months up front, and if I'm still coming in April I'll take the rest of the year.", cn: "那我提个方案：我先付三个月；如果四月我还在来，我把剩下的一年补上。" },
+            { who: "销售", en: "I can't hold the annual price for you.", cn: "我没法替您保留年卡的价格。" },
+            { who: "顾客", en: "Then hold nothing and I'll pay monthly. If I stay, you get more than thirty a month anyway.", cn: "那什么都不用留，我按月付。如果我留下，你们每月拿到的还不止三十。" },
+            { who: "销售", en: "That is a fair argument. Monthly it is.", cn: "这个说法公道。就按月。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "跑者 · 社团组织者（水平不够）",
+          register: "随意",
+          channel: "面对面（约跑点）",
+          barrier: "想参加十公里团跑但只能跑五公里",
+          result: "折中（先跑周二五公里慢组，能跑八公里再转周四）",
+          lines: [
+            { who: "组织者", en: "The Thursday run is for people who can do ten kilometres. You said five.", cn: "周四那场是给能跑十公里的人。你说的是五公里。" },
+            { who: "参加者", en: "I can do five comfortably. I'd like to build up.", cn: "五公里我很轻松。我想慢慢加。" },
+            { who: "组织者", en: "Ten is the entry point, and I don't want you dropped at the back alone.", cn: "十公里是门槛，我不想让你一个人掉在队尾。" },
+            { who: "参加者", en: "That's a fair reason. Is there anything between?", cn: "这个理由公道。中间有别的选择吗？" },
+            { who: "组织者", en: "Tuesday is a five-kilometre loop with a faster group and a slower one.", cn: "周二有一个五公里环线，分快组和慢组。" },
+            { who: "参加者", en: "Then I'll start on Tuesday and move to Thursday when I can do eight.", cn: "那我先周二，等我能跑八公里再转周四。" },
+            { who: "组织者", en: "That is the right order. Tuesday's slower group has a leader who stays at the back.", cn: "这个顺序对。周二慢组有个领队一直压队尾。" },
+            { who: "参加者", en: "Let me guess: she's the one who talked you into it.", cn: "让我猜：就是她说服你这么安排的。" },
+            { who: "组织者", en: "Two years ago, and she was right.", cn: "两年前，而且她说对了。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "会员 · 健身房前台（课程改场地没通知）",
+          register: "中性",
+          channel: "面对面（健身房）",
+          barrier: "课程临时改教室，只发在应用里，柜台订课的人没看到",
+          result: "修复（换到八点场 + 抵扣一节 + 加进短信名单）",
+          lines: [
+            { who: "会员", en: "I turned up for the six o'clock class and the studio was dark.", cn: "我六点来上课，教室是黑的。" },
+            { who: "前台", en: "It moved to the poolside room this week. We posted it in the app.", cn: "这周改到泳池边的教室了。我们在应用里发了通知。" },
+            { who: "会员", en: "I don't have the app. I booked at this desk.", cn: "我没装那个应用。我是在这个柜台订的。" },
+            { who: "前台", en: "Then you wouldn't have seen it. That's our gap, not yours.", cn: "那您就看不到。这是我们的漏洞，不是您的。" },
+            { who: "会员", en: "The class is over now. What can be done?", cn: "课已经结束了。能怎么办？" },
+            { who: "前台", en: "Three things: I'll move you to the eight o'clock tonight, credit this one, and put your number on the SMS list.", cn: "三件事：我给您换到今晚八点，这节课记成抵扣，并把您的号码加到短信名单。" },
+            { who: "会员", en: "Was anyone else caught out?", cn: "还有别人也被绕了吗？" },
+            { who: "前台", en: "Four of you. The other three just went home.", cn: "你们四个。另外三个直接回家了。" },
+            { who: "会员", en: "Then text everyone who books at the desk, not only app users.", cn: "那就给所有在柜台订课的人发短信，不只是用应用的人。" },
+            { who: "前台", en: "I'll ask for that today. You're the first person to say it out loud.", cn: "我今天就提。您是第一个把这话说出来的人。" }
+          ]
+        },
+        {
+          variant: "情绪型（被教练当众点名）",
+          relation: "会员 · 教练（当众批评）",
+          register: "随意（情绪化）",
+          channel: "面对面（健身房）",
+          barrier: "教练当众要求加重量，会员差点直接走人",
+          result: "达成（教练改先问一句，并补一节一对一）",
+          lines: [
+            { who: "会员", en: "I'd like to say something about the class.", cn: "我想说说那节课。" },
+            { who: "教练", en: "You were struggling with the weights.", cn: "你在重量上有点吃力。" },
+            { who: "会员", en: "I was. What I minded was being told in front of everyone to add more.", cn: "确实。我介意的是当着所有人的面被要求加重量。" },
+            { who: "教练", en: "It's how I motivate people.", cn: "我就是这么激励人的。" },
+            { who: "会员", en: "It works for some. It made me want to leave, and I nearly did.", cn: "对有些人有用。它让我想走，而且我差点就走了。" },
+            { who: "教练", en: "...I didn't know that.", cn: "……我不知道。" },
+            { who: "会员", en: "Now you do. Could you say it quietly next time, or ask first?", cn: "现在你知道了。下次能小声说，或者先问一句吗？" },
+            { who: "教练", en: "I'll ask first. And I owe you a session, one to one, to go through the technique properly.", cn: "我先问。而且我欠你一节课，一对一，把动作好好过一遍。" },
+            { who: "会员", en: "I'd take that. And I'll tell you when I'm at my limit instead of just stopping.", cn: "这个我要。而且我到极限时会告诉你，而不是直接停下。" },
+            { who: "教练", en: "That is the deal that should have existed from the start.", cn: "这个约定本来就该从一开始就有。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 约课）",
+          relation: "会员 · 健身房客服（约课名额）",
+          register: "半正式",
+          channel: "App + 客服",
+          barrier: "应用显示满员，现场却有空位",
+          result: "达成（问清现场名额与放号时间，并提文案修改）",
+          lines: [
+            { who: "会员", en: "The app says the class is full, but the studio had eleven people in it.", cn: "应用说课满了，但教室里只有十一个人。" },
+            { who: "客服", en: "The cap is twenty. The app shows full when the online allocation is gone.", cn: "上限是二十。应用显示满是指线上名额发完了。" },
+            { who: "会员", en: "So there are places that can only be had by walking in.", cn: "所以有些位置只能走到现场才有。" },
+            { who: "客服", en: "In practice, yes. Regulars know, and it's unfair on everyone else.", cn: "实际上是的。老会员知道这一点，对其他所有人都不公平。" },
+            { who: "会员", en: "Then put the number on the screen. Twenty places, fourteen online.", cn: "那就把数字显示在屏幕上。二十个位置，线上十四个。" },
+            { who: "客服", en: "That's a product change, not something I can do today.", cn: "那是产品改动，不是我今天能做的。" },
+            { who: "会员", en: "Then do what you can: tell me how many walk-in places this class has.", cn: "那你做你能做的：告诉我这节课现场有多少个位置。" },
+            { who: "客服", en: "Six, and they open ten minutes before.", cn: "六个，开课前十分钟放出。" },
+            { who: "会员", en: "Now I can plan. Write that in the class description.", cn: "现在我能安排了。把这句写进课程说明里。" },
+            { who: "客服", en: "I'll pass it on as a wording change, which is easier to approve than a feature.", cn: "我按文案改动提上去，这比做个新功能好批。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "参加者 · 骑行俱乐部负责人",
+          register: "正式",
+          channel: "面对面（俱乐部）",
+          barrier: "无（但需正式确认保险与安全要求）",
+          result: "达成（先确认自保再参加，周日带灯）",
+          lines: [
+            { who: "负责人", en: "Welcome. Before you join the club's Sunday rides, I must take you through our safety rules.", cn: "欢迎。在您参加俱乐部周日骑行之前，我必须向您说明安全规则。" },
+            { who: "参加者", en: "Please do. I have read the handbook, and I have one question about the insurance.", cn: "请讲。手册我读过了，关于保险我有一个问题。" },
+            { who: "负责人", en: "The club insurance covers third-party claims, not personal injury.", cn: "俱乐部保险覆盖第三方索赔，不包括个人伤害。" },
+            { who: "参加者", en: "Then I should confirm my own cover before my first ride rather than after.", cn: "那我应该在第一次骑行之前而不是之后确认我自己的保险。" },
+            { who: "负责人", en: "That is what most people do afterwards, and it is the wrong way round.", cn: "大部分人都是事后再办，而这个顺序是错的。" },
+            { who: "参加者", en: "What else is required of members?", cn: "会员还有别的要求吗？" },
+            { who: "负责人", en: "A helmet, working lights, and that you tell the ride leader if you are dropping off the back.", cn: "头盔、能用的车灯，以及如果你掉队要告诉领骑。" },
+            { who: "参加者", en: "The last one I have not seen before, and it is the sensible one.", cn: "最后一条我以前没见过，但它是最合理的一条。" },
+            { who: "负责人", en: "It came from an incident. Since then we have had no one lost.", cn: "这条来自一次事故。从那以后我们没丢过人。" },
+            { who: "参加者", en: "Then I shall sign, and I shall bring the lights on Sunday.", cn: "那我签字，周日我会带灯。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 健身房前台（问价格）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（健身房）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "how much a month", cn: "一个月多少钱" },
+            { who: "前台", en: "thirty five", cn: "三十五" },
+            { who: "顾客", en: "and there's no contract", cn: "没有合约吧" },
+            { who: "前台", en: "twelve months", cn: "十二个月" },
+            { who: "顾客", en: "so there is a contract", cn: "所以是有合约" },
+            { who: "前台", en: "yeah", cn: "对" },
+            { who: "顾客", en: "can i cancel", cn: "能取消吗" },
+            { who: "前台", en: "with a doctor's note", cn: "有医生证明才行" },
+            { who: "顾客", en: "of course", cn: "那当然" },
+            { who: "前台", en: "that's gyms", cn: "健身房都这样" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 07-01 客服售后与退换 ==================== */
+    {
+      id: "s07-01",
+      domain: "07",
+      title: "客服售后与退换",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 客服（换货）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "无",
+          result: "达成（同款换新，标签扫描即发货）",
+          lines: [
+            { who: "客服", en: "How can I help?", cn: "需要什么帮助？" },
+            { who: "顾客", en: "The kettle I bought last month leaks from the base.", cn: "我上个月买的水壶底部漏水。" },
+            { who: "客服", en: "Do you have the order number?", cn: "有订单号吗？" },
+            { who: "顾客", en: "It's in my account. Reference four eight two.", cn: "在我账户里。编号四八二。" },
+            { who: "客服", en: "I can see it. Would you like a replacement or a refund?", cn: "我看到了。您要换货还是退款？" },
+            { who: "顾客", en: "Replacement, if it's the same model. I liked it until it leaked.", cn: "换货，如果是同款的话。漏水之前我很喜欢它。" },
+            { who: "客服", en: "Same model, and I'll send a return label for the old one.", cn: "同款，我会给旧件发一张退货标签。" },
+            { who: "顾客", en: "Do I need to clean it first?", cn: "需要先清洁吗？" },
+            { who: "客服", en: "Empty it and don't bother cleaning. It's going to be inspected, not reused.", cn: "倒空就行，不用洗。它会被检查，不会再使用。" },
+            { who: "顾客", en: "Then I'll post it tomorrow. How long for the new one?", cn: "那我明天寄。新的要多久？" },
+            { who: "客服", en: "Three days, and it ships when the label is scanned rather than when it arrives.", cn: "三天；标签一扫描就发货，不用等到到货。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 售后客服（保修被拒）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "无（但要用照片证明工程师报告张冠李戴）",
+          result: "达成（改判保修维修，取件费由商家承担）",
+          lines: [
+            { who: "客服", en: "The engineer's report says the damage is accidental, so the warranty doesn't apply.", cn: "工程师报告说损坏属于意外，所以保修不适用。" },
+            { who: "顾客", en: "What did he say the damage was?", cn: "他说损坏是什么？" },
+            { who: "客服", en: "A cracked screen from impact.", cn: "撞击造成的屏幕破裂。" },
+            { who: "顾客", en: "The screen is intact. The fault is that it won't charge.", cn: "屏幕是完好的。故障是充不进电。" },
+            { who: "客服", en: "The report mentions the screen.", cn: "报告提到了屏幕。" },
+            { who: "顾客", en: "Then the report is about a different phone or a different customer. I can send you a photograph of mine with today's date.", cn: "那这份报告说的是另一台手机，或者另一位客户。我可以给您发我的手机照片，带今天的日期。" },
+            { who: "客服", en: "...Please do. If the screen is intact, the report doesn't match your device.", cn: "……请发。如果屏幕完好，报告就和您的设备不符。" },
+            { who: "顾客", en: "Sending it now. And I'd like the repair under warranty, not a paid one.", cn: "现在发。而且我希望按保修维修，不是付费维修。" },
+            { who: "客服", en: "If the photograph matches, it's a warranty repair, and we collect it at our cost.", cn: "如果照片对得上，就按保修维修，我们承担取件费。" },
+            { who: "顾客", en: "Thank you. I'd also like the report corrected, in case it follows the serial number.", cn: "谢谢。我还希望把那份报告更正，以防它跟着序列号走。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 客服（超期退货）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "买了四个月想退货，远超三十天",
+          result: "折中（按四成折价换购，高于标准）",
+          lines: [
+            { who: "顾客", en: "I bought this in March and I'd like to return it.", cn: "我三月买的，想退。" },
+            { who: "客服", en: "Our returns window is thirty days.", cn: "我们的退货期是三十天。" },
+            { who: "顾客", en: "It's four months. I'm not going to pretend I didn't know.", cn: "四个月了。我不会假装我不知道。" },
+            { who: "客服", en: "Then a refund isn't something I can offer.", cn: "那退款我给不了。" },
+            { who: "顾客", en: "What can you offer, given that the fault is a design one? The newer model fixed it.", cn: "既然这是设计缺陷，你们能提供什么？新款已经修好了这个问题。" },
+            { who: "客服", en: "Where did you read that?", cn: "您在哪看到的？" },
+            { who: "顾客", en: "In your own release notes. It says the hinge was redesigned.", cn: "在你们自己的发布说明里。写着铰链重新设计了。" },
+            { who: "客服", en: "...I can offer a trade-in at forty percent of what you paid, which is above our standard.", cn: "……我可以给按您付款的四成折价换购，高于我们的标准。" },
+            { who: "顾客", en: "Forty percent of a four-month-old item is fair. I'll take it.", cn: "四个月的东西给四成，公道。我接受。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 客服（换错颜色还缺件）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "补发的货颜色与订单不符，配件还漏了",
+          result: "修复（先发正确件，寄回不设前提）",
+          lines: [
+            { who: "顾客", en: "The replacement arrived, but it's the wrong colour and the accessory is missing.", cn: "换货到了，但颜色错了，而且配件缺失。" },
+            { who: "客服", en: "The colour on the order is grey. What arrived?", cn: "订单上的颜色是灰色。到的是什么？" },
+            { who: "顾客", en: "Grey is what I ordered, but the box says white and the item inside is white.", cn: "我订的是灰色，但盒子上写的是白色，里面也是白色。" },
+            { who: "客服", en: "So the label and the contents agree with each other and disagree with the order.", cn: "所以标签和内容一致，但和订单不一致。" },
+            { who: "顾客", en: "That's exactly it. And the cable isn't in the box.", cn: "就是这样。而且线也不在盒子里。" },
+            { who: "客服", en: "That's a picking error at the warehouse. I'll send the correct one today and a prepaid label for this one.", cn: "这是仓库拣货错误。我今天发正确的，并给这件附一张预付标签。" },
+            { who: "顾客", en: "Do I have to send this back before the new one ships?", cn: "我必须在新的发出之前把件寄回吗？" },
+            { who: "客服", en: "No. You've already waited once. It ships now, and you return it when convenient.", cn: "不用。您已经等过一次了。现在就发，您方便时再寄回。" },
+            { who: "顾客", en: "That's the first time a company has trusted me.", cn: "这是第一次有公司信任我。" }
+          ]
+        },
+        {
+          variant: "情绪型（第三次联系同一单）",
+          relation: "顾客 · 客服（反复未解决）",
+          register: "半正式（情绪化）",
+          channel: "电话客服",
+          barrier: "同一问题第三次联系，前两次都被关单",
+          result: "达成（当天补发 + 退运费 + 账户标注历史）",
+          lines: [
+            { who: "顾客", en: "This is the third contact about the same order.", cn: "这是关于同一笔订单的第三次联系了。" },
+            { who: "客服", en: "I can see two previous tickets.", cn: "我看到两张之前的工单。" },
+            { who: "顾客", en: "And each time I was told it was resolved. It isn't.", cn: "每次都告诉我已解决。并没有。" },
+            { who: "客服", en: "That's two people who closed a ticket without finishing it, and that is on us.", cn: "那是两个人没做完就关了工单，这是我们的问题。" },
+            { who: "顾客", en: "I don't want another apology. I want the thing I paid for.", cn: "我不要又一个道歉。我要我付钱买的东西。" },
+            { who: "客服", en: "Understood. I'm doing three things while you're on the line: sending a replacement today, refunding the delivery charge, and noting on the account that this is the third contact.", cn: "明白。我在通话中做三件事：今天发出替换件、退还运费、在账户上标注这是第三次联系。" },
+            { who: "顾客", en: "Will the note mean anything to the next person?", cn: "这条标注对下一个人有意义吗？" },
+            { who: "客服", en: "It means the next person sees the history before they speak to you.", cn: "意思是下一个人跟你说话之前会看到全部历史。" },
+            { who: "顾客", en: "...That's all I wanted three weeks ago.", cn: "……三周前我要的就是这个。" },
+            { who: "客服", en: "I know. And I'd ask you to hold me to it by name, which is on this email.", cn: "我知道。而且请您用名字盯着我办，名字在这封邮件里。" }
+          ]
+        },
+        {
+          variant: "渠道变体（在线客服聊天）",
+          relation: "顾客 · 在线客服",
+          register: "半正式",
+          channel: "在线聊天",
+          barrier: "物流显示已送达，但门口照片不是自家",
+          result: "达成（提交理赔，标记快递员并换人派送）",
+          lines: [
+            { who: "顾客", en: "my order says delivered but nothing arrived", cn: "我的订单显示已送达，但什么都没到" },
+            { who: "客服", en: "the photo on the tracking shows a doorstep. is that yours", cn: "物流照片显示一个门口。是您家吗" },
+            { who: "顾客", en: "no. different door, different colour", cn: "不是。门不一样，颜色也不一样" },
+            { who: "客服", en: "then it was delivered to the wrong address. i'm filing a claim now", cn: "那就是送错地址了。我现在提交理赔" },
+            { who: "顾客", en: "how long", cn: "要多久" },
+            { who: "客服", en: "24 hours to confirm, then replacement or refund, your choice", cn: "24 小时确认，然后换货或退款，您选" },
+            { who: "顾客", en: "replacement. same item", cn: "换货。同一件" },
+            { who: "客服", en: "done. and i've flagged the courier, not you", cn: "好了。另外我标记的是快递员，不是您" },
+            { who: "顾客", en: "what does flagged mean", cn: "标记是什么意思" },
+            { who: "客服", en: "it means the next one is delivered by someone else", cn: "意思是下一件换个人送" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "顾客 · 客服主管（正式交涉）",
+          register: "正式",
+          channel: "面对面（客服中心）",
+          barrier: "无（但需正式陈述时间线并要求全额退款）",
+          result: "达成（全额退款并退运费，档案注明失误）",
+          lines: [
+            { who: "主管", en: "You have written to us about the kettle and the replacement. May we go through it?", cn: "您已就水壶和换货事宜致函我们。我们可以逐项过一遍吗？" },
+            { who: "顾客", en: "Please. The sequence matters more than the fault.", cn: "请。经过比故障本身更重要。" },
+            { who: "主管", en: "Then state the sequence.", cn: "那请您陈述经过。" },
+            { who: "顾客", en: "Reported on the third, replaced on the ninth, and the replacement leaked on the eleventh. I telephoned on the twelfth, was told to email, and emailed on the twelfth.", cn: "三号报修，九号换货，十一号换的那件也漏。十二号我打电话，被告知要发邮件，我十二号发了邮件。" },
+            { who: "主管", en: "I have the email. The reply took six days.", cn: "邮件我有。回复用了六天。" },
+            { who: "顾客", en: "It did, and the reply asked me to do what I had already described doing.", cn: "是的，而且回复让我做的正是我已经写明做过的事。" },
+            { who: "主管", en: "That is a failure of reading, and I shall say so in the file.", cn: "这是阅读上的失误，我会在档案里这么写。" },
+            { who: "顾客", en: "I should like a full refund rather than a third replacement, and the delivery charge returned.", cn: "我希望全额退款，而不是第三次换货，并退还运费。" },
+            { who: "主管", en: "That is reasonable, and I shall approve it today.", cn: "这合理，我今天批准。" },
+            { who: "顾客", en: "Then I have no complaint about the outcome, only about the six days.", cn: "那我对结果没有意见，只是对那六天有意见。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 客服（换货）",
+          register: "随意（极简、俚语）",
+          channel: "在线聊天",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "this is broken", cn: "这个坏了" },
+            { who: "客服", en: "when did you buy it", cn: "什么时候买的" },
+            { who: "顾客", en: "last month", cn: "上个月" },
+            { who: "客服", en: "refund or swap", cn: "退款还是换" },
+            { who: "顾客", en: "swap", cn: "换" },
+            { who: "客服", en: "same colour", cn: "同色吗" },
+            { who: "顾客", en: "yeah", cn: "是" },
+            { who: "客服", en: "label's in your email", cn: "标签在您邮箱里" },
+            { who: "顾客", en: "cheers", cn: "谢了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 07-02 预订与取消 ==================== */
+    {
+      id: "s07-02",
+      domain: "07",
+      title: "预订与取消",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 预订客服（改期与加人）",
+          register: "半正式",
+          channel: "电话",
+          barrier: "无",
+          result: "达成（改到下周六八点，换大桌）",
+          lines: [
+            { who: "客服", en: "You'd like to cancel the booking for Saturday?", cn: "您要取消周六的预订？" },
+            { who: "顾客", en: "Change it, if I can. Same time, next Saturday.", cn: "如果能改就改。同一时间，下周六。" },
+            { who: "客服", en: "Let me look. ...Next Saturday is free at seven thirty.", cn: "我看一下。……下周六七点半有空位。" },
+            { who: "顾客", en: "Then move it rather than cancel it.", cn: "那就改，不用取消。" },
+            { who: "客服", en: "Done. Is the number of guests the same?", cn: "改好了。人数一样吗？" },
+            { who: "顾客", en: "Six instead of four, if that's possible.", cn: "如果可以，从四位改成六位。" },
+            { who: "客服", en: "Six needs the larger table, which is taken at seven thirty but free at eight.", cn: "六位需要大桌，七点半被订了，八点空着。" },
+            { who: "顾客", en: "Eight is fine. Are you sure the table is big enough?", cn: "八点可以。您确定桌子够大吗？" },
+            { who: "客服", en: "It seats eight. I would rather you had space than be squeezed.", cn: "能坐八人。我宁愿您宽敞点，而不是挤着。" },
+            { who: "顾客", en: "That's how it should be done. Thank you.", cn: "就该这么做。谢谢。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 客服（严格取消政策）",
+          register: "半正式",
+          channel: "电话",
+          barrier: "无（但要用「政策允许的另一半」换到改期）",
+          result: "达成（改到十月同一周，无需证明）",
+          lines: [
+            { who: "客服", en: "The booking is non-refundable within seven days.", cn: "预订在七天之内不可退款。" },
+            { who: "顾客", en: "I'm cancelling because of a hospital appointment, not a change of mind.", cn: "我取消是因为医院预约，不是改主意。" },
+            { who: "客服", en: "The policy doesn't distinguish between the two.", cn: "政策不区分这两种情况。" },
+            { who: "顾客", en: "Then I'll ask for the part the policy does allow: can the dates be moved instead?", cn: "那我要政策允许的那部分：日期能改吗？" },
+            { who: "客服", en: "A date change is allowed once, within six months.", cn: "六个月内可以改一次日期。" },
+            { who: "顾客", en: "Then move it to the same week in October, and I'll send the appointment letter.", cn: "那就改到十月同一周，我会把预约单发过来。" },
+            { who: "客服", en: "The letter isn't needed for a date change. Keep it.", cn: "改期不需要那封信。您留着吧。" },
+            { who: "顾客", en: "Then why would it be needed if I cancelled?", cn: "那如果我是取消，为什么要那封信？" },
+            { who: "客服", en: "Because a refund needs a reason on file. A date change doesn't.", cn: "因为退款需要在档案里有理由。改期不需要。" },
+            { who: "顾客", en: "Good to know. October, then, and please confirm by email.", cn: "这很有用。那就十月，请邮件确认。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 客服（过了免费取消期）",
+          register: "半正式",
+          channel: "电话",
+          barrier: "二十四小时内取消要给一晚房费",
+          result: "折中（把预订转给妹妹，一分不浪费）",
+          lines: [
+            { who: "顾客", en: "I need to cancel tomorrow's booking.", cn: "我要取消明天的预订。" },
+            { who: "客服", en: "That's inside twenty-four hours, so the first night is charged.", cn: "这在二十四小时之内，所以第一晚要收费。" },
+            { who: "顾客", en: "I know. Is there anything better than paying for a room I won't use?", cn: "我知道。有没有比为一间我不会用的房间付钱更好的办法？" },
+            { who: "客服", en: "Two options: move it to a date within thirty days, or transfer it to someone else.", cn: "两个选择：改到三十天内的某个日期，或者转给别人。" },
+            { who: "顾客", en: "Transfer it to my sister. Can she just give my name?", cn: "转给我妹妹。她报我的名字就行吗？" },
+            { who: "客服", en: "Give me her name and I'll amend the booking. She'll need ID at check-in.", cn: "把她的名字给我，我改预订。她入住时需要证件。" },
+            { who: "顾客", en: "And the payment?", cn: "付款呢？" },
+            { who: "客服", en: "It stays as it is. She pays nothing, because you have already paid.", cn: "不变。她不用付，因为您已经付了。" },
+            { who: "顾客", en: "Then nothing is wasted. That's better than I expected.", cn: "那就没有浪费。比我预想的好。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 客服（确认信日期错）",
+          register: "半正式",
+          channel: "电话 + 邮件",
+          barrier: "电话里确认的是十四号，确认信写成四号",
+          result: "修复（改到十四号，并用文字写出星期几）",
+          lines: [
+            { who: "顾客", en: "I booked for the fourteenth and the confirmation says the fourth.", cn: "我订的是十四号，确认信写的是四号。" },
+            { who: "客服", en: "The system has the fourth at seven.", cn: "系统里是四号七点。" },
+            { who: "顾客", en: "I read the date back on the phone and it was confirmed.", cn: "我在电话里复述过日期，而且被确认了。" },
+            { who: "客服", en: "There's a note: customer confirmed the fourth.", cn: "有条备注：客户确认四号。" },
+            { who: "顾客", en: "Then the error happened before that, and the note recorded the error instead of catching it.", cn: "那错误发生在之前，而备注记录了这个错误，而不是发现它。" },
+            { who: "客服", en: "That is a fair reading. I'll move it to the fourteenth, and there's space.", cn: "这个解读公道。我改到十四号，还有位置。" },
+            { who: "顾客", en: "Could you also confirm by email with the day written out in words?", cn: "另外能用邮件确认，并把星期几写成文字吗？" },
+            { who: "客服", en: "Friday the fourteenth. I'll write it exactly like that.", cn: "十四号星期五。我就这么写。" },
+            { who: "顾客", en: "Words prevent this. Digits cause it.", cn: "文字能防止这种事，数字会引发它。" }
+          ]
+        },
+        {
+          variant: "情绪型（出发前两天被取消）",
+          relation: "顾客 · 客服（酒店停业）",
+          register: "半正式（情绪化）",
+          channel: "电话",
+          barrier: "出发前两天酒店取消预订，顾客无处可住",
+          result: "达成（同区同价换到更好的酒店，差价商家承担）",
+          lines: [
+            { who: "顾客", en: "You've cancelled my booking two days before I travel.", cn: "你们在我出发前两天取消了预订。" },
+            { who: "客服", en: "The hotel has closed for refurbishment.", cn: "酒店因翻新停业了。" },
+            { who: "顾客", en: "That's their problem, and I'm the one with no room.", cn: "那是他们的问题，而没房住的是我。" },
+            { who: "客服", en: "You're right, and we're responsible for finding you somewhere.", cn: "您说得对，我们有责任给您找地方。" },
+            { who: "顾客", en: "At the same price, in the same area, for the same dates.", cn: "同价位、同区域、同日期。" },
+            { who: "客服", en: "There are two options within a kilometre. One is better and costs us more.", cn: "一公里内有两个选择。一个更好，但我们要多花点钱。" },
+            { who: "顾客", en: "Which one are you offering?", cn: "您给哪个？" },
+            { who: "客服", en: "The better one. It's our failure, and I'm not going to save forty pounds on it.", cn: "更好的那个。这是我们的失误，我不想在这种事上省四十镑。" },
+            { who: "顾客", en: "Then I've stopped being angry.", cn: "那我就不生气了。" },
+            { who: "客服", en: "I would rather you stopped being angry than I saved the money.", cn: "我宁愿您不生气，也不想省那笔钱。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 自助改期）",
+          relation: "顾客 · 预订客服（自助改期）",
+          register: "半正式",
+          channel: "App + 在线客服",
+          barrier: "应用只给「取消」，把可改期这项藏起来",
+          result: "达成（人工改期免手续费，并留下书面记录）",
+          lines: [
+            { who: "顾客", en: "The app won't let me change the date. It only offers cancel.", cn: "应用不让我改日期，只给取消。" },
+            { who: "客服", en: "That's because it's a saver rate, which is changeable but not through the app.", cn: "因为这是特惠价，可以改，但不能通过应用改。" },
+            { who: "顾客", en: "So the app offers the option that costs me money and hides the one that doesn't.", cn: "所以应用给的是让我花钱的选项，把不花钱的藏起来了。" },
+            { who: "客服", en: "It does, and I have raised it twice internally.", cn: "确实，我内部提过两次了。" },
+            { who: "顾客", en: "Then change it for me now. Same booking, one week later.", cn: "那现在帮我改。同一个预订，推后一周。" },
+            { who: "客服", en: "Done, and there's no fee, because the rate allows one change.", cn: "改好了，没有费用，因为这个价格允许改一次。" },
+            { who: "顾客", en: "Does that use up my one change?", cn: "这算用掉了我那一次改期吗？" },
+            { who: "客服", en: "It does, and the app should have told you that as well.", cn: "算，而且应用也该告诉您这一点。" },
+            { who: "顾客", en: "Write it in the chat so I have it.", cn: "在聊天里写给我，我好留底。" },
+            { who: "客服", en: "Written. Quote this reference if anyone queries it.", cn: "写好了。如果有人质疑，报这个编号。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "客户 · 场地经理（正式取消宴会厅）",
+          register: "正式",
+          channel: "书面 + 面谈",
+          barrier: "无（但需确认费用与退款形式）",
+          result: "达成（免收费取消，十四天内按原方式退订金）",
+          lines: [
+            { who: "经理", en: "We have your letter regarding the cancellation of the function room.", cn: "我们收到您关于取消宴会厅的信函。" },
+            { who: "顾客", en: "I should like to cancel on the fourteenth of June and to understand the charges.", cn: "我想取消六月十四日的预订，并了解相关费用。" },
+            { who: "经理", en: "Under the terms, cancellation more than twenty-eight days before the event carries no charge.", cn: "按条款，活动前二十八天以上取消不收费。" },
+            { who: "顾客", en: "That is more than fifty days, so no charge applies.", cn: "那是五十多天，所以不应收费。" },
+            { who: "经理", en: "Correct. The deposit is returned within fourteen days.", cn: "正确。订金在十四天内退还。" },
+            { who: "顾客", en: "May I ask in what form, and whether any administration fee is deducted?", cn: "请问以什么形式退还，是否扣除手续费？" },
+            { who: "经理", en: "By the original method, and no fee is deducted on a cancellation with this much notice.", cn: "按原支付方式，且在此通知期下取消不扣手续费。" },
+            { who: "顾客", en: "Then I shall confirm the cancellation in writing today, and I should like the refund date in writing as well.", cn: "那我今天书面确认取消，并希望退款日期也书面告知。" },
+            { who: "经理", en: "You shall have both by the end of the week.", cn: "两项本周内都会给您。" },
+            { who: "顾客", en: "Thank you. We may wish to rebook in the autumn.", cn: "谢谢。我们秋天可能还想再订。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 预订客服",
+          register: "随意（极简、俚语）",
+          channel: "电话",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "need to cancel saturday", cn: "周六的预订要取消" },
+            { who: "客服", en: "name", cn: "姓名" },
+            { who: "顾客", en: "reid", cn: "Reid" },
+            { who: "客服", en: "cancel or move", cn: "取消还是改期" },
+            { who: "顾客", en: "move if you can", cn: "能改就改" },
+            { who: "客服", en: "next saturday, same time", cn: "下周六，同一时间" },
+            { who: "顾客", en: "go on then", cn: "那就这样" },
+            { who: "客服", en: "done", cn: "改好了" },
+            { who: "顾客", en: "cheers", cn: "谢了" }
+          ]
+        }
+      ]
     }
   ];
 
