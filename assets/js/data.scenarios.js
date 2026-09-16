@@ -3971,6 +3971,356 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 01-02 入境海关与安检 ==================== */
+    {
+      id: "s01-02",
+      domain: "01",
+      title: "入境海关与安检",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "旅客 · 边检官员",
+          register: "半正式",
+          channel: "面对面（边检柜台）",
+          barrier: "无",
+          result: "达成（顺利入境）",
+          lines: [
+            { who: "官员", en: "Passport, please. What is the purpose of your visit?", cn: "请给护照。您此行的目的是什么？" },
+            { who: "旅客", en: "Tourism. Ten days.", cn: "旅游。十天。" },
+            { who: "官员", en: "Where will you be staying?", cn: "您住在哪里？" },
+            { who: "旅客", en: "The first three nights in a hotel in the old town, then with a friend in the north.", cn: "头三晚住老城区的酒店，之后住北边一个朋友家。" },
+            { who: "官员", en: "Do you have the booking?", cn: "有预订单吗？" },
+            { who: "旅客", en: "Here. And a return ticket for the nineteenth.", cn: "这里。还有十九号的回程票。" },
+            { who: "官员", en: "How much cash are you carrying?", cn: "您带了多少现金？" },
+            { who: "旅客", en: "About three hundred euros, and a card.", cn: "大约三百欧，还有一张卡。" },
+            { who: "官员", en: "Is this your first visit?", cn: "这是您第一次来吗？" },
+            { who: "旅客", en: "Second. I came in twenty nineteen as well.", cn: "第二次。二〇一九年也来过。" },
+            { who: "官员", en: "Enjoy your stay.", cn: "祝您旅途愉快。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "旅客 · 海关官员",
+          register: "半正式偏正式",
+          channel: "面对面（海关通道）",
+          barrier: "无",
+          result: "达成（配合开箱检查后放行）",
+          lines: [
+            { who: "官员", en: "Please come this way. Is this your bag?", cn: "请到这边来。这是您的包吗？" },
+            { who: "旅客", en: "It is.", cn: "是。" },
+            { who: "官员", en: "I'm going to open it. Do you have anything to declare?", cn: "我要打开检查。您有需要申报的东西吗？" },
+            { who: "旅客", en: "Two bottles of wine and a box of chocolates. Both under the limit.", cn: "两瓶酒和一盒巧克力。都在限额内。" },
+            { who: "官员", en: "And this? It's wrapped.", cn: "这个呢？包着的东西。" },
+            { who: "旅客", en: "A gift for my host. I can unwrap it if you need me to.", cn: "给主人的礼物。如果需要我可以拆开。" },
+            { who: "官员", en: "Please.", cn: "请。" },
+            { who: "旅客", en: "It's a coffee grinder. Here's the receipt.", cn: "是个咖啡磨豆机。这是收据。" },
+            { who: "官员", en: "Thank you. That's everything. You can close it up.", cn: "谢谢。就这些。您可以合上了。" },
+            { who: "旅客", en: "Do I need to do anything else?", cn: "我还需要办什么吗？" },
+            { who: "官员", en: "Nothing. The exit is behind you.", cn: "不需要。出口在您后面。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "旅客 · 海关官员",
+          register: "半正式",
+          channel: "面对面（海关通道）",
+          barrier: "酒超出免税额两瓶，要么缴税要么寄存退运",
+          result: "折中（当场缴十一欧税放行）",
+          lines: [
+            { who: "官员", en: "You have four bottles. The allowance is two.", cn: "您有四瓶。限额是两瓶。" },
+            { who: "旅客", en: "I didn't know that. What are the options?", cn: "我不知道。有什么选择？" },
+            { who: "官员", en: "You pay duty on the excess, or you leave them here and collect them on your way out.", cn: "要么对超出的部分缴税，要么留在这里，出境时再取。" },
+            { who: "旅客", en: "How much is the duty?", cn: "税是多少？" },
+            { who: "官员", en: "Eleven euros for the two bottles.", cn: "两瓶十一欧。" },
+            { who: "旅客", en: "And if I leave them here?", cn: "如果留在这里呢？" },
+            { who: "官员", en: "Storage is free for thirty days. But you would be collecting them at the end of a ten-day trip.", cn: "寄存三十天内免费。但您十天行程结束时才回来取。" },
+            { who: "旅客", en: "Then I'd be carrying them home anyway. I'll pay the eleven.", cn: "那我反正要带回家。我付十一欧。" },
+            { who: "官员", en: "Card or cash?", cn: "刷卡还是现金？" },
+            { who: "旅客", en: "Card. And may I have the receipt?", cn: "刷卡。可以给我收据吗？" },
+            { who: "官员", en: "It prints automatically. Keep it until you leave.", cn: "会自动打印。留到出境。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "旅客 · 边检官员（口音重）",
+          register: "半正式",
+          channel: "面对面（边检柜台）",
+          barrier: "口音加紧张，连续两次听错问题答非所问",
+          result: "修复（请求重复并放慢，答对后放行）",
+          lines: [
+            { who: "官员", en: "How long do you intend to remain?", cn: "您打算停留多久？" },
+            { who: "旅客", en: "Sorry, could you repeat that? I didn't catch the last word.", cn: "抱歉，能重复一下吗？最后一个词我没听清。" },
+            { who: "官员", en: "How long. Will you stay.", cn: "多久。您待多久。" },
+            { who: "旅客", en: "Ten days. Until the nineteenth.", cn: "十天。到十九号。" },
+            { who: "官员", en: "Where are you staying?", cn: "您住在哪儿？" },
+            { who: "旅客", en: "Sorry, did you ask where I'm staying or where I'm flying to?", cn: "抱歉，您是问我住哪儿，还是问我飞哪儿？" },
+            { who: "官员", en: "Staying.", cn: "住哪儿。" },
+            { who: "旅客", en: "A hotel in the old town. I have the booking here if that helps.", cn: "老城区一家酒店。如果需要，预订单在这儿。" },
+            { who: "官员", en: "It's fine. Sorry, the accent here is hard. Most people just nod.", cn: "不用。抱歉，这里的口音不好懂。大部分人就直接点头。" },
+            { who: "旅客", en: "Nodding would have been worse.", cn: "点头会更糟。" },
+            { who: "官员", en: "Much worse. Welcome.", cn: "糟得多。欢迎。" }
+          ]
+        },
+        {
+          variant: "情绪型（被抽中二次检查）",
+          relation: "旅客 · 边检官员（二次检查）",
+          register: "半正式（紧张）",
+          channel: "面对面（二次检查室）",
+          barrier: "被随机抽中二次检查，紧张到说话前后矛盾",
+          result: "达成（先说明自己紧张，冷静重答后放行）",
+          lines: [
+            { who: "官员", en: "You've been selected for a secondary check. It's routine.", cn: "您被抽中二次检查。这是例行程序。" },
+            { who: "旅客", en: "Okay. Sorry, am I in trouble?", cn: "好。抱歉，我是不是有问题？" },
+            { who: "官员", en: "No. I'm going to ask the same questions again.", cn: "没有。我会把同样的问题再问一遍。" },
+            { who: "旅客", en: "May I say something first? I'm nervous, and when I'm nervous I say things twice and get the dates wrong.", cn: "我能先说一句吗？我紧张，一紧张就会重复说话、还会把日期说错。" },
+            { who: "官员", en: "That's fine. Take your time.", cn: "没关系。慢慢来。" },
+            { who: "旅客", en: "I arrived this morning. My return is the nineteenth. I'm staying with a friend after Tuesday.", cn: "我今天早上到的。回程是十九号。周二之后住朋友家。" },
+            { who: "官员", en: "The same answers as before. Good.", cn: "和刚才答的一样。很好。" },
+            { who: "旅客", en: "Is that why people get held up? Because they change their story?", cn: "大家被扣下就是因为这个吗？因为说法变了？" },
+            { who: "官员", en: "Usually it is the dates. You would be surprised how many people forget their own.", cn: "通常是日期。忘了自己日期的人多得让你意外。" },
+            { who: "旅客", en: "I wrote mine on the back of the ticket. It helped.", cn: "我把我的写在机票背面。管用。" }
+          ]
+        },
+        {
+          variant: "渠道变体（自助通关）",
+          relation: "旅客 · 边检官员（自助通道）",
+          register: "半正式",
+          channel: "自助通关 + 人工柜台",
+          barrier: "人脸识别连失败三次，自助门不开",
+          result: "达成（转人工柜台，查清是换护照导致记录未关联）",
+          lines: [
+            { who: "旅客", en: "The gate won't open. It's the third time.", cn: "门不开。第三次了。" },
+            { who: "官员", en: "Come to the desk. Did you renew your passport recently?", cn: "到柜台来。您最近换过护照吗？" },
+            { who: "旅客", en: "Two months ago. Does that matter?", cn: "两个月前。有影响吗？" },
+            { who: "官员", en: "It does. The photo on the chip is the new one, but the entry record is the old one.", cn: "有。芯片里的照片是新的，但入境记录是旧的。" },
+            { who: "旅客", en: "So the machine is comparing me with a ten-year-old photo.", cn: "所以机器是拿我和十年前的照片比。" },
+            { who: "官员", en: "Effectively. I'll do it manually and link the two records.", cn: "可以这么说。我手动办，并把两条记录关联起来。" },
+            { who: "旅客", en: "Will it work next time?", cn: "下次能过吗？" },
+            { who: "官员", en: "It should, now that they are linked. If it doesn't, use the desk and say the records were merged.", cn: "关联之后应该可以。如果不行，就走柜台，说记录已经合并了。" },
+            { who: "旅客", en: "Thank you. The machine gave me no clue at all.", cn: "谢谢。机器什么提示都没有。" },
+            { who: "官员", en: "It never does. That is the most common complaint we get.", cn: "从来都没有。这是我们收到最多的抱怨。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "旅客（商务）· 边检官员",
+          register: "正式",
+          channel: "面对面（边检柜台）",
+          barrier: "无（但需正式说明并出示邀请函）",
+          result: "达成（按商务登记入境）",
+          lines: [
+            { who: "官员", en: "What is the purpose of your visit?", cn: "您此行的目的是什么？" },
+            { who: "旅客", en: "Business. I am attending a three-day conference at the university and returning on Friday.", cn: "商务。我参加大学里为期三天的会议，周五返回。" },
+            { who: "官员", en: "Do you have an invitation or a registration confirmation?", cn: "您有邀请函或注册确认吗？" },
+            { who: "旅客", en: "I have both, and a letter from my employer stating that my costs are covered.", cn: "两样都有，还有一封雇主出具的费用承担说明信。" },
+            { who: "官员", en: "Will you be receiving any payment from a source in this country?", cn: "您会从本国的任何机构获得报酬吗？" },
+            { who: "旅客", en: "No. The honorarium, if there is one, is paid to my institution rather than to me personally.", cn: "不会。如有酬金，也是付给我所在机构，而不是我个人。" },
+            { who: "官员", en: "That is the correct arrangement. Are you carrying samples or equipment?", cn: "这个安排是正确的。您携带样品或设备吗？" },
+            { who: "旅客", en: "A laptop and a poster tube. Nothing for sale.", cn: "一台笔记本电脑和一个海报筒。没有用于销售的东西。" },
+            { who: "官员", en: "Then there is nothing to declare. Your entry is recorded under business.", cn: "那就不需要申报。您的入境按商务登记。" },
+            { who: "旅客", en: "Thank you. Should I keep the confirmation with me while I am here?", cn: "谢谢。我在这里期间需要随身带着确认函吗？" },
+            { who: "官员", en: "It is advisable. You may be asked on departure.", cn: "建议带着。出境时可能会被问。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "跨境通勤者 · 边检官员（每周往返）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（陆路口岸）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "官员", en: "Back again.", cn: "又回来了。" },
+            { who: "旅客", en: "Monday to Friday, same as always.", cn: "周一到周五，老样子。" },
+            { who: "官员", en: "Anything to declare?", cn: "有要申报的吗？" },
+            { who: "旅客", en: "Half a kilo of coffee. Same as last week.", cn: "半公斤咖啡。跟上周一样。" },
+            { who: "官员", en: "Under the limit.", cn: "在限额内。" },
+            { who: "旅客", en: "I know the limit by now.", cn: "我现在知道限额了。" },
+            { who: "官员", en: "How's the job?", cn: "工作怎么样？" },
+            { who: "旅客", en: "Same as this border. Repetitive.", cn: "跟这个口岸一样。重复。" },
+            { who: "官员", en: "Careful.", cn: "说话小心点。" },
+            { who: "旅客", en: "Kidding. See you Friday.", cn: "开玩笑。周五见。" },
+            { who: "官员", en: "Friday.", cn: "周五见。" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 01-03 打车与网约车 ==================== */
+    {
+      id: "s01-03",
+      domain: "01",
+      title: "打车与网约车",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "乘客 · 出租车司机",
+          register: "中性",
+          channel: "面对面（出租车）",
+          barrier: "无",
+          result: "达成（走环路避开堵车，按表付费）",
+          lines: [
+            { who: "乘客", en: "Hi, to the central station, please.", cn: "你好，去中央车站。" },
+            { who: "司机", en: "Which entrance? There are two.", cn: "哪个入口？有两个。" },
+            { who: "乘客", en: "The north side, if that's easier to stop at.", cn: "北边那个，如果那边好停车的话。" },
+            { who: "司机", en: "It is. About fifteen minutes at this time.", cn: "好停。这个点大概十五分钟。" },
+            { who: "乘客", en: "Could you take the ring road? I'm not in a rush, I just feel sick in stop-start traffic.", cn: "能走环路吗？我不赶时间，就是走走停停会难受。" },
+            { who: "司机", en: "Then the ring road. It's a bit longer but it keeps moving.", cn: "那就环路。远一点，但一直在走。" },
+            { who: "乘客", en: "Do you take cards?", cn: "能刷卡吗？" },
+            { who: "司机", en: "Card and cash. The meter starts at four.", cn: "刷卡现金都行。起步价四块。" },
+            { who: "乘客", en: "Is there a surcharge for luggage?", cn: "行李有附加费吗？" },
+            { who: "司机", en: "Not for one bag in the boot. Only on the airport run.", cn: "后备箱一件行李不收。只有机场线才收。" },
+            { who: "乘客", en: "Good. Station, north side.", cn: "好。车站，北边。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "乘客 · 出租车司机（疑似绕路）",
+          register: "中性",
+          channel: "面对面（车内）",
+          barrier: "无（但要在司机占上风时冷静拿到凭据）",
+          result: "达成（司机掉头走近路，乘客照表付费）",
+          lines: [
+            { who: "乘客", en: "Sorry, this isn't the way I came. Is there a reason?", cn: "抱歉，这不是我来的路。有什么原因吗？" },
+            { who: "司机", en: "Traffic on the bridge.", cn: "桥那边堵。" },
+            { who: "乘客", en: "The app says the bridge is clear. Could we go back to the other road?", cn: "应用显示桥上是通的。我们能回到刚才那条路吗？" },
+            { who: "司机", en: "This is faster, trust me.", cn: "这条路更快，你信我。" },
+            { who: "乘客", en: "I'd rather not argue. Two things, and then I'll be quiet.", cn: "我不想争。两件事，然后我就不说话了。" },
+            { who: "司机", en: "Go on.", cn: "说。" },
+            { who: "乘客", en: "One: I'll pay whatever the meter says, but I'll ask for a receipt with the route on it. Two: if the route is wrong I'll take it up with the company, not with you here.", cn: "一：我按表付钱，但要一张写明路线的发票。二：如果路线有问题，我去找公司，不在这儿跟你说。" },
+            { who: "司机", en: "...The bridge is fine, actually. I'll turn around at the lights.", cn: "……桥确实没问题。我在红绿灯那儿掉头。" },
+            { who: "乘客", en: "Thank you. That's all I wanted.", cn: "谢谢。我要的就是这个。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "乘客 · 出租车司机（上车前）",
+          register: "中性",
+          channel: "面对面（路边）",
+          barrier: "司机不肯打表，要一口价且明显偏高",
+          result: "折中（打表，超过四十按四十付）",
+          lines: [
+            { who: "司机", en: "To the airport? Fifty.", cn: "去机场？五十。" },
+            { who: "乘客", en: "With the meter?", cn: "打表吗？" },
+            { who: "司机", en: "No meter. Fifty flat.", cn: "不打表。一口价五十。" },
+            { who: "乘客", en: "The app says thirty-five to forty.", cn: "应用显示三十五到四十。" },
+            { who: "司机", en: "The app doesn't know the traffic.", cn: "应用不知道路况。" },
+            { who: "乘客", en: "Then let's do this: meter on, and if it comes to more than forty I pay the forty.", cn: "那我们这样：打表，如果超过四十，我按四十付。" },
+            { who: "司机", en: "That's not how it works.", cn: "不是这么算的。" },
+            { who: "乘客", en: "It is if you want the fare. Otherwise I'll walk to the corner and order one.", cn: "如果你想做这单就是这么算。不然我走到路口叫一辆。" },
+            { who: "司机", en: "...Get in. Meter.", cn: "……上车。打表。" },
+            { who: "乘客", en: "Thank you. And if it's under forty, I pay exactly what it says.", cn: "谢谢。要是不到四十，我按表付。" },
+            { who: "司机", en: "It'll be over forty.", cn: "肯定会超四十。" },
+            { who: "乘客", en: "Then you'll get your forty.", cn: "那你就拿到四十。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "乘客 · 网约车司机（电话）",
+          register: "中性",
+          channel: "电话 + 车内",
+          barrier: "定位是旧的，司机和乘客在电话里说不清位置",
+          result: "修复（改用共享定位 + 地标描述）",
+          lines: [
+            { who: "司机", en: "I'm at the address but I can't see you.", cn: "我到了地址，但看不到你。" },
+            { who: "乘客", en: "I'm outside the pharmacy. There are two on this street.", cn: "我在药店外面。这条街上有两家。" },
+            { who: "司机", en: "Which pharmacy?", cn: "哪家药店？" },
+            { who: "乘客", en: "The one next to the bank. Sorry, that doesn't help either, there are two banks.", cn: "银行旁边那家。抱歉，这也没用，有两家银行。" },
+            { who: "司机", en: "Send me your location.", cn: "把你的定位发我。" },
+            { who: "乘客", en: "It says you're two hundred metres away, on the other side.", cn: "上面显示你在两百米外，在另一边。" },
+            { who: "司机", en: "That's the old pin. Give me a landmark.", cn: "那是旧的位置。给我个地标。" },
+            { who: "乘客", en: "There's a red awning and a bus stop with a number seventeen sign.", cn: "有个红雨棚，还有一个挂着十七路牌子的公交站。" },
+            { who: "司机", en: "The seventeen. I can see it. Two minutes.", cn: "十七路。我看见了。两分钟。" },
+            { who: "乘客", en: "I'll stand under the awning so you can see me.", cn: "我站到雨棚下面，这样你能看见我。" }
+          ]
+        },
+        {
+          variant: "情绪型（司机边抱怨边飙车）",
+          relation: "乘客 · 出租车司机（情绪激动）",
+          register: "中性（紧张）",
+          channel: "面对面（车内）",
+          barrier: "司机抱怨生活并越开越快，乘客不安",
+          result: "达成（提出减速请求，司机缓和后安全到达）",
+          lines: [
+            { who: "司机", en: "Twelve hours today. Twelve. And the company takes a third.", cn: "今天十二个小时。十二个。公司还抽三成。" },
+            { who: "乘客", en: "That's a long day.", cn: "这一天够长的。" },
+            { who: "司机", en: "And then you get people who say the meter is wrong.", cn: "然后还有人说我表不准。" },
+            { who: "乘客", en: "I'm not going to say that. But I would like to ask for something.", cn: "我不会那么说。但我想提一件事。" },
+            { who: "司机", en: "What?", cn: "什么？" },
+            { who: "乘客", en: "Could you slow down a little? We're doing seventy in a fifty, and I've got a child at home.", cn: "能稍微慢一点吗？限速五十我们开到七十了，我家里还有孩子。" },
+            { who: "司机", en: "...Sorry. You're right.", cn: "……抱歉。你说得对。" },
+            { who: "乘客", en: "No harm done. Twelve hours is too long for anyone to stay sharp.", cn: "没事。十二个小时对谁来说都太长了，反应不可能还敏锐。" },
+            { who: "司机", en: "The union has been saying that for two years.", cn: "工会说了两年了。" },
+            { who: "乘客", en: "Then it isn't just you.", cn: "那就不是你的问题。" },
+            { who: "司机", en: "Two more minutes. I'll take the side road, it's slower.", cn: "再两分钟。我走辅路，慢一些。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 下单 + 客服）",
+          relation: "乘客 · 网约车平台客服",
+          register: "中性",
+          channel: "App + 电话客服",
+          barrier: "司机取消订单，却把乘客标记成未上车并扣了等待费",
+          result: "达成（客服退费、标记这单、重新叫车）",
+          lines: [
+            { who: "乘客", en: "The driver cancelled after eleven minutes and I've been charged a wait fee.", cn: "司机在十一分钟后取消了，而我被扣了等待费。" },
+            { who: "客服", en: "Let me look. He marked you as a no-show.", cn: "我看一下。他标记您未上车。" },
+            { who: "乘客", en: "I was standing at the pin the whole time, and the app has my location.", cn: "我一直站在定位点，而且应用里有我的位置记录。" },
+            { who: "客服", en: "It does. That contradicts his note.", cn: "确实有。这和他的记录矛盾。" },
+            { who: "乘客", en: "So it's his word against the app's.", cn: "所以是他的说法对应用的数据。" },
+            { who: "客服", en: "The app's, in this case. I'm refunding the fee and flagging the trip.", cn: "这次以应用为准。我退还费用，并标记这一单。" },
+            { who: "乘客", en: "What does flagging do?", cn: "标记有什么用？" },
+            { who: "客服", en: "Three flags and he is reviewed. It isn't instant, and I won't pretend it is.", cn: "三次标记就会有人复核。不是立刻生效，我不假装它是。" },
+            { who: "乘客", en: "That's honest. Could you order me another one on the same account?", cn: "这话实在。能用同一个账号帮我再叫一辆吗？" },
+            { who: "客服", en: "Done. Same pin, two minutes.", cn: "好了。同一个定位点，两分钟。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "乘客 · 专车司机（预约接送）",
+          register: "正式",
+          channel: "面对面（专车）",
+          barrier: "无（但需正式确认行程与细节）",
+          result: "达成（按预约完成整晚接送）",
+          lines: [
+            { who: "司机", en: "Good evening, madam. I am your driver for the evening. May I confirm the itinerary?", cn: "晚上好，女士。我是您今晚的司机。我确认一下行程，可以吗？" },
+            { who: "乘客", en: "Please do.", cn: "请。" },
+            { who: "司机", en: "The hotel at seven, the concert hall at half past, and then the restaurant on Rue Clair.", cn: "七点酒店，七点半音乐厅，然后克莱尔街的餐厅。" },
+            { who: "乘客", en: "The restaurant booking is at ten, so we have time after the concert.", cn: "餐厅订的是十点，所以音乐会之后有时间。" },
+            { who: "司机", en: "In that case I shall wait at the stage door rather than the main entrance, which is quieter.", cn: "那我就在后台出口等，而不是正门，那边安静些。" },
+            { who: "乘客", en: "That is thoughtful. Is there water in the car?", cn: "想得周到。车上有水吗？" },
+            { who: "司机", en: "There is, and umbrellas. The forecast suggests rain after nine.", cn: "有，还有伞。预报说九点后有雨。" },
+            { who: "乘客", en: "Then I shall take the umbrella and leave it in the car for the return.", cn: "那我带上伞，回程时留在车里。" },
+            { who: "司机", en: "As you wish. Shall I use the same number for the whole evening?", cn: "随您。整晚都用同一个号码联系您吗？" },
+            { who: "乘客", en: "Yes, and please call rather than text. I shan't be looking at the screen.", cn: "是的，而且请打电话，别发短信。我不会看手机。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "乘客 · 出租车司机（短途）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（车内）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "乘客", en: "corner shop on mill road please", cn: "磨坊路那家便利店，谢谢" },
+            { who: "司机", en: "which one", cn: "哪家" },
+            { who: "乘客", en: "the one with the yellow sign", cn: "黄招牌那家" },
+            { who: "司机", en: "got it", cn: "知道了" },
+            { who: "乘客", en: "you can drop me here", cn: "在这儿放我下来就行" },
+            { who: "司机", en: "this is the middle of the road", cn: "这是路中间" },
+            { who: "乘客", en: "the lights then", cn: "那就红绿灯那儿" },
+            { who: "司机", en: "six forty", cn: "六块四" },
+            { who: "乘客", en: "card ok", cn: "刷卡行吗" },
+            { who: "司机", en: "card's fine", cn: "行" },
+            { who: "乘客", en: "cheers", cn: "谢了" }
+          ]
+        }
+      ]
     }
   ];
 
