@@ -8102,6 +8102,498 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 08-03 视频会议与线上客服 ==================== */
+    {
+      id: "s08-03",
+      domain: "08",
+      title: "视频会议与线上客服",
+      ielts: "口语 P3 场景 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "主持 · 参加者（视频会议议程）",
+          register: "半正式",
+          channel: "视频会议",
+          barrier: "无",
+          result: "达成（按硬性离场时间调整议程顺序）",
+          lines: [
+            { who: "主持", en: "Can everyone see the shared screen?", cn: "大家能看到共享屏幕吗？" },
+            { who: "参加者", en: "I can, but the text is small. Could you zoom in?", cn: "能看到，但字很小。能放大吗？" },
+            { who: "主持", en: "Better?", cn: "好点吗？" },
+            { who: "参加者", en: "Much. I'll say when it isn't.", cn: "好多了。看不清我会说。" },
+            { who: "主持", en: "Three items today: the budget, the timeline, and who speaks to the client.", cn: "今天三项：预算、时间线、谁去见客户。" },
+            { who: "参加者", en: "Could we take the client item first? Two of us have a hard stop at half past.", cn: "能先谈客户那项吗？我们有两个人半点必须走。" },
+            { who: "主持", en: "That's a good enough reason to reorder. Client first.", cn: "这个理由足够调顺序。客户先。" },
+            { who: "参加者", en: "Thank you. It's the only item that needs all three of us.", cn: "谢谢。这是唯一需要三个人都在的一项。" },
+            { who: "主持", en: "Noted for future agendas.", cn: "以后排议程会注意。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "汇报人 · 客户（线上汇报被质疑）",
+          register: "半正式",
+          channel: "视频会议",
+          barrier: "无（但主动说明两个数字不一致的原因）",
+          result: "达成（改用实际数并承诺超 2% 一周内报备）",
+          lines: [
+            { who: "客户", en: "The second figure doesn't match the report you sent on Monday.", cn: "第二个数字跟您周一发的报告不一致。" },
+            { who: "汇报人", en: "It doesn't, and I'd rather address it now than later. Monday's figure was an estimate; this one is actual.", cn: "确实不一致，我宁愿现在说而不是以后。周一的数字是估算，这个是实际数。" },
+            { who: "客户", en: "Which should I use for the board pack?", cn: "我给董事会的材料里该用哪个？" },
+            { who: "汇报人", en: "The actual, with a note that it differs from the estimate by four percent, and why.", cn: "用实际数，并注明与估算相差四个百分点以及原因。" },
+            { who: "客户", en: "Why did it move by four?", cn: "为什么差四个点？" },
+            { who: "汇报人", en: "One supplier's price rose in April and we absorbed it rather than pass it on mid-contract.", cn: "一个供应商四月涨价，我们在合同期内自己承担了，没有转嫁。" },
+            { who: "客户", en: "That's a decision I would have wanted to know about at the time.", cn: "这个决定我本希望当时就知道。" },
+            { who: "汇报人", en: "That's fair, and it's a process failure on our side. I'll add a threshold: anything above two percent comes to you within a week.", cn: "这话公道，是我们流程上的失误。我加一条线：超过两个百分点，一周内报给您。" },
+            { who: "客户", en: "Put that in writing this afternoon.", cn: "今天下午把它写下来发我。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "参加者 · 客户（要求开摄像头）",
+          register: "半正式",
+          channel: "视频会议",
+          barrier: "开视频会断音，无法全程开摄像头",
+          result: "折中（开场与结尾开，中间关，并在聊天里发照片）",
+          lines: [
+            { who: "客户", en: "Would you turn your camera on? We like to see who we're talking to.", cn: "您能开摄像头吗？我们喜欢看到对话的人。" },
+            { who: "参加者", en: "On this connection the video makes my audio break up. May I offer something else?", cn: "在这个网络下开视频我的声音会断。我能给个别的方案吗？" },
+            { who: "客户", en: "Such as?", cn: "比如？" },
+            { who: "参加者", en: "I'll switch it on for the first two minutes and at the end, and keep it off while I present.", cn: "我开头两分钟和结尾开，讲的时候关掉。" },
+            { who: "客户", en: "That's reasonable. Everyone's connection is different.", cn: "这合理。每个人的网络都不一样。" },
+            { who: "参加者", en: "And I'll send a photograph in the chat, so you know who you're dealing with.", cn: "另外我在聊天框里发一张照片，让你们知道在跟谁打交道。" },
+            { who: "客户", en: "That's the first time anyone has offered that.", cn: "这是第一次有人主动这么提。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "主持 · 参加者（共享黑屏）",
+          register: "半正式",
+          channel: "视频会议",
+          barrier: "双屏共享错屏，所有人只看到黑屏",
+          result: "修复（改为共享窗口，并写进会议模板）",
+          lines: [
+            { who: "主持", en: "I'm sharing, but you should be seeing a blank window.", cn: "我在共享，但你们看到的应该是一个空白窗口。" },
+            { who: "参加者", en: "We see a black screen with your cursor moving.", cn: "我们看到黑屏，但你的光标在动。" },
+            { who: "主持", en: "Then you're seeing my desktop and not the document. Let me try again.", cn: "那你们看到的是我的桌面，不是文档。我再试一次。" },
+            { who: "参加者", en: "Still black. Do you have two screens?", cn: "还是黑的。你有两个屏幕吗？" },
+            { who: "主持", en: "I do. It may be sharing the wrong one.", cn: "有。可能是共享错了那个。" },
+            { who: "参加者", en: "Share the window rather than the screen. That usually fixes it.", cn: "共享窗口而不是整个屏幕。这通常能解决。" },
+            { who: "主持", en: "That's it. Can you see it now?", cn: "行了。现在能看到吗？" },
+            { who: "参加者", en: "We can. Two minutes lost, and worth it for the fix.", cn: "能。丢了两分钟，但换来一个解决办法值得。" },
+            { who: "主持", en: "I'll put share the window into the meeting template.", cn: "我把「共享窗口」写进会议模板。" }
+          ]
+        },
+        {
+          variant: "情绪型（线上客服排队四十分钟）",
+          relation: "顾客 · 线上客服（第三位坐席）",
+          register: "半正式（情绪化）",
+          channel: "在线客服",
+          barrier: "排队四十分钟、换了三位坐席，退款批了却没执行",
+          result: "达成（当场处理并留在会话直到收到确认邮件）",
+          lines: [
+            { who: "客服", en: "Thank you for waiting. How can I help?", cn: "感谢等待。需要什么帮助？" },
+            { who: "顾客", en: "I've been in the queue for forty minutes and this is the third agent.", cn: "我排队四十分钟了，这是第三位客服。" },
+            { who: "客服", en: "I can see the previous two chats. Would you like me to read them, or would you rather tell me?", cn: "我能看到前两次对话。您希望我读一遍，还是您说？" },
+            { who: "顾客", en: "Read them, and then tell me what you're going to do rather than what you can't.", cn: "你读，然后告诉我你要做什么，而不是你不能做什么。" },
+            { who: "客服", en: "Fair. Reading now. ...The refund was approved and never processed.", cn: "好。现在读。……退款已批准但从未处理。" },
+            { who: "顾客", en: "That's what I've been saying for three weeks.", cn: "这就是我三周来一直在说的。" },
+            { who: "客服", en: "It's processed now, and I'm staying on this chat until you see the confirmation email.", cn: "现在处理了，而且我会留在这个对话里直到您看到确认邮件。" },
+            { who: "顾客", en: "You don't have to stay.", cn: "你不用一直留着。" },
+            { who: "客服", en: "I do, because the last two said it was done.", cn: "我要留，因为前两位都说办好了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上客服 + 屏幕共享）",
+          relation: "顾客 · 线上客服（共享屏幕排错）",
+          register: "半正式",
+          channel: "在线客服 + 屏幕共享",
+          barrier: "顾客不愿共享整个桌面，报错又只有屏幕上能看到",
+          result: "达成（只共享浏览器标签页，查清并合并重复账户）",
+          lines: [
+            { who: "客服", en: "Could you share your screen so I can see the error?", cn: "您能共享屏幕让我看看报错吗？" },
+            { who: "顾客", en: "I'd rather not share my whole desktop. Is there another way?", cn: "我不想共享整个桌面。有别的办法吗？" },
+            { who: "客服", en: "Share the browser tab only. Nothing else is visible then.", cn: "只共享浏览器标签页。那样其他内容都看不到。" },
+            { who: "顾客", en: "Good. Done.", cn: "好。好了。" },
+            { who: "客服", en: "I can see it. ...The error appears because two accounts are linked to one email.", cn: "我看到了。……这个报错是因为两个账户绑了同一个邮箱。" },
+            { who: "顾客", en: "Which one is mine?", cn: "哪个是我的？" },
+            { who: "客服", en: "This one, with the order history. The other has no orders and should be deleted.", cn: "这个，有订单历史的。另一个没有订单，应该删掉。" },
+            { who: "顾客", en: "Deleting an account: is that something you do, or I do?", cn: "删账户是你来还是我来？" },
+            { who: "客服", en: "I do it, and I'll confirm in the chat before and after.", cn: "我来做，前后都会在聊天里确认。" },
+            { who: "顾客", en: "Before and after is the part people skip.", cn: "前后都确认这一点，别人都会省掉。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "委员会主席 · 委员（正式线上会议）",
+          register: "正式",
+          channel: "正式线上会议",
+          barrier: "无（但需处理仅音频参会与利益申报程序）",
+          result: "达成（决定逐条复述，申报人表决时退出通话）",
+          lines: [
+            { who: "主席", en: "As this is a formal session, I shall take the minutes and the roll.", cn: "由于这是正式会议，我来做纪要并点名。" },
+            { who: "委员", en: "Before the roll, may I note that one member is joining by audio only?", cn: "点名之前，我提一下有一位成员仅以音频参加。" },
+            { who: "主席", en: "Noted, and we shall read every decision back for that member.", cn: "记下了，我们会为那位成员复述每一项决定。" },
+            { who: "委员", en: "I should also declare an interest in item four.", cn: "我还要就第四项申报利益相关。" },
+            { who: "主席", en: "Thank you. You may speak to it but not vote on it.", cn: "谢谢。您可以就此发言，但不参与表决。" },
+            { who: "委员", en: "That is understood. I shall leave the room for the vote.", cn: "明白。表决时我会离席。" },
+            { who: "主席", en: "For a video meeting, leaving the room means leaving the call. We shall record that you did.", cn: "视频会议里「离席」就是退出通话。我们会记录您确实退出了。" },
+            { who: "委员", en: "Then I shall leave the call and rejoin afterwards.", cn: "那我退出通话，之后再加入。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事之间（线上会议）",
+          register: "随意（极简、俚语）",
+          channel: "视频会议",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "you're on mute", cn: "你静音了" },
+            { who: "乙", en: "what", cn: "什么" },
+            { who: "甲", en: "mute", cn: "静音" },
+            { who: "乙", en: "can you hear me now", cn: "现在能听到吗" },
+            { who: "甲", en: "yeah", cn: "能" },
+            { who: "乙", en: "good. where were we", cn: "好。说到哪了" },
+            { who: "甲", en: "the budget", cn: "预算" },
+            { who: "乙", en: "right", cn: "对" },
+            { who: "甲", en: "you're frozen now", cn: "你现在卡住了" },
+            { who: "乙", en: "of course", cn: "那还用说" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 09-01 正式邮件（申请 / 投诉） ==================== */
+    {
+      id: "s09-01",
+      domain: "09",
+      title: "正式邮件（申请 / 投诉）",
+      ielts: "口语 P3 学术 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "申请人 · 同事（改申请信）",
+          register: "半正式",
+          channel: "面对面 + 邮件",
+          barrier: "无",
+          result: "达成（把诉求提到第一句，当晚发出）",
+          lines: [
+            { who: "同事", en: "Have you sent the application?", cn: "你申请发了吗？" },
+            { who: "申请人", en: "I've drafted it. It's four hundred words and it says everything except what I want.", cn: "写好了草稿。四百字，什么都说到了，就是没说我想要什么。" },
+            { who: "同事", en: "Then the first line is the problem. What do you want?", cn: "那问题在第一句。你想要什么？" },
+            { who: "申请人", en: "The post, starting in September.", cn: "这个岗位，九月入职。" },
+            { who: "同事", en: "Put that in the first sentence, not the last paragraph.", cn: "把这个放第一句，不是最后一段。" },
+            { who: "申请人", en: "Doesn't that sound blunt?", cn: "那样不会显得生硬吗？" },
+            { who: "同事", en: "It sounds like someone who knows what they are asking for. The detail then supports it.", cn: "听起来像个清楚自己要什么的人。细节随后支撑它。" },
+            { who: "申请人", en: "And the tone?", cn: "语气呢？" },
+            { who: "同事", en: "Formal but not stiff. No I would be most grateful unless you mean it.", cn: "正式但不僵硬。别写「不胜感激」，除非你真这么想。" },
+            { who: "申请人", en: "I'll rewrite the opening and send it tonight.", cn: "我重写开头，今晚发。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "申请人 · 顾问（被无理由驳回）",
+          register: "正式",
+          channel: "书面",
+          barrier: "无（但要理由而不是争结论）",
+          result: "达成（要求二十日内书面说明依据，逾期抄送监察）",
+          lines: [
+            { who: "申请人", en: "They've rejected the claim without giving a reason.", cn: "他们驳回了申请，没给理由。" },
+            { who: "顾问", en: "Then your letter should ask for the reason rather than dispute the decision.", cn: "那你的信应该要理由，而不是争结论。" },
+            { who: "申请人", en: "Why not dispute it?", cn: "为什么不争？" },
+            { who: "顾问", en: "Because you cannot argue against a decision you cannot see. Ask for the reasoning and the policy it was made under.", cn: "因为你没法反驳一个你看不见的决定。要理由，以及作出决定所依据的政策。" },
+            { who: "申请人", en: "And the deadline for their reply?", cn: "他们回复的时限呢？" },
+            { who: "顾问", en: "Ask for a reply within twenty working days, and refer to their own service standard.", cn: "要求二十个工作日内答复，并引用他们自己的服务标准。" },
+            { who: "申请人", en: "If they don't reply?", cn: "如果不回呢？" },
+            { who: "顾问", en: "Then you write again, one page, quoting the first letter and the standard, and you copy the ombudsman.", cn: "那你再写一封，一页，引用第一封和那条标准，并抄送监察机构。" },
+            { who: "申请人", en: "Copying the ombudsman changes the speed of the reply.", cn: "抄送监察机构会改变回复的速度。" },
+            { who: "顾问", en: "Every time, and it is not aggressive if the standard exists.", cn: "每次都这样，而且如果标准存在，这不算过激。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "申请人 · 顾问（资格不符被拒）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "超出资格窗口期三个月，申诉无门",
+          result: "折中（改走困难补助与院系机动经费两条路）",
+          lines: [
+            { who: "申请人", en: "The funding application was refused.", cn: "资助申请被拒了。" },
+            { who: "顾问", en: "On what basis?", cn: "依据是什么？" },
+            { who: "申请人", en: "Eligibility. I'm three months outside the window.", cn: "资格。我超出窗口期三个月。" },
+            { who: "顾问", en: "Then the refusal is correct and there is nothing to appeal.", cn: "那这个拒绝是对的，没什么可申诉的。" },
+            { who: "申请人", en: "That's not what I wanted to hear.", cn: "这不是我想听的。" },
+            { who: "顾问", en: "It is what saves you six weeks. There are two other routes.", cn: "但这能省你六周。还有两条别的路径。" },
+            { who: "申请人", en: "Which?", cn: "哪两条？" },
+            { who: "顾问", en: "The hardship fund has no window, and the department has discretionary funds that nobody applies for.", cn: "困难补助没有窗口期，院系还有没人申请的机动经费。" },
+            { who: "申请人", en: "Why does nobody apply?", cn: "为什么没人申请？" },
+            { who: "顾问", en: "Because it isn't advertised. Ask your supervisor directly, in writing.", cn: "因为不宣传。直接书面问你的导师。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "申请人 · 顾问（语气被读错）",
+          register: "半正式",
+          channel: "书面",
+          barrier: "一句「我注意到您尚未回复」被读成指责",
+          result: "修复（改成「想确认是否送达」并补上截止日期）",
+          lines: [
+            { who: "申请人", en: "My email was read as aggressive and I don't know why.", cn: "我的邮件被读成有攻击性，我不知道为什么。" },
+            { who: "顾问", en: "Read me the sentence.", cn: "把那一句念给我听。" },
+            { who: "申请人", en: "I note that you have not yet replied to my previous message.", cn: "我注意到您尚未回复我上一封邮件。" },
+            { who: "顾问", en: "There it is. I note that you have not is a formal way of saying you ignored me.", cn: "就是这个。「我注意到您尚未」是一种正式的「你无视我」的说法。" },
+            { who: "申请人", en: "That isn't what I meant. I was worried it hadn't arrived.", cn: "我不是这个意思。我是担心它没送到。" },
+            { who: "顾问", en: "Then say that: I wanted to check whether my earlier message reached you.", cn: "那就直说：我想确认前一封是否送达。" },
+            { who: "申请人", en: "Same content, no accusation.", cn: "同样内容，没有指责。" },
+            { who: "顾问", en: "And add why you need it: because the deadline is the ninth.", cn: "再加上你为什么需要：因为截止是九号。" },
+            { who: "申请人", en: "A reason turns a complaint into a request.", cn: "一个理由能把抱怨变成请求。" }
+          ]
+        },
+        {
+          variant: "情绪型（投诉无回音）",
+          relation: "申请人 · 顾问（愤怒时写不写信）",
+          register: "半正式（情绪化）",
+          channel: "面对面",
+          barrier: "三次错过期限且无回复，写信时情绪失控",
+          result: "达成（今晚只写事实，明天调语气后再发）",
+          lines: [
+            { who: "申请人", en: "I want to write something they'll actually read.", cn: "我想写点他们真的会看的东西。" },
+            { who: "顾问", en: "Then don't write it today.", cn: "那就别今天写。" },
+            { who: "申请人", en: "Why not? I'm angry now.", cn: "为什么？我现在就在气头上。" },
+            { who: "顾问", en: "Because an angry letter gets a template reply. Write the facts tonight and the tone tomorrow.", cn: "因为愤怒的信只会收到模板回复。今晚写事实，明天调语气。" },
+            { who: "申请人", en: "The facts are three missed deadlines and no reply.", cn: "事实是三次错过期限和一次不回复。" },
+            { who: "顾问", en: "Then list them with dates, one line each. No adjectives.", cn: "那就按日期列出来，一条一行。不要形容词。" },
+            { who: "申请人", en: "No adjectives is hard.", cn: "不用形容词很难。" },
+            { who: "顾问", en: "It is the hardest and most effective rule. Facts shame people; adjectives let them dismiss you.", cn: "这是最难也最有效的规则。事实让人羞愧，形容词让人有理由打发你。" },
+            { who: "申请人", en: "I'll write it tonight and read it aloud tomorrow before sending.", cn: "我今晚写，明天发之前念一遍。" }
+          ]
+        },
+        {
+          variant: "渠道变体（在线表单 + 邮件 + 电话）",
+          relation: "申请人 · 客服（表单没提交成功）",
+          register: "半正式",
+          channel: "在线表单 + 邮件 + 电话",
+          barrier: "以为六天前提交成功，其实缺少第二封带编号的确认",
+          result: "达成（重新提交并标注原始日期，不丢六天）",
+          lines: [
+            { who: "申请人", en: "I submitted the form and got an automatic reply with no reference.", cn: "我提交了表格，收到自动回复，但没有编号。" },
+            { who: "客服", en: "The reference is in the subject line of the confirmation.", cn: "编号在确认邮件的标题里。" },
+            { who: "申请人", en: "The subject says thank you for your submission.", cn: "标题写的是「感谢您的提交」。" },
+            { who: "客服", en: "Then it is in the body, in the table.", cn: "那在正文的表格里。" },
+            { who: "申请人", en: "There's no table. It's three lines of text.", cn: "没有表格。只有三行文字。" },
+            { who: "客服", en: "Then your submission may not have completed. Did you get a second email?", cn: "那您的提交可能没完成。您收到第二封邮件了吗？" },
+            { who: "申请人", en: "Only one.", cn: "只有一封。" },
+            { who: "客服", en: "That's the problem. The second email carries the reference, and without it the form isn't in the queue.", cn: "问题就在这儿。第二封才带编号，没有它表格不在队列里。" },
+            { who: "申请人", en: "Six days ago I thought I had applied.", cn: "六天前我以为我申请了。" },
+            { who: "客服", en: "Resubmit now and I'll flag the original date, so you don't lose the six days.", cn: "现在重新提交，我会标注原始日期，这样六天不会白丢。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "申请人 · 顾问（打磨投诉信用词）",
+          register: "正式",
+          channel: "面对面 + 书面",
+          barrier: "无（但需把请求编号化并删掉讽刺）",
+          result: "达成（两项编号请求 + 答复期限与后续动作）",
+          lines: [
+            { who: "顾问", en: "Let us go through your letter. The first paragraph should state what you want.", cn: "我们过一遍你的信。第一段应该说明你要什么。" },
+            { who: "申请人", en: "I want the decision reviewed and the fee refunded.", cn: "我希望复核决定并退还费用。" },
+            { who: "顾问", en: "Two requests, then. State them as two numbered points rather than one sentence.", cn: "那是两项请求。写成两个编号条目，而不是一句话。" },
+            { who: "申请人", en: "And the tone throughout?", cn: "通篇的语气呢？" },
+            { who: "顾问", en: "Firm, factual, and free of sarcasm. Sarcasm in a formal letter only ever costs you the reader.", cn: "坚定、就事论事、不带讽刺。正式信里的讽刺只会让你失去读者。" },
+            { who: "申请人", en: "May I say that I am disappointed?", cn: "我可以说我很失望吗？" },
+            { who: "顾问", en: "Once, and then move to the facts. Two mentions of disappointment reads as weakness.", cn: "说一次，然后进入事实。提两次失望就显得软弱。" },
+            { who: "申请人", en: "And the closing?", cn: "结尾呢？" },
+            { who: "顾问", en: "State the date by which you expect a reply, and say what you will do if it does not come.", cn: "写明你期望得到答复的日期，并说明如果没有你会怎么做。" },
+            { who: "申请人", en: "That last part is what makes them answer.", cn: "最后这一句才是让他们回信的原因。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事之间（催一封正式邮件）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "did you send it", cn: "你发了吗" },
+            { who: "乙", en: "drafting", cn: "在写" },
+            { who: "甲", en: "just send it", cn: "直接发吧" },
+            { who: "乙", en: "it's too angry", cn: "太冲了" },
+            { who: "甲", en: "then cut the adjectives", cn: "那就把形容词删了" },
+            { who: "乙", en: "which ones", cn: "哪些" },
+            { who: "甲", en: "all of them", cn: "全部" },
+            { who: "乙", en: "harsh", cn: "太狠了" },
+            { who: "甲", en: "it works though", cn: "但管用" },
+            { who: "乙", en: "sent", cn: "发了" },
+            { who: "甲", en: "how do you feel", cn: "感觉怎么样" },
+            { who: "乙", en: "lighter", cn: "轻松了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 09-02 半正式邮件与即时消息 ==================== */
+    {
+      id: "s09-02",
+      domain: "09",
+      title: "半正式邮件与即时消息",
+      ielts: "口语 P3 工作 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同事之间（催回复）",
+          register: "半正式",
+          channel: "邮件",
+          barrier: "无",
+          result: "达成（标题写明「需处理」，周四在同一会话催一次）",
+          lines: [
+            { who: "同事", en: "Did you get a reply from the Berlin team?", cn: "柏林那边回你了吗？" },
+            { who: "发件人", en: "Nothing yet. I sent a short email on Tuesday.", cn: "还没有。我周二发了封短邮件。" },
+            { who: "同事", en: "How short?", cn: "多短？" },
+            { who: "发件人", en: "Five lines: what I need, by when, and what happens if it's late.", cn: "五行：我需要什么、什么时候要、晚了会怎样。" },
+            { who: "同事", en: "That's the right length. What did you put in the subject?", cn: "长度合适。标题写的什么？" },
+            { who: "发件人", en: "Action needed by Friday: figures for the Q2 pack.", cn: "周五前需处理：第二季度材料的数字。" },
+            { who: "同事", en: "Good. Action needed in the subject is why it gets read.", cn: "不错。标题里写「需处理」才会被读。" },
+            { who: "发件人", en: "Should I chase?", cn: "我该催吗？" },
+            { who: "同事", en: "Once, on Thursday, and reply to your own email so the thread stays together.", cn: "周四催一次，回复你自己那封，这样在同一个会话里。" },
+            { who: "发件人", en: "Chasing in the same thread reads as organised rather than impatient.", cn: "在同一会话里催显得有条理，而不是没耐心。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "下属 · 上司（向上要资源）",
+          register: "半正式",
+          channel: "邮件 + 面对面",
+          barrier: "无（但要用「决定在前、理由在后」的结构）",
+          result: "达成（写清决定、理由与两个备选方案）",
+          lines: [
+            { who: "下属", en: "I need to ask the director for two more weeks. How should I write it?", cn: "我需要向总监要两周时间。该怎么写？" },
+            { who: "上司", en: "Lead with the decision you need, then the reason, then the alternatives.", cn: "先写你需要什么决定，再写原因，然后写备选方案。" },
+            { who: "下属", en: "Not with the reason first?", cn: "不先写原因吗？" },
+            { who: "上司", en: "He reads the first line and decides whether to read the rest.", cn: "他看第一行，然后决定要不要看下去。" },
+            { who: "下属", en: "And the alternatives?", cn: "备选方案呢？" },
+            { who: "上司", en: "Two options, and say which you recommend. Asking him to choose from nothing reads as a problem; choosing for him reads as management.", cn: "两个选项，并说明你推荐哪个。让他从零开始选是抛问题；替他选好是管理。" },
+            { who: "下属", en: "What if he says no to both?", cn: "如果两个都否了呢？" },
+            { who: "上司", en: "Then you've learned his priority. Put it in writing, and the next request is easier.", cn: "那你就知道他的优先级了。写下来，下次请求就更容易。" },
+            { who: "下属", en: "I'll send it this afternoon.", cn: "我今天下午发。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "使用者 · 同事（即时回复的期望）",
+          register: "半正式",
+          channel: "即时消息",
+          barrier: "团队默认十分钟内回复，无法长期做到",
+          result: "折中（用状态注明紧急与四小时口径，并说明一次）",
+          lines: [
+            { who: "同事", en: "People expect an answer in ten minutes on the chat.", cn: "大家在聊天里期望十分钟内回复。" },
+            { who: "使用者", en: "Ten minutes isn't a policy, it's a habit.", cn: "十分钟不是制度，是习惯。" },
+            { who: "同事", en: "Try telling that to the team.", cn: "你去跟团队这么说试试。" },
+            { who: "使用者", en: "I will, but with an alternative rather than a refusal.", cn: "我会说，但给的是替代方案，不是拒绝。" },
+            { who: "同事", en: "Such as?", cn: "比如？" },
+            { who: "使用者", en: "A note in my profile: urgent means call me, everything else within four hours.", cn: "在个人状态里写：紧急请打电话，其余四小时内回。" },
+            { who: "同事", en: "And if they ignore it?", cn: "如果他们不理呢？" },
+            { who: "使用者", en: "Then I answer late and say why, once. Habits change by consequence, not by rules.", cn: "那我就晚回，并说明一次原因。习惯靠后果改变，不是靠规定。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "使用者 · 同事（两个字被读成冷淡）",
+          register: "半正式",
+          channel: "即时消息",
+          barrier: "一句「行」被理解为不高兴，引发误会",
+          result: "修复（含决定的一律写完整句，事务才用单词）",
+          lines: [
+            { who: "同事", en: "Your message fine came across as annoyed.", cn: "你那条「行」看起来像不高兴。" },
+            { who: "使用者", en: "It was just agreement. Two letters can't carry a tone.", cn: "那就是同意。两个字承载不了语气。" },
+            { who: "同事", en: "In chat, short answers read as cold.", cn: "在聊天里，短短的回答读起来很冷。" },
+            { who: "使用者", en: "Then I'll change how I write, not what I mean.", cn: "那我改写法，不改意思。" },
+            { who: "同事", en: "How?", cn: "怎么改？" },
+            { who: "使用者", en: "Full sentences for anything with a decision in it, and agreed instead of fine.", cn: "任何含决定的都写完整句子，并把「行」换成「同意」。" },
+            { who: "同事", en: "And for one-word answers?", cn: "那单词回答呢？" },
+            { who: "使用者", en: "Only for logistics: what time, which room. Never for anything people might read twice.", cn: "只用在事务上：几点、哪个房间。绝不用于别人可能重读的内容。" }
+          ]
+        },
+        {
+          variant: "情绪型（措辞引发冲突）",
+          relation: "使用者 · 同事（一句「正如我之前所说」）",
+          register: "半正式（情绪化）",
+          channel: "邮件",
+          barrier: "一句「正如我之前所说」引爆争执",
+          result: "达成（换成给台阶的说法，并停止在气头上发送）",
+          lines: [
+            { who: "使用者", en: "I wrote as I said before and it started an argument.", cn: "我写了「正如我之前所说」，结果吵起来了。" },
+            { who: "同事", en: "That phrase is a slap in writing.", cn: "那句话在书面上就是一巴掌。" },
+            { who: "使用者", en: "I only meant that it had been covered.", cn: "我只是想说这事已经说过。" },
+            { who: "同事", en: "Then write: I think this was in my Tuesday email. Let me know if it didn't arrive.", cn: "那就写：这一点我记得在周二那封邮件里提过。如果没收到请告诉我。" },
+            { who: "使用者", en: "It gives them a way out.", cn: "这样给了对方台阶。" },
+            { who: "同事", en: "And it puts the fact on the record. Both at once, which is the trick.", cn: "同时把事实留在记录里。一举两得，这才是诀窍。" },
+            { who: "使用者", en: "I'll use it, and I'll stop writing when I'm annoyed.", cn: "我以后就这么写。而且生气的时候不写。" },
+            { who: "同事", en: "Drafting angry emails is fine. Sending them isn't.", cn: "写愤怒的邮件没关系，发出去才有关系。" }
+          ]
+        },
+        {
+          variant: "渠道变体（多人邮件与抄送规则）",
+          relation: "同事之间（抄送客户）",
+          register: "半正式",
+          channel: "邮件 + 即时消息",
+          barrier: "凡事都抄送客户，客户逐渐不再看邮件",
+          result: "达成（按「要不要行动」区分收件人与抄送）",
+          lines: [
+            { who: "同事", en: "Should I copy the client on this?", cn: "这封我该抄送客户吗？" },
+            { who: "使用者", en: "What do you want the client to do?", cn: "你想让客户做什么？" },
+            { who: "同事", en: "Nothing. It's just so they're aware.", cn: "什么都不做。就是让他们知道。" },
+            { who: "使用者", en: "Then don't copy them. Awareness without action is how people learn to ignore your emails.", cn: "那就别抄。只知情不行动，会让人学会忽略你的邮件。" },
+            { who: "同事", en: "But then they'll say they weren't told.", cn: "可他们会说没人告诉他们。" },
+            { who: "使用者", en: "Send a separate one-line note when there's something to decide, and copy them when there is.", cn: "有需要决定的就单独发一行说明；该抄的时候再抄。" },
+            { who: "同事", en: "And the difference between cc and to?", cn: "那抄送和收件人的区别呢？" },
+            { who: "使用者", en: "To means you act. Cc means you're informed. If you need action and put them in cc, you'll wait forever.", cn: "收件人意味着你要行动，抄送意味着你知情。需要行动却放在抄送，你会一直等。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "使用者 · 顾问（正式与半正式的分寸）",
+          register: "正式",
+          channel: "面对面 + 书面",
+          barrier: "无（但需统一语域并跟着对方风格）",
+          result: "达成（改半正式：完整句、无缩略式、一句话自我介绍）",
+          lines: [
+            { who: "顾问", en: "This letter is half formal and half casual, and it reads as neither.", cn: "这封信一半正式一半随意，结果两边都不像。" },
+            { who: "使用者", en: "Which half is wrong?", cn: "哪一半不对？" },
+            { who: "顾问", en: "The opening is formal. The rest uses contractions and exclamation marks.", cn: "开头是正式的。后面却用了缩略式和感叹号。" },
+            { who: "使用者", en: "I thought a friendly tone would help.", cn: "我以为友善的语气有帮助。" },
+            { who: "顾问", en: "Friendliness is not the same as informality. You may be warm and still write in full sentences.", cn: "友善不等于随意。你可以温和，同时写完整句子。" },
+            { who: "使用者", en: "So which register for a first approach to a company?", cn: "那第一次联系公司该用什么语域？" },
+            { who: "顾问", en: "Semi-formal: full sentences, no contractions, no exclamation marks, and one sentence about who you are.", cn: "半正式：完整句子、不用缩略式、不用感叹号，并用一句话说明你是谁。" },
+            { who: "使用者", en: "And once they reply?", cn: "他们回复之后呢？" },
+            { who: "顾问", en: "Mirror them. If they write in two lines, don't send four paragraphs.", cn: "跟着对方的风格。如果他们写两行，别发四段。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事之间（催回复）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "did you send it", cn: "你发了吗" },
+            { who: "乙", en: "yeah", cn: "发了" },
+            { who: "甲", en: "did they reply", cn: "回了吗" },
+            { who: "乙", en: "no", cn: "没有" },
+            { who: "甲", en: "how long", cn: "多久了" },
+            { who: "乙", en: "two days", cn: "两天" },
+            { who: "甲", en: "chase tomorrow", cn: "明天催" },
+            { who: "乙", en: "with what", cn: "怎么催" },
+            { who: "甲", en: "bump", cn: "顶一下" },
+            { who: "乙", en: "that's it", cn: "就这" },
+            { who: "甲", en: "that's it", cn: "就这" }
+          ]
+        }
+      ]
     }
   ];
 
