@@ -6588,6 +6588,519 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 02-02 急诊与药店买药 ==================== */
+    {
+      id: "s02-02",
+      domain: "02",
+      title: "急诊与药店买药",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 药剂师（感冒买药）",
+          register: "半正式",
+          channel: "面对面（药房）",
+          barrier: "无",
+          result: "达成（因在服降压药改推荐生理盐水喷雾）",
+          lines: [
+            { who: "药剂师", en: "How can I help?", cn: "需要什么帮助？" },
+            { who: "顾客", en: "I need something for a cold. I've had it four days.", cn: "我需要治感冒的药。已经四天了。" },
+            { who: "药剂师", en: "Any chesty cough, or is it all in your head?", cn: "有痰咳吗，还是都在鼻子上？" },
+            { who: "顾客", en: "Just blocked, and a headache. No cough.", cn: "就是鼻塞和头痛。不咳嗽。" },
+            { who: "药剂师", en: "Then a decongestant and paracetamol. Are you taking anything else?", cn: "那就通鼻剂加扑热息痛。您还在吃别的药吗？" },
+            { who: "顾客", en: "Blood pressure tablets.", cn: "降压药。" },
+            { who: "药剂师", en: "Then not this one. Decongestants raise blood pressure. Take the saline spray instead.", cn: "那就不能用这个。通鼻剂会升血压。改用生理盐水喷雾。" },
+            { who: "顾客", en: "Is the saline as effective?", cn: "生理盐水效果一样吗？" },
+            { who: "药剂师", en: "Slower, and safe for you. That's the trade.", cn: "慢一些，但对您安全。这就是取舍。" },
+            { who: "顾客", en: "I'll take the slower one. Thank you for asking about the tablets.", cn: "那我要慢的那个。谢谢您问了降压药的事。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "病人 · 急诊分诊护士",
+          register: "半正式",
+          channel: "面对面（急诊分诊台）",
+          barrier: "无（但要在「按需要排序」的规则里问出自己的顺位）",
+          result: "达成（明确为紧急、约两小时，并知悉变化要立刻说）",
+          lines: [
+            { who: "护士", en: "What's brought you in tonight?", cn: "今晚是什么情况来的？" },
+            { who: "病人", en: "I've had stomach pain since this morning. I want to be seen now.", cn: "我从今早开始肚子疼。我希望现在就看。" },
+            { who: "护士", en: "I'll assess you, and you'll be seen in order of need, not of arrival.", cn: "我会评估，然后按需要而不是到达顺序就诊。" },
+            { who: "病人", en: "That's what everyone is told after four hours.", cn: "这是每个人等了四小时后都会听到的话。" },
+            { who: "护士", en: "Fair. Let me ask three questions and then tell you where you are.", cn: "有道理。我问三个问题，然后告诉你排在哪。" },
+            { who: "病人", en: "Go on.", cn: "请问。" },
+            { who: "护士", en: "Can you walk? Is the pain constant or in waves? Any blood?", cn: "你能走路吗？疼是持续的还是一阵阵的？有出血吗？" },
+            { who: "病人", en: "I can walk, it comes in waves, and there's no blood.", cn: "能走，一阵阵的，没有出血。" },
+            { who: "护士", en: "Then you're urgent rather than emergency. Two hours, and if anything changes, tell me at once.", cn: "那你是紧急，不是危急。两小时；如果有变化，立刻告诉我。" },
+            { who: "病人", en: "Two hours I can plan for. That's better than being told nothing.", cn: "两小时我能安排。比什么都不说强。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 药剂师（要求抗生素）",
+          register: "半正式",
+          channel: "面对面（药房）",
+          barrier: "没有处方买不到抗生素，顾客坚持上次有效",
+          result: "折中（先止痛 + 当天号 + 把上次用药写给药医）",
+          lines: [
+            { who: "顾客", en: "I need antibiotics. I had these last time and they worked.", cn: "我要抗生素。上次吃这个很管用。" },
+            { who: "药剂师", en: "I can't sell them without a prescription.", cn: "没有处方我不能卖。" },
+            { who: "顾客", en: "It's the same infection.", cn: "是同一种感染。" },
+            { who: "药剂师", en: "It may be, and I still can't. What I can do is three things.", cn: "也许是，但我还是不能卖。我能做三件事。" },
+            { who: "顾客", en: "What?", cn: "什么？" },
+            { who: "药剂师", en: "Pain relief now, a same-day appointment request, and a note of what worked last time for the doctor.", cn: "现在给止痛药、帮你申请当天号，并把上次有效的药写下来给医生看。" },
+            { who: "顾客", en: "And if the doctor says no?", cn: "如果医生说不呢？" },
+            { who: "药剂师", en: "Then you've lost an hour, not a week on the wrong antibiotic.", cn: "那你只损失一小时，而不是一周吃错药。" },
+            { who: "顾客", en: "Last time I waited four days and it got worse.", cn: "上次我等了四天，结果更严重了。" },
+            { who: "药剂师", en: "That is exactly why I'm making the appointment request now.", cn: "正因为如此，我现在就帮你申请号。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "病人 · 医生（部位说不清）",
+          register: "半正式",
+          channel: "面对面（诊室）",
+          barrier: "母语里部位只有一个词，英文说错位置差点误判",
+          result: "修复（用手指出位置 + 下次带母语书页照片）",
+          lines: [
+            { who: "医生", en: "So the pain is in your chest.", cn: "所以疼痛在胸部。" },
+            { who: "病人", en: "Not in my chest. Under my ribs, on the right, and it goes through to my back.", cn: "不是胸部。在右肋下面，而且会穿到后背。" },
+            { who: "医生", en: "That's a different area entirely. Why did you say chest?", cn: "那完全是另一个部位。你为什么说胸部？" },
+            { who: "病人", en: "In my language there's one word for the whole front. I didn't know the English for this part.", cn: "在我的语言里整个前面只有一个词。我不知道这部分的英文。" },
+            { who: "医生", en: "Show me with your hand.", cn: "用手给我指。" },
+            { who: "病人", en: "Here. And it's worse after fatty food.", cn: "这里。而且吃了油腻的之后更疼。" },
+            { who: "医生", en: "That changes my first thought, and it is a good thing you said it.", cn: "这改变了我的第一判断，幸好你说了。" },
+            { who: "病人", en: "Should I bring a diagram next time?", cn: "下次我该带张图吗？" },
+            { who: "医生", en: "Photograph the page in your language and show me. That works better than guessing.", cn: "把你看的那页拍下来给我看。这比猜好得多。" },
+            { who: "病人", en: "I'll do that, and I'll say where the pain travels, not only where it starts.", cn: "我会的。而且我会说疼到哪里，不只是从哪儿开始。" }
+          ]
+        },
+        {
+          variant: "情绪型（孩子发烧）",
+          relation: "家长 · 医生（幼儿发烧）",
+          register: "半正式（焦急）",
+          channel: "面对面（诊室）",
+          barrier: "两夜没睡，被要求别担心却不知道要看什么",
+          result: "达成（写明观察指标与夜间求助电话）",
+          lines: [
+            { who: "医生", en: "How long has the fever been going on?", cn: "发烧多久了？" },
+            { who: "家长", en: "Two days, and it won't come down. I've been up all night.", cn: "两天了，一直退不下来。我一整夜没睡。" },
+            { who: "医生", en: "Is she drinking?", cn: "她喝水吗？" },
+            { who: "家长", en: "Yes, and she's still going to the toilet. I keep checking because someone told me to.", cn: "喝，而且还在上厕所。我一直检查，因为有人跟我说要盯着。" },
+            { who: "医生", en: "That advice was right, and it is the reason I'm not worried about dehydration.", cn: "那条建议是对的，也正因为如此我不担心脱水。" },
+            { who: "家长", en: "Then what is it?", cn: "那是什么病？" },
+            { who: "医生", en: "Probably viral, which means time rather than antibiotics. I'll tell you what to watch for.", cn: "大概是病毒性的，也就是说需要时间，不需要抗生素。我告诉你该注意什么。" },
+            { who: "家长", en: "I'd rather be told what to watch for than told not to worry.", cn: "我宁愿被告知要注意什么，而不是被告诉别担心。" },
+            { who: "医生", en: "That is the right way round. A rash, drowsiness, or no wet nappies for eight hours and you come back tonight.", cn: "这个顺序是对的。起疹子、嗜睡，或者八小时没有湿尿布，今晚就回来。" },
+            { who: "家长", en: "Written down?", cn: "能写下来吗？" },
+            { who: "医生", en: "Written down, and here's the number for the out-of-hours service.", cn: "写下来，这是非工作时间的电话。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上配药 / 送药上门）",
+          relation: "病人 · 在线药房客服",
+          register: "半正式",
+          channel: "App 订药 + 电话",
+          barrier: "长期处方到期被驳回，手里只剩两天药量",
+          result: "达成（加急复核 + 挂单待发，短信通知）",
+          lines: [
+            { who: "客服", en: "Your repeat prescription was rejected by the surgery.", cn: "您的长期处方被诊所驳回了。" },
+            { who: "病人", en: "Why? I've had the same one for two years.", cn: "为什么？同样的处方我用了两年。" },
+            { who: "客服", en: "The system says a review is due. It's a clinical check, not a refusal.", cn: "系统显示该复诊了。这是临床复核，不是拒绝。" },
+            { who: "病人", en: "So I have no tablets and no appointment.", cn: "所以我现在既没药也没号。" },
+            { who: "客服", en: "You have two days' worth if you're taking them as prescribed, and I can do two things.", cn: "按医嘱吃的话您还有两天的量，而我能做两件事。" },
+            { who: "病人", en: "Please.", cn: "请说。" },
+            { who: "客服", en: "I'll request an urgent review with the reason marked, and hold the order so it ships the hour it's approved.", cn: "我提交加急复核并注明原因，同时把订单挂起，批准后一小时内发出。" },
+            { who: "病人", en: "How do I know it's been approved?", cn: "我怎么知道批准了？" },
+            { who: "客服", en: "You'll get a text, and if you hear nothing by four tomorrow, call us and quote this number.", cn: "您会收到短信；如果明天四点前没消息，打电话报这个号码。" },
+            { who: "病人", en: "Two days of tablets and a number. That's manageable.", cn: "两天的药加一个号码。这我能应付。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "病人 · 医院医生（入院确认）",
+          register: "正式",
+          channel: "面对面（病房）",
+          barrier: "无（但需正式确认用药、过敏与近亲）",
+          result: "达成（当晚补液与抽血，次日晨扫描）",
+          lines: [
+            { who: "医生", en: "You have been referred for admission. May I confirm your details and your medication?", cn: "您是转诊入院。我确认一下您的信息和用药，可以吗？" },
+            { who: "病人", en: "Please. I have a list, including the two I take for blood pressure.", cn: "请。我有清单，包括我吃的两种降压药。" },
+            { who: "医生", en: "Any allergies, and how were they established?", cn: "有过敏吗？是怎么确认的？" },
+            { who: "病人", en: "Penicillin, confirmed by a rash as a child, and I have worn a warning bracelet since.", cn: "青霉素，小时候起疹子确认的，从那以后我一直戴警示手环。" },
+            { who: "医生", en: "That is the clearest answer I have had today. Any advance decisions we should know about?", cn: "这是我今天听到最清楚的回答。有需要我们了解的预立医疗决定吗？" },
+            { who: "病人", en: "None. My next of kin is my sister, and her number is on the form.", cn: "没有。我的近亲是我妹妹，号码在表上。" },
+            { who: "医生", en: "We shall keep her informed. The plan is fluids, bloods, and a scan in the morning.", cn: "我们会保持通知她。方案是补液、抽血，明早做扫描。" },
+            { who: "病人", en: "May I ask what you are looking for in the scan?", cn: "我可以问扫描在找什么吗？" },
+            { who: "医生", en: "Stones, and if there are none, we look at the gallbladder.", cn: "结石；如果没有，我们就看胆囊。" },
+            { who: "病人", en: "Thank you for saying what you are looking for rather than what you suspect.", cn: "谢谢您说的是在找什么，而不是您怀疑什么。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 药剂师（买头痛药）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（药房）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "anything for a headache", cn: "有治头痛的吗" },
+            { who: "药剂师", en: "how bad", cn: "多严重" },
+            { who: "顾客", en: "bad enough", cn: "够严重" },
+            { who: "药剂师", en: "these ones", cn: "这种" },
+            { who: "顾客", en: "how many", cn: "吃几片" },
+            { who: "药剂师", en: "two. four hours apart", cn: "两片。间隔四小时" },
+            { who: "顾客", en: "and if it doesn't go", cn: "要是不好呢" },
+            { who: "药剂师", en: "come back", cn: "回来找我" },
+            { who: "顾客", en: "cheers", cn: "谢了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 02-03 报警报失与保险理赔 ==================== */
+    {
+      id: "s02-03",
+      domain: "02",
+      title: "报警报失与保险理赔",
+      ielts: "口语 P2 场景 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "报案人 · 警察（钱包丢失）",
+          register: "半正式",
+          channel: "面对面（警察局）",
+          barrier: "无",
+          result: "达成（按失物登记备案，编号可用于补办证件）",
+          lines: [
+            { who: "警察", en: "You want to report a loss?", cn: "您要报失？" },
+            { who: "报案人", en: "Yes. My wallet, on the bus this morning.", cn: "是的。我的钱包，今早落在公交车上。" },
+            { who: "警察", en: "Was anything taken, or did you lose it?", cn: "是被偷了，还是您自己弄丢的？" },
+            { who: "报案人", en: "I think I left it on the seat. I noticed at the next stop and the bus had gone.", cn: "我想是落在座位上了。下一站我才发现，车已经走了。" },
+            { who: "警察", en: "Then it's a lost property report, not a theft. That matters for insurance.", cn: "那就是失物登记，不是盗窃。这对保险很重要。" },
+            { who: "报案人", en: "Good to know. The contents matter more: cards, a residence permit, sixty euros.", cn: "这我很想知道。更重要的是里面的东西：卡、居留许可、六十欧。" },
+            { who: "警察", en: "Cancel the cards first, today. The permit takes longer.", cn: "先去把卡停掉，今天就办。居留许可要久一些。" },
+            { who: "报案人", en: "Will the report help with the permit?", cn: "这份记录对居留许可有帮助吗？" },
+            { who: "警察", en: "Yes. Quote this number when you apply for the replacement.", cn: "有。补办的时候引用这个号码。" },
+            { who: "报案人", en: "Then I'll do the cards now and come back for a copy.", cn: "那我就先去停卡，再回来取一份副本。" },
+            { who: "警察", en: "Ask for me and I'll print it, otherwise you'll queue twice.", cn: "找我，我给你打印，不然你要排两次队。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "投保人 · 保险理赔员（被拒赔）",
+          register: "半正式",
+          channel: "电话 + 邮件",
+          barrier: "无（但要用监控与收银时间推翻「无人看管」）",
+          result: "达成（重开档案，五日内书面答复）",
+          lines: [
+            { who: "理赔员", en: "The claim is declined because the policy excludes items left unattended.", cn: "理赔被拒，因为保单不保无人看管的物品。" },
+            { who: "投保人", en: "It was on me until I put it down for twenty seconds at the till.", cn: "它一直在我身上，直到我在收银台放下了二十秒。" },
+            { who: "理赔员", en: "The adjuster's note says unattended.", cn: "定损员的记录写的是无人看管。" },
+            { who: "投保人", en: "Then the note conflicts with the shop's camera, which I have requested.", cn: "那记录和店里的监控矛盾，我已经申请调取了。" },
+            { who: "理赔员", en: "You have requested the footage?", cn: "您申请调取监控了？" },
+            { who: "投保人", en: "And the till receipt with the time on it, which puts me at the counter when the phone was taken.", cn: "还有带时间的收银小票，它能证明手机被拿走时我就在柜台。" },
+            { who: "理赔员", en: "That is new evidence. I'll reopen the file, and you'll hear within five days.", cn: "这是新证据。我重开档案，五天内给你答复。" },
+            { who: "投保人", en: "In writing, either way, please.", cn: "无论结果如何，请书面通知。" },
+            { who: "理赔员", en: "In writing. And I would suggest you upload the footage rather than describe it.", cn: "书面。另外建议您上传监控，而不是描述它。" },
+            { who: "投保人", en: "I have it as a file already.", cn: "我已经有文件了。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "报案人 · 警察（自行车被盗）",
+          register: "半正式",
+          channel: "面对面（警察局）",
+          barrier: "轻微盗窃不派警员，只让网上报案",
+          result: "折中（当场在手机上填，警察核对后给编号）",
+          lines: [
+            { who: "警察", en: "For a stolen bicycle we don't send an officer. You can report it online.", cn: "自行车被盗我们不派警员。你可以在网上报案。" },
+            { who: "报案人", en: "Online won't get me the number I need for insurance.", cn: "网上报案拿不到保险需要的号码。" },
+            { who: "警察", en: "It does, actually. The online report gets a crime reference.", cn: "其实可以。网上报案也会生成案件编号。" },
+            { who: "报案人", en: "Then why do people queue here for two hours?", cn: "那为什么大家在这儿排两小时队？" },
+            { who: "警察", en: "Because they don't know that, and we are short-staffed.", cn: "因为他们不知道，而我们人手不足。" },
+            { who: "报案人", en: "Could I do it here on my phone and have you check it's right?", cn: "我能在手机上填，然后请您帮我核对吗？" },
+            { who: "警察", en: "That is the fastest thing you could have asked for. Sit down.", cn: "这是你能提的最快的办法。坐下吧。" },
+            { who: "报案人", en: "What do I put for value?", cn: "价值填多少？" },
+            { who: "警察", en: "What you paid, or what it costs to replace, whichever you can evidence.", cn: "你付的价，或者换新的价，哪个你能拿出证据就填哪个。" },
+            { who: "报案人", en: "Then the replacement price, and I have the shop listing.", cn: "那填换新价，我有商店的页面截图。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "报案人 · 警察（编号念错）",
+          register: "半正式",
+          channel: "电话 + 现场",
+          barrier: "编号里的斜杠没念出来，保险公司查不到",
+          result: "修复（书面给出正确编号，并说明可下载 PDF）",
+          lines: [
+            { who: "报案人", en: "The crime reference I was given doesn't exist. The insurer can't find it.", cn: "给我的案件编号查不到。保险公司查不到。" },
+            { who: "警察", en: "Read it to me.", cn: "念给我听。" },
+            { who: "报案人", en: "It ends in four seven. The system shows nothing.", cn: "末尾是四七。系统里什么都没有。" },
+            { who: "警察", en: "Four seven, or four slash seven?", cn: "是四七，还是四斜杠七？" },
+            { who: "报案人", en: "I wrote down what I heard on the phone.", cn: "我记的是电话里听到的。" },
+            { who: "警察", en: "That's the problem. It was four slash seven, and the slash is part of the number.", cn: "问题就在这儿。是四斜杠七，斜杠是编号的一部分。" },
+            { who: "报案人", en: "Nobody says slash out loud.", cn: "没人会口头念出斜杠。" },
+            { who: "警察", en: "They should, and I'll say it that way from now on. Here is the correct reference in writing.", cn: "应该念，我以后就这么念。这是正确的编号，书面给你。" },
+            { who: "报案人", en: "Does the insurer need anything else?", cn: "保险公司还需要别的吗？" },
+            { who: "警察", en: "The report PDF, which you download with this reference. No need to come back.", cn: "报案 PDF，用这个编号就能下载。不用再来了。" }
+          ]
+        },
+        {
+          variant: "情绪型（被抢后一直发抖）",
+          relation: "受害人 · 警察（街头抢劫）",
+          register: "半正式（情绪化）",
+          channel: "面对面（警察局）",
+          barrier: "人没受伤但控制不住发抖与自责",
+          result: "达成（拿到处理步骤与受害者支持电话）",
+          lines: [
+            { who: "报案人", en: "It happened on my street, at eight in the evening.", cn: "就发生在我那条街上，晚上八点。" },
+            { who: "警察", en: "Were you hurt?", cn: "您受伤了吗？" },
+            { who: "报案人", en: "No. He took the phone and ran. I'm not hurt, I just can't stop shaking.", cn: "没有。他抢了手机就跑了。我没受伤，我只是控制不住发抖。" },
+            { who: "警察", en: "That's a normal reaction, and it can last a few days.", cn: "这是正常反应，可能持续几天。" },
+            { who: "报案人", en: "I keep thinking I should have held it tighter.", cn: "我一直想我当时应该抓得更紧。" },
+            { who: "警察", en: "People who resist get hurt. You did the right thing, and that is worth hearing from someone who sees it weekly.", cn: "反抗的人会受伤。你做得对，这话从一个每周都见这种事的人嘴里说出来，值得听。" },
+            { who: "报案人", en: "...Thank you. What happens next?", cn: "……谢谢。接下来呢？" },
+            { who: "警察", en: "Your network will block the phone, so it's worthless to them. Call them tonight.", cn: "你的运营商会把手机锁掉，对他们来说就没用了。今晚打电话办。" },
+            { who: "报案人", en: "And if they find it?", cn: "如果找到了呢？" },
+            { who: "警察", en: "You'll get a call. And I'd advise the victim support number on this card either way.", cn: "会有人给你打电话。另外无论如何，建议你打这张卡上的受害者支持电话。" }
+          ]
+        },
+        {
+          variant: "渠道变体（网上报案 + 保险 App）",
+          relation: "投保人 · 保险客服（缺编号）",
+          register: "半正式",
+          channel: "网上报案 + 保险 App",
+          barrier: "网上报案只收到确认邮件，找不到案件编号",
+          result: "达成（在 PDF 第二页找到编号，只上传必要文件）",
+          lines: [
+            { who: "客服", en: "Your claim is missing the crime reference.", cn: "您的理赔缺案件编号。" },
+            { who: "投保人", en: "I filed the report online and got a confirmation, but no reference.", cn: "我在网上报了案，收到确认，但没有编号。" },
+            { who: "客服", en: "The reference is in the PDF, not in the email.", cn: "编号在 PDF 里，不在邮件里。" },
+            { who: "投保人", en: "The email only says your report has been received.", cn: "邮件只写「您的报案已收到」。" },
+            { who: "客服", en: "Then open the attachment. It's on the second page.", cn: "那就打开附件。在第二页。" },
+            { who: "投保人", en: "Got it. Should I upload the email as well?", cn: "找到了。我要把邮件也上传吗？" },
+            { who: "客服", en: "Only the PDF. Extra documents slow the system down.", cn: "只传 PDF。多余文件会拖慢系统。" },
+            { who: "投保人", en: "How long does approval take?", cn: "批准要多久？" },
+            { who: "客服", en: "Ten working days, and the app shows the stage. If it says awaiting information, that means us, not you.", cn: "十个工作日，应用会显示阶段。如果显示等待信息，那是等我们，不是等你。" },
+            { who: "投保人", en: "That's the sentence that should be on the screen.", cn: "这句话就该显示在屏幕上。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "报案人 · 警察（正式笔录）",
+          register: "正式",
+          channel: "面对面（警察局笔录）",
+          barrier: "无（但需逐行核对并主动更正）",
+          result: "达成（更正两处，补充出租车线索，签字）",
+          lines: [
+            { who: "警察", en: "This is your statement. Please read it and correct anything that is wrong.", cn: "这是您的陈述。请阅读并更正任何错误。" },
+            { who: "报案人", en: "Line four says I was approached from behind. I was approached from the side.", cn: "第四行写的是有人从背后靠近我。是从侧面。" },
+            { who: "警察", en: "Corrected. Anything else that is not accurate?", cn: "已更正。还有不准确的地方吗？" },
+            { who: "报案人", en: "Line seven says the man spoke. He did not speak at all, which is why I cannot describe a voice.", cn: "第七行写那名男子说了话。他完全没说话，所以我说不出声音特征。" },
+            { who: "警察", en: "That is an important correction. Silence is itself a detail.", cn: "这是重要的更正。沉默本身就是一条线索。" },
+            { who: "报案人", en: "I should like to add that I saw a taxi waiting with its light on.", cn: "我想补充一点：我看到一辆出租车亮着灯在等。" },
+            { who: "警察", en: "Which company, if you know?", cn: "哪家公司，如果您知道？" },
+            { who: "报案人", en: "I do not. It was white with a blue stripe, and I would not swear to the colour.", cn: "不知道。白色带蓝条，但颜色我不敢发誓。" },
+            { who: "警察", en: "Saying what you would not swear to is more useful than a confident guess. Sign here.", cn: "说清哪些你不敢确定，比一个自信的猜测更有用。请在这里签字。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "报案人 · 警察（自行车被偷）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（警察局）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "报案人", en: "my bike got nicked", cn: "我的自行车被偷了" },
+            { who: "警察", en: "where", cn: "在哪" },
+            { who: "报案人", en: "outside the station", cn: "车站外面" },
+            { who: "警察", en: "when", cn: "什么时候" },
+            { who: "报案人", en: "last night", cn: "昨晚" },
+            { who: "警察", en: "locked", cn: "锁了吗" },
+            { who: "报案人", en: "yeah. decent lock too", cn: "锁了。还是把好锁" },
+            { who: "警察", en: "they cut it", cn: "他们剪断了" },
+            { who: "报案人", en: "looks like it", cn: "看起来是" },
+            { who: "警察", en: "report it online. you'll get a number for insurance", cn: "网上报案。会给你一个保险用的编号" },
+            { who: "报案人", en: "for a bike", cn: "一辆自行车？" },
+            { who: "警察", en: "for anything", cn: "什么都一样" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 11-01 导游观光与博物馆 ==================== */
+    {
+      id: "s11-01",
+      domain: "11",
+      title: "导游观光与博物馆",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "游客 · 导游（参观安排）",
+          register: "中性",
+          channel: "面对面（景区）",
+          barrier: "无",
+          result: "达成（确认塔楼难度与拍照规则后定行程）",
+          lines: [
+            { who: "导游", en: "We'll spend forty minutes in the cloister, then the tower.", cn: "我们会在回廊待四十分钟，然后上塔楼。" },
+            { who: "游客", en: "Is the tower climb difficult?", cn: "爬塔楼难吗？" },
+            { who: "导游", en: "Two hundred and twenty steps, no lift, and the staircase is narrow.", cn: "二百二十级台阶，没有电梯，楼梯很窄。" },
+            { who: "游客", en: "Is there anywhere to stop halfway?", cn: "中途有地方可以停吗？" },
+            { who: "导游", en: "There's a landing at one hundred and ten with a bench. Most people stop there.", cn: "一百一十级处有个平台，有长椅。大部分人都在那儿歇。" },
+            { who: "游客", en: "Then I'll try it. Does the ticket cover both?", cn: "那我试试。票包含两处吗？" },
+            { who: "导游", en: "It does, and the tower is valid all day.", cn: "包含，而且塔楼当天随时都能上。" },
+            { who: "游客", en: "May I take photographs inside?", cn: "里面能拍照吗？" },
+            { who: "导游", en: "Everywhere except the chapel, where there's a service at four.", cn: "除了礼拜堂都可以，四点那里有礼拜。" },
+            { who: "游客", en: "Then I'll do the tower now and the chapel tomorrow morning.", cn: "那我先上塔楼，礼拜堂明早再去。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "游客 · 博物馆工作人员（包超尺寸）",
+          register: "半正式",
+          channel: "面对面（展厅入口）",
+          barrier: "无（但要在规则内找到第三条路）",
+          result: "达成（只带相机、包留储物柜）",
+          lines: [
+            { who: "工作人员", en: "You can't bring that bag into the gallery. It's larger than the limit.", cn: "那个包不能进展厅。超过了尺寸限制。" },
+            { who: "游客", en: "It's a camera bag and everything in it is equipment.", cn: "这是摄影包，里面全是器材。" },
+            { who: "工作人员", en: "The rule is about size, not contents.", cn: "规定管的是尺寸，不是内容。" },
+            { who: "游客", en: "Then I'll check it in, but the cloakroom queue is twenty minutes.", cn: "那我寄存，但寄存处要排二十分钟。" },
+            { who: "工作人员", en: "There are lockers by the north entrance, and they're usually empty.", cn: "北门有储物柜，通常没人用。" },
+            { who: "游客", en: "Are they big enough for the bag?", cn: "能放下这个包吗？" },
+            { who: "工作人员", en: "They're the same size, I'm afraid.", cn: "恐怕是同样尺寸。" },
+            { who: "游客", en: "Could I carry the camera and leave the bag?", cn: "我能只带相机、把包留下吗？" },
+            { who: "工作人员", en: "That's allowed, and it solves both our problems.", cn: "可以，这样我们两个的问题都解决了。" },
+            { who: "游客", en: "Then I'll do that. Thank you for finding the third option.", cn: "那就这样。谢谢您找到第三个办法。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "游客 · 售票处（导览满员）",
+          register: "中性",
+          channel: "面对面（售票处）",
+          barrier: "想参加的导览已满，没有候补名单",
+          result: "折中（改下午场，并说明现场候补怎么做）",
+          lines: [
+            { who: "游客", en: "The guided tour for tomorrow is sold out. Is there any way in?", cn: "明天的导览卖完了。有办法进吗？" },
+            { who: "售票", en: "The tour is capped at fifteen. I can't add one.", cn: "导览限十五人。我不能加一个。" },
+            { who: "游客", en: "Could I be put on a cancellation list?", cn: "能把我放到候补名单吗？" },
+            { who: "售票", en: "We don't have one, but here is what does work.", cn: "我们没有候补名单，但有个办法管用。" },
+            { who: "游客", en: "Go on.", cn: "请说。" },
+            { who: "售票", en: "Come ten minutes early and ask at the desk. Cancellations happen about once a week, and the person at the desk decides.", cn: "提前十分钟到，在柜台问。每周大概有一次取消，柜台的人决定。" },
+            { who: "游客", en: "So the queue is the waiting list.", cn: "所以排队就是候补名单。" },
+            { who: "售票", en: "Effectively. And the same tour in the afternoon has space.", cn: "可以这么说。下午同一场还有位置。" },
+            { who: "游客", en: "Then I'll take the afternoon and stop worrying.", cn: "那我要下午的，不用再操心了。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "游客 · 工作人员（语音导览语言错）",
+          register: "中性",
+          channel: "面对面（语音导览台）",
+          barrier: "导览册编号印错，选英语放出德语",
+          result: "修复（当场统一告知正确编号，游客也帮忙转告）",
+          lines: [
+            { who: "游客", en: "The audio guide is in the wrong language. I chose English.", cn: "语音导览语言不对。我选的是英语。" },
+            { who: "工作人员", en: "Press one at the start. It defaults to the last setting.", cn: "开头按一。它默认用上一次的设置。" },
+            { who: "游客", en: "I pressed one and got German.", cn: "我按了一，出来的是德语。" },
+            { who: "工作人员", en: "Then the numbers have shifted. What number is English on your sheet?", cn: "那编号变动了。你那张单子上英语是几号？" },
+            { who: "游客", en: "Two.", cn: "二号。" },
+            { who: "工作人员", en: "Two is German in this batch. It's a printing error on the sheet, not on the machine.", cn: "这一批里二号是德语。是纸上的印刷错误，不是机器的。" },
+            { who: "游客", en: "So the sheet is wrong for everyone today.", cn: "那今天所有人的纸都是错的。" },
+            { who: "工作人员", en: "Yes, and I'll say it at the desk rather than swap sheets one at a time.", cn: "是的，我会在柜台统一说明，而不是一张一张换。" },
+            { who: "游客", en: "Tell people English is three. I'll pass it on as well.", cn: "告诉大家英语是三。我也会转告。" },
+            { who: "工作人员", en: "Thank you. That saves me twenty conversations.", cn: "谢谢。这省了我二十次解释。" }
+          ]
+        },
+        {
+          variant: "情绪型（排了五十分钟却遇展厅关闭）",
+          relation: "游客 · 博物馆工作人员",
+          register: "中性（失望）",
+          channel: "面对面（展厅入口）",
+          barrier: "排队五十分钟后目标展厅因保护性维护关闭，入口无告示",
+          result: "达成（走会员入口免排队，并当天补上告示）",
+          lines: [
+            { who: "游客", en: "I've queued fifty minutes and the room I came for is closed.", cn: "我排了五十分钟，而我想看的那个展厅关了。" },
+            { who: "工作人员", en: "The Rothko room is closed for conservation. It says so online.", cn: "罗斯科展厅因保护性维护关闭。网上有写。" },
+            { who: "游客", en: "It says so on a page I didn't open, and there's no sign at the entrance.", cn: "写在了一个我没打开的页面，而入口处没有告示。" },
+            { who: "工作人员", en: "You're right, and that is our failure.", cn: "您说得对，这是我们的失误。" },
+            { who: "游客", en: "I'm not angry about the room. I'm angry about the fifty minutes.", cn: "我不是为展厅生气。我是为那五十分钟生气。" },
+            { who: "工作人员", en: "Then let me fix the part I can. Come with me.", cn: "那我来解决我能解决的部分。请跟我来。" },
+            { who: "游客", en: "Where?", cn: "去哪？" },
+            { who: "工作人员", en: "The members' entrance. There's no queue, and the two rooms next to Rothko are open.", cn: "会员入口。那里不排队，而且罗斯科旁边那两个展厅开着。" },
+            { who: "游客", en: "That's twenty minutes of my fifty back.", cn: "这把我那五十分钟找回了二十分钟。" },
+            { who: "工作人员", en: "And I'll put a sign at the entrance today, which is the part that should have existed.", cn: "另外我今天会在入口加上告示，本来就该有。" }
+          ]
+        },
+        {
+          variant: "渠道变体（手机 App 语音导览）",
+          relation: "游客 · 语音导览客服",
+          register: "半正式",
+          channel: "App + 客服",
+          barrier: "地下展厅无线网断，导览卡在下载百分之八",
+          result: "达成（改用编号 + 离线模式，并反馈默认设置）",
+          lines: [
+            { who: "游客", en: "The app won't download the tour. It's stuck at eight percent.", cn: "应用下载不了导览。卡在百分之八。" },
+            { who: "客服", en: "Are you on the museum wifi?", cn: "您在用博物馆的无线网吗？" },
+            { who: "游客", en: "I am, and it's the only network that works inside.", cn: "在用，而且这是馆内唯一能用的网络。" },
+            { who: "客服", en: "The wifi drops in the basement galleries. Download it upstairs first.", cn: "无线网在地下展厅会断。请先到楼上把导览下载完。" },
+            { who: "游客", en: "I'm already in the basement.", cn: "我已经在地下室了。" },
+            { who: "客服", en: "Then use the printed numbers and offline mode. Tap the number, don't scan.", cn: "那就用墙上的编号和离线模式。点编号，别扫码。" },
+            { who: "游客", en: "There's an offline mode?", cn: "有离线模式？" },
+            { who: "客服", en: "It's in the settings and it isn't obvious, which I have complained about.", cn: "在设置里，而且不明显，这事我反映过。" },
+            { who: "游客", en: "It's working. Why isn't that the default?", cn: "能用了。为什么不做成默认？" },
+            { who: "客服", en: "Because it downloads everything at once. I'll pass your comment on with the word default in it.", cn: "因为那样会一次性下载全部内容。我会把您的意见原话转过去，带上默认这个词。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "参观者 · 策展人（藏品来源）",
+          register: "正式",
+          channel: "面对面（研究室）",
+          barrier: "无（但需正式提出查阅档案并说明用途）",
+          result: "达成（约周四查阅通信档案，策展人陪同首小时）",
+          lines: [
+            { who: "策展人", en: "Thank you for coming. You asked about the provenance of the two panels.", cn: "谢谢您来。您问的是那两块镶板的来源。" },
+            { who: "参观者", en: "I did. The label says acquired in 1954, which is unusually precise for that period.", cn: "是的。标签写的是 1954 年入藏，对那个年代来说异常精确。" },
+            { who: "策展人", en: "It is precise because the acquisition was contested at the time.", cn: "之所以精确，是因为当时这笔入藏有争议。" },
+            { who: "参观者", en: "Contested by whom?", cn: "谁有争议？" },
+            { who: "策展人", en: "By the vendor's family, and the correspondence survives in our archive.", cn: "卖方家族，相关通信保存在我们的档案里。" },
+            { who: "参观者", en: "Would it be possible to consult that correspondence?", cn: "有可能查阅那些通信吗？" },
+            { who: "策展人", en: "By appointment, and I should warn you that two of the letters are in Dutch.", cn: "预约即可，不过我要提醒您，其中两封信是荷兰文。" },
+            { who: "参观者", en: "That is not a difficulty. I should like to cite them accurately rather than approximately.", cn: "这不是问题。我希望能准确引用，而不是大致引用。" },
+            { who: "策展人", en: "Then I shall arrange it for Thursday morning, and I shall sit in for the first hour.", cn: "那我安排周四上午，第一小时我会在场。" },
+            { who: "参观者", en: "That is generous, and unusual.", cn: "这很慷慨，也很少见。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "游客 · 售票处（买门票）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（售票处）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "游客", en: "how much to get in", cn: "门票多少钱" },
+            { who: "售票", en: "twelve. students eight", cn: "十二。学生八块" },
+            { who: "游客", en: "i'm not a student", cn: "我不是学生" },
+            { who: "售票", en: "are you sure", cn: "你确定吗" },
+            { who: "游客", en: "yes", cn: "确定" },
+            { who: "售票", en: "shame", cn: "可惜" },
+            { who: "游客", en: "why", cn: "为什么" },
+            { who: "售票", en: "everyone your age says they're a student", cn: "你这年纪的人都说自己是学生" },
+            { who: "游客", en: "i'm honest", cn: "我诚实" },
+            { who: "售票", en: "twelve, then", cn: "那就十二" },
+            { who: "游客", en: "worth it?", cn: "值吗" },
+            { who: "售票", en: "the tower is", cn: "塔楼值" }
+          ]
+        }
+      ]
     }
   ];
 
