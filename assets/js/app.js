@@ -426,41 +426,88 @@
 
   // 今日新词：先复习到期的，再按每天上限补新词（新词跨场景域打散）
   function vTodayList() {
-    var due = vDueList().map(function (w) { return { w: w, tag: "复习" }; });
+    var due = vDueList();
     var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
-    var fresh = vShuffle(vNewPool().slice()).slice(0, room)
-      .map(function (w) { return { w: w, tag: "" }; });
+    var fresh = vShuffle(vNewPool().slice()).slice(0, room);
     return due.concat(fresh);
   }
 
+  // 全部单词：学习词库 + 词典里的固定搭配，一起按 A-Z 排
+  var vAllCache = null;
   function vAllList() {
-    return vWords().slice().sort(function (a, b) {
-      return a.w.toLowerCase() < b.w.toLowerCase() ? -1 : 1;
+    if (vAllCache) return vAllCache;
+    var items = [];
+    var seen = {};
+
+    vWords().forEach(function (w) {
+      var key = w.w.toLowerCase();
+      seen[key + "|" + w.cn] = 1;
+      items.push({
+        key: key,
+        w: w.w,
+        ph: vPhon(w.w),
+        desc: (w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn
+      });
     });
+
+    var col = DATA.collocations || {};
+    Object.keys(col).forEach(function (head) {
+      col[head].forEach(function (pair) {
+        var key = String(pair[0]).toLowerCase();
+        if (seen[key + "|" + pair[1]]) return;
+        seen[key + "|" + pair[1]] = 1;
+        items.push({ key: key, w: pair[0], ph: "", desc: pair[1] });
+      });
+    });
+
+    items.sort(function (a, b) { return a.key < b.key ? -1 : (a.key > b.key ? 1 : 0); });
+    vAllCache = items;
+    return items;
   }
 
-  // 一行一个词：第一行「英文 + 音标 + 中文」，第二行三个键
-  function vRowHtml(w, tag) {
-    var phon = vPhon(w.w);
+  // 小按钮组：今日新词三个键，已学习两个键
+  function vKeysHtml(word, kinds) {
+    return kinds.map(function (k) {
+      var label = k === "know" ? "认识" : (k === "fuzzy" ? "模糊" : "不认识");
+      var cls = k === "know" ? "vk-ok" : (k === "fuzzy" ? "vk-mid" : "vk-no");
+      return '<button type="button" class="vk ' + cls + '" data-vans="' + k +
+        '" data-vword="' + esc(word) + '">' + label + "</button>";
+    }).join("");
+  }
+
+  // 第一行左边：英语 + 音标（点一下发音）
+  function vWordPart(w, phon) {
+    return '<span class="vleft" data-vspeak="' + esc(w) + '">' +
+      '<span class="vw">' + esc(w) + "</span>" +
+      (phon ? '<span class="vp">' + esc(phon) + "</span>" : "") +
+      "</span>";
+  }
+
+  // 今日新词：第一行「英语/音标 + 认识/模糊/不认识」（两端对齐），第二行 词性+中文
+  function vRowHtml(w) {
     return '<div class="vrow">' +
-      '<div class="vrow-main">' +
-        '<span class="vrow-w" data-vspeak="' + esc(w.w) + '">' + esc(w.w) + "</span>" +
-        (phon ? '<span class="vrow-p">' + esc(phon) + "</span>" : "") +
-        '<span class="vrow-c">' + esc(w.cn) + "</span>" +
-        (tag ? '<span class="vrow-tag">' + esc(tag) + "</span>" : "") +
-      "</div>" +
-      '<div class="vrow-keys">' +
-        '<button type="button" class="vk vk-ok" data-vans="know" data-vword="' + esc(w.w) + '">认识</button>' +
-        '<button type="button" class="vk vk-mid" data-vans="fuzzy" data-vword="' + esc(w.w) + '">模糊</button>' +
-        '<button type="button" class="vk vk-no" data-vans="no" data-vword="' + esc(w.w) + '">不认识</button>' +
-      "</div>" +
+      '<div class="vtop">' + vWordPart(w.w, vPhon(w.w)) +
+        '<span class="vkeys">' + vKeysHtml(w.w, ["know", "fuzzy", "no"]) + "</span></div>" +
+      '<div class="vdesc">' + esc((w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn) + "</div>" +
     "</div>";
   }
 
-  function vListHtml(list) {
-    return '<div class="vlist">' + list.map(function (x) {
-      return vRowHtml(x.w, x.tag);
-    }).join("") + "</div>";
+  // 已学习：第一行「英语/音标 + 认识/不认识」，第二行 词性+中文
+  function vLearnedRowHtml(w) {
+    return '<div class="vrow">' +
+      '<div class="vtop">' + vWordPart(w.w, vPhon(w.w)) +
+        '<span class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</span></div>" +
+      '<div class="vdesc">' + esc((w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn) + "</div>" +
+    "</div>";
+  }
+
+  // 全部单词：一行「英语 / 音标 / 词性+中文」
+  function vFlatRowHtml(it) {
+    return '<div class="vflat">' +
+      '<span class="vw" data-vspeak="' + esc(it.w) + '">' + esc(it.w) + "</span>" +
+      (it.ph ? '<span class="vp">' + esc(it.ph) + "</span>" : "") +
+      '<span class="vdesc-inline">' + esc(it.desc) + "</span>" +
+    "</div>";
   }
 
   function vTodayHtml() {
@@ -468,17 +515,17 @@
     if (!list.length) {
       return '<p class="vempty">今天的量学完了 🎉 明天再来，或去「已学习」回看。</p>';
     }
-    return vListHtml(list);
+    return '<div class="vlist">' + list.map(vRowHtml).join("") + "</div>";
   }
 
   function vLearnedHtml() {
     var list = vLearnedList();
     if (!list.length) return '<p class="vempty">还没有学过的词，去「今日新词」开始吧。</p>';
-    return vListHtml(list.map(function (w) { return { w: w, tag: "" }; }));
+    return '<div class="vlist">' + list.map(vLearnedRowHtml).join("") + "</div>";
   }
 
   function vAllHtml() {
-    return vListHtml(vAllList().map(function (w) { return { w: w, tag: "" }; }));
+    return '<div class="vlist">' + vAllList().map(vFlatRowHtml).join("") + "</div>";
   }
 
   function vCounts() {
@@ -739,6 +786,7 @@
     });
 
     vs.importText = "";
+    vAllCache = null;    // 词库变了，「全部单词」的缓存要重建
     vSave();
     renderVocab();
 

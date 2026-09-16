@@ -794,64 +794,60 @@ mark {
 
 .vinput:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
 
-/* ---------- 学习模式·单词列表行：第一行 英文+音标+中文，第二行 三键 ---------- */
+/* ---------- 学习模式·单词列表 ----------
+   今日新词 / 已学习：第一行「英语 音标 ……… 三键」（两端对齐），第二行 词性+中文
+   全部单词：一行「英语 音标 词性+中文」
+   行与行之间间隔 2px
+   ------------------------------------------------------------------------ */
 
 .vrow {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
+  padding: 4px 0;
+  margin-bottom: 2px;
 }
 
-.vrow-main {
+.vtop {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.vrow-w {
+.vleft { min-width: 0; }
+
+.vw {
   font-size: 15.5px;
   color: var(--text);
   cursor: pointer;
 }
 
-.vrow-p {
+.vp {
+  margin-left: 7px;
   font-size: 12px;
   color: var(--text-3);
 }
 
-.vrow-c {
-  font-size: 13.5px;
+.vdesc {
+  margin-top: 1px;
+  font-size: 13px;
   color: var(--text-2);
-  margin-left: auto;
-  text-align: right;
 }
 
-.vrow-tag {
+.vkeys {
   flex: none;
-  padding: 1px 6px;
-  border-radius: 5px;
-  background: var(--accent-soft);
-  color: var(--accent-text);
-  font-size: 11px;
-}
-
-.vrow-keys {
   display: flex;
   gap: 6px;
-  margin-top: 7px;
 }
 
 .vk {
-  flex: 1;
-  padding: 7px 0;
+  padding: 2px 10px;
   border: 1px solid var(--border-strong);
-  border-radius: 9px;
+  border-radius: 999px;
   background: var(--card);
-  color: var(--text-2);
   font: inherit;
-  font-size: 13px;
+  font-size: 12.5px;
+  line-height: 1.7;
   cursor: pointer;
-  transition: background .15s ease, border-color .15s ease, color .15s ease;
+  transition: background .15s ease, border-color .15s ease;
 }
 
 .vk:hover { background: var(--card-hover); }
@@ -864,6 +860,20 @@ mark {
 [data-theme="dark"] .vk-ok { color: #6fd3a3; border-color: #2c5a46; }
 [data-theme="dark"] .vk-mid { color: #e0bd6a; border-color: #5c4d24; }
 [data-theme="dark"] .vk-no { color: #ef8b7f; border-color: #5e3330; }
+
+.vflat {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 3px 0;
+  margin-bottom: 2px;
+}
+
+.vdesc-inline {
+  font-size: 13px;
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}
 
 .vselect {
   padding: 10px 11px;
@@ -885,7 +895,7 @@ mark {
 .vlist {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 0;   /* 行间距由 .vrow / .vflat 的 margin-bottom: 2px 控制 */
 }
 
 .vitem {

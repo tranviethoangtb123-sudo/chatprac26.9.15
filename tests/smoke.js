@@ -186,26 +186,24 @@ try {
   if (vHome.indexOf("vtabs") < 0) problems.push("缺少板块切换条");
   console.log("  学习模式·单词：今日新词 / 已学习 / 全部单词 三个板块 ✔");
 
-  // 每行格式：第一行 英文 + 音标 + 中文，第二行三个键
+  // 每行格式：第一行「英语 / 音标 / 三键」，第二行「词性 + 中文」
   const firstRow = (byId.vocabBoard.innerHTML.match(/<div class="vrow">[\s\S]*?<\/div><\/div>/) || [""])[0];
-  ["vrow-main", "vrow-w", "vrow-p", "vrow-c", "vrow-keys"].forEach((c) => {
-    if (firstRow.indexOf(c) < 0) problems.push("单词行缺少 " + c);
+  ["vtop", "vleft", "vw", "vp", "vkeys", "vdesc"].forEach((c) => {
+    if (firstRow.indexOf('class="' + c + '"') < 0) problems.push("单词行缺少 " + c);
   });
   ["know", "fuzzy", "no"].forEach((k) => {
     if (firstRow.indexOf('data-vans="' + k + '"') < 0) problems.push("单词行缺少按键：" + k);
   });
-  if (!/class="vrow-w"[^>]*>[a-z][a-z']*</.test(firstRow)) problems.push("第一行没先写英文单词");
-  if (!/vrow-p">\//.test(firstRow)) problems.push("第一行缺少音标");
-  if (!/vrow-c">[\u4e00-\u9fa5]/.test(firstRow)) problems.push("第一行缺少中文");
-  console.log("  单词行：第一行 英文+音标+中文，第二行三键 ✔");
+  if (!/class="vw">[a-z][a-z']*</.test(firstRow)) problems.push("第一行没先写英文单词");
+  if (!/class="vp">\//.test(firstRow)) problems.push("第一行缺少音标");
+  if (!/class="vdesc">(?:[a-z]+\.[ ]*)?[\u4e00-\u9fa5]/.test(firstRow)) problems.push("第二行缺少词性+中文释义");
+  console.log("  单词行：第一行 英语+音标+三键，第二行 词性+中文 ✔");
 
-  // 今日新词里应有一批词（每天上限 50）
+  // 今日新词：新词每天上限 50，到期的复习词会额外排在最前面
   const todayRows = (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length;
-  const reviewRows = (byId.vocabBoard.innerHTML.match(/class="vrow-tag">复习</g) || []).length;
-  const todayWords = todayRows - reviewRows;
-  if (todayWords < 1) problems.push("今日新词是空的");
-  if (todayWords > 50) problems.push("今日新词超过每日上限 50，实际 " + todayWords);
-  console.log("  今日新词：" + todayWords + " 个新词 + " + reviewRows + " 个到期复习（新词上限 50）✔");
+  if (todayRows < 1) problems.push("今日新词是空的");
+  if (todayRows > 52) problems.push("今日新词过多（新词上限 50 + 少量到期复习），实际 " + todayRows);
+  console.log("  今日新词：" + todayRows + " 行（新词上限 50，含到期复习）✔");
 
   // 抽第一条词，答「认识」→ 进已学习，记忆盒推进
   const firstWord = (byId.vocabBoard.innerHTML.match(/data-vword="([a-z'-]+)"/) || [])[1];
@@ -230,17 +228,25 @@ try {
   if (st2.box[firstWord] !== 0) problems.push("答「不认识」后记忆盒应归零，实际 " + st2.box[firstWord]);
   console.log("  答「不认识」：记忆盒归零，10 分钟后再来 ✔");
 
-  // 全部单词：A-Z 排序，数量 = 词库总数
+  // 全部单词：一行式，A-Z 排序，且包含词典里的固定搭配
   vclick({ "data-vtab": "all" });
   const allHtml = byId.vocabBoard.innerHTML;
-  const allCount = (allHtml.match(/data-vans="know"/g) || []).length;
-  if (allCount !== VOCAB.words.length + st2.custom.length) {
-    problems.push("全部单词数量不对：期望 " + (VOCAB.words.length + st2.custom.length) + "，实际 " + allCount);
+  const flatCount = (allHtml.match(/class="vflat"/g) || []).length;
+  if (allHtml.indexOf('data-vans="know"') >= 0) problems.push("全部单词不该有按键（一行式）");
+  if (!/class="vw"[^>]*>[a-z][a-z' -]*</.test(allHtml)) problems.push("全部单词的第一列不是英语");
+  if (!/class="vp">\//.test(allHtml)) problems.push("全部单词缺少音标列");
+  if (!/class="vdesc-inline">/.test(allHtml)) problems.push("全部单词缺少词性+中文列");
+
+  const collocTotal = Object.keys(DATA.collocations || {}).reduce((n, k) => n + DATA.collocations[k].length, 0);
+  if (flatCount < VOCAB.words.length + collocTotal * 0.9) {
+    problems.push("全部单词偏少：含固定搭配应约 " + (VOCAB.words.length + collocTotal) + " 条，实际 " + flatCount);
   }
-  const allWords = (allHtml.match(/class="vrow-w"[^>]*>([a-z'-]+)</g) || []).map((s) => (s.match(/>([a-z'-]+)</) || [])[1]);
+  if (allHtml.indexOf("in charge of") < 0) problems.push("全部单词里没有词典的固定搭配（in charge of）");
+
+  const allWords = (allHtml.match(/class="vw"[^>]*>([a-z' -]+)</g) || []).map((s) => (s.match(/>([a-z' -]+)</) || [])[1]);
   const sorted = allWords.slice().sort();
-  if (allWords.join(",") !== sorted.join(",")) problems.push("全部单词没有按 A-Z 排序");
-  console.log("  全部单词：" + allCount + " 个，按 A-Z 排序 ✔");
+  if (allWords.join("|") !== sorted.join("|")) problems.push("全部单词没有按 A-Z 排序");
+  console.log("  全部单词：" + flatCount + " 条（含 " + collocTotal + " 条词典固定搭配），A-Z 排序 ✔");
 
   // 学习模式下的对话板块：仍然留空（内容待定）
   fire(navByTab.dialogue, "click");
