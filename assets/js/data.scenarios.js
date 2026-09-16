@@ -6072,6 +6072,522 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 03-03 报修与房东交涉 ==================== */
+    {
+      id: "s03-03",
+      domain: "03",
+      title: "报修与房东交涉",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "租客 · 房东（修锅炉）",
+          register: "半正式",
+          channel: "电话 + 短信",
+          barrier: "无",
+          result: "达成（约好师傅上门，责任划分写进消息）",
+          lines: [
+            { who: "租客", en: "The hot water has been off since Tuesday. I've tried the reset button.", cn: "热水从周二起就没了。我试过重启按钮。" },
+            { who: "房东", en: "Did you check the pressure gauge?", cn: "你看过压力表吗？" },
+            { who: "租客", en: "It's at zero point five. The manual says it should be between one and one point five.", cn: "在零点五。说明书说应该在一到一点五之间。" },
+            { who: "房东", en: "Then it needs topping up. There's a valve under the sink.", cn: "那需要补水。水槽下面有个阀门。" },
+            { who: "租客", en: "I'd rather not touch gas equipment. Could you send the engineer?", cn: "我不想碰燃气设备。您能派师傅来吗？" },
+            { who: "房东", en: "That's sensible. I'll call him today.", cn: "这很明智。我今天联系他。" },
+            { who: "租客", en: "When should I expect him? I need to be here.", cn: "他大概什么时候来？我得在家。" },
+            { who: "房东", en: "Tomorrow morning, and I'll text you the time tonight.", cn: "明天上午，我今晚把时间发短信给你。" },
+            { who: "租客", en: "Thank you. And if it's the boiler itself?", cn: "谢谢。如果是锅炉本身坏了呢？" },
+            { who: "房东", en: "Then it's mine to replace, not yours to pay for.", cn: "那就是我该换的，不用你出钱。" },
+            { who: "租客", en: "I'll put that in the message so we both have it.", cn: "我把这句写进消息里，我们双方都有记录。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "租客 · 房东（拖了九天）",
+          register: "半正式",
+          channel: "书面消息",
+          barrier: "无（但要用法定程序把话说到位）",
+          result: "达成（周四上门，书面确认）",
+          lines: [
+            { who: "租客", en: "This is the third message about the heating. It has been nine days.", cn: "这是关于暖气的第三条消息了。已经九天了。" },
+            { who: "房东", en: "I've been busy. These things take time.", cn: "我一直很忙。这种事需要时间。" },
+            { who: "租客", en: "I understand busy. What I don't understand is nine days in December.", cn: "我理解忙。我不理解的是十二月的九天。" },
+            { who: "房东", en: "I'll get to it.", cn: "我会处理的。" },
+            { who: "租客", en: "Then let me be clear about my next step, so that it isn't a surprise.", cn: "那我说清我下一步要做什么，免得变成意外。" },
+            { who: "房东", en: "Go on.", cn: "说。" },
+            { who: "租客", en: "I'm writing today, in writing, requesting the repair within fourteen days. If it isn't done, I may have it done and deduct the cost.", cn: "我今天书面提出，要求十四天内修好。如果没有，我可以自行维修并从租金中扣除。" },
+            { who: "房东", en: "That's a threat.", cn: "这是威胁。" },
+            { who: "租客", en: "It's the procedure. I would rather use it than a solicitor.", cn: "这是程序。我宁愿用它，而不是请律师。" },
+            { who: "房东", en: "...I'll book the engineer for Thursday.", cn: "……我订周四的师傅。" },
+            { who: "租客", en: "Thursday, confirmed in writing, and I'll stop there.", cn: "周四，书面确认，我就不再说什么了。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "租客 · 房东（洗衣机反复坏）",
+          register: "半正式",
+          channel: "书面消息",
+          barrier: "房东只肯再修一次，不肯换新",
+          result: "折中（第三次故障即更换，当场写进协议）",
+          lines: [
+            { who: "租客", en: "The washing machine floods every second wash. I'd like it replaced.", cn: "洗衣机每洗两次就溢水。我希望换一台。" },
+            { who: "房东", en: "It's eight years old and it still works. I'll have it repaired.", cn: "它八年了，还能用。我让人修。" },
+            { who: "租客", en: "It has been repaired twice this year. Third visit, same fault.", cn: "今年已经修过两次。第三次上门，同一处故障。" },
+            { who: "房东", en: "One more repair.", cn: "再修一次。" },
+            { who: "租客", en: "I'd accept that if it came with a condition.", cn: "如果有附加条件，我可以接受。" },
+            { who: "房东", en: "Such as?", cn: "比如？" },
+            { who: "租客", en: "If it fails a third time you replace it, and we write that in now rather than argue in March.", cn: "如果第三次再坏，您就换新，而且现在写进合同，而不是三月再争。" },
+            { who: "房东", en: "And if it doesn't fail?", cn: "如果没坏呢？" },
+            { who: "租客", en: "Then you've paid for one repair and I've stopped writing to you.", cn: "那您只花一次维修费，我也不再给您写信了。" },
+            { who: "房东", en: "Fair. Third failure, replacement, in writing.", cn: "公道。第三次坏就换，写下来。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "租客 · 房东（师傅走错门）",
+          register: "半正式",
+          channel: "电话 + 短信",
+          barrier: "师傅进了邻居家、修错锅炉，却留下「已修好」的字条",
+          result: "修复（返工并由房东本人到场，约定二十四小时通知）",
+          lines: [
+            { who: "租客", en: "The engineer came on Wednesday while I was at work, and his note says he fixed it.", cn: "师傅周三来的，当时我在上班，他留的条子说修好了。" },
+            { who: "房东", en: "So it's fixed.", cn: "那就是修好了。" },
+            { who: "租客", en: "It isn't. He replaced a part on the neighbour's boiler. Flat six, not flat four.", cn: "没有。他换的是邻居家锅炉的零件。是六号房，不是四号房。" },
+            { who: "房东", en: "...How do you know?", cn: "……你怎么知道？" },
+            { who: "租客", en: "The part number on his invoice matches the one in the bin outside flat six.", cn: "他发票上的零件号，跟六号房门外垃圾桶里那个一致。" },
+            { who: "房东", en: "That's a mistake, then.", cn: "那是个失误。" },
+            { who: "租客", en: "It is, and it isn't mine to pay for. The hot water still doesn't run.", cn: "是失误，而且不该我付钱。热水还是不出。" },
+            { who: "房东", en: "I'll get him back tomorrow and I'll be there myself.", cn: "我让他明天再来，我自己到场。" },
+            { who: "租客", en: "That's the key part. Nobody should be in my flat without me again.", cn: "这才是关键。以后我不在，任何人不该进我的房子。" },
+            { who: "房东", en: "Agreed, and I'll give you twenty-four hours' notice in writing.", cn: "同意，而且我会提前二十四小时书面通知你。" }
+          ]
+        },
+        {
+          variant: "情绪型（冬天没有暖气）",
+          relation: "租客 · 房东（孩子受冻）",
+          register: "半正式（情绪化）",
+          channel: "电话",
+          barrier: "房东一拖再拖，孩子冻着，租客情绪爆发",
+          result: "达成（当天四点上门送电暖器）",
+          lines: [
+            { who: "租客", en: "I have a two-year-old and no heating. It's four degrees in the bedroom.", cn: "我有个两岁的孩子，没有暖气。卧室里四度。" },
+            { who: "房东", en: "I'll look at it next week.", cn: "我下周看看。" },
+            { who: "租客", en: "Next week is not an answer to a cold child. I'm not going to be polite about this any more.", cn: "对一个受冻的孩子来说，下周不是答案。这件事我不再客气了。" },
+            { who: "房东", en: "There's no need to take that tone.", cn: "没必要用这种语气。" },
+            { who: "租客", en: "You're right. Here's a calmer version: I need a date today, and if I don't have one, I'm calling the council housing team.", cn: "你说得对。那我说个更冷静的版本：我今天就要一个日期；如果没有，我就打给市政住房部门。" },
+            { who: "房东", en: "...I can come at four.", cn: "……我四点能到。" },
+            { who: "租客", en: "Four today?", cn: "今天四点？" },
+            { who: "房东", en: "Four today. I'll bring the space heaters from the other flat.", cn: "今天四点。我把另一套房子的电暖器带来。" },
+            { who: "租客", en: "Then I'll hold off on the council, and I'll tell them the same if they call.", cn: "那我先不打给市政，如果他们打来我也这么说。" },
+            { who: "房东", en: "Thank you. And I should have come on Monday.", cn: "谢谢。我周一本该来的。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 报修工单）",
+          relation: "租客 · 维修平台客服",
+          register: "半正式",
+          channel: "报修 App + 电话",
+          barrier: "工单九天停在「处理中」，没有日期",
+          result: "达成（补上目标日期与回电承诺）",
+          lines: [
+            { who: "租客", en: "I logged the repair nine days ago. The app says in progress.", cn: "我九天前报的修。应用显示处理中。" },
+            { who: "客服", en: "In progress means it's with a contractor.", cn: "处理中意味着已派给承包商。" },
+            { who: "租客", en: "The same status has shown since day one, and there's no date.", cn: "从第一天起就是同一个状态，而且没有日期。" },
+            { who: "客服", en: "The contractor has fourteen days under the agreement.", cn: "按协议承包商有十四天。" },
+            { who: "租客", en: "Then the app should say that, rather than a status that sounds like movement.", cn: "那应用就该这么写，而不是一个听起来像有进展的状态。" },
+            { who: "客服", en: "I agree. I'll add the target date to your job now.", cn: "我同意。我现在就把目标日期加到您的工单上。" },
+            { who: "租客", en: "What is the target date?", cn: "目标日期是哪天？" },
+            { who: "客服", en: "The twelfth, which is day fourteen. If nobody has called by day ten, phone us.", cn: "十二号，也就是第十四天。如果第十天还没人联系，打电话给我们。" },
+            { who: "租客", en: "Day ten is a Friday. Will anyone answer?", cn: "第十天是周五。有人接吗？" },
+            { who: "客服", en: "The line is open until eight, and I'll note on the job that you want a call by day nine.", cn: "线路开到八点。另外我在工单上注明，您希望第九天前回电。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "租客 · 房东代理（正式交涉）",
+          register: "正式",
+          channel: "面对面（正式会面）",
+          barrier: "无（但需正式陈述三项问题并要求书面日期）",
+          result: "达成（周五前书面确认三处维修日期）",
+          lines: [
+            { who: "代理", en: "You have written to us about the repairs. We are here to resolve them.", cn: "您已就维修事宜致函我们。我们今天来解决问题。" },
+            { who: "租客", en: "There are three items: the heating, the extractor fan, and the damp patch in the corner.", cn: "有三项：暖气、排风扇，和角落的潮湿痕迹。" },
+            { who: "代理", en: "Two are maintenance. The damp we may attribute to ventilation.", cn: "两项属于维护。潮湿我们可能归因于通风。" },
+            { who: "租客", en: "That is possible, which is why I have not removed the patch or painted over it.", cn: "有可能，所以我没有清除这块痕迹，也没有刷漆盖住。" },
+            { who: "代理", en: "You did right. The surveyor should see it as it is.", cn: "您做得对。鉴定人应该看到原样。" },
+            { who: "租客", en: "I should like all three addressed within the fourteen days specified in the agreement.", cn: "我希望三项都在协议约定的十四天内处理。" },
+            { who: "代理", en: "We shall confirm dates in writing by Friday, and the surveyor will attend next week.", cn: "我们周五前书面确认日期，鉴定人下周上门。" },
+            { who: "租客", en: "May I ask that the surveyor attends with me present?", cn: "我可以要求鉴定人在我在场时来吗？" },
+            { who: "代理", en: "You may, and it is advisable. Some findings are disputed afterwards.", cn: "可以，而且建议如此。有些结论事后会有争议。" },
+            { who: "租客", en: "Then I shall keep the day free.", cn: "那我把那天留出来。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "租客 · 房东（短信）",
+          register: "随意（极简、俚语）",
+          channel: "短信",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "租客", en: "boiler's dead", cn: "锅炉坏了" },
+            { who: "房东", en: "again", cn: "又坏了" },
+            { who: "租客", en: "again", cn: "又坏了" },
+            { who: "房东", en: "i'll send someone", cn: "我派个人去" },
+            { who: "租客", en: "when", cn: "什么时候" },
+            { who: "房东", en: "soon", cn: "很快" },
+            { who: "租客", en: "soon isn't a day", cn: "很快不是日期" },
+            { who: "房东", en: "thursday", cn: "周四" },
+            { who: "租客", en: "thursday, what time", cn: "周四，几点" },
+            { who: "房东", en: "morning", cn: "上午" },
+            { who: "租客", en: "i'll be here", cn: "我在家" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 03-04 邻居交涉与水电网络开通 ==================== */
+    {
+      id: "s03-04",
+      domain: "03",
+      title: "邻居交涉与水电网络开通",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "租客 · 楼下邻居（噪音）",
+          register: "随意",
+          channel: "面对面（敲门）",
+          barrier: "无",
+          result: "达成（挪音箱 + 以后提前打招呼）",
+          lines: [
+            { who: "租客", en: "Hi, I'm from number twelve. Have you got a minute?", cn: "你好，我住十二号。你有空吗？" },
+            { who: "邻居", en: "Sure.", cn: "有。" },
+            { who: "租客", en: "The music last night was loud until about two. Was that you?", cn: "昨晚的音乐响到两点左右。是你家吗？" },
+            { who: "邻居", en: "It was. Sorry, it was a birthday.", cn: "是我。抱歉，是生日聚会。" },
+            { who: "租客", en: "That's fine, birthdays happen. My bedroom is directly above your speaker, so it's the bass more than the volume.", cn: "没关系，生日总会有。我卧室就在你音箱正上方，主要是低音，不是音量。" },
+            { who: "邻居", en: "I didn't know that. I can move the speaker off the wall.", cn: "我不知道。我可以把音箱从墙边挪开。" },
+            { who: "租客", en: "That would probably fix it. And if you're having people over, a text the day before is enough for me.", cn: "那大概就能解决。如果下次有人来，提前一天发条消息给我就够了。" },
+            { who: "邻居", en: "I'll do both. What's your number?", cn: "两样我都做。你号码多少？" },
+            { who: "租客", en: "Here. I'm not asking you to be silent, by the way.", cn: "给你。顺便说一句，我不是要你完全没声音。" },
+            { who: "邻居", en: "I know. You came to the door, which is more than most people do.", cn: "我知道。你是来敲门的，比大多数人强。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "租客 · 楼上装修邻居",
+          register: "半正式",
+          channel: "面对面 + 物业",
+          barrier: "无（但要用楼规和物业把话逼实）",
+          result: "达成（改为九点开工，不惊动物业）",
+          lines: [
+            { who: "租客", en: "This is the third time I've knocked. The drilling starts at seven every morning.", cn: "这是我第三次敲门了。每天早上七点就开始钻。" },
+            { who: "邻居", en: "It's a renovation. It has to happen.", cn: "在装修。总得做。" },
+            { who: "租客", en: "It does. The building rules say work starts at nine.", cn: "是要做。楼里的规定是九点才能开工。" },
+            { who: "邻居", en: "The rules say a lot of things.", cn: "规定还说很多别的呢。" },
+            { who: "租客", en: "They do, and I'm not going to argue about them in a doorway. I'm going to the management office.", cn: "确实。我不打算在门口跟你争这些。我去物业办公室。" },
+            { who: "邻居", en: "That's a bit much.", cn: "有点过分吧。" },
+            { who: "租客", en: "It's the third conversation. The first two were friendly and nothing changed.", cn: "这是第三次谈了。前两次都很客气，但什么都没变。" },
+            { who: "邻居", en: "...Fine, nine o'clock.", cn: "……行，九点。" },
+            { who: "租客", en: "Nine o'clock, and I'll tell the management we resolved it, so nobody gets a letter.", cn: "九点。而且我会告诉物业我们解决了，免得有人收到通知函。" },
+            { who: "邻居", en: "All right. Thanks for that.", cn: "好。谢谢。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "租客 · 邻居（公共下水道）",
+          register: "随意",
+          channel: "面对面",
+          barrier: "邻居要你全额承担公共管道疏通费",
+          result: "折中（对半分摊，并由水管工判断成因）",
+          lines: [
+            { who: "邻居", en: "The shared drain is blocked again and it's on your side. You should pay for it.", cn: "公共下水道又堵了，堵在你那边。应该你付钱。" },
+            { who: "租客", en: "It's a shared drain. We both use it.", cn: "是公共下水道。我们都在用。" },
+            { who: "邻居", en: "It backs up on your side, so it's your problem.", cn: "堵在你那边，所以是你的问题。" },
+            { who: "租客", en: "It backs up on my side because it's lower, not because I caused it. I'm not paying all of it.", cn: "堵在我这边是因为位置低，不是因为我造成的。我不会全额付。" },
+            { who: "邻居", en: "Then what do you propose?", cn: "那你说怎么办？" },
+            { who: "租客", en: "Two things: we split the cost, and we both stop putting cooking oil down the sink.", cn: "两件事：费用对半分；而且我们都别再往水槽倒油。" },
+            { who: "邻居", en: "I don't put oil down the sink.", cn: "我不倒油。" },
+            { who: "租客", en: "Then the plumber can tell us what he found, and I'll accept his answer either way.", cn: "那让水管工告诉我们他发现了什么，不管结果如何我都接受。" },
+            { who: "邻居", en: "Fine. Split it, and ask him.", cn: "行。对半分，你问他。" },
+            { who: "租客", en: "And if it blocks again in a month, we call him together.", cn: "如果一个月内又堵，我们一起叫他。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "租客 · 水电公司客服（账户挂错房号）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "电费账户登记成九号房，替别人付了六周",
+          result: "修复（转户 + 六周退款，电表照片作证）",
+          lines: [
+            { who: "客服", en: "Your account is registered to flat nine, not flat four.", cn: "您的账户登记的是九号房，不是四号房。" },
+            { who: "租客", en: "I gave the address on the phone and I've been paying for six weeks.", cn: "我是在电话里报的地址，而且已经付了六周。" },
+            { who: "客服", en: "Which means flat nine has had free electricity for six weeks.", cn: "也就是说九号房免费用了六周的电。" },
+            { who: "租客", en: "And I've been paying for their usage.", cn: "而我在替他们的用电付费。" },
+            { who: "客服", en: "It appears so. I'm sorry.", cn: "看来是这样。对不起。" },
+            { who: "租客", en: "Can it be corrected without charging me a second address change?", cn: "能改过来而不收我第二次改址费吗？" },
+            { who: "客服", en: "Yes, because the first one was our error. What is your meter number?", cn: "可以，因为第一次是我们的错误。您的电表号是多少？" },
+            { who: "租客", en: "It's on the meter in the hall. I photographed it when I moved in.", cn: "在走廊的电表上。我搬进来时拍了照。" },
+            { who: "客服", en: "That photograph solves it. I'll transfer the account and raise a refund for the six weeks.", cn: "这张照片就解决了。我转移账户，并就这六周发起退款。" },
+            { who: "租客", en: "Photographing the meter was the most useful thing I did that week.", cn: "给电表拍照是我那周做过最有用的事。" }
+          ]
+        },
+        {
+          variant: "情绪型（三周没睡好）",
+          relation: "租客 · 养狗的邻居",
+          register: "随意（情绪化）",
+          channel: "面对面",
+          barrier: "狗从早上六点开始叫，租客三周没睡好",
+          result: "达成（挂窗帘 + 六点半前关在屋里，两周试验期）",
+          lines: [
+            { who: "租客", en: "I haven't slept properly in three weeks. Your dog barks from six.", cn: "我三周没睡好觉了。你的狗从六点就开始叫。" },
+            { who: "邻居", en: "He's a dog. Dogs bark.", cn: "它是狗。狗会叫。" },
+            { who: "租客", en: "They do, and I'm not asking for silence. I'm asking for six in the morning not to be the start.", cn: "是会叫，我不是要求完全没有声音。我是说别从早上六点就开始。" },
+            { who: "邻居", en: "I leave for work at seven.", cn: "我七点出门上班。" },
+            { who: "租客", en: "I know. That's why I'm here rather than complaining to the council.", cn: "我知道。所以我才来跟你说，而不是去投诉。" },
+            { who: "邻居", en: "What would help?", cn: "那怎么才能好点？" },
+            { who: "租客", en: "Two things: a curtain over the window he looks out of, and him inside until half six.", cn: "两件事：他望出去的那扇窗挂个窗帘；六点半之前让他在屋里。" },
+            { who: "邻居", en: "The curtain I can do tonight.", cn: "窗帘我今晚就能挂。" },
+            { who: "租客", en: "And I'll wear earplugs for a fortnight while we test it, so we're not guessing which worked.", cn: "那两周我戴耳塞，我们试出来到底是哪一项管用。" },
+            { who: "邻居", en: "That's more patient than I would have been.", cn: "换我早就没这个耐心了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（开通宽带：电话 + 自助安装）",
+          relation: "租客 · 宽带客服",
+          register: "半正式",
+          channel: "电话 + 自助安装",
+          barrier: "路由器被投到邻居家，激活日已过",
+          result: "达成（当天补发，线路不变，直达分机）",
+          lines: [
+            { who: "客服", en: "Your activation date is the fourteenth, and the router arrives by post.", cn: "您的开通日期是十四号，路由器邮寄到。" },
+            { who: "租客", en: "The router hasn't arrived and today is the fifteenth.", cn: "路由器还没到，今天十五号了。" },
+            { who: "客服", en: "The tracking says delivered to a neighbour.", cn: "物流显示送到邻居家了。" },
+            { who: "租客", en: "Nobody asked me whether that was acceptable. I live in a block of twelve.", cn: "没人问过我这样行不行。我这栋楼有十二户。" },
+            { who: "客服", en: "It's the courier's policy when nobody answers.", cn: "这是没人应门时快递公司的做法。" },
+            { who: "租客", en: "I was in. There's a doorbell and it logs the time.", cn: "我在家。门铃有记录，能查时间。" },
+            { who: "客服", en: "Then they didn't ring. I'll send a replacement today and log the complaint.", cn: "那就是他们没按。我今天补发一个，并记录投诉。" },
+            { who: "租客", en: "Will the activation date move?", cn: "开通日期会变吗？" },
+            { who: "客服", en: "No, the line is live. You can use it the moment the router arrives.", cn: "不会，线路已经开通。路由器一到就能用。" },
+            { who: "租客", en: "So plug it in and it works, with no further calls?", cn: "那就是插上就能用，不用再打电话？" },
+            { who: "客服", en: "One call, to me, and no queue. I've put my extension on the order.", cn: "如果不行就打给我一个人，不用排队。我把分机写在订单上了。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "租客 · 物业管理处（正式投诉）",
+          register: "正式",
+          channel: "面对面 + 书面",
+          barrier: "无（但需提供完整记录并处理匿名要求）",
+          result: "达成（物业致函全楼，投诉人姓名不出现）",
+          lines: [
+            { who: "租客", en: "I should like to lodge a complaint about persistent noise from flat nine, and I have a record.", cn: "我想就九号房长期噪音提出投诉，而且我有记录。" },
+            { who: "管理", en: "Do you have dates and times?", cn: "有日期和时间吗？" },
+            { who: "租客", en: "Twenty-two entries over five weeks, with the time, the duration, and where relevant the nature of the noise.", cn: "五周内二十二条记录，含时间、时长，必要时还写明噪音性质。" },
+            { who: "管理", en: "That is more than most complaints contain. Have you raised it with the resident?", cn: "这比大多数投诉都详细。您跟住户本人提过吗？" },
+            { who: "租客", en: "Twice, in person, politely, and I noted the dates.", cn: "当面提过两次，很客气，日期我也记了。" },
+            { who: "管理", en: "Then the next step is a written warning from us. May we quote your record?", cn: "那下一步是我们发出书面警告。可以引用您的记录吗？" },
+            { who: "租客", en: "You may, but I should prefer my name not to be used unless it becomes necessary.", cn: "可以，但除非必须，我希望不出现我的名字。" },
+            { who: "管理", en: "That is standard. We shall write to all residents in the block instead.", cn: "这是常规做法。我们改为致函全楼住户。" },
+            { who: "租客", en: "That is the better way, and I shall send you the record by email today.", cn: "这样更好，我今天邮件把记录发给您。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "租客 · 邻居（门口对话）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（门口）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "邻居", en: "your music", cn: "你的音乐" },
+            { who: "租客", en: "too loud", cn: "太吵？" },
+            { who: "邻居", en: "bass", cn: "低音" },
+            { who: "租客", en: "yeah, fair", cn: "行，有道理" },
+            { who: "邻居", en: "can't hear my tv", cn: "我听不见电视" },
+            { who: "租客", en: "i'll move the speaker", cn: "我把音箱挪开" },
+            { who: "邻居", en: "cheers", cn: "谢了" },
+            { who: "租客", en: "shut the door on your way out", cn: "出去时把门带上" },
+            { who: "邻居", en: "what", cn: "什么" },
+            { who: "租客", en: "joking", cn: "开玩笑" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 02-01 预约挂号与描述症状 ==================== */
+    {
+      id: "s02-01",
+      domain: "02",
+      title: "预约挂号与描述症状",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "病人 · 诊所前台",
+          register: "半正式",
+          channel: "面对面（诊所前台）",
+          barrier: "无",
+          result: "达成（约到当天护士门诊）",
+          lines: [
+            { who: "前台", en: "Good morning, Riverside Surgery. How can I help?", cn: "早上好，河畔诊所。需要什么帮助？" },
+            { who: "病人", en: "I'd like an appointment. I've had a sore throat for five days.", cn: "我想预约。我喉咙痛了五天。" },
+            { who: "前台", en: "Any fever?", cn: "发烧吗？" },
+            { who: "病人", en: "Slight, in the evenings. It hasn't gone above thirty-eight.", cn: "晚上有点。没超过三十八度。" },
+            { who: "前台", en: "We have a nurse appointment today at four, or a doctor on Thursday morning.", cn: "今天下午四点有护士门诊，或者周四上午有医生。" },
+            { who: "病人", en: "What's the difference?", cn: "有什么区别？" },
+            { who: "前台", en: "The nurse can examine and prescribe for throat infections; the doctor if it's more complicated.", cn: "护士可以检查咽喉感染并开药；更复杂的情况看医生。" },
+            { who: "病人", en: "Then the nurse today, and I'll see the doctor if she thinks it's needed.", cn: "那今天看护士，如果她认为需要我再看医生。" },
+            { who: "前台", en: "That's how it works. Four o'clock, and bring your card.", cn: "流程就是这样。四点，带上您的卡。" },
+            { who: "病人", en: "I'll be there. Is there anything I should do before?", cn: "我会到。之前需要做什么吗？" },
+            { who: "前台", en: "Drink water, and don't take anything for the fever an hour before, in case she wants to check.", cn: "喝水；看诊前一小时别吃退烧药，以防她要检查。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "病人 · 全科医生（争取转诊）",
+          register: "半正式",
+          channel: "面对面（诊室）",
+          barrier: "无（但要用症状细节推翻「检查正常」的结论）",
+          result: "达成（加急转诊，十天内无消息回电）",
+          lines: [
+            { who: "医生", en: "The blood tests are normal, so I don't think a referral is needed.", cn: "血检正常，所以我认为不需要转诊。" },
+            { who: "病人", en: "I understand the tests are normal. What worries me is that the pain wakes me at night.", cn: "我理解检查正常。让我担心的是疼痛会把我夜里疼醒。" },
+            { who: "医生", en: "How many nights?", cn: "几个晚上？" },
+            { who: "病人", en: "Fourteen out of the last twenty. And I've lost four kilos without trying.", cn: "最近二十天里有十四天。而且我没刻意减重却瘦了四公斤。" },
+            { who: "医生", en: "...You didn't mention the weight.", cn: "……你没提体重的事。" },
+            { who: "病人", en: "I didn't know it mattered. That's why I'm giving you the detail rather than my conclusion.", cn: "我不知道这重要。所以我说细节，而不是我的结论。" },
+            { who: "医生", en: "It matters, and it changes the picture. I'll refer you, and mark it urgent rather than routine.", cn: "这重要，而且改变了判断。我给您转诊，并标为加急而不是常规。" },
+            { who: "病人", en: "Thank you. How long is urgent?", cn: "谢谢。加急要多久？" },
+            { who: "医生", en: "Two weeks, and if you hear nothing in ten days, call me and I'll chase it.", cn: "两周；如果十天内没有消息，打给我，我来催。" },
+            { who: "病人", en: "Ten days, and I'll call. Thank you for listening to the second half.", cn: "十天，我会打。谢谢您听完了后半段。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "病人 · 诊所前台（当天无号）",
+          register: "半正式",
+          channel: "电话",
+          barrier: "想当天看病但没有号，最早周四",
+          result: "折中（当天十一点电话问诊，必要时加号）",
+          lines: [
+            { who: "病人", en: "I need to see someone today. It's getting worse.", cn: "我今天必须看医生。情况在恶化。" },
+            { who: "前台", en: "We're fully booked. The earliest is Thursday.", cn: "今天约满了。最早周四。" },
+            { who: "病人", en: "Thursday is four days away. What can be done today?", cn: "周四还有四天。今天能做什么？" },
+            { who: "前台", en: "I can book a telephone appointment at eleven, and if the doctor thinks you need to come in, she'll fit you in.", cn: "我可以给您约十一点电话问诊，如果医生认为您需要来，她会安排。" },
+            { who: "病人", en: "Does that actually work, or is it a polite way of saying no?", cn: "这真的管用，还是换种方式说不？" },
+            { who: "前台", en: "It works. Two or three people a day come in after the call.", cn: "管用。每天有两三个人打完电话就来。" },
+            { who: "病人", en: "Then eleven. What should I have ready?", cn: "那就十一点。我该准备什么？" },
+            { who: "前台", en: "Your temperature, what you've taken and when, and your symptoms in order.", cn: "体温、吃过什么药和什么时候吃的，还有按顺序列的症状。" },
+            { who: "病人", en: "In order — that's the part I would have got wrong.", cn: "按顺序——这点我本来会弄错。" },
+            { who: "前台", en: "It's the first thing she asks and the thing nobody has ready.", cn: "这是她问的第一件事，也是没人准备好的事。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "病人 · 药剂师（剂量说清）",
+          register: "半正式",
+          channel: "面对面（药房）",
+          barrier: "用法说得含糊，差点理解成每三小时一片",
+          result: "修复（把时间写在标签上，并说清漏服处理）",
+          lines: [
+            { who: "药剂师", en: "Take one tablet three times a day.", cn: "一天三次，每次一片。" },
+            { who: "病人", en: "Three tablets a day, or one tablet every three hours?", cn: "是一天三片，还是每三小时一片？" },
+            { who: "药剂师", en: "Three a day. With meals.", cn: "一天三片。随餐。" },
+            { who: "病人", en: "That's what I thought, and I'd rather ask than guess. Could you write it on the box?", cn: "我也这么想，但我宁愿问而不是猜。能写在盒子上吗？" },
+            { who: "药剂师", en: "I'll put the times on the label. Eight, one and six.", cn: "我把时间写在标签上。八点、一点、六点。" },
+            { who: "病人", en: "And if I miss one?", cn: "如果漏了一次呢？" },
+            { who: "药剂师", en: "Take it when you remember, unless it's nearly time for the next one. Don't double up.", cn: "想起来就补，除非快到下一次了。不要吃双份。" },
+            { who: "病人", en: "What counts as nearly?", cn: "多近算近？" },
+            { who: "药剂师", en: "Under four hours. And if you get a rash, stop and call us.", cn: "不到四小时。另外如果起疹子，停药并打给我们。" },
+            { who: "病人", en: "Under four hours, no doubling, a rash means stop. That's clear.", cn: "不到四小时、不吃双份、起疹子就停。清楚了。" }
+          ]
+        },
+        {
+          variant: "情绪型（害怕，说不出口）",
+          relation: "病人 · 医生（焦虑就诊）",
+          register: "半正式（紧张）",
+          channel: "面对面（诊室）",
+          barrier: "紧张到忘词，回避了两个月才来",
+          result: "达成（当天做心电图，并解释能查出什么）",
+          lines: [
+            { who: "病人", en: "I'm sorry, I've forgotten half of what I wanted to say.", cn: "抱歉，我想说的话忘了一半。" },
+            { who: "医生", en: "That's normal. Do you have a list?", cn: "这很正常。你列了单子吗？" },
+            { who: "病人", en: "I do, but it looks stupid written down.", cn: "列了，但写在纸上显得很蠢。" },
+            { who: "医生", en: "Read it. I've seen worse, and I've written worse.", cn: "念吧。我见过更糟的，也写过更糟的。" },
+            { who: "病人", en: "Chest pain when I climb stairs, and I've started avoiding stairs.", cn: "爬楼梯时胸口疼，而且我开始躲楼梯了。" },
+            { who: "医生", en: "How long has the avoiding been going on?", cn: "躲了多久了？" },
+            { who: "病人", en: "Two months. I didn't want to be the person who makes a fuss.", cn: "两个月。我不想成为大惊小怪的人。" },
+            { who: "医生", en: "The avoiding is the symptom I care about most. Pain you can ignore; changing your life around it, you can't.", cn: "我最在意的是「躲」这个症状。疼可以忽略；为它改变生活就不行。" },
+            { who: "病人", en: "Then I'm glad I came.", cn: "那我庆幸来了。" },
+            { who: "医生", en: "So am I. We'll do an ECG today, and I'll explain what it does and doesn't tell us.", cn: "我也庆幸。今天做心电图，我会说明它能查出什么、查不出什么。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上问诊 App）",
+          relation: "病人 · 问诊平台客服",
+          register: "半正式",
+          channel: "App 视频问诊 + 电话",
+          barrier: "视频问诊没响铃，医生标记为无人接听",
+          result: "达成（当天改约 + 报修响铃故障）",
+          lines: [
+            { who: "病人", en: "The app says my video appointment was at three, but nobody called.", cn: "应用说我的视频问诊是三点，但没人打来。" },
+            { who: "客服", en: "The clinician tried twice. It says no answer.", cn: "医生试了两次。记录显示无人接听。" },
+            { who: "病人", en: "My phone shows no missed calls. Would it come through the app rather than by phone?", cn: "我的手机没有未接来电。是通过应用打来，而不是打电话？" },
+            { who: "客服", en: "It should come through the app, using data.", cn: "应该是通过应用、走网络的。" },
+            { who: "病人", en: "Then my notifications were off. Is that on me?", cn: "那是我关了通知。这算我的问题吗？" },
+            { who: "客服", en: "Partly, but the app should ring rather than notify. It's a known fault.", cn: "一部分是，但应用应该像电话一样响，而不是只推通知。这是已知问题。" },
+            { who: "病人", en: "Can I be rebooked today?", cn: "今天能重新约吗？" },
+            { who: "客服", en: "There's a slot at half four, and I'll phone you first to check the app is ringing.", cn: "四点半有一个号；我会先打电话给您，确认应用能响。" },
+            { who: "病人", en: "Do that. And put the ringing fault on my record, in case it happens again.", cn: "就这么办。另外把这个响铃问题记在我档案里，以防再发生。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "病人 · 专科医生（转诊就诊）",
+          register: "正式",
+          channel: "面对面（医院诊室）",
+          barrier: "无（但需正式陈述病史与用药）",
+          result: "达成（当天抽血与超声，等结果不自行查）",
+          lines: [
+            { who: "医生", en: "You have been referred for investigation of the pain. May I take a history?", cn: "您因疼痛被转诊做检查。我可以问一下病史吗？" },
+            { who: "病人", en: "Please. I have brought a written summary, in case my English fails me on the day.", cn: "请。我带了书面概述，以防当天英文卡住。" },
+            { who: "医生", en: "That is helpful. When did the symptoms begin?", cn: "这很有帮助。症状什么时候开始的？" },
+            { who: "病人", en: "In March, gradually, and they have not improved with rest.", cn: "三月，逐渐出现，休息后没有改善。" },
+            { who: "医生", en: "Any family history of note?", cn: "有值得注意的家族史吗？" },
+            { who: "病人", en: "My father had the same condition at fifty-five, and my sister has a thyroid problem, which is unrelated.", cn: "我父亲五十五岁时有同样的病症；我妹妹有甲状腺问题，与此无关。" },
+            { who: "医生", en: "The distinction matters, thank you. Are you taking anything regularly?", cn: "这个区分很重要，谢谢。您平时在服药吗？" },
+            { who: "病人", en: "Two, both listed with doses and times. I have not stopped anything without advice.", cn: "两种，剂量和时间都列了。我没有在未被告知的情况下停过任何药。" },
+            { who: "医生", en: "Then we can proceed. Today's tests are bloods and an ultrasound, and neither requires preparation.", cn: "那我们可以继续。今天的检查是抽血和超声，都不需要准备。" },
+            { who: "病人", en: "I shall wait for the results rather than look them up online.", cn: "我会等结果，而不是上网自己查。" },
+            { who: "医生", en: "That is the single most useful thing a patient can say.", cn: "这是病人能说最有用的的一句话。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "病人 · 诊所前台（电话约号）",
+          register: "随意（极简、俚语）",
+          channel: "电话",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "病人", en: "got any appointments", cn: "还有号吗" },
+            { who: "前台", en: "when for", cn: "什么时候" },
+            { who: "病人", en: "today", cn: "今天" },
+            { who: "前台", en: "nothing today", cn: "今天没有" },
+            { who: "病人", en: "tomorrow", cn: "明天" },
+            { who: "前台", en: "half nine or half four", cn: "九点半或四点半" },
+            { who: "病人", en: "half nine", cn: "九点半" },
+            { who: "前台", en: "name", cn: "姓名" },
+            { who: "病人", en: "reid", cn: "Reid" },
+            { who: "前台", en: "spell it", cn: "拼一下" },
+            { who: "病人", en: "r e i d", cn: "r e i d" },
+            { who: "前台", en: "see you tomorrow", cn: "明天见" }
+          ]
+        }
+      ]
     }
   ];
 

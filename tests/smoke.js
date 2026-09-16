@@ -393,25 +393,31 @@ try {
   console.log("  掌握 / 练习：就在下拉框每一行右边，点了记进 localStorage ✔");
 
   // 底部进度条：全场景 + 当前一级标题（域）
+  const pctText = (done, total) => {
+    const pct = total ? done / total * 100 : 0;
+    const shown = (pct > 0 && pct < 10) ? pct.toFixed(1) : String(Math.round(pct));
+    return done + " / " + total + " · " + shown + "%";
+  };
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 再记一次，好验证进度条
   if (byId.studyProgress.hidden !== false) problems.push("对话板块应该显示底部进度条");
   if (byId.composer.hidden !== true) problems.push("对话板块底部不该有输入框");
-  if (byId.pbarAllVal.textContent !== "1 / " + segTotal + " · 0.4%") {
-    problems.push("全场景进度不对：" + byId.pbarAllVal.textContent);
+  if (byId.pbarAllVal.textContent !== pctText(1, segTotal)) {
+    problems.push("全场景进度不对：" + byId.pbarAllVal.textContent + "（应为 " + pctText(1, segTotal) + "）");
   }
   const domSegs = SC.scenarios.filter((s) => s.domain === scn0.domain)
     .reduce((n, s) => n + s.dialogues.length, 0);
   if (byId.pbarDomName.textContent !== (SC.domains.filter((d) => d.id === scn0.domain)[0] || {}).name) {
     problems.push("当前一级标题名字不对：" + byId.pbarDomName.textContent);
   }
-  if (byId.pbarDomVal.textContent !== "1 / " + domSegs + " · 1.6%") {
-    problems.push("当前一级标题进度不对：" + byId.pbarDomVal.textContent);
+  if (byId.pbarDomVal.textContent !== pctText(1, domSegs)) {
+    problems.push("当前一级标题进度不对：" + byId.pbarDomVal.textContent + "（应为 " + pctText(1, domSegs) + "）");
   }
-  if (byId.pbarAll.style.width !== "0%" || byId.pbarDom.style.width !== "2%") {
+  if (byId.pbarAll.style.width !== Math.round(1 / segTotal * 100) + "%" ||
+      byId.pbarDom.style.width !== Math.round(1 / domSegs * 100) + "%") {
     problems.push("进度条宽度不对：" + byId.pbarAll.style.width + " / " + byId.pbarDom.style.width);
   }
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 取消掉，别影响后面的断言
-  console.log("  底部进度条：全场景 1 / " + segTotal + " / " + byId.pbarDomName.textContent + " 1 / " + domSegs + " ✔");
+  console.log("  底部进度条：全场景 " + pctText(1, segTotal) + " · " + byId.pbarDomName.textContent + " " + pctText(1, domSegs) + " ✔");
 
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现
   byId.input.value = "wallet";
