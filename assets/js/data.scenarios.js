@@ -8594,6 +8594,472 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 09-03 社媒评论与论坛发帖 ==================== */
+    {
+      id: "s09-03",
+      domain: "09",
+      title: "社媒评论与论坛发帖",
+      ielts: "口语 P3 媒体 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "发帖者 · 朋友（筛回复）",
+          register: "随意",
+          channel: "论坛 + 面对面",
+          barrier: "无",
+          result: "达成（学会用来源与日期分辨靠谱回复）",
+          lines: [
+            { who: "发帖者", en: "I posted a question about a visa and got eleven replies in an hour.", cn: "我发了个签证的问题，一小时收到十一条回复。" },
+            { who: "朋友", en: "Any of them useful?", cn: "有用的有几条？" },
+            { who: "发帖者", en: "Two. The rest were people guessing confidently.", cn: "两条。其余是自信地猜。" },
+            { who: "朋友", en: "How did you tell them apart?", cn: "你怎么分辨的？" },
+            { who: "发帖者", en: "The two quoted the official page and gave the date they had checked it. The others said I think.", cn: "那两条引了官网页面，并写明他们是哪天查的。其余说「我觉得」。" },
+            { who: "朋友", en: "Next time, say in your post what you have already tried.", cn: "下次在帖子里写清你已经试过什么。" },
+            { who: "发帖者", en: "Why?", cn: "为什么？" },
+            { who: "朋友", en: "It filters out everyone except the people who read carefully.", cn: "它能把不看帖的人筛掉，留下认真读的人。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "发帖者 · 论坛管理员（被删帖）",
+          register: "半正式",
+          channel: "论坛申诉",
+          barrier: "无（但要用「被索取才发链接」的区分争取重发）",
+          result: "达成（改文字描述重发，并问清链接规则）",
+          lines: [
+            { who: "发帖者", en: "My post was removed for spam and it wasn't spam.", cn: "我的帖子被当成垃圾信息删了，可它不是。" },
+            { who: "管理员", en: "It contained a link to a shop.", cn: "里面有商店链接。" },
+            { who: "发帖者", en: "It was a link to the exact part I was asking about, so people could see the specification.", cn: "那是我问的那个零件的链接，好让大家看到规格。" },
+            { who: "管理员", en: "The rules don't distinguish intent.", cn: "规则不区分意图。" },
+            { who: "发帖者", en: "Then may I repost it without the link, describing the part instead?", cn: "那我能去掉链接、改用文字描述那个零件重发吗？" },
+            { who: "管理员", en: "You may.", cn: "可以。" },
+            { who: "发帖者", en: "And is a link allowed if someone asks me for it in a reply?", cn: "如果有人回复里问我要链接，那时可以发吗？" },
+            { who: "管理员", en: "On request, yes. The rule is about unsolicited links.", cn: "被索取时可以。规则针对的是未被索取的链接。" },
+            { who: "发帖者", en: "That distinction should be on the rules page.", cn: "这个区分应该写进规则页。" },
+            { who: "管理员", en: "It is, in the third paragraph, which nobody reads.", cn: "有写，在第三段，没人看。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "发帖者 · 管理员（发问卷）",
+          register: "半正式",
+          channel: "论坛",
+          barrier: "主板不允许发问卷，只能发讨论",
+          result: "折中（先参与一周讨论，周五专用帖发问卷）",
+          lines: [
+            { who: "发帖者", en: "I'd like to post about my survey. Is that allowed?", cn: "我想发个我的问卷。允许吗？" },
+            { who: "管理员", en: "Not on the main board. It's for discussion, not data collection.", cn: "主板不行。那是讨论用的，不是收数据用的。" },
+            { who: "发帖者", en: "I understand. Is there anywhere it is allowed?", cn: "我理解。有允许的地方吗？" },
+            { who: "管理员", en: "The weekly thread on Fridays, and only if you take part in the discussion the rest of the week.", cn: "周五的每周帖，而且只有在你其他日子参与讨论的前提下。" },
+            { who: "发帖者", en: "So participation first.", cn: "所以先参与。" },
+            { who: "管理员", en: "That's the whole rule. It's why the Friday thread works.", cn: "规则就这一条。周五帖能用就是因为这个。" },
+            { who: "发帖者", en: "Then I'll answer questions for a week and post on Friday.", cn: "那我先回答一周问题，周五再发。" },
+            { who: "管理员", en: "And say what the survey is for in the first line, or nobody clicks.", cn: "而且第一行要写问卷是干什么的，不然没人点。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "发帖者 · 朋友（帖子被误读）",
+          register: "随意",
+          channel: "论坛 + 面对面",
+          barrier: "漏写「高峰时段」四个字，帖子二十分钟变吵架",
+          result: "修复（只改第一行 + 用评论澄清原意）",
+          lines: [
+            { who: "发帖者", en: "My post about cycling lanes turned into a fight in twenty minutes.", cn: "我那篇自行车道的帖子二十分钟内变成了吵架。" },
+            { who: "朋友", en: "What did you write?", cn: "你写了什么？" },
+            { who: "发帖者", en: "Cars should be banned from the centre. I meant during rush hour.", cn: "市中心应该禁止汽车。我的意思是高峰时段。" },
+            { who: "朋友", en: "There it is. Everyone read the version without the time limit.", cn: "就是这个。所有人都读了没有时间限制那个版本。" },
+            { who: "发帖者", en: "I can edit the post.", cn: "我可以编辑帖子。" },
+            { who: "朋友", en: "Editing after forty replies looks like rewriting history. Add the clarification as a comment and edit only the first line.", cn: "四十条回复之后再改像改历史。把澄清写成评论，只改第一行。" },
+            { who: "发帖者", en: "First line plus a comment, and I'll say what I should have written.", cn: "改第一行加一条评论，并写明我本来该写什么。" },
+            { who: "朋友", en: "Admitting the wording was bad ends those threads faster than arguing.", cn: "承认措辞不好，比争下去更能结束这类帖子。" }
+          ]
+        },
+        {
+          variant: "情绪型（被围攻与威胁）",
+          relation: "发帖者 · 朋友（网暴）",
+          register: "随意（情绪化）",
+          channel: "社交平台",
+          barrier: "四十条攻击与两条威胁，情绪接近崩溃",
+          result: "达成（截图留证、只回一次、威胁报平台与警方）",
+          lines: [
+            { who: "发帖者", en: "Forty people are telling me I'm an idiot and two are threatening.", cn: "四十个人说我是白痴，还有两个在威胁。" },
+            { who: "朋友", en: "Take screenshots of the threats, today.", cn: "今天就把威胁截图。" },
+            { who: "发帖者", en: "Should I reply to any of them?", cn: "我要回复吗？" },
+            { who: "朋友", en: "Not tonight. Everything you write tonight will be used tomorrow.", cn: "今晚不要。你今晚写的任何东西明天都会被拿来用。" },
+            { who: "发帖者", en: "It's hard to say nothing.", cn: "什么都不说很难。" },
+            { who: "朋友", en: "Then say one thing, once: I've read the criticism and I'll answer when I've thought about it.", cn: "那就说一句，只说一次：批评我看了，我想清楚再回。" },
+            { who: "发帖者", en: "And the threats?", cn: "那威胁呢？" },
+            { who: "朋友", en: "Report them to the platform and, if they name a place or a time, to the police.", cn: "向平台举报；如果提到地点或时间，就报警。" },
+            { who: "发帖者", en: "That last part I wouldn't have thought of.", cn: "最后这一点我本来想不到。" }
+          ]
+        },
+        {
+          variant: "渠道变体（短视频评论）",
+          relation: "发布者 · 朋友（评论区重复提问）",
+          register: "随意",
+          channel: "短视频平台",
+          barrier: "同一个问题在评论里被问四十遍，置顶没人看",
+          result: "达成（答案做成前几秒字幕，并保留置顶）",
+          lines: [
+            { who: "发布者", en: "The comments on the video are asking the same question forty times.", cn: "视频下面的评论把同一个问题问了四十遍。" },
+            { who: "朋友", en: "Then answer it once and pin it.", cn: "那就答一次并置顶。" },
+            { who: "发布者", en: "I pinned it, and they're still asking.", cn: "我置顶了，他们还在问。" },
+            { who: "朋友", en: "Because nobody reads pinned comments on a phone. Put it in the first three seconds of the video.", cn: "因为在手机上没人读置顶评论。把答案放进视频前三秒。" },
+            { who: "发布者", en: "That ruins the opening.", cn: "那就毁了开头。" },
+            { who: "朋友", en: "Or put the answer on screen as text while you talk. That way both survive.", cn: "或者你说话时把答案做成字幕打在屏幕上。这样两个都能保住。" },
+            { who: "发布者", en: "Text on screen for the first five seconds. I'll try it on the next one.", cn: "前五秒上字幕。下一个视频我试试。" },
+            { who: "朋友", en: "And pin the same answer anyway, for the people who do read.", cn: "置顶还是照做，给那些真会读的人。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "发帖者 · 版主（审核区长帖）",
+          register: "正式",
+          channel: "论坛审核",
+          barrier: "无（但需按格式删减并补一手来源）",
+          result: "达成（论点开头、脚注来源、写明何种证据会改变看法）",
+          lines: [
+            { who: "版主", en: "We have received your post for the moderated section. It is longer than our guidance.", cn: "我们收到你投给审核区的帖子。它比我们的指引长。" },
+            { who: "发帖者", en: "I should like to keep the whole argument. Which parts would you suggest cutting?", cn: "我希望保留完整论证。您建议删哪些部分？" },
+            { who: "版主", en: "The first two paragraphs restate what the forum already knows.", cn: "前两段是复述论坛已知的内容。" },
+            { who: "发帖者", en: "Then I shall cut them and open with the claim, with the sources in a footnote.", cn: "那我删掉，用论点开头，来源放脚注。" },
+            { who: "版主", en: "That is the format we prefer. Do you have a source for the third figure?", cn: "这是我们偏好的格式。第三个数字有来源吗？" },
+            { who: "发帖者", en: "I do, and I shall cite the primary document rather than the news report.", cn: "有，而且我会引用原始文件，而不是新闻报道。" },
+            { who: "版主", en: "That will save us an argument in the comments.", cn: "这能在评论区省一场争论。" },
+            { who: "发帖者", en: "I shall also state what would change my mind.", cn: "我还会写明什么情况会改变我的看法。" },
+            { who: "版主", en: "That single sentence improves a post more than anything else.", cn: "这一句话比任何其他改动都更能提升一篇帖子。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "发帖者 · 回复者（问产品）",
+          register: "随意（极简、俚语）",
+          channel: "论坛",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "发帖者", en: "anyone know if this works", cn: "有人知道这个管用吗" },
+            { who: "回复者", en: "works for me", cn: "我用着可以" },
+            { who: "发帖者", en: "how long", cn: "用了多久" },
+            { who: "回复者", en: "two years", cn: "两年" },
+            { who: "发帖者", en: "any downsides", cn: "有什么缺点" },
+            { who: "回复者", en: "the app", cn: "那个应用" },
+            { who: "发帖者", en: "what about it", cn: "它怎么了" },
+            { who: "回复者", en: "it's terrible", cn: "很烂" },
+            { who: "发帖者", en: "but it works", cn: "但管用" },
+            { who: "回复者", en: "yeah", cn: "对" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 10-01 教育议题 ==================== */
+    {
+      id: "s10-01",
+      domain: "10",
+      title: "教育议题",
+      ielts: "口语 P3 观点 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位同学（考试是否有用）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（把分歧落到「两套体系都有误差，应该测出来」）",
+          lines: [
+            { who: "甲", en: "Do you think exams measure anything?", cn: "你觉得考试能衡量什么吗？" },
+            { who: "乙", en: "They measure how good you are at exams. That isn't nothing, but it isn't the subject either.", cn: "它们衡量你多会考试。这不算毫无价值，但也不是那门学问。" },
+            { who: "甲", en: "Then what would you use instead?", cn: "那你用什么替代？" },
+            { who: "乙", en: "Coursework plus a viva. It takes longer and it's harder to fake.", cn: "平时作业加答辩。更花时间，也更难作假。" },
+            { who: "甲", en: "Harder to standardise, though. Two examiners could differ by a grade.", cn: "但更难标准化。两个考官可能差一个等级。" },
+            { who: "乙", en: "So could two markers of the same exam paper. We just pretend they can't.", cn: "同一份卷子的两个阅卷人也可能。我们只是假装他们不会。" },
+            { who: "甲", en: "That's a fair point. Perhaps the honest answer is that both systems carry error, and we should measure it.", cn: "这话有道理。也许诚实的答案是两套体系都有误差，而我们应该把误差测出来。" },
+            { who: "乙", en: "Now that is a policy I would vote for.", cn: "这个政策我会投票支持。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "学生 · 老师（作业该不该取消）",
+          register: "半正式",
+          channel: "面对面（办公室）",
+          barrier: "无（但要把过强的论断收窄到可辩护）",
+          result: "达成（学生把立场改成更窄、更有证据的版本）",
+          lines: [
+            { who: "学生", en: "I think homework should be banned before the age of eleven.", cn: "我认为十一岁之前应该禁止家庭作业。" },
+            { who: "老师", en: "Why eleven?", cn: "为什么是十一岁？" },
+            { who: "学生", en: "Because that is when children can organise their own time.", cn: "因为那时孩子才能安排自己的时间。" },
+            { who: "老师", en: "And before that, what does homework do?", cn: "在那之前，作业起了什么作用？" },
+            { who: "学生", en: "It teaches them that home is an extension of school.", cn: "它让他们知道家是学校的延伸。" },
+            { who: "老师", en: "That is a strong claim. Can you support it with evidence rather than conviction?", cn: "这是个很强的论断。你能用证据而不是信念支持它吗？" },
+            { who: "学生", en: "There are studies on reading at home, but not on homework in general.", cn: "有关于在家阅读的研究，但没有关于家庭作业总体的。" },
+            { who: "老师", en: "Then your position should be the narrower one, the one you can defend.", cn: "那你的立场应该是更窄的那个，那个你能守住。" },
+            { who: "学生", en: "Narrower and defensible. That is a better sentence than mine.", cn: "更窄、可辩护。这句话比我那句好。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位家长（择校与交通）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "一方主张自由择校，一方指出只有部分家庭能承担",
+          result: "折中（把「选择权」与「交通补贴」拆成两个议题）",
+          lines: [
+            { who: "甲", en: "Parents should be able to choose any school they like.", cn: "父母应该能选任何他们喜欢的学校。" },
+            { who: "乙", en: "That works for parents with cars and free mornings. It is a different sentence for everyone else.", cn: "对有车有闲的家长可行。对其他人来说是另一回事。" },
+            { who: "甲", en: "Are you saying choice is only for the rich?", cn: "你是说选择权只属于富人？" },
+            { who: "乙", en: "I'm saying choice plus transport is for everyone. Choice alone isn't.", cn: "我是说「选择权加交通」才属于所有人。光有选择权不是。" },
+            { who: "甲", en: "So you would accept choice if the transport were funded?", cn: "那如果交通有补贴，你就接受选择权？" },
+            { who: "乙", en: "I would accept it and then argue about the funding. That is a different argument.", cn: "我接受，然后我们再争补贴。那是另一个争论。" },
+            { who: "甲", en: "Separating the principle from the funding is the useful part of this conversation.", cn: "把原则和资金分开，是这场对话里有用的部分。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同学（「标准」一词的两种意思）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "争了十分钟才发现双方的「标准」不是同一个意思",
+          result: "修复（约定「底线」和「基准」两个词后重述论点）",
+          lines: [
+            { who: "甲", en: "We have been arguing for ten minutes and I think we mean different things by standard.", cn: "我们争了十分钟，我觉得我们对「标准」的理解不同。" },
+            { who: "乙", en: "I mean a minimum that everyone reaches.", cn: "我指的是人人都要达到的最低线。" },
+            { who: "甲", en: "I mean a level everyone is compared against, whether they reach it or not.", cn: "我指的是一个所有人被拿来对比的水平线，达不达到是另一回事。" },
+            { who: "乙", en: "Then we disagree about what the word is doing, not about schools.", cn: "那我们争的是这个词的作用，不是学校。" },
+            { who: "甲", en: "Can we agree two terms and use them for the rest of the discussion?", cn: "我们能定两个词，然后在后面的讨论里只用它们吗？" },
+            { who: "乙", en: "Floor and benchmark.", cn: "底线和基准。" },
+            { who: "甲", en: "Floor and benchmark. Now say your original point again.", cn: "底线和基准。现在把你的原话重说一遍。" },
+            { who: "乙", en: "A floor is fair; a benchmark is only fair if the teaching is equal. That is a better sentence than my first one.", cn: "底线是公平的；基准只有在教学条件相同时才公平。这句比我第一句好。" }
+          ]
+        },
+        {
+          variant: "情绪型（九岁孩子的作业）",
+          relation: "两位家长（作业与童年时间）",
+          register: "半正式（情绪化）",
+          channel: "面对面",
+          barrier: "孩子九岁每天两小时作业，家长心疼但不知怎么说",
+          result: "达成（改成「被拿走的是什么」的说法，并要求书面答复）",
+          lines: [
+            { who: "甲", en: "I'm not sure my daughter should be doing two hours of homework at nine.", cn: "我不确定我女儿九岁就该做两小时作业。" },
+            { who: "乙", en: "That is a lot. What does she do afterwards?", cn: "那挺多的。做完之后她做什么？" },
+            { who: "甲", en: "Nothing. It's bedtime. That's the whole day.", cn: "什么都不做。就该睡了。这一天就过完了。" },
+            { who: "乙", en: "Then the question isn't homework, it's what is being taken away.", cn: "那问题不是作业，而是被拿走的是什么。" },
+            { who: "甲", en: "Reading for pleasure, and being bored. Boredom matters, and nobody counts it.", cn: "为兴趣读书，还有发呆。发呆很重要，而没人把它算进去。" },
+            { who: "乙", en: "Then say that at the parents' meeting, in those words.", cn: "那就在家长会上用这句话说。" },
+            { who: "甲", en: "They will say it is the curriculum.", cn: "他们会说是课程要求。" },
+            { who: "乙", en: "Then ask which part of the curriculum requires two hours, and ask for it in writing.", cn: "那就问课程要求的哪一部分需要两小时，并要求书面答复。" }
+          ]
+        },
+        {
+          variant: "渠道变体（线上辩论）",
+          relation: "主持 · 两位辩手（线上辩论）",
+          register: "半正式",
+          channel: "线上辩论",
+          barrier: "两人论点太接近，辩论陷入重复",
+          result: "达成（互相复述对方立场，找出真正的分歧在顺序）",
+          lines: [
+            { who: "主持", en: "We have two minutes each, then questions. Please keep to the point.", cn: "每人两分钟，然后提问。请紧扣主题。" },
+            { who: "甲", en: "My point is that class size matters less than teacher quality, and we keep funding the wrong one.", cn: "我的观点是班级规模不如教师素质重要，而我们一直在给错的那个投钱。" },
+            { who: "乙", en: "My point is that you cannot improve teacher quality without reducing class size, so they are the same argument.", cn: "我的观点是，不缩小班级规模就提不高教师素质，所以它们是同一个论点。" },
+            { who: "主持", en: "Those are close enough that I should like each of you to state the other's position in one sentence.", cn: "这两个太接近了，我想请你们各自用一句话复述对方的立场。" },
+            { who: "甲", en: "You're saying resources are the precondition.", cn: "你是说资源是前提。" },
+            { who: "乙", en: "And you're saying resources are wasted without quality. Both are true.", cn: "而你是说没有质量，资源就是浪费。两者都对。" },
+            { who: "主持", en: "Then the disagreement is about order, not about facts. That is the most useful outcome a debate can have.", cn: "那分歧在于顺序，而不在事实。这是辩论能得到最有用的结果。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "委员会主席 · 发言者（正式教育议题）",
+          register: "正式",
+          channel: "正式会议",
+          barrier: "无（但需三段理由加一点让步）",
+          result: "达成（让步比理由更有说服力，被接受为动议依据）",
+          lines: [
+            { who: "主席", en: "The motion before us is that examination results should not be published by school.", cn: "提交我们的动议是：学校不应公布考试成绩。" },
+            { who: "发言者", en: "I support the motion, and I shall give three reasons and one concession.", cn: "我支持该动议，我将给出三点理由和一点让步。" },
+            { who: "主席", en: "Please proceed.", cn: "请继续。" },
+            { who: "发言者", en: "First, publication measures intake as much as teaching. Second, it drives selection by postcode. Third, regulators hold the data regardless.", cn: "第一，公布成绩衡量的生源不亚于教学。第二，它促成按邮编筛选。第三，监管机构本来就能拿到数据。" },
+            { who: "委员", en: "And your concession?", cn: "那您的让步呢？" },
+            { who: "发言者", en: "That parents have a legitimate interest in the information, and it should be available to them in confidence rather than in a league table.", cn: "家长对这类信息有正当利益，应以非公开方式而非排行榜形式提供给他们。" },
+            { who: "委员", en: "That concession is more persuasive than the three reasons.", cn: "这个让步比那三条理由更有说服力。" },
+            { who: "发言者", en: "It usually is, which is why I put it last.", cn: "通常是这样，所以我才把它放最后。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位同学（讨论课前的阅读）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "did you do the reading", cn: "阅读做了吗" },
+            { who: "乙", en: "no", cn: "没有" },
+            { who: "甲", en: "seminar's in an hour", cn: "一小时后就是讨论课" },
+            { who: "乙", en: "i'll skim it", cn: "我扫一遍" },
+            { who: "甲", en: "skimming won't work", cn: "扫一遍没用" },
+            { who: "乙", en: "why", cn: "为什么" },
+            { who: "甲", en: "he asks for the argument, not the facts", cn: "他问的是论证，不是事实" },
+            { who: "乙", en: "then i'm doomed", cn: "那我完了" },
+            { who: "甲", en: "read the intro and the conclusion", cn: "读引言和结论" },
+            { who: "乙", en: "that's a strategy", cn: "这算个策略" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 10-02 科技议题 ==================== */
+    {
+      id: "s10-02",
+      domain: "10",
+      title: "科技议题",
+      ielts: "口语 P3 观点 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "两位同学（AI 与写作）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "无",
+          result: "达成（定下「讲不清就不发」的界限）",
+          lines: [
+            { who: "甲", en: "Do you use AI for writing?", cn: "你用 AI 写东西吗？" },
+            { who: "乙", en: "For structure, not for sentences. It's good at telling me what I have left out.", cn: "用来理结构，不用来写句子。它擅长告诉我漏了什么。" },
+            { who: "甲", en: "Isn't that the part you are supposed to learn?", cn: "那部分不正是你该学的吗？" },
+            { who: "乙", en: "Some of it. Knowing what a good argument contains is a separate skill from making one.", cn: "一部分是。知道好论证包含什么，跟写出它，是两种不同的能力。" },
+            { who: "甲", en: "Where do you draw the line?", cn: "你的界限在哪？" },
+            { who: "乙", en: "If I couldn't defend the sentence out loud, I don't send it.", cn: "如果我不能把这句话当面讲清楚，我就不发。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "员工 · 主管（自动化与岗位）",
+          register: "半正式",
+          channel: "面对面（一对一）",
+          barrier: "无（但要把口头担忧变成书面并要求答复日期）",
+          result: "达成（培训经费与不因系统升级裁员两条写进计划）",
+          lines: [
+            { who: "员工", en: "The new system does about half of what my team does.", cn: "新系统做了我团队大约一半的工作。" },
+            { who: "主管", en: "It does the repetitive half.", cn: "它做的是重复的那一半。" },
+            { who: "员工", en: "For now. What I'm asking is whether anyone has said what happens to the people who did the repetitive half.", cn: "目前是这样。我要问的是：有没有人说过原来做那一半的人会怎样。" },
+            { who: "主管", en: "Not in writing.", cn: "书面上没有。" },
+            { who: "员工", en: "Then let me put it in writing, and I'd like a date for an answer.", cn: "那我来写，并希望有个答复日期。" },
+            { who: "主管", en: "What would you want said?", cn: "你希望写什么？" },
+            { who: "员工", en: "Two things: retraining is funded, and nobody is made redundant because a system improved.", cn: "两件事：培训有经费；不能因为系统升级就裁员。" },
+            { who: "主管", en: "The second one I can support. The first one I'll ask about.", cn: "第二条我可以支持。第一条我去问。" },
+            { who: "员工", en: "In writing, and that is how a plan starts.", cn: "书面，计划就是这么开始的。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "两位家长（校园手机禁令）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "一方要求全面禁手机，另一方指出禁令在边界上失效",
+          result: "折中（上课禁用、楼道禁用、操场在有看管时可用）",
+          lines: [
+            { who: "甲", en: "Phones should be banned in schools completely.", cn: "学校应该彻底禁止手机。" },
+            { who: "乙", en: "Completely means during a fire drill too.", cn: "彻底的意思包括消防演习时。" },
+            { who: "甲", en: "That is a silly example.", cn: "这例子很蠢。" },
+            { who: "乙", en: "It is an edge case, and edge cases are where bans fail. Say not during lessons and I'll agree.", cn: "这是边界情况，而禁令就是在边界上失效。你说「上课期间不用」，我就同意。" },
+            { who: "甲", en: "Then breaks become a free-for-all.", cn: "那课间就变成混战。" },
+            { who: "乙", en: "So ban them in corridors and allow them in the yard, where there's supervision.", cn: "那就禁止在楼道用，允许在有人看管的操场用。" },
+            { who: "甲", en: "That's more complicated, and it might work.", cn: "这更复杂，但可能管用。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "两位同事（「AI」指的不是一回事）",
+          register: "半正式",
+          channel: "面对面",
+          barrier: "一个说现有工具，一个以为在说通用智能，白争半小时",
+          result: "修复（约定「工具」与「那种主张」两个词后重新对齐）",
+          lines: [
+            { who: "甲", en: "You keep saying AI, and I don't know whether you mean the current tools or something else.", cn: "你一直说 AI，我不知道你指的是现在的工具还是别的东西。" },
+            { who: "乙", en: "The current tools.", cn: "现在的工具。" },
+            { who: "甲", en: "Then I agree with most of what you said. I thought you meant general intelligence.", cn: "那你说的大部分我同意。我以为你指的是通用智能。" },
+            { who: "乙", en: "That's my fault. I use the word for both.", cn: "是我的问题。我这个词两个意思都用。" },
+            { who: "甲", en: "Then let's use the tools for what exists, and the claim for the other.", cn: "那我们用「工具」指现在存在的东西，用「那种主张」指另一个。" },
+            { who: "乙", en: "With that change, where do we actually disagree?", cn: "换了这个词，我们到底哪里不同？" },
+            { who: "甲", en: "About speed, not about direction.", cn: "关于速度，不是方向。" }
+          ]
+        },
+        {
+          variant: "情绪型（生计被自动化挤压）",
+          relation: "自由职业者 · 朋友",
+          register: "半正式（情绪化）",
+          channel: "面对面",
+          barrier: "八个月内活源枯竭，情绪与生计双重压力",
+          result: "达成（转向需要承担责任的那类工作）",
+          lines: [
+            { who: "甲", en: "My work dried up in eight months. It wasn't a recession.", cn: "我的活八个月里就没了。那不是经济衰退。" },
+            { who: "乙", en: "What changed?", cn: "什么变了？" },
+            { who: "甲", en: "Clients started doing in an hour what they used to pay me a day for.", cn: "客户开始用一小时做以前付我一天钱的事。" },
+            { who: "乙", en: "And the quality?", cn: "质量呢？" },
+            { who: "甲", en: "Good enough. That is the whole problem. Good enough is what pays.", cn: "够用。这就是全部问题。「够用」才是付钱的。" },
+            { who: "乙", en: "What are you doing about it?", cn: "你打算怎么办？" },
+            { who: "甲", en: "Moving to the part that needs accountability. Anyone can generate it; not everyone will sign their name to it.", cn: "转到需要承担责任的那部分。谁都能生成，但不是谁都愿意署名。" },
+            { who: "乙", en: "That is the most concrete answer I have heard to this question.", cn: "这是我在这个问题上听到最具体的答案。" }
+          ]
+        },
+        {
+          variant: "渠道变体（直播与播客讨论）",
+          relation: "主持 · 嘉宾（直播问答）",
+          register: "半正式",
+          channel: "直播问答",
+          barrier: "聊天框滚得太快，问题重复且夹杂攻击",
+          result: "达成（取问得最多的那一个，并置顶关键回答）",
+          lines: [
+            { who: "主持", en: "We have a thousand people watching and the chat is moving fast. One question at a time.", cn: "有一千人在看，聊天框滚得很快。一次一个问题。" },
+            { who: "嘉宾", en: "Take the most-asked one, not the most recent.", cn: "取问得最多的那个，不是最新的。" },
+            { who: "主持", en: "The most-asked is: will this take jobs?", cn: "问得最多的是：这会不会抢走工作。" },
+            { who: "嘉宾", en: "It will take tasks. Whether it takes jobs depends on whether we retrain, and that is a decision, not a prediction.", cn: "它会抢走任务。是否抢走岗位取决于我们是否再培训，那是个决定，不是预言。" },
+            { who: "主持", en: "Someone in the chat says that is a cop-out.", cn: "聊天里有人说这是回避问题。" },
+            { who: "嘉宾", en: "It's the opposite. A prediction lets you do nothing. A decision makes someone responsible.", cn: "正好相反。预言让你什么都不用做。决定则要有人负责。" },
+            { who: "主持", en: "I'll pin that.", cn: "这句我置顶。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "委员会主席 · 委员（自动决策伦理）",
+          register: "正式",
+          channel: "正式会议",
+          barrier: "无（但需把责任落到具体人而不是技术）",
+          result: "达成（三项条件写入纪要，含具名负责人）",
+          lines: [
+            { who: "主席", en: "The committee will consider the deployment of automated decision-making in public services.", cn: "委员会将审议公共服务中自动决策系统的部署。" },
+            { who: "委员", en: "I support deployment with three conditions: an explanation for each decision, a route of appeal, and a named person accountable.", cn: "我支持部署，附三个条件：每项决定可解释、有申诉途径、有具名负责人。" },
+            { who: "主席", en: "Are those conditions technically achievable?", cn: "这些条件在技术上可实现吗？" },
+            { who: "委员", en: "The first two, yes. The third is an administrative choice, not a technical one.", cn: "前两项可以。第三项是管理选择，不是技术问题。" },
+            { who: "主席", en: "Then the committee should say so plainly rather than deferring to engineers.", cn: "那委员会就该明说，而不是推给工程师。" },
+            { who: "委员", en: "I agree, and I would add that a system which cannot explain itself should not be deployed in a service that can refuse someone.", cn: "我同意，并补充：不能解释自身的系统，不该部署在可以拒绝他人的服务里。" },
+            { who: "主席", en: "That sentence will be in the minutes.", cn: "这句话会进纪要。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "两位同事（试新工具）",
+          register: "随意（极简、俚语）",
+          channel: "即时消息",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "did you try it", cn: "你试了吗" },
+            { who: "乙", en: "yeah", cn: "试了" },
+            { who: "甲", en: "any good", cn: "好用吗" },
+            { who: "乙", en: "for boring stuff", cn: "处理无聊的事还行" },
+            { who: "甲", en: "like what", cn: "比如" },
+            { who: "乙", en: "summarising. emails. that's it", cn: "总结。邮件。就这些" },
+            { who: "甲", en: "writing", cn: "写作呢" },
+            { who: "乙", en: "it writes like a leaflet", cn: "它写得像宣传册" },
+            { who: "甲", en: "so do i", cn: "我也一样" },
+            { who: "乙", en: "then you're both fine", cn: "那你俩都挺好" }
+          ]
+        }
+      ]
     }
   ];
 
