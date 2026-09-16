@@ -492,14 +492,14 @@
     "</div>";
   }
 
-  // 今日新词：左边两行文字，右边三个键（键在整行里垂直居中 = 与两行文字之间的缝平行）
+  // 今日新词：左边两行文字，右边两个键（认识 / 不认识）
   function vRowHtml(w) {
     return '<div class="vrow">' + vTextHtml(w) +
-      '<div class="vkeys">' + vKeysHtml(w.w, ["know", "fuzzy", "no"]) + "</div>" +
+      '<div class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</div>" +
     "</div>";
   }
 
-  // 已学习：同上，只有 认识 / 不认识 两个键
+  // 已学习：同上（两个键，按学习时间由新到旧排）
   function vLearnedRowHtml(w) {
     return '<div class="vrow">' + vTextHtml(w) +
       '<div class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</div>" +

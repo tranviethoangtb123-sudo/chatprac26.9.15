@@ -192,13 +192,16 @@ try {
   ["vtext", "vline", "vw", "vp", "vkeys", "vdesc"].forEach((c) => {
     if (firstRow.indexOf('class="' + c + '"') < 0) problems.push("单词行缺少 " + c);
   });
-  ["know", "fuzzy", "no"].forEach((k) => {
+  ["know", "no"].forEach((k) => {
     if (firstRow.indexOf('data-vans="' + k + '"') < 0) problems.push("单词行缺少按键：" + k);
   });
+  if (byId.vocabBoard.innerHTML.indexOf('data-vans="fuzzy"') >= 0) {
+    problems.push("已经去掉「模糊」键了，不该再出现");
+  }
   if (!/class="vw"[^>]*>[a-z][a-z']*</.test(firstRow)) problems.push("左边第一行没先写英文单词");
   if (!/class="vp">\//.test(firstRow)) problems.push("左边第一行缺少音标");
   if (!/class="vdesc">(?:[a-z]+\.[ ]*)?[\u4e00-\u9fa5]/.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
-  console.log("  单词行：左列 英语+音标 / 词性+中文，右列三键 ✔");
+  console.log("  单词行：左列 英语+音标 / 词性+中文，右列 认识+不认识 ✔");
 
   // 今日新词：新词每天上限 50，到期的复习词会额外排在最前面
   const todayRows = (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length;
