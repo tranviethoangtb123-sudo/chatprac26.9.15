@@ -355,6 +355,26 @@ try {
   void dom0;
   console.log("  选中一段：" + d0.lines.length + " 句 + 美/英双朗读，无姓名/无标签/无整条朗读 ✔");
 
+  // 目标完成框：一个课题（场景）8 段，每段后面挂 掌握 / 练习，进度存本机
+  if (selHtml.indexOf("dlggoal") < 0) problems.push("选中后没有目标完成框");
+  const goalRows = (selHtml.match(/class="dlggoalrow/g) || []).length;
+  if (goalRows !== scn0.dialogues.length) {
+    problems.push("目标完成框应有 " + scn0.dialogues.length + " 行，实际 " + goalRows);
+  }
+  if (selHtml.indexOf(">掌握<") < 0 || selHtml.indexOf(">练习<") < 0) {
+    problems.push("目标完成框缺少 掌握 / 练习 按钮");
+  }
+  const goalState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-dialogue-goal") || '{"mark":{}}');
+  const k0 = scn0.id + ":0", k1 = scn0.id + ":1";
+  dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
+  if ((goalState().mark[k0] || {}).s !== "ok") problems.push("点「掌握」没有记下来");
+  if (dHtml().indexOf("今天掌握 <b>1</b>") < 0) problems.push("今天掌握数没有加到 1");
+  dclick({ "data-dlgmark": "practice", "data-dlgkey": k1 });
+  if ((goalState().mark[k1] || {}).s !== "practice") problems.push("点「练习」没有记下来");
+  dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
+  if (goalState().mark[k0]) problems.push("再点一次「掌握」应该取消");
+  console.log("  目标完成框：8 段 ×（掌握 / 练习），点了会记进 localStorage ✔");
+
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现
   byId.input.value = "wallet";
   fire(byId.input, "input");

@@ -1144,6 +1144,90 @@
     return html + "</div>";
   }
 
+  /* ---------- 目标完成：像单词模块那样，每段后面挂「掌握 / 练习」 ----------
+     一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了；练习 = 还要再学。
+     进度只存在本机 localStorage，和查询模式、背单词互不影响。 */
+
+  var DG_KEY = "chatprac-dialogue-goal";
+  var dlgGoal = dlgGoalLoad();
+
+  function dlgGoalLoad() {
+    var d = { mark: {} };   // mark["s04-01:0"] = { s: "ok" | "practice", d: "2026-1-5" }
+    try {
+      var raw = localStorage.getItem(DG_KEY);
+      if (raw) {
+        var saved = JSON.parse(raw);
+        if (saved && saved.mark) d.mark = saved.mark;
+      }
+    } catch (e) { /* 读不出来就当新开始 */ }
+    return d;
+  }
+
+  function dlgGoalSave() {
+    try { localStorage.setItem(DG_KEY, JSON.stringify(dlgGoal)); } catch (e) {}
+  }
+
+  // 点「掌握」记 ok，点「练习」记 practice，再点一次同一个就取消
+  function dlgMark(key, kind) {
+    var cur = dlgGoal.mark[key];
+    if (cur && cur.s === kind) delete dlgGoal.mark[key];
+    else dlgGoal.mark[key] = { s: kind, d: vToday() };
+    dlgGoalSave();
+  }
+
+  function dlgMarkOf(key) {
+    var m = dlgGoal.mark[key];
+    return m && m.s ? m.s : "";
+  }
+
+  // 今天已掌握的段数（跨天自动归零，因为按日期比）
+  function dlgTodayDone() {
+    var today = vToday(), n = 0;
+    Object.keys(dlgGoal.mark).forEach(function (k) {
+      if (dlgGoal.mark[k].s === "ok" && dlgGoal.mark[k].d === today) n++;
+    });
+    return n;
+  }
+
+  function dlgDoneAll() {
+    var n = 0;
+    Object.keys(dlgGoal.mark).forEach(function (k) { if (dlgGoal.mark[k].s === "ok") n++; });
+    return n;
+  }
+
+  // 一个场景 = 一个课题，8 种变体就是这 8 个「二级标题」
+  function dlgGoalHtml(scn) {
+    var ds = scn.dialogues || [];
+    var today = dlgTodayDone();
+    var goal = ds.length;                       // 今天的目标：把这一个课题的 8 段过一遍
+    var pct = goal ? Math.min(100, Math.round(today / goal * 100)) : 0;
+
+    var html = '<div class="dlggoal">' +
+      '<div class="dlggoalhead">' +
+        "<span>目标完成</span>" +
+        '<span class="dlggoalstat">今天掌握 <b>' + today + "</b> / " + goal +
+          " · 全部已掌握 <b>" + dlgDoneAll() + "</b> 段</span>" +
+      "</div>" +
+      '<div class="dlggoalbar"><i style="width:' + pct + '%"></i></div>';
+
+    ds.forEach(function (d, i) {
+      var key = scn.id + ":" + i;
+      var m = dlgMarkOf(key);
+      html += '<div class="dlggoalrow' + (m ? " is-" + m : "") + '">' +
+        '<span class="dlggoallabel">' + esc(d.variant) + "</span>" +
+        '<span class="dlggoalbtns">' +
+          '<button type="button" class="dlggoalbtn dlggoalbtn-ok' + (m === "ok" ? " is-on" : "") +
+            '" data-dlgmark="ok" data-dlgkey="' + esc(key) + '">掌握</button>' +
+          '<button type="button" class="dlggoalbtn dlggoalbtn-practice' + (m === "practice" ? " is-on" : "") +
+            '" data-dlgmark="practice" data-dlgkey="' + esc(key) + '">练习</button>' +
+        "</span>" +
+      "</div>";
+    });
+
+    if (today >= goal) html += '<p class="dlggoaldone">今天的课题完成了 ✅</p>';
+    return html + "</div>";
+  }
+
   /* ---------- 对话正文：一句一行，配 美 / 英 两个朗读 ---------- */
 
   function dlgSayHtml(accent, i) {
@@ -1179,18 +1263,26 @@
     }
 
     var html = dlgPickHtml(list, curIdx, q);
-    if (curIdx >= 0) html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
+    if (curIdx >= 0) {
+      html += dlgGoalHtml(list[curIdx].scn);   // 选择器下面：这个课题（场景）的完成情况
+      html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
+    }
 
     els.dialogueList.innerHTML = html;
     els.dialogueEmpty.hidden = !(q && !list.length);
   }
 
-  // 事件委托顺序由内到外：朗读 → 选变体 → 折叠一级标题 → 展开/收起选择器
+  // 事件委托顺序由内到外：掌握/练习 → 朗读 → 选变体 → 折叠一级标题 → 展开/收起选择器
   function onDialogueClick(e) {
     var t = e.target;
     if (!t || !t.closest) return;
     var el;
 
+    if ((el = t.closest("[data-dlgmark]"))) {
+      dlgMark(el.getAttribute("data-dlgkey"), el.getAttribute("data-dlgmark"));
+      renderDialogues();
+      return;
+    }
     if ((el = t.closest("[data-dlgsay]"))) {
       var it = dlgFind(dlgSel);
       var i = Number(el.getAttribute("data-dlgline"));
