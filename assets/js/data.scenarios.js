@@ -7607,6 +7607,501 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 07-03 账单争议与会员积分 ==================== */
+    {
+      id: "s07-03",
+      domain: "07",
+      title: "账单争议与会员积分",
+      ielts: "口语 P3 场景 / 听力 S3",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 手机运营商客服",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "无",
+          result: "达成（弄清渡轮卫星费，免一半并加屏蔽）",
+          lines: [
+            { who: "客服", en: "How can I help?", cn: "需要什么帮助？" },
+            { who: "顾客", en: "My bill is forty pounds higher than usual and I don't know why.", cn: "我的话费比平时高四十镑，我不知道为什么。" },
+            { who: "客服", en: "There's a roaming charge of thirty-two from the ninth to the twelfth.", cn: "九号到十二号有一笔三十二镑的漫游费。" },
+            { who: "顾客", en: "I was in France for three days. I thought roaming was included.", cn: "我在法国待了三天。我以为漫游是包含的。" },
+            { who: "客服", en: "It is included in your plan within the EU, and France is in the EU.", cn: "在您的套餐里欧盟境内是包含的，法国属于欧盟。" },
+            { who: "顾客", en: "Then why has it been charged?", cn: "那为什么收费了？" },
+            { who: "客服", en: "The charge is from a satellite service, not from a French network.", cn: "这笔费用来自卫星服务，不是法国运营商。" },
+            { who: "顾客", en: "I was on a ferry. That must be it.", cn: "我在渡轮上。应该是这个。" },
+            { who: "客服", en: "That will be it. Satellite is excluded, and it's on page nine.", cn: "就是这个。卫星不在包含范围内，写在第九页。" },
+            { who: "顾客", en: "Could it be removed as a first-time thing?", cn: "能按首次情况免掉吗？" },
+            { who: "客服", en: "I can remove half, and I'll put a bar on satellite so that it can't happen again.", cn: "我可以免一半，并给您加一道卫星屏蔽，免得再发生。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 客服（不明订阅费）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "无（但要用录音文字记录反证「价格没念过」）",
+          result: "达成（退还四个月并取消订阅）",
+          lines: [
+            { who: "顾客", en: "There's a subscription of nine ninety-nine on my card for four months.", cn: "我卡上有一笔九块九九的订阅费，连续四个月。" },
+            { who: "客服", en: "It was added during a call in March. There's a recording reference.", cn: "是三月一通电话里加的。有录音编号。" },
+            { who: "顾客", en: "I didn't agree to anything in March. May I hear the recording?", cn: "我三月没同意过任何事。我能听录音吗？" },
+            { who: "客服", en: "I can't play it, but I can send a transcript.", cn: "我不能播放，但可以发文字记录。" },
+            { who: "顾客", en: "Then send it before we discuss anything else.", cn: "那先发给我，我们再谈别的。" },
+            { who: "客服", en: "...The transcript shows the agent described it and you said yes.", cn: "……记录显示坐席介绍了这项服务，您说了好。" },
+            { who: "顾客", en: "I said yes to a free trial. Was the price mentioned?", cn: "我说好的是免费试用。价格提到了吗？" },
+            { who: "客服", en: "The transcript is abbreviated. I can't confirm the price was read.", cn: "记录是节略的。我无法确认价格被念过。" },
+            { who: "顾客", en: "Then refund the four months and cancel it, and note that the price cannot be evidenced.", cn: "那就退还四个月并取消，并注明价格无法举证。" },
+            { who: "客服", en: "I'll refund all four months, and the cancellation is done.", cn: "我全额退还四个月，取消已办。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 客服（积分过期）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "六千积分过期，系统已删无法恢复",
+          result: "折中（现有积分延长十二个月 + 双倍积分活动）",
+          lines: [
+            { who: "顾客", en: "Six thousand points expired last month. I'd like them reinstated.", cn: "上个月六千积分过期了。我希望恢复。" },
+            { who: "客服", en: "Points expire after twenty-four months.", cn: "积分二十四个月后过期。" },
+            { who: "顾客", en: "I know, and I couldn't travel for most of that because of the restrictions.", cn: "我知道，而且其中大部分时间因为管控我没法出行。" },
+            { who: "客服", en: "The system deleted them on the first.", cn: "系统在一号已删除。" },
+            { who: "顾客", en: "Can anything be done, or is this the end of it?", cn: "有办法吗，还是就到此为止？" },
+            { who: "客服", en: "I can't reinstate points, but I can extend the ones you hold now by twelve months.", cn: "我没法恢复积分，但可以把您现在持有的积分延长十二个月。" },
+            { who: "顾客", en: "That's forty-five hundred points I won't lose.", cn: "那就是四千五百积分不会丢了。" },
+            { who: "客服", en: "And if you book before December, there's a double-points offer which would replace most of the six.", cn: "另外如果十二月前预订，有个双倍积分活动，能补回六千中的大部分。" },
+            { who: "顾客", en: "Now that is a real answer.", cn: "这才是真正的答复。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 客服（地址改了没同步）",
+          register: "半正式",
+          channel: "电话客服",
+          barrier: "App 里改过的地址没同步到计费系统，账单寄错三个月",
+          result: "修复（更正并回溯到一月，注明信件不得寄旧地址）",
+          lines: [
+            { who: "顾客", en: "I've been billed at my old address for three months.", cn: "我按旧地址被收费三个月了。" },
+            { who: "客服", en: "The address on the account is the old one.", cn: "账户上的地址是旧的。" },
+            { who: "顾客", en: "I updated it in January, in the app, and it confirmed.", cn: "我一月份在应用里更新过，而且有确认。" },
+            { who: "客服", en: "The app update didn't reach the billing system. That's a known issue.", cn: "应用的更新没有同步到计费系统。这是已知问题。" },
+            { who: "顾客", en: "Known since when?", cn: "从什么时候开始知道的？" },
+            { who: "客服", en: "Since November, and the fix is due next month.", cn: "从十一月起，修复预计下个月。" },
+            { who: "顾客", en: "So for three months my address has been wrong and nobody told me.", cn: "所以三个月里我的地址是错的，也没人告诉我。" },
+            { who: "客服", en: "We write to the address we hold, which was the old one.", cn: "我们按留存的地址寄信，而那是旧地址。" },
+            { who: "顾客", en: "Then anything important has been going to strangers.", cn: "那所有重要文件都寄给陌生人了。" },
+            { who: "客服", en: "I'll correct it now, backdate it to January, and note that correspondence must not go to the old address.", cn: "我现在更正，回溯到一月，并注明信件不得寄往旧地址。" }
+          ]
+        },
+        {
+          variant: "情绪型（被威胁转催收）",
+          relation: "顾客 · 客服（收到催收信）",
+          register: "半正式（情绪化）",
+          channel: "电话客服",
+          barrier: "明明付过的款因账号差一位挂到别人账上，五个月后收到催收信",
+          result: "达成（转账销账、停止催收、书面确认并申请免滞纳金）",
+          lines: [
+            { who: "顾客", en: "I've had a letter saying I owe two hundred and it will go to a collection agency.", cn: "我收到一封信，说我欠两百，还要转给催收公司。" },
+            { who: "客服", en: "The account shows an unpaid balance from March.", cn: "账户显示三月有一笔未付余额。" },
+            { who: "顾客", en: "I paid that in March, by card, over the phone. I have the statement.", cn: "我三月就付了，用卡，电话里付的。我有对账单。" },
+            { who: "客服", en: "The payment went to the wrong account number, one digit out.", cn: "那笔付款打到了错误的账号，差一位数字。" },
+            { who: "顾客", en: "Whose account did it go to?", cn: "打到谁的账号了？" },
+            { who: "客服", en: "Another customer's. It has been sitting as a credit on their account.", cn: "另一位客户的。一直挂在他们的账户上作为余额。" },
+            { who: "顾客", en: "So the money existed, and the letters kept coming for five months.", cn: "所以钱是有的，而信来了五个月。" },
+            { who: "客服", en: "That is indefensible. I'll transfer it, stop the collection process today, and write to you confirming it.", cn: "这一点无法辩解。我现在转账、停止催收流程，并书面确认给您。" },
+            { who: "顾客", en: "Written confirmation is what I needed in March.", cn: "书面确认正是我三月就需要的东西。" },
+            { who: "客服", en: "And I'll ask for the late fee to be removed as well.", cn: "另外我会申请把滞纳金也免掉。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 账单明细）",
+          relation: "顾客 · 客服（明细打不开）",
+          register: "半正式",
+          channel: "App + 电话客服",
+          barrier: "账单里「服务费」点开是空框，毫无说明",
+          result: "达成（查明是纸质账单费，免收并上报缺陷）",
+          lines: [
+            { who: "顾客", en: "The app shows a charge called service fee with no description.", cn: "应用里有一笔叫服务费的费用，没有说明。" },
+            { who: "客服", en: "It should open when you tap it.", cn: "点一下应该会展开。" },
+            { who: "顾客", en: "It opens an empty box. I've tried twice.", cn: "它打开的是一个空框。我试了两次。" },
+            { who: "客服", en: "That means the description wasn't attached when the charge was raised.", cn: "那说明生成这笔费用时没有附说明。" },
+            { who: "顾客", en: "So the app is faithfully showing me nothing.", cn: "所以应用忠实地什么都没显示。" },
+            { who: "客服", en: "It is. I can see the detail on my side: it's a paper bill charge.", cn: "是的。我这边能看到明细：是纸质账单费。" },
+            { who: "顾客", en: "I never asked for paper bills.", cn: "我从没要过纸质账单。" },
+            { who: "客服", en: "It's charged when the address is undeliverable and we post instead of emailing.", cn: "当地址无法投递、我们改为寄信而不是邮件时就会收这笔费用。" },
+            { who: "顾客", en: "Then that's the same address error as everything else.", cn: "那这跟其他问题一样，还是地址错误。" },
+            { who: "客服", en: "It is. I'll remove the charge, fix the address, and report the empty box as a bug.", cn: "是的。我去掉这笔费用、更正地址，并把空框作为程序缺陷上报。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "客户 · 服务商经理（正式账单争议）",
+          register: "正式",
+          channel: "面对面 + 书面",
+          barrier: "无（但需逐项区分接受与异议的依据）",
+          result: "达成（两项冲抵，更正后账单只剩两项）",
+          lines: [
+            { who: "经理", en: "You have disputed the invoice of the twelfth. May we go through the items?", cn: "您对十二号的账单提出异议。我们可以逐项核对吗？" },
+            { who: "顾客", en: "Please. I dispute two of the four items, and I accept the other two.", cn: "请。四项中我异议两项，接受另外两项。" },
+            { who: "经理", en: "Which do you accept?", cn: "您接受哪两项？" },
+            { who: "顾客", en: "The line rental and the calls. I dispute the service fee and the roaming charge.", cn: "月租和通话费。我异议服务费和漫游费。" },
+            { who: "经理", en: "On what basis is the roaming charge disputed?", cn: "漫游费的异议依据是什么？" },
+            { who: "顾客", en: "It was incurred on a ferry, which was within the area covered by my plan. I accept that the exclusion exists; I dispute that it was made clear.", cn: "它产生在渡轮上，而渡轮在我套餐覆盖区域内。我承认这条除外条款存在；我异议的是它没有被明确告知。" },
+            { who: "经理", en: "That is a fair distinction and I shall treat it as such. I shall credit the roaming charge.", cn: "这个区分合理，我就按这个处理。我会冲抵漫游费。" },
+            { who: "顾客", en: "And the service fee?", cn: "那服务费呢？" },
+            { who: "经理", en: "That follows from the same address error, so it is credited as well.", cn: "那笔源于同一个地址错误，因此也一并冲抵。" },
+            { who: "顾客", en: "Then the corrected invoice should show two items only.", cn: "那更正后的账单应该只剩两项。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 客服（话费异常）",
+          register: "随意（极简、俚语）",
+          channel: "电话客服",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "why is my bill bigger", cn: "我的账单为什么变多了" },
+            { who: "客服", en: "roaming", cn: "漫游" },
+            { who: "顾客", en: "i wasn't abroad", cn: "我没出国" },
+            { who: "客服", en: "ferry", cn: "渡轮" },
+            { who: "顾客", en: "ah", cn: "啊" },
+            { who: "客服", en: "yeah, satellite", cn: "对，卫星" },
+            { who: "顾客", en: "can you take it off", cn: "能去掉吗" },
+            { who: "客服", en: "half of it", cn: "免一半" },
+            { who: "顾客", en: "i'll take half", cn: "一半也行" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 08-01 语音留言与电话转接 ==================== */
+    {
+      id: "s08-01",
+      domain: "08",
+      title: "语音留言与电话转接",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "来电者 · 公司前台（转接）",
+          register: "半正式",
+          channel: "电话转接",
+          barrier: "无",
+          result: "达成（要来分机号与姓名，转接一次成功）",
+          lines: [
+            { who: "前台", en: "Good morning, Hartley and Co.", cn: "早上好，Hartley 公司。" },
+            { who: "来电者", en: "Could I speak to someone about an invoice, please?", cn: "我想找个人问一张发票的事。" },
+            { who: "前台", en: "That's accounts. I'll put you through.", cn: "那是财务部。我给您转过去。" },
+            { who: "来电者", en: "Before you do, could you tell me the extension in case we're cut off?", cn: "转之前能告诉我分机号吗，万一断线了？" },
+            { who: "前台", en: "Two one four. And your name, in case they ask?", cn: "二一四。请问您贵姓，万一他们问？" },
+            { who: "来电者", en: "Reid. R-E-I-D.", cn: "姓 Reid，R-E-I-D。" },
+            { who: "前台", en: "Putting you through now.", cn: "现在为您转接。" },
+            { who: "来电者", en: "Thank you.", cn: "谢谢。" },
+            { who: "财务", en: "Accounts, this is Priya. Mr Reid?", cn: "财务部，我是 Priya。Reid 先生？" },
+            { who: "来电者", en: "That's me, and the extension worked.", cn: "是我，分机有用。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "来电者 · 客服（被转四次）",
+          register: "半正式",
+          channel: "电话转接",
+          barrier: "无（但要在两个团队之间要到「一个负责人」）",
+          result: "达成（指定负责人 + 编号 + 明日五点前回电）",
+          lines: [
+            { who: "来电者", en: "This is the fourth transfer. Each person says it isn't their department.", cn: "这是第四次转接了。每个人都说不是他们部门。" },
+            { who: "客服", en: "The order was placed online and the delivery was by a partner, so it sits between two teams.", cn: "订单是网上下单，配送是合作方，所以它卡在两个团队之间。" },
+            { who: "来电者", en: "I understand why it sits between two teams. What I need is one person who owns it.", cn: "我理解为什么卡在中间。我需要的是一个负责它的人。" },
+            { who: "客服", en: "I can be that person, but I'd have to call you back after speaking to the partner.", cn: "我可以当那个人，但我得先跟合作方沟通再回电给您。" },
+            { who: "来电者", en: "That's acceptable, if you give me a deadline and a reference.", cn: "可以接受，只要给我一个期限和一个编号。" },
+            { who: "客服", en: "Reference eight eight four two, and I'll call by five tomorrow.", cn: "编号八八四二，我明天五点前回电。" },
+            { who: "来电者", en: "And if you can't reach the partner?", cn: "如果联系不上合作方呢？" },
+            { who: "客服", en: "I still call, and I tell you that, rather than letting it go quiet.", cn: "我照样打，而且告诉你这件事，而不是让它没声音。" },
+            { who: "来电者", en: "That last part is why I'm staying on this call.", cn: "最后这句正是我还留在这通电话上的原因。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "来电者 · 前台（要找的人不在）",
+          register: "半正式",
+          channel: "电话 + 邮件",
+          barrier: "想直接找的人开会到四点，留言可能明天才听",
+          result: "折中（标题写姓名与编号的邮件 + 三十秒语音留言）",
+          lines: [
+            { who: "来电者", en: "Is Mr Achebe in? I've been given his name.", cn: "Achebe 先生在吗？有人给了我他的名字。" },
+            { who: "前台", en: "He's in a meeting until four.", cn: "他在开会，到四点。" },
+            { who: "来电者", en: "I'd rather not explain the whole thing twice. Could I leave a detailed message?", cn: "我不想把事情讲两遍。我能留个详细留言吗？" },
+            { who: "前台", en: "You can, but he may not listen until tomorrow.", cn: "可以，但他可能明天才听。" },
+            { who: "来电者", en: "Then is there a way to make it more likely?", cn: "那有办法让它更容易被听到吗？" },
+            { who: "前台", en: "Send it by email with his name and the reference in the subject line. He reads those first.", cn: "发邮件，把他的名字和编号写在标题里。那些他先看。" },
+            { who: "来电者", en: "And the voicemail as well?", cn: "语音留言也留吗？" },
+            { who: "前台", en: "Thirty seconds, with the same reference. The email explains the rest.", cn: "三十秒，报同样的编号。细节让邮件说。" },
+            { who: "来电者", en: "Reference in the subject, thirty seconds on the phone. That's a method.", cn: "标题写编号，电话三十秒。这算方法。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "来电者 · 客服（留言被截断）",
+          register: "半正式",
+          channel: "语音留言",
+          barrier: "系统三十秒自动截断，号码没录进去",
+          result: "修复（重留并改用「先说号码」的顺序）",
+          lines: [
+            { who: "来电者", en: "I left a message on Friday and it seems to have been cut off.", cn: "我周五留了言，好像被截断了。" },
+            { who: "客服", en: "There's a message here that ends mid-sentence.", cn: "这里有条留言，断在半句。" },
+            { who: "来电者", en: "The system cut me off at thirty seconds.", cn: "系统在三十秒时把我切断了。" },
+            { who: "客服", en: "It does that, and it doesn't warn you.", cn: "它就是这样，而且不提示。" },
+            { who: "来电者", en: "Then my number wasn't in the first thirty seconds, so nobody could call back.", cn: "那我的号码不在前三十秒里，所以没人能回电。" },
+            { who: "客服", en: "That's the usual failure. I'm listening to the start now: you said your name and then the background.", cn: "这是常见的失误。我现在听开头：您说了名字，然后是背景音。" },
+            { who: "来电者", en: "I was on a train.", cn: "我在火车上。" },
+            { who: "客服", en: "Nothing after that. Say the number first next time, and the reason second.", cn: "后面就没内容了。下次先说号码，再说事由。" },
+            { who: "来电者", en: "Number first. That's counter-intuitive, and it's right.", cn: "先说号码。这有点反直觉，但是对的。" }
+          ]
+        },
+        {
+          variant: "情绪型（急事被转来转去）",
+          relation: "来电者 · 客服（款项未到）",
+          register: "半正式（着急）",
+          channel: "电话转接",
+          barrier: "款项未到且明天中午供应商停工，已被转三次",
+          result: "达成（客服代为转接并二十分钟内回电）",
+          lines: [
+            { who: "来电者", en: "I need to speak to someone about a payment that hasn't arrived. It's urgent.", cn: "我需要找人问一笔没到的款项。这很紧急。" },
+            { who: "客服", en: "Everything gets marked urgent. Tell me the deadline instead.", cn: "所有事都会被标成紧急。请告诉我截止时间。" },
+            { who: "来电者", en: "The supplier stops work at midday tomorrow.", cn: "供应商明天中午就停工。" },
+            { who: "客服", en: "Then that is urgent, and it's three fifteen now, so we have until six today.", cn: "那确实紧急，现在三点十五，所以到今天六点为止。" },
+            { who: "来电者", en: "I've been transferred three times so far.", cn: "我已经被转了三次了。" },
+            { who: "客服", en: "Then I'll do the transfers instead of you. Sit down and I'll call you back in twenty minutes.", cn: "那转接我来做，不是你。您坐着，我二十分钟后回电。" },
+            { who: "来电者", en: "You don't have my number. I've been transferred three times.", cn: "你没有我的号码。我被转了三次。" },
+            { who: "客服", en: "Then give it to me now and I'll repeat it back.", cn: "那现在给我，我复述一遍。" },
+            { who: "来电者", en: "It's the one you're speaking to.", cn: "就是你正在通话的这个号。" },
+            { who: "客服", en: "...Fair. Twenty minutes.", cn: "……有道理。二十分钟。" }
+          ]
+        },
+        {
+          variant: "渠道变体（自动语音菜单）",
+          relation: "来电者 · 语音菜单 + 客服",
+          register: "半正式",
+          channel: "自动语音菜单（IVR）",
+          barrier: "菜单层层嵌套，几乎劝退来电者",
+          result: "达成（按「更早订单」选项接通人工）",
+          lines: [
+            { who: "系统", en: "Press one for accounts, two for deliveries, three for complaints.", cn: "财务请按一，配送请按二，投诉请按三。" },
+            { who: "来电者", en: "Deliveries.", cn: "配送。" },
+            { who: "系统", en: "For deliveries within the last seven days, press one. For older, press two.", cn: "七天内的配送请按一，更早的请按二。" },
+            { who: "来电者", en: "Two.", cn: "二。" },
+            { who: "系统", en: "To leave a message, press one. To speak to an adviser, press two and hold.", cn: "留言请按一，转人工请按二并等候。" },
+            { who: "来电者", en: "Two, and hold.", cn: "二，然后等。" },
+            { who: "系统", en: "Your position in the queue is nine.", cn: "您排在第 9 位。" },
+            { who: "客服", en: "Deliveries, this is Sam.", cn: "配送部，我是 Sam。" },
+            { who: "来电者", en: "I got through. Are these menus designed to make people give up?", cn: "接通了。这些菜单是设计来让人放弃的吗？" },
+            { who: "客服", en: "Honestly, that is what the data shows, and it's why I always press the older-order option myself.", cn: "说实话，数据就是这样，所以我自己也总是先按更早订单那个选项。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "来电者 · 公司前台（正式留言）",
+          register: "正式",
+          channel: "电话留言",
+          barrier: "无（但需正式说明事由、时段与保密安排）",
+          result: "达成（预约回电时段，并邮件补充函件）",
+          lines: [
+            { who: "来电者", en: "Good morning. I should like to leave a message for Ms Fenwick regarding the contract dated the third.", cn: "早上好。我想给 Fenwick 女士留个言，关于三号那份合同。" },
+            { who: "前台", en: "I'll take the details. Would you prefer a call back or an email?", cn: "我记录一下。您希望回电还是邮件？" },
+            { who: "来电者", en: "A call back, between nine and eleven if possible, and the matter is not urgent.", cn: "回电，如果可能的话在九点到十一点之间，事情不急。" },
+            { who: "前台", en: "Not urgent is useful to know. May I have the contract reference?", cn: "知道不急很有用。请问合同编号？" },
+            { who: "来电者", en: "It is on the covering letter, which I shall email, so that the message and the letter are in one place.", cn: "在附函上，我会邮件发过去，这样留言和函件在同一处。" },
+            { who: "前台", en: "That is more organised than most. Anything else you wish to add?", cn: "这比大多数人都有条理。还有什么要补充吗？" },
+            { who: "来电者", en: "Only that I shall be unavailable on Friday, so the call should be before then.", cn: "只有一点：我周五没空，所以电话最好在那之前。" },
+            { who: "前台", en: "Noted. I shall confirm receipt of your email by return.", cn: "记下了。我会回信确认收到邮件。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "来电者 · 前台（找人）",
+          register: "随意（极简、俚语）",
+          channel: "电话",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "来电者", en: "is sam there", cn: "Sam 在吗" },
+            { who: "前台", en: "who's calling", cn: "哪位" },
+            { who: "来电者", en: "rob", cn: "Rob" },
+            { who: "前台", en: "he's on a call", cn: "他在打电话" },
+            { who: "来电者", en: "tell him i rang", cn: "跟他说我打过" },
+            { who: "前台", en: "about what", cn: "什么事" },
+            { who: "来电者", en: "he'll know", cn: "他知道" },
+            { who: "前台", en: "he won't", cn: "他不知道" },
+            { who: "来电者", en: "the thing", cn: "那件事" },
+            { who: "前台", en: "i'll say the thing", cn: "我就说那件事" },
+            { who: "来电者", en: "cheers", cn: "谢了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 08-02 信号不好与听不清 ==================== */
+    {
+      id: "s08-02",
+      domain: "08",
+      title: "信号不好与听不清",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "同事之间（通话中断）",
+          register: "随意",
+          channel: "手机通话",
+          barrier: "无",
+          result: "达成（换到窗边并改书面确认）",
+          lines: [
+            { who: "甲", en: "Sorry, you're breaking up. Can you hear me?", cn: "抱歉，你声音断断续续的。能听到我吗？" },
+            { who: "乙", en: "I can hear you. You're cutting out on my side.", cn: "我能听到你。是你那边在断。" },
+            { who: "甲", en: "Then I'll move. I'm standing next to a lift shaft.", cn: "那我换个地方。我站在电梯井旁边。" },
+            { who: "乙", en: "Take your time.", cn: "不着急。" },
+            { who: "甲", en: "Better? I'm by a window now.", cn: "好点吗？我现在在窗边。" },
+            { who: "乙", en: "Much better. Where were we?", cn: "好多了。我们说到哪儿了？" },
+            { who: "甲", en: "You were about to give me the figure.", cn: "你要给我那个数字了。" },
+            { who: "乙", en: "Nineteen thousand, and I'm sending it in writing so the call doesn't matter.", cn: "一万九，而且我会书面发给你，这样通话就不重要了。" },
+            { who: "甲", en: "That's the right instinct with a bad line.", cn: "信号差的时候这么做是对的。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "供应商 · 重要客户（线路差）",
+          register: "半正式",
+          channel: "手机通话 + 邮件",
+          barrier: "无（但关键数字不在坏线路上确认）",
+          result: "达成（邮件先给数字，一点半回电）",
+          lines: [
+            { who: "客户", en: "You're very faint. Should we reschedule?", cn: "你声音很小。我们要不要改时间？" },
+            { who: "供应商", en: "If it suits you, yes. I don't want to confirm numbers over a bad line.", cn: "如果您方便就改。我不想在信号不好的线上确认数字。" },
+            { who: "客户", en: "The board meets at three, so I need the numbers by two.", cn: "董事会三点开会，所以我两点前需要数字。" },
+            { who: "供应商", en: "Then I'll email them within five minutes and call you back at half one.", cn: "那我在五分钟内邮件发过去，一点半再打给您。" },
+            { who: "客户", en: "And if the line is bad again?", cn: "如果线路又不好呢？" },
+            { who: "供应商", en: "Then we do it in writing only, and I'll treat your email reply as confirmation.", cn: "那就只走书面，我把您邮件的回复视为确认。" },
+            { who: "客户", en: "That's acceptable. Send them now.", cn: "可以。现在发。" },
+            { who: "供应商", en: "Sent, and I put the two figures in the subject line so you needn't open it in the meeting.", cn: "发了，而且我把两个数字写在标题里，您在会上不用打开。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "同事之间（打三次都听不清）",
+          register: "随意",
+          channel: "App 语音条",
+          barrier: "电话连着断三次，双方都失去耐性",
+          result: "折中（改用语音条，周五复盘是否可行）",
+          lines: [
+            { who: "甲", en: "I've called three times and we've lost the thread each time.", cn: "我打了三次电话，每次都断在半路。" },
+            { who: "乙", en: "My signal at home is bad all evening.", cn: "我家晚上信号一直很差。" },
+            { who: "甲", en: "Then let's stop trying to fix the call and fix the method.", cn: "那我们别再试着修这通电话，改修方法吧。" },
+            { who: "乙", en: "Which is?", cn: "怎么改？" },
+            { who: "甲", en: "Voice notes in the app. You speak when the signal allows and I listen when it suits me.", cn: "用应用里的语音条。你有信号时录，我方便时听。" },
+            { who: "乙", en: "I've never used those.", cn: "我从没用过。" },
+            { who: "甲", en: "Press and hold, speak, release. It's easier than a call, which is the strange part.", cn: "按住、说话、松手。比打电话容易，这才是奇怪的地方。" },
+            { who: "乙", en: "Then let's try it this week and review on Friday.", cn: "那这周试试，周五看效果。" },
+            { who: "甲", en: "And if it doesn't work, we go back to calls at your end of the day.", cn: "如果不行，就换回你那边白天的时候打电话。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "甲乙之间（数字听错）",
+          register: "半正式",
+          channel: "手机通话 + 邮件",
+          barrier: "把五十听成十五，订单已按错误数量发出",
+          result: "修复（一小时内改单并约定数字必须复述）",
+          lines: [
+            { who: "甲", en: "I wrote down fifteen, and you say it was fifty.", cn: "我记的是十五，你说是五十。" },
+            { who: "乙", en: "Fifty. The line broke just as I said it.", cn: "五十。我说的时候线路正好断了。" },
+            { who: "甲", en: "I acted on fifteen. I've already sent the order.", cn: "我按十五办了。订单已经发出去了。" },
+            { who: "乙", en: "Can it be amended?", cn: "能改吗？" },
+            { who: "甲", en: "Within an hour, yes. After that it becomes a change request.", cn: "一小时内可以。之后就要走变更申请。" },
+            { who: "乙", en: "Then do it now, and I'll confirm by email in two minutes.", cn: "那现在就改，我两分钟后邮件确认。" },
+            { who: "甲", en: "Amended. And from today, any number on a call gets repeated back.", cn: "改好了。从今天起，电话里的任何数字都要复述一遍。" },
+            { who: "乙", en: "Agreed. Fifty, confirmed.", cn: "同意。五十，确认。" }
+          ]
+        },
+        {
+          variant: "情绪型（重要通话总断）",
+          relation: "甲乙之间（时间紧）",
+          register: "半正式（着急）",
+          channel: "手机通话",
+          barrier: "总断线且时间所剩不多，情绪上来",
+          result: "达成（只问最关键的一问，其余改书面）",
+          lines: [
+            { who: "甲", en: "We keep cutting out and I'm running out of time.", cn: "我们一直断线，而我时间不多了。" },
+            { who: "乙", en: "I can hear that you're frustrated.", cn: "我听得出你很着急。" },
+            { who: "甲", en: "I'm not frustrated with you. I'm frustrated with the handset.", cn: "我不是对你着急。我是对这个话筒着急。" },
+            { who: "乙", en: "Then let's use the three minutes we have. What's the one thing you need?", cn: "那我们把手上这三分钟用掉。你最需要哪一件事？" },
+            { who: "甲", en: "One thing: can you deliver on the ninth or not?", cn: "一件事：九号你能交货还是不能？" },
+            { who: "乙", en: "Not the ninth. The twelfth.", cn: "九号不行。十二号。" },
+            { who: "甲", en: "Then that's the whole call. Everything else is detail.", cn: "那这通电话就完了。其余都是细节。" },
+            { who: "乙", en: "I'll write the rest and send it tonight.", cn: "剩下的我写下来今晚发你。" },
+            { who: "甲", en: "And I'll stop shouting at a handset.", cn: "那我也不用再对着话筒喊了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（视频会议卡顿）",
+          relation: "主持 · 参加者（视频会议）",
+          register: "半正式",
+          channel: "视频会议",
+          barrier: "画面卡住，部分人看不到共享屏幕",
+          result: "达成（关视频 + 口述内容，写进下次邀请）",
+          lines: [
+            { who: "主持", en: "Your audio is fine but the video is frozen.", cn: "你的声音正常，但画面卡住了。" },
+            { who: "参加者", en: "Then I'll turn the video off. Nobody needs to watch me think.", cn: "那我关掉画面。没人需要看我思考的样子。" },
+            { who: "主持", en: "That helps. You're clear now.", cn: "这有用。现在很清楚。" },
+            { who: "参加者", en: "Can everyone see the shared screen, or can some only hear me?", cn: "大家都能看到共享屏幕吗，还是有人只能听到我？" },
+            { who: "主持", en: "Two of us can see it, one can't.", cn: "我们两个能看到，一个看不到。" },
+            { who: "参加者", en: "Then I'll describe it aloud as I go, so the audio carries the content.", cn: "那我边讲边口述，让声音承载内容。" },
+            { who: "主持", en: "That's slower, and it works for everyone.", cn: "这样慢一点，但对所有人都有效。" },
+            { who: "参加者", en: "It's the rule for hybrid meetings: assume someone can only hear you.", cn: "这是混合会议的规矩：假定有人只能听到你。" },
+            { who: "主持", en: "I'll put that in the invitation for next time.", cn: "下次我把这句写进会议邀请里。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "会议主席 · 分会场（正式电话会议线路问题）",
+          register: "正式",
+          channel: "正式电话会议",
+          barrier: "无（但需正式确立「书面 + 口头」双重确认程序）",
+          result: "达成（每项决定当场复述确认并记入纪要）",
+          lines: [
+            { who: "主席", en: "We are having difficulty hearing the Paris office. Could you confirm that you can hear us?", cn: "我们听巴黎那边有困难。请确认您能听到我们吗？" },
+            { who: "巴黎", en: "We hear you clearly. The difficulty is in one direction only.", cn: "我们听得很清楚。问题只在单向传输上。" },
+            { who: "主席", en: "Then we shall conduct the remainder with written and spoken confirmation.", cn: "那接下来的部分我们以书面加口头确认的方式进行。" },
+            { who: "巴黎", en: "That is prudent. I shall confirm each decision in the chat as it is taken.", cn: "这样审慎。每项决定作出时我会在聊天框里确认。" },
+            { who: "主席", en: "And I shall read each back before we proceed.", cn: "而我会在继续之前逐条复述。" },
+            { who: "巴黎", en: "That is the correct procedure, and I should like it minuted.", cn: "这是正确的程序，我希望记入纪要。" },
+            { who: "主席", en: "It shall be. Any decision not read back and confirmed is not taken.", cn: "会的。任何未经复述和确认的决定都不算通过。" },
+            { who: "巴黎", en: "That protects both offices.", cn: "这对两个办公室都是保护。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "同事之间（信号差）",
+          register: "随意（极简、俚语）",
+          channel: "手机通话 + 短信",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "甲", en: "you're breaking up", cn: "你声音断续" },
+            { who: "乙", en: "what", cn: "什么" },
+            { who: "甲", en: "breaking up", cn: "断续" },
+            { who: "乙", en: "can't hear you", cn: "听不清" },
+            { who: "甲", en: "i'll text you", cn: "我发短信给你" },
+            { who: "乙", en: "better", cn: "这样好" },
+            { who: "甲", en: "sent", cn: "发了" },
+            { who: "乙", en: "got it", cn: "收到" },
+            { who: "甲", en: "phones", cn: "电话这东西" },
+            { who: "乙", en: "yeah", cn: "是啊" }
+          ]
+        }
+      ]
     }
   ];
 

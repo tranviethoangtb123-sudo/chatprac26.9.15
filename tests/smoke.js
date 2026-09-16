@@ -302,6 +302,8 @@ try {
   // 逐个点开域标题：一次只展开一个（手风琴），选项文字 = 场景名 · 变体
   const pickLabels = [];
   const allVariants = SC.scenarios.reduce((a, s) => a.concat(s.dialogues.map((d) => d.variant)), []);
+  // 场景标题、变体名里本来就有的词（比如标题「语音留言与电话转接」里的「电话转接」）不算泄漏
+  const knownText = SC.scenarios.reduce((a, s) => a.concat([s.title], s.dialogues.map((d) => d.variant)), []);
   let expandedHtml = openHtml;
   let lastOpened = "";
   SC.domains.filter((dom) => withContent.has(dom.id)).forEach((dom) => {
@@ -329,7 +331,7 @@ try {
       ["relation", "register", "channel", "barrier", "result"].forEach((k) => {
         const v = d[k];
         if (!v || v.length < 3) return;                                 // 太短，可能是常用词
-        if (allVariants.some((x) => x.indexOf(v) >= 0)) return;          // 本来就写在某个变体名里（如「渠道变体（视频会议）」）
+        if (knownText.some((x) => x.indexOf(v) >= 0)) return;             // 本来就写在场景标题或变体名里（如标题「语音留言与电话转接」）
         if (expandedHtml.indexOf(v) >= 0) problems.push("不该显示元数据说明（" + k + "）：" + v);
       });
     });
