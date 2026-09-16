@@ -5022,6 +5022,532 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 01-08 餐厅点餐 ==================== */
+    {
+      id: "s01-08",
+      domain: "01",
+      title: "餐厅点餐",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 餐厅服务员",
+          register: "中性",
+          channel: "面对面（餐厅）",
+          barrier: "无",
+          result: "达成（点好菜并问清做法与过敏）",
+          lines: [
+            { who: "服务员", en: "Good evening. Table for two?", cn: "晚上好。两位吗？" },
+            { who: "顾客", en: "Two, please. Could we sit outside?", cn: "两位。能坐外面吗？" },
+            { who: "服务员", en: "There's one table left, but it's near the door. Does that matter?", cn: "还剩一张桌，但靠门。有关系吗？" },
+            { who: "顾客", en: "It's fine. Do you have the menu in English?", cn: "没关系。有英文菜单吗？" },
+            { who: "服务员", en: "We do. Anything to drink first?", cn: "有。先来点喝的吗？" },
+            { who: "顾客", en: "Just water, and we'll order in a minute.", cn: "就水吧，我们一会儿点菜。" },
+            { who: "服务员", en: "Take your time. The fish of the day is sea bass, and the soup is pumpkin.", cn: "慢慢看。今日鲜鱼是海鲈，汤是南瓜汤。" },
+            { who: "顾客", en: "Is the sea bass bony?", cn: "海鲈刺多吗？" },
+            { who: "服务员", en: "It's filleted. The only bones are the ones you can see.", cn: "已经去骨了。只有看得见的那些。" },
+            { who: "顾客", en: "Then one sea bass and one soup to start, and the pasta for me.", cn: "那先来一份海鲈和一份汤，我要意面。" },
+            { who: "服务员", en: "Any allergies I should tell the kitchen about?", cn: "有什么过敏要告诉厨房吗？" },
+            { who: "顾客", en: "None. Thank you.", cn: "没有。谢谢。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 餐厅领班（座位与上菜节奏）",
+          register: "半正式",
+          channel: "面对面（餐厅）",
+          barrier: "无（但要得体地争取安静座位和上菜节奏）",
+          result: "达成（换到吧台尽头，主菜压后）",
+          lines: [
+            { who: "顾客", en: "We booked a quiet table. This one is next to the kitchen door.", cn: "我们订的是安静的位子。这张桌靠着厨房门。" },
+            { who: "领班", en: "I'm sorry. The quiet ones are taken until nine.", cn: "抱歉。安静的位子要到九点才有。" },
+            { who: "顾客", en: "We're celebrating, so nine is too late to start. Is there anything else?", cn: "我们是来庆祝的，九点开始太晚。还有别的办法吗？" },
+            { who: "领班", en: "There are two seats at the end of the bar. Not ideal, but far from the door.", cn: "吧台尽头有两个座位。不理想，但离门远。" },
+            { who: "顾客", en: "How far from the kitchen?", cn: "离厨房多远？" },
+            { who: "领班", en: "Across the room. You'd hear the music, not the plates.", cn: "在餐厅另一边。你会听到音乐，不是盘子声。" },
+            { who: "顾客", en: "Then we'll take it, if you'll serve us a little slower than usual.", cn: "那我们要了，如果你们能比平常上得慢一点。" },
+            { who: "领班", en: "Slower I can do. I'll ask the kitchen to hold the main course.", cn: "慢一点没问题。我让厨房压住主菜。" },
+            { who: "顾客", en: "That is exactly what I wanted, and I didn't have to ask twice.", cn: "这正是我想要的，而且不用我说两遍。" },
+            { who: "领班", en: "People ask for the food to come faster. You're the first in a month to ask for slower.", cn: "大家都要求上快一点。您是一个月里第一个要求慢一点的。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 餐厅服务员（招牌菜卖完）",
+          register: "中性",
+          channel: "面对面（餐厅）",
+          barrier: "专程想点的招牌菜刚卖完",
+          result: "折中（换同做法的牛小排，并预订周四的羊排）",
+          lines: [
+            { who: "顾客", en: "We'd like the lamb for two, please.", cn: "我们要两人份的羊排。" },
+            { who: "服务员", en: "The lamb has just gone. That was the last one of the evening.", cn: "羊排刚卖完。那是今晚最后一份。" },
+            { who: "顾客", en: "We came especially for it, I'm afraid.", cn: "我们专程为它来的。" },
+            { who: "服务员", en: "I understand. Let me tell you what's closest to it.", cn: "我明白。我说说跟它最接近的。" },
+            { who: "顾客", en: "Please.", cn: "请。" },
+            { who: "服务员", en: "The short rib is cooked the same way, and there's a pork loin that's more popular.", cn: "牛小排做法一样，还有一款更受欢迎的猪里脊。" },
+            { who: "顾客", en: "Is the short rib also slow-cooked?", cn: "牛小排也是慢炖的吗？" },
+            { who: "服务员", en: "Six hours, same as the lamb. I'll bring bread while it cooks.", cn: "六小时，跟羊排一样。烤的时候我先上面包。" },
+            { who: "顾客", en: "Then short rib for two, and we'll come back for the lamb on Thursday.", cn: "那要两人份牛小排，周四我们再来吃羊排。" },
+            { who: "服务员", en: "Thursdays are quieter and the lamb is on then. I'll put your name down.", cn: "周四安静些，那天有羊排。我把您的名字记下。" },
+            { who: "顾客", en: "You've turned a disappointment into a booking.", cn: "你把一件失望的事变成了一次预订。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 餐厅服务员（上错菜）",
+          register: "中性",
+          channel: "面对面（餐厅）",
+          barrier: "菜名的理解不同（squid 与 squid ink），上错了菜",
+          result: "修复（炸鱿鱼转给别桌，意面重做）",
+          lines: [
+            { who: "顾客", en: "I think this isn't what I ordered.", cn: "我想这不是我点的。" },
+            { who: "服务员", en: "You ordered the squid, didn't you?", cn: "您点的是鱿鱼，对吧？" },
+            { who: "顾客", en: "I ordered the squid ink pasta. This is fried squid.", cn: "我点的是墨鱼汁意面。这是炸鱿鱼。" },
+            { who: "服务员", en: "Ah. In the menu, squid is the starter and squid ink is the pasta.", cn: "啊。菜单里 squid 是前菜，squid ink 才是意面。" },
+            { who: "顾客", en: "I see how that happened. I probably said squid and pointed at the wrong line.", cn: "我明白怎么会错了。我大概说了 squid，又指错了行。" },
+            { who: "服务员", en: "I should have checked. Shall I bring the pasta?", cn: "我应该确认一下。要给您上意面吗？" },
+            { who: "顾客", en: "Only if the fried squid can go to someone who wants it. I don't want food thrown away.", cn: "除非这份炸鱿鱼能给想吃的人。我不想食物被倒掉。" },
+            { who: "服务员", en: "Two people at table six ordered it. I'll ask them.", cn: "六号桌有两位点了这个。我去问他们。" },
+            { who: "顾客", en: "And if they say no?", cn: "如果他们不要呢？" },
+            { who: "服务员", en: "Then it goes on my tab, not on yours, and the pasta is on the house.", cn: "那记在我账上，不是您的，意面店里请。" },
+            { who: "顾客", en: "That's more than fair. I'll eat the squid while we wait.", cn: "这太公道了。等的时候我把鱿鱼吃了。" }
+          ]
+        },
+        {
+          variant: "情绪型（等太久孩子闹）",
+          relation: "顾客 · 餐厅服务员（等菜四十分钟）",
+          register: "中性（不耐烦）",
+          channel: "面对面（餐厅）",
+          barrier: "等了四十分钟什么都没上，孩子开始闹",
+          result: "达成（面包立刻上、儿童餐先上且免费）",
+          lines: [
+            { who: "顾客", en: "Excuse me, we ordered forty minutes ago and we've had nothing.", cn: "不好意思，我们四十分钟前点的菜，到现在什么都没有。" },
+            { who: "服务员", en: "Let me check. ...The kitchen has your order, it's just behind two large tables.", cn: "我查一下。……厨房有您的单，只是排在两大桌后面。" },
+            { who: "顾客", en: "I have a five-year-old and no bread. That's the problem.", cn: "我带着一个五岁的孩子，连面包都没有。这才是问题。" },
+            { who: "服务员", en: "That is our fault. Bread in one minute.", cn: "这是我们的问题。面包一分钟就到。" },
+            { who: "顾客", en: "Could you bring the child's food first, even if ours comes later?", cn: "能把孩子的先上吗，我们的晚点也行？" },
+            { who: "服务员", en: "I'll ask them to do exactly that.", cn: "我让他们就这么办。" },
+            { who: "顾客", en: "And I'd like to know how long ours will be.", cn: "还有，我想知道我们的还要多久。" },
+            { who: "服务员", en: "Ten minutes, and I'll come back in five to tell you if that changes.", cn: "十分钟；如果变了，我五分钟后来告诉您。" },
+            { who: "顾客", en: "Coming back to tell me is the part nobody does.", cn: "会回来告诉我，这一点没人做得到。" },
+            { who: "服务员", en: "I'll do it. And I've taken the child's meal off the bill.", cn: "我会做到。另外儿童餐我从账单上免掉了。" },
+            { who: "顾客", en: "You didn't have to, but thank you.", cn: "你不用这样，不过谢谢你。" }
+          ]
+        },
+        {
+          variant: "渠道变体（电话订位）",
+          relation: "顾客 · 餐厅电话接线",
+          register: "中性",
+          channel: "电话订位",
+          barrier: "电话里姓名听不清，订位信息要反复确认",
+          result: "达成（订位成功，过敏信息送到厨房）",
+          lines: [
+            { who: "接线", en: "Good evening, Romano's. Hold or book?", cn: "晚上好，Romano 餐厅。您是等候还是订位？" },
+            { who: "顾客", en: "Book, please. Friday, eight o'clock, four people.", cn: "订位。周五八点，四位。" },
+            { who: "接线", en: "Friday at eight. Name?", cn: "周五八点。姓名？" },
+            { who: "顾客", en: "Bright. B-R-I-G-H-T.", cn: "Bright。拼写 B-R-I-G-H-T。" },
+            { who: "接线", en: "Bite?", cn: "Bite？" },
+            { who: "顾客", en: "No, Bright. As in not dark.", cn: "不是，Bright。就是亮那个词。" },
+            { who: "接线", en: "Got it. Any allergies on the booking?", cn: "好。订位需要备注过敏吗？" },
+            { who: "顾客", en: "One person is allergic to nuts. Serious, not a preference.", cn: "有一位对坚果过敏。是严重的，不是口味偏好。" },
+            { who: "接线", en: "I've flagged it as an allergy, not a preference. That goes to the kitchen, not only the front desk.", cn: "我标成过敏，不是偏好。这条会送到厨房，不只是前台。" },
+            { who: "顾客", en: "That's the answer I was hoping for. Should I confirm nearer the time?", cn: "这正是我想听的回答。临近日期需要再确认吗？" },
+            { who: "接线", en: "We text the day before. Reply yes and it's held.", cn: "我们前一天发短信。回 yes 就保留。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "主人 · 餐厅经理（商务宴请）",
+          register: "正式",
+          channel: "面对面（餐厅）",
+          barrier: "无（但需正式安排菜单、座次与分寸）",
+          result: "达成（套餐每道含替代项，酒单由经理保管）",
+          lines: [
+            { who: "主人", en: "I have booked for eight. Might we discuss the menu in advance?", cn: "我订了八位。我们能否先商量一下菜单？" },
+            { who: "经理", en: "Certainly. Would you prefer a set menu or a free choice?", cn: "当然。您希望套餐还是自由点菜？" },
+            { who: "主人", en: "A set menu, but with one alternative for each course. Guests dislike being given no choice.", cn: "套餐，但每道菜要有一个替代选择。客人不喜欢没有选择。" },
+            { who: "经理", en: "Four courses, two options each. Any dietary requirements?", cn: "四道菜，每道两个选择。有饮食禁忌吗？" },
+            { who: "主人", en: "Two guests do not drink alcohol, and one does not eat shellfish.", cn: "有两位客人不喝酒，一位不吃贝类。" },
+            { who: "经理", en: "I shall mark the shellfish course and offer a substitute without drawing attention to it.", cn: "我会标出那道贝类，并提供替代而不引人注意。" },
+            { who: "主人", en: "That is precisely the point. Discretion matters more than the food.", cn: "这正是关键。得体比菜品更重要。" },
+            { who: "经理", en: "Understood. Shall I keep the wine list on the table, or with me?", cn: "明白。酒单放在桌上，还是由我保管？" },
+            { who: "主人", en: "With you, and bring it to me rather than to the table.", cn: "你保管，并且拿给我，而不是拿到桌上。" },
+            { who: "经理", en: "As you wish. I shall confirm everything in writing tomorrow.", cn: "随您。我明天把一切书面确认。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 快餐柜台",
+          register: "随意（极简、俚语）",
+          channel: "面对面（柜台）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "one burger, no pickle", cn: "一个汉堡，不要酸黄瓜" },
+            { who: "服务员", en: "fries", cn: "薯条呢" },
+            { who: "顾客", en: "yeah, go on", cn: "行吧" },
+            { who: "服务员", en: "large", cn: "大份？" },
+            { who: "顾客", en: "medium. i'm not an animal", cn: "中份。我又不是野兽" },
+            { who: "服务员", en: "drink", cn: "饮料" },
+            { who: "顾客", en: "water", cn: "水" },
+            { who: "服务员", en: "water's free", cn: "水免费" },
+            { who: "顾客", en: "so's the pickle, usually", cn: "酸黄瓜通常也免费" },
+            { who: "服务员", en: "not today", cn: "今天不是" },
+            { who: "顾客", en: "noted", cn: "记下了" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 01-09 买单分账与退菜 ==================== */
+    {
+      id: "s01-09",
+      domain: "01",
+      title: "买单分账与退菜",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客（四人）· 服务员",
+          register: "随意",
+          channel: "面对面（餐厅）",
+          barrier: "无",
+          result: "达成（按各人点的分开付，酒只算喝酒的两位）",
+          lines: [
+            { who: "顾客", en: "Could we pay separately? Four of us.", cn: "能分开付吗？我们四个人。" },
+            { who: "服务员", en: "Of course. Split evenly, or by what you each had?", cn: "当然。平摊，还是按各人点的算？" },
+            { who: "顾客", en: "By what we had, if that isn't too much trouble.", cn: "按各人点的算，如果不麻烦的话。" },
+            { who: "服务员", en: "It's easier than even. I'll bring the itemised bill.", cn: "比平摊容易。我把明细单拿来。" },
+            { who: "顾客", en: "Two of us shared the starter, so put it on my part.", cn: "我们两个人分了一个前菜，记在我这份上。" },
+            { who: "服务员", en: "Then your part is thirty-one, and the wine is separate.", cn: "那您这份是三十一，酒单算。" },
+            { who: "顾客", en: "Whose wine was it?", cn: "酒是谁的？" },
+            { who: "服务员", en: "It was ordered for the table, so I've split it four ways.", cn: "是整桌点的，所以我按四份分。" },
+            { who: "顾客", en: "Two of us didn't drink, so that isn't right.", cn: "我们两位没喝，那样算不对。" },
+            { who: "服务员", en: "Then it's split between the other two. My mistake.", cn: "那就只算另外两位。是我的疏忽。" },
+            { who: "顾客", en: "You've thought about this more than we did.", cn: "你想得比我们还周到。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 餐厅经理（重复收费）",
+          register: "半正式",
+          channel: "面对面（收银台）",
+          barrier: "无（但要拿明细单逐条对，同时不指责人）",
+          result: "达成（去掉重复那笔，服务费照付）",
+          lines: [
+            { who: "顾客", en: "We've been charged for the starter twice.", cn: "前菜被收了两遍钱。" },
+            { who: "经理", en: "It appears twice on the system.", cn: "系统里显示两次。" },
+            { who: "顾客", en: "Here's the itemised bill: the same dish on two lines, same minute.", cn: "这是明细单：同一道菜在两行，同一分钟。" },
+            { who: "经理", en: "The second entry is at the same minute. That's a keying error.", cn: "第二条是同一分钟。这是录入错误。" },
+            { who: "顾客", en: "I assumed so. I'm not accusing anyone of anything.", cn: "我也这么想。我不是在指责任何人。" },
+            { who: "经理", en: "Thank you. I'll remove it, and take the service charge off as well.", cn: "谢谢。我把它去掉，服务费也一并免掉。" },
+            { who: "顾客", en: "The service was good. Don't take the service charge off.", cn: "服务挺好。服务费别免。" },
+            { who: "经理", en: "Then I'll remove the error and leave the service. That's unusual.", cn: "那我只去掉错的那笔，服务费保留。这很少见。" },
+            { who: "顾客", en: "It's only unusual because most people are angrier than the situation deserves.", cn: "很少见只是因为大部分人比事情本身更生气。" },
+            { who: "经理", en: "I'll take the compliment and fix the bill.", cn: "这个称赞我收下，账单我改。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 厨师长（要求退菜）",
+          register: "中性",
+          channel: "面对面（餐厅）",
+          barrier: "要求退菜但已吃掉一半，店家不肯全额退",
+          result: "折中（不退款，加半份别的菜按半价，并改配方）",
+          lines: [
+            { who: "顾客", en: "I'm sorry, but this isn't what I expected. Could we send it back?", cn: "抱歉，这道菜跟我预想的不一样。能退吗？" },
+            { who: "服务员", en: "Half of it is gone. I can't take it off the bill.", cn: "已经吃了一半。我没法从账单上划掉。" },
+            { who: "顾客", en: "I understand. I ate it because I was hungry, not because it was good.", cn: "我明白。我吃是因为饿，不是因为好吃。" },
+            { who: "服务员", en: "Let me ask the chef what he can do.", cn: "我去问厨师长能怎么处理。" },
+            { who: "厨师长", en: "I'll come out. What's wrong with it?", cn: "我出来一下。这道菜哪里不对？" },
+            { who: "顾客", en: "It is much saltier than the description. I've had it before and it wasn't.", cn: "比描述咸很多。我以前吃过，不是这个味。" },
+            { who: "厨师长", en: "That's possible. I changed the cure last week.", cn: "有可能。我上周改了腌制法。" },
+            { who: "顾客", en: "Then it isn't my palate.", cn: "那就不是我的口味问题。" },
+            { who: "厨师长", en: "No. I'll bring you a half portion of something else and charge it at half.", cn: "不是。我给您上半份别的菜，按半价收。" },
+            { who: "顾客", en: "And this one?", cn: "那这道呢？" },
+            { who: "厨师长", en: "Full price, because you ate it. But I'll take the salt out of the recipe.", cn: "全价，因为您吃了。但我会把配方里的盐减下来。" },
+            { who: "顾客", en: "That's the fairest thing anyone could say.", cn: "这是最公道的说法了。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 服务员（刷卡刷反）",
+          register: "随意",
+          channel: "面对面（收银台）",
+          barrier: "分账时把两张卡刷反，一笔重复扣款",
+          result: "修复（当场作废，留下凭条与联系电话）",
+          lines: [
+            { who: "顾客", en: "I think you've charged my card twice and his once.", cn: "我想你们刷了我的卡两次，他的刷了一次。" },
+            { who: "服务员", en: "Let me look. ...You're right, I swapped the two cards.", cn: "我看一下。……您说得对，我把两张卡弄反了。" },
+            { who: "顾客", en: "Can you void the second one?", cn: "能把第二笔作废吗？" },
+            { who: "服务员", en: "I can void it, but the bank may hold it for three days.", cn: "能作废，但银行可能冻结三天。" },
+            { who: "顾客", en: "Three days is fine, as long as it doesn't become permanent.", cn: "三天可以，只要不会变成永久的。" },
+            { who: "服务员", en: "Here's the void slip with the reference. Keep it.", cn: "这是作废凭条，上面有单号。请留着。" },
+            { who: "顾客", en: "And his charge?", cn: "那他的那笔呢？" },
+            { who: "服务员", en: "His is correct. Yours will show as pending and then disappear.", cn: "他的没问题。您的那笔会显示待处理，然后消失。" },
+            { who: "顾客", en: "If it doesn't disappear, who do I call?", cn: "如果没消失，我打给谁？" },
+            { who: "服务员", en: "This number, quote the reference, and ask for me by name.", cn: "这个号码，报单号，指名找我。" }
+          ]
+        },
+        {
+          variant: "情绪型（朋友之间为钱尴尬）",
+          relation: "两位朋友 · 服务员",
+          register: "随意（尴尬）",
+          channel: "面对面（餐桌）",
+          barrier: "一个想请客，一个坚持各付各的，场面僵住",
+          result: "达成（对半分账，酒算请客一方的）",
+          lines: [
+            { who: "顾客甲", en: "Put it all on mine. It's my turn.", cn: "都记我账上。这次轮到我。" },
+            { who: "顾客乙", en: "It's never your turn. You paid last time and the time before.", cn: "从来没轮到你。上次和上上次都是你付的。" },
+            { who: "顾客甲", en: "I earn more. That's the whole reason.", cn: "我挣得多。就这个原因。" },
+            { who: "顾客乙", en: "And that's the whole reason I don't want you to.", cn: "这也正是我不想让你付的原因。" },
+            { who: "服务员", en: "...Shall I come back?", cn: "……我要不要待会儿再来？" },
+            { who: "顾客乙", en: "No. Two bills, please, split down the middle, even if the middle is unfair.", cn: "不用。两张单，对半分，哪怕对半分不公平。" },
+            { who: "顾客甲", en: "The wine was mine. Put the wine on mine.", cn: "酒是我喝的。把酒算我头上。" },
+            { who: "顾客乙", en: "That I'll accept.", cn: "这个我接受。" },
+            { who: "服务员", en: "So two bills, and the wine on the second.", cn: "那就是两张单，酒记在第二张。" },
+            { who: "顾客甲", en: "And next time we go somewhere cheaper, so this conversation doesn't happen.", cn: "下次我们找家便宜点的，就不用这么尴尬了。" }
+          ]
+        },
+        {
+          variant: "渠道变体（扫码结账）",
+          relation: "顾客 · 服务员（扫码支付）",
+          register: "中性",
+          channel: "手机扫码 + 服务员",
+          barrier: "扫码页面提示失败后又成功，重复扣了两笔",
+          result: "达成（凭条走应用退款，两天到账）",
+          lines: [
+            { who: "顾客", en: "The app said payment failed, so I paid again. Now it shows two payments.", cn: "应用说支付失败，所以我又付了一次。现在显示两笔。" },
+            { who: "服务员", en: "Let me see the screen. ...Both went through.", cn: "给我看屏幕。……两笔都成功了。" },
+            { who: "顾客", en: "The first one said failed, in red.", cn: "第一笔是红色显示失败的。" },
+            { who: "服务员", en: "It fails, then it succeeds, then it tells you it failed. It's the worst part of the system.", cn: "它先失败、再成功，然后告诉你失败。这是系统最糟的地方。" },
+            { who: "顾客", en: "Can you refund one here?", cn: "能在这儿退一笔吗？" },
+            { who: "服务员", en: "Not from the till. It has to go through the app's refund process.", cn: "收银台退不了。必须走应用的退款流程。" },
+            { who: "顾客", en: "How long?", cn: "多久？" },
+            { who: "服务员", en: "Two days, and I'll write the reference on your receipt so you don't have to explain it twice.", cn: "两天。我把单号写在您的收据上，省得您解释两遍。" },
+            { who: "顾客", en: "Writing it down is the useful part.", cn: "写下来这一点最有用。" },
+            { who: "服务员", en: "Everyone else just tells you to contact the app.", cn: "别人只会让您联系应用客服。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "公司代表 · 餐厅经理（开票）",
+          register: "正式",
+          channel: "面对面（收银台）",
+          barrier: "无（但需正式提出公司发票与明细要求）",
+          result: "达成（开具明细发票，服务费单列）",
+          lines: [
+            { who: "代表", en: "I should like to settle the account and request an invoice in the company's name.", cn: "我想结账，并申请一张公司抬头的发票。" },
+            { who: "经理", en: "Certainly. May I have the company details?", cn: "当然。请提供公司信息。" },
+            { who: "代表", en: "Here is the card. The invoice should show the full legal name and the tax number.", cn: "这是名片。发票上要写完整法定名称和税号。" },
+            { who: "经理", en: "Would you like the itemised version or the summary?", cn: "您要明细版还是汇总版？" },
+            { who: "代表", en: "Itemised, because our finance department will query anything unexplained.", cn: "明细版，因为财务部会对任何没写明的东西追问。" },
+            { who: "经理", en: "I shall also separate the service charge so that it can be treated correctly.", cn: "我还会把服务费单列，以便正确处理。" },
+            { who: "代表", en: "That is exactly the detail that causes trouble. Thank you.", cn: "正是这个细节最容易出问题。谢谢。" },
+            { who: "经理", en: "May I email it, or would you prefer it printed?", cn: "我可以邮件发，还是您希望打印？" },
+            { who: "代表", en: "Both. The printed copy for tonight, the email for the file.", cn: "都要。打印的今晚带走，邮件存档。" },
+            { who: "经理", en: "The email will reach you within the hour.", cn: "邮件一小时内到。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 服务员（分账）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（收银台）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "can we split it", cn: "能分开付吗" },
+            { who: "服务员", en: "how many ways", cn: "分几份" },
+            { who: "顾客", en: "three", cn: "三份" },
+            { who: "服务员", en: "even, or by what you had", cn: "平摊，还是按点的算" },
+            { who: "顾客", en: "even. he's not paying for my steak", cn: "平摊。他可不想替我的牛排付钱" },
+            { who: "服务员", en: "he had the steak", cn: "牛排是他点的" },
+            { who: "顾客", en: "then by what we had", cn: "那就按点的算" },
+            { who: "服务员", en: "sensible", cn: "明智" },
+            { who: "顾客", en: "he's still not paying for my wine", cn: "他也别想替我的酒付钱" },
+            { who: "服务员", en: "the wine was yours?", cn: "酒是你的？" },
+            { who: "顾客", en: "the wine was mine", cn: "酒是我的" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 01-10 购物试穿与退换货 ==================== */
+    {
+      id: "s01-10",
+      domain: "01",
+      title: "购物试穿与退换货",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "顾客 · 服装店店员",
+          register: "中性",
+          channel: "面对面（店铺）",
+          barrier: "无",
+          result: "达成（尺码不合换款，买到合身的）",
+          lines: [
+            { who: "顾客", en: "Could I try this in a medium?", cn: "这件能试中号吗？" },
+            { who: "店员", en: "The fitting rooms are at the back. How many items?", cn: "试衣间在后面。几件？" },
+            { who: "顾客", en: "Three. Is there a limit?", cn: "三件。有件数限制吗？" },
+            { who: "店员", en: "Six is the limit. Take the tag off this one first, or the alarm goes off.", cn: "限六件。先把这个的磁扣取下来，不然报警器会响。" },
+            { who: "顾客", en: "The medium is tight across the shoulders. Do you have a large?", cn: "中号肩膀有点紧。有大号吗？" },
+            { who: "店员", en: "Not in that colour. There is a large in navy.", cn: "这个颜色没有。藏青色有大号。" },
+            { who: "顾客", en: "I'd rather have the fit than the colour. Let me try the navy.", cn: "我宁愿合身，颜色其次。我试试藏青。" },
+            { who: "店员", en: "Here you are. The sleeves on that one are longer, by the way.", cn: "给您。顺便说一句，那款袖子长一些。" },
+            { who: "顾客", en: "Longer is what I need. I'll take it.", cn: "我就需要长一点。我要了。" },
+            { who: "店员", en: "Shall I keep the other two at the desk while you decide?", cn: "另外两件要不要先放柜台，您慢慢决定？" },
+            { who: "顾客", en: "Please. I'll be five minutes.", cn: "好。我五分钟。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "顾客 · 店长（超过退货期限）",
+          register: "半正式",
+          channel: "面对面（店铺）",
+          barrier: "无（但要靠商品状态与「无损失」论点争取）",
+          result: "达成（不退现金，给不过期的换货券）",
+          lines: [
+            { who: "顾客", en: "I'd like to return this. It's unused and I have the receipt.", cn: "我想退这件。没穿过，收据也在。" },
+            { who: "店长", en: "The receipt is from five weeks ago. Our policy is twenty-eight days.", cn: "收据是五周前的。我们的规定是二十八天。" },
+            { who: "顾客", en: "I know. I was abroad for three of those weeks, which is why I'm late rather than undecided.", cn: "我知道。其中三周我在国外，所以是晚了，而不是拿不定主意。" },
+            { who: "店长", en: "The policy doesn't have an exception for travel.", cn: "规定里没有旅行这一条例外。" },
+            { who: "顾客", en: "Then let me ask a different question: is the item resellable?", cn: "那我换个问题：这件还能再卖吗？" },
+            { who: "店长", en: "It is. Tags on, no marks.", cn: "能。标签还在，没有痕迹。" },
+            { who: "顾客", en: "So your loss is nothing, and mine is the whole price.", cn: "所以你们的损失是零，我的损失是全部货款。" },
+            { who: "店长", en: "...I can't refund it, but I can give you a credit note with no expiry.", cn: "……我不能退款，但可以给您一张不过期的换货券。" },
+            { who: "顾客", en: "No expiry, printed on the note?", cn: "不过期，印在券上？" },
+            { who: "店长", en: "Printed on it, and I'll note the reason in the system.", cn: "印在上面。另外我会在系统里记下原因。" },
+            { who: "顾客", en: "That is a fair outcome for a rule that isn't mine.", cn: "对一条不是我定的规则来说，这个结果算公道。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "顾客 · 店员（折扣商品有瑕疵）",
+          register: "中性",
+          channel: "面对面（店铺）",
+          barrier: "打折商品标明不退不换，但确实有瑕疵",
+          result: "折中（免费修补；修不好再退，写进单据）",
+          lines: [
+            { who: "顾客", en: "The label says no returns on sale items, and there's a pulled thread here.", cn: "标签写着打折商品不退，而这里有个抽丝。" },
+            { who: "店员", en: "Sale items are final, but a fault is different.", cn: "打折商品是最终销售，但有瑕疵就是另一回事。" },
+            { who: "顾客", en: "Is it a fault, or is it wear?", cn: "这算瑕疵，还是磨损？" },
+            { who: "店员", en: "Let me look under the light. ...It's a fault. The thread isn't cut, it's pulled.", cn: "我在灯下看看。……是瑕疵。线没断，是抽出来的。" },
+            { who: "顾客", en: "Then can I have a refund?", cn: "那能退款吗？" },
+            { who: "店员", en: "For sale items we repair or exchange. A refund is only for full price.", cn: "打折商品我们修或者换。只有正价才退款。" },
+            { who: "顾客", en: "I'd rather have it repaired, because there's no other one in my size.", cn: "我更愿意修，因为我的码没有别的了。" },
+            { who: "店员", en: "We have an alterations desk. Two days, no charge.", cn: "我们有修改台。两天，免费。" },
+            { who: "顾客", en: "And if the repair shows?", cn: "如果修补痕迹看得出来呢？" },
+            { who: "店员", en: "Then bring it back and we refund it, sale or not. I'll write that on the slip.", cn: "那您拿回来，不管打不打折我们都退款。我把这条写在单子上。" },
+            { who: "顾客", en: "Written on the slip is what makes that believable.", cn: "写在单子上才让人信。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "顾客 · 店员（线上线下规则不同）",
+          register: "中性",
+          channel: "面对面（店铺）",
+          barrier: "网上下单、门店退货，两边规则说法冲突",
+          result: "修复（查明是加盟店，改办等价换货）",
+          lines: [
+            { who: "顾客", en: "I bought this online and the size is wrong. Can I return it here?", cn: "我在网上买的，尺码不对。能在这儿退吗？" },
+            { who: "店员", en: "Online orders go back online.", cn: "网上的订单要退到网上。" },
+            { who: "顾客", en: "The website says I can return to any store in the group.", cn: "网站上写着可以退到集团旗下任何门店。" },
+            { who: "店员", en: "We're a franchise. The group stores are the ones in the city centre.", cn: "我们是加盟店。集团直营店是市中心那几家。" },
+            { who: "顾客", en: "So the website is right, and this shop is the exception.", cn: "所以网站没说错，这家店是例外。" },
+            { who: "店员", en: "That's about it. But I can do something else.", cn: "差不多是这样。不过我能做另一件事。" },
+            { who: "顾客", en: "What?", cn: "什么？" },
+            { who: "店员", en: "I'll exchange it for the right size from our stock and deal with the paperwork myself.", cn: "我从我们库存里给您换正确的码，单据我自己处理。" },
+            { who: "顾客", en: "That's better than a refund.", cn: "这比退款还好。" },
+            { who: "店员", en: "And take a photo of the website line, in case the next shop argues.", cn: "另外把网站那句话拍下来，免得下一家店跟您争。" }
+          ]
+        },
+        {
+          variant: "情绪型（出门时防盗门响）",
+          relation: "顾客 · 店员（防盗门报警）",
+          register: "中性（尴尬）",
+          channel: "面对面（店门口）",
+          barrier: "出门时报警器响，被当众拦下查看",
+          result: "达成（查明是他店未消磁的旧商品，店员道歉）",
+          lines: [
+            { who: "店员", en: "Excuse me. Could you come back inside for a moment?", cn: "不好意思。能请您回来一下吗？" },
+            { who: "顾客", en: "The alarm went off, yes. But I paid for everything.", cn: "报警器是响了。但东西我都付过钱了。" },
+            { who: "店员", en: "I have to check. It's the rule, not my opinion of you.", cn: "我必须查一下。这是规定，不是我针对您。" },
+            { who: "顾客", en: "I understand the rule. I'd like you to check somewhere less public.", cn: "我理解规定。我希望您换个不那么公开的地方查。" },
+            { who: "店员", en: "You're right. Let's use the desk at the back.", cn: "您说得对。我们去后面的柜台。" },
+            { who: "顾客", en: "The receipt is here, and the bag is untouched.", cn: "收据在这儿，袋子没动过。" },
+            { who: "店员", en: "...It's the coat. The tag is from another shop and was never deactivated.", cn: "……是这件外套。标签是另一家店的，从来没消磁。" },
+            { who: "顾客", en: "So it would have gone off in every shop I walked into today.", cn: "那我今天进的每家店都会响。" },
+            { who: "店员", en: "Probably. I'm sorry about the way I asked.", cn: "大概是。为我刚才的方式道歉。" },
+            { who: "顾客", en: "You asked politely. It was the doorway I minded.", cn: "您问得有礼貌。我介意的是站在门口。" }
+          ]
+        },
+        {
+          variant: "渠道变体（网购退货客服）",
+          relation: "顾客 · 网店客服",
+          register: "半正式",
+          channel: "在线客服",
+          barrier: "退货被系统按超时自动拒绝，实际是派送延误",
+          result: "达成（人工复核批准，免费退货标签并延长窗口）",
+          lines: [
+            { who: "顾客", en: "My return was refused automatically. The reason says outside the window.", cn: "我的退货被自动拒绝了。理由写的是超出时限。" },
+            { who: "客服", en: "When did it arrive?", cn: "什么时候到的？" },
+            { who: "顾客", en: "The twelfth. I applied on the tenth of the following month.", cn: "十二号。我是在下个月十号申请的。" },
+            { who: "客服", en: "That is two days outside thirty. It's automated, so it can't see context.", cn: "超出三十天两天。是系统自动判断，看不出具体情况。" },
+            { who: "顾客", en: "The context is that nobody was home to receive it and it sat at the depot.", cn: "具体情况是家里没人收，它在快递站放了一周。" },
+            { who: "客服", en: "Do you have the delivery notification?", cn: "您有派送通知吗？" },
+            { who: "顾客", en: "Here. First attempt on the eighteenth.", cn: "有。第一次派送是十八号。" },
+            { who: "客服", en: "Then the clock should start then, not on the twelfth. I'll approve it.", cn: "那时限就该从十八号算，不是十二号。我批准。" },
+            { who: "顾客", en: "Will the return label cost me anything?", cn: "退货标签要我付钱吗？" },
+            { who: "客服", en: "Not when it's our error. Free label, and I'll extend the window by a week in the system.", cn: "是我们的问题就不收费。免费标签，我在系统里给你延一周。" },
+            { who: "顾客", en: "That will save me arguing again.", cn: "这省得我再争一次。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "顾客 · 百货商店客服经理",
+          register: "正式",
+          channel: "面对面（客服办公室）",
+          barrier: "无（但需正式陈述问题并提供证据）",
+          result: "达成（全额退到原卡，并反馈修改洗护标签）",
+          lines: [
+            { who: "经理", en: "You wished to raise a matter about a purchase. Please go ahead.", cn: "您想就一笔购物提出事项。请讲。" },
+            { who: "顾客", en: "I bought a coat on the ninth of March. The lining has split after four wears.", cn: "我三月九日买了一件外套。穿了四次里衬就裂了。" },
+            { who: "经理", en: "Do you have the receipt and the item?", cn: "您有收据和商品吗？" },
+            { who: "顾客", en: "Both, and photographs of the split taken before I brought it in.", cn: "都有，还有送来之前拍的裂口照片。" },
+            { who: "经理", en: "Has it been worn in the rain, or cleaned?", cn: "淋过雨或者洗过吗？" },
+            { who: "顾客", en: "It has been worn outdoors. It has not been cleaned, and the care label says nothing about rain.", cn: "在户外穿过。没有洗过，而且洗护标签上没提到雨。" },
+            { who: "经理", en: "I accept that. Our position is that a refund is available within six months for a manufacturing fault.", cn: "这一点我接受。我们的立场是：制造缺陷在六个月内可以全额退款。" },
+            { who: "顾客", en: "Then we agree on the principle. May I have it refunded to the original card?", cn: "那我们在原则上一致。可以退到原卡吗？" },
+            { who: "经理", en: "You may. I shall process it today and email the confirmation.", cn: "可以。我今天处理，并邮件确认。" },
+            { who: "顾客", en: "Thank you. I would also suggest the care label be amended.", cn: "谢谢。我还建议修改洗护标签。" },
+            { who: "经理", en: "I shall pass that to the buyer, which is more useful than an apology.", cn: "我会转告采购，这比道歉更有用。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "顾客 · 店员（试衣间）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（试衣间）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "顾客", en: "got this in a small", cn: "这件有小号吗" },
+            { who: "店员", en: "what size is that", cn: "你拿的什么码" },
+            { who: "顾客", en: "medium", cn: "中号" },
+            { who: "店员", en: "small's on the rail outside", cn: "小号在外面架子上" },
+            { who: "顾客", en: "tried it. too tight", cn: "试了。太紧" },
+            { who: "店员", en: "tight where", cn: "哪儿紧" },
+            { who: "顾客", en: "everywhere", cn: "哪儿都紧" },
+            { who: "店员", en: "then it's not your size", cn: "那就不是你的码" },
+            { who: "顾客", en: "i'll take the medium", cn: "我要中号" },
+            { who: "店员", en: "sensible", cn: "明智" }
+          ]
+        }
+      ]
     }
   ];
 
