@@ -4673,6 +4673,355 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 01-06 酒店入住 ==================== */
+    {
+      id: "s01-06",
+      domain: "01",
+      title: "酒店入住",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "旅客 · 酒店前台",
+          register: "半正式",
+          channel: "面对面（酒店前台）",
+          barrier: "无",
+          result: "达成（换成朝院安静房间，问清行李寄存）",
+          lines: [
+            { who: "旅客", en: "Hi, I have a reservation under Reid, two nights.", cn: "你好，我用 Reid 的名字订了房，两晚。" },
+            { who: "前台", en: "Passport, please. ...Breakfast is included, seven to ten.", cn: "请给护照。……含早餐，七点到十点。" },
+            { who: "旅客", en: "Is the room on the street side? I'm a light sleeper.", cn: "房间是朝街那面吗？我睡觉轻。" },
+            { who: "前台", en: "It is. Would you like the courtyard side? Same price, slightly smaller.", cn: "是的。您要朝院子那面吗？同价，稍微小一点。" },
+            { who: "旅客", en: "Smaller and quiet beats bigger and loud.", cn: "小一点安静，比大一点吵强。" },
+            { who: "前台", en: "Then I'll move you. Room two oh four, courtyard, top floor.", cn: "那我给您换。二〇四房，朝院，顶层。" },
+            { who: "旅客", en: "Is there a lift?", cn: "有电梯吗？" },
+            { who: "前台", en: "There is, but it stops at three. Yours is one flight up from there.", cn: "有，但只到三楼。您那层还要上一层。" },
+            { who: "旅客", en: "With one suitcase that's fine. Can I leave a bag here after check-out?", cn: "一个箱子没问题。退房后能寄存行李吗？" },
+            { who: "前台", en: "Free until six, then three euros a day.", cn: "六点前免费，之后每天三欧。" },
+            { who: "旅客", en: "Then I'll be back before six.", cn: "那我六点前回来。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "旅客 · 值班经理（房型不符）",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "无（但要拿预订确认说服对方）",
+          result: "达成（明天换房 + 今晚按标准间收费退差价）",
+          lines: [
+            { who: "旅客", en: "I booked a room with a desk and a fridge. There's neither.", cn: "我订的是带书桌和冰箱的房间。两样都没有。" },
+            { who: "经理", en: "That's a standard room. The description may have been aspirational.", cn: "那是标准间。描述可能有点理想化。" },
+            { who: "旅客", en: "It wasn't a description, it was the confirmation. Here, page two: desk, fridge, quiet side.", cn: "不是描述，是确认单。这里，第二页：书桌、冰箱、安静一侧。" },
+            { who: "经理", en: "I see it.", cn: "我看到了。" },
+            { who: "旅客", en: "I'd rather have the room than an argument. Do you have one that matches?", cn: "我宁愿要房间，也不想吵架。你们有符合的吗？" },
+            { who: "经理", en: "Not tonight. Tomorrow we have one.", cn: "今晚没有。明天有一间。" },
+            { who: "旅客", en: "Then two options: move me tomorrow, or charge the standard rate tonight and refund the difference.", cn: "那两个选择：明天给我换房，或者今晚按标准间收费、退还差价。" },
+            { who: "经理", en: "I'll do both. Move tomorrow at ten, and tonight at the standard rate.", cn: "两件我都做。明天十点换房，今晚按标准间价。" },
+            { who: "旅客", en: "Then I have nothing to complain about.", cn: "那我就没什么可抱怨的了。" },
+            { who: "经理", en: "You had something to complain about an hour ago. I'd rather fix it than read it in a review.", cn: "一小时前您确实有。我宁愿现在解决，也不想在点评里读到。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "旅客 · 酒店前台（早班机到达）",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "早上七点想入住，而规定是下午三点",
+          result: "折中（存行李 + 用泳池淋浴 + 排到两点打扫名单第一位）",
+          lines: [
+            { who: "旅客", en: "My flight landed at seven. Is there any chance of checking in now?", cn: "我的航班七点落地。现在能办入住吗？" },
+            { who: "前台", en: "Check-in is at three. The room is still being cleaned.", cn: "入住时间是三点。房间还在打扫。" },
+            { who: "旅客", en: "I've been awake since four. What can you do?", cn: "我四点就醒了。你们能做什么？" },
+            { who: "前台", en: "I can't give you the room, but I can do three things.", cn: "房间我给不了，但我能做三件事。" },
+            { who: "旅客", en: "Go on.", cn: "请说。" },
+            { who: "前台", en: "Store your bags, give you a card for the pool and showers, and put you first on the cleaning list for two o'clock.", cn: "存行李，给你一张泳池和淋浴的卡，并把你排到两点打扫名单的第一位。" },
+            { who: "旅客", en: "Two o'clock I can live with. Is there coffee anywhere?", cn: "两点我能接受。哪里能喝到咖啡？" },
+            { who: "前台", en: "The bar opens at nine, but I'll bring you one now from the office machine.", cn: "酒吧九点开，但我现在从办公室的机器给你端一杯。" },
+            { who: "旅客", en: "That's the thing I actually needed.", cn: "这才是我真正需要的。" },
+            { who: "前台", en: "Most people say the room. It's never the room at seven in the morning.", cn: "大部分人说房间。早上七点谁都缺的从来不是房间。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "旅客 · 酒店前台（房卡失灵）",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "房卡三次失灵，还发现房间已被另一位客人占用",
+          result: "修复（换到三〇五并查明是系统重复分配）",
+          lines: [
+            { who: "旅客", en: "The key won't work. Third time.", cn: "房卡不行。第三次了。" },
+            { who: "前台", en: "Let me re-code it. ...It should work now.", cn: "我重新写一下。……现在应该可以。" },
+            { who: "旅客", en: "It didn't. And there's someone else's suitcase in the room.", cn: "还是不行。而且房间里有别人的行李箱。" },
+            { who: "前台", en: "...That shouldn't be possible.", cn: "……这不可能。" },
+            { who: "旅客", en: "It is possible. I'd rather not walk in on them again.", cn: "就是发生了。我不想再撞见他们一次。" },
+            { who: "前台", en: "I'm sorry. Let me look at the system. ...You were both assigned two eleven.", cn: "抱歉。我看一下系统。……你们两位都被分到了二一一。" },
+            { who: "旅客", en: "So whoever arrived second just opened the door.", cn: "所以后到的那位直接就开门进去了。" },
+            { who: "前台", en: "Effectively. I'm moving you to three oh five, a better room, and I'll walk you up myself.", cn: "可以这么说。我给您换到三〇五，更好的房间，我亲自送您上去。" },
+            { who: "旅客", en: "And the other guest?", cn: "那另一位客人呢？" },
+            { who: "前台", en: "She keeps two eleven. She has unpacked.", cn: "她留着二一一。她已经把行李打开了。" },
+            { who: "旅客", en: "Then three oh five is fine.", cn: "那三〇五可以。" }
+          ]
+        },
+        {
+          variant: "情绪型（凌晨两点被施工吵）",
+          relation: "旅客 · 酒店前台（深夜）",
+          register: "半正式（极度疲惫）",
+          channel: "面对面（前台，深夜）",
+          barrier: "凌晨到达，房间朝施工一侧，噪音不断",
+          result: "达成（换到朝院房间 + 免费延迟退房）",
+          lines: [
+            { who: "旅客", en: "I'm sorry. I know it's two in the morning and I'm the fourth person to complain.", cn: "抱歉。我知道现在是凌晨两点，而我是第四个来投诉的人。" },
+            { who: "前台", en: "You are, and all four of you are on the fifth floor.", cn: "确实是，而且你们四个人都在五楼。" },
+            { who: "旅客", en: "It's drilling. At two in the morning.", cn: "是电钻。凌晨两点。" },
+            { who: "前台", en: "That isn't us, it's the site next door. It has been going on for a month.", cn: "那不是我们，是隔壁工地。已经持续一个月了。" },
+            { who: "旅客", en: "I've been travelling for nineteen hours. I'm not going to be reasonable about this.", cn: "我已经在路上十九个小时了。这件事上我讲不了道理了。" },
+            { who: "前台", en: "You don't have to be. I have one room on the courtyard side and I'm giving it to you.", cn: "您不用讲道理。我有一间朝院的房，给您。" },
+            { who: "旅客", en: "Why not to the other three?", cn: "为什么不给另外三个人？" },
+            { who: "前台", en: "Because you asked last and I've run out. I'll move them in the morning and tell them why.", cn: "因为您问得最晚，我已经分完了。早上我会给他们换，并说明原因。" },
+            { who: "旅客", en: "That's honest. I'll take it.", cn: "这话实在。我要了。" },
+            { who: "前台", en: "And I've put a late check-out on your booking, free of charge. Sleep in.", cn: "另外我在您的订单上免费加了延迟退房。睡到自然醒吧。" },
+            { who: "旅客", en: "...Thank you. That's the first kind thing today.", cn: "……谢谢。这是今天第一件暖心的事。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 自助入住机）",
+          relation: "旅客 · 自助入住机 + 前台",
+          register: "半正式",
+          channel: "自助机 + 前台",
+          barrier: "自助机查不到平台订单，无法取卡入住",
+          result: "达成（柜台九十秒手工办好，并说明下次怎么走）",
+          lines: [
+            { who: "旅客", en: "The machine says my reservation isn't found.", cn: "机器说找不到我的预订。" },
+            { who: "前台", en: "Did you book directly or through a site?", cn: "您是在我们这儿订的，还是通过平台？" },
+            { who: "旅客", en: "Through a site. I have the number.", cn: "通过平台。我有确认号。" },
+            { who: "前台", en: "The machine only sees direct bookings. That's why.", cn: "机器只看得到直销订单。就是这个原因。" },
+            { who: "旅客", en: "Then why does it offer to check me in?", cn: "那它为什么还让我办入住？" },
+            { who: "前台", en: "Because the screen is the same one we use. It's a design decision I disagree with.", cn: "因为屏幕跟我们用的是一样的。这个设计我不同意。" },
+            { who: "旅客", en: "Can you do it here?", cn: "你能在这儿办吗？" },
+            { who: "前台", en: "Already done. Room four one two, breakfast until ten.", cn: "已经办好了。四一二房，早餐到十点。" },
+            { who: "旅客", en: "Should I use the machine next time?", cn: "下次我该用机器吗？" },
+            { who: "前台", en: "Book direct and yes. Otherwise come here, it takes ninety seconds.", cn: "直接在我们这儿订就用机器。不然就来柜台，九十秒的事。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "旅客 · 宾客关系经理",
+          register: "正式",
+          channel: "面对面（大堂）",
+          barrier: "无（但需正式提出并书面确认特殊安排）",
+          result: "达成（房内早餐与临时办公空间均书面确认）",
+          lines: [
+            { who: "经理", en: "Welcome, Mr Reid. I am the guest relations manager. May I confirm the arrangements for your stay?", cn: "欢迎，Reid 先生。我是宾客关系经理。我确认一下您此次住宿的安排，可以吗？" },
+            { who: "旅客", en: "Please. I should say at once that I have a meeting each morning at eight.", cn: "请。我先说明，我每天早上八点有会。" },
+            { who: "经理", en: "Then I shall have breakfast served in your room at half past six, unless you prefer the restaurant.", cn: "那我安排六点半把早餐送到您房间，除非您更想去餐厅。" },
+            { who: "旅客", en: "In the room, and a pot of coffee rather than a cup.", cn: "送房间，而且要一壶咖啡，不是一杯。" },
+            { who: "经理", en: "Noted. And your other requirement?", cn: "记下了。还有您另一项要求？" },
+            { who: "旅客", en: "I need a quiet place to take calls between eleven and one. A meeting room would be excessive.", cn: "我需要一个安静的地方在十一点到一点之间打电话。会议室太夸张了。" },
+            { who: "经理", en: "The library on the first floor is unused in the morning. I shall reserve it and put a sign on the door.", cn: "一楼的图书室上午没人用。我把它预留出来，门上挂个牌子。" },
+            { who: "旅客", en: "That is precisely what I needed. Could I have both in writing?", cn: "这正是我需要的。两项都能书面确认吗？" },
+            { who: "经理", en: "I shall email them within the hour, together with my direct number.", cn: "我一小时内邮件发给您，并附我的直线电话。" },
+            { who: "旅客", en: "Thank you. That is more efficient than most hotels manage.", cn: "谢谢。这比大多数酒店都高效。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "背包客 · 青年旅舍前台",
+          register: "随意（极简、俚语）",
+          channel: "面对面（青旅前台）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "旅客", en: "got a bed for two nights", cn: "有两晚的床位吗" },
+            { who: "前台", en: "dorm or private", cn: "床位还是单间" },
+            { who: "旅客", en: "cheapest", cn: "最便宜的" },
+            { who: "前台", en: "dorm. six beds. top bunk left", cn: "床位。六人间。左上铺" },
+            { who: "旅客", en: "is it loud", cn: "吵吗" },
+            { who: "前台", en: "it's a hostel", cn: "这是青旅" },
+            { who: "旅客", en: "fair. i'll take it", cn: "有道理。我要了" },
+            { who: "前台", en: "towel's two euro", cn: "毛巾两欧" },
+            { who: "旅客", en: "i'll use my shirt", cn: "我用我的衬衫" },
+            { who: "前台", en: "everyone does", cn: "大家都这样" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 01-07 酒店退房与投诉 ==================== */
+    {
+      id: "s01-07",
+      domain: "01",
+      title: "酒店退房与投诉",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "旅客 · 酒店前台",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "无",
+          result: "达成（逐条核对账单后退房）",
+          lines: [
+            { who: "旅客", en: "Checking out, room two oh four.", cn: "退房，二〇四房。" },
+            { who: "前台", en: "Did you use the minibar?", cn: "您用过迷你吧吗？" },
+            { who: "旅客", en: "Two waters. Everything else is as it was.", cn: "两瓶水。其他都没动。" },
+            { who: "前台", en: "That's six euros. Anything from the restaurant?", cn: "六欧。餐厅有消费吗？" },
+            { who: "旅客", en: "One dinner on Tuesday, charged to the room.", cn: "周二一顿晚餐，挂在房账上。" },
+            { who: "前台", en: "I have it. Total is one hundred and eighty-four.", cn: "有记录。总共一百八十四。" },
+            { who: "旅客", en: "Could I see the breakdown before I pay?", cn: "付款前能看一下明细吗？" },
+            { who: "前台", en: "Of course. ...Two nights, dinner, two waters, city tax.", cn: "当然。……两晚、晚餐、两瓶水、城市税。" },
+            { who: "旅客", en: "The city tax I didn't know about, but it's on the door card, so that one is my fault for not reading it.", cn: "城市税我不知道，但门卡上写了，所以这个是我自己没看。" },
+            { who: "前台", en: "Most people say that. Everyone pays it.", cn: "大部分人都这么说。每个人都要付。" },
+            { who: "旅客", en: "Card. And can I leave my bag until five?", cn: "刷卡。行李能存到五点吗？" },
+            { who: "前台", en: "Until six, free of charge.", cn: "到六点，免费。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "旅客 · 前台主管（账单有错）",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "无（但要逐条核对并说清为什么不是自己的账）",
+          result: "达成（两笔误记撤销并直接退款到卡）",
+          lines: [
+            { who: "旅客", en: "There are two charges here I don't recognise.", cn: "这里有两笔我不认识的收费。" },
+            { who: "主管", en: "Which ones?", cn: "哪两笔？" },
+            { who: "旅客", en: "Room service on Wednesday, and a laundry charge. I checked in on Wednesday evening.", cn: "周三的客房送餐，还有一笔洗衣费。我周三晚上才入住。" },
+            { who: "主管", en: "The room service must be the previous guest.", cn: "客房送餐应该是上一位客人。" },
+            { who: "旅客", en: "It would have to be. And the laundry was signed with a room number rather than a name.", cn: "那只能是。洗衣那笔签的是房号，不是姓名。" },
+            { who: "主管", en: "Let me pull the slips. ...Both are signed R. Reed, with two e's. You are Reid.", cn: "我把签单调出来。……两笔签的都是 R. Reed，两个 e。您是 Reid。" },
+            { who: "旅客", en: "So the same guest, twice, on my bill.", cn: "所以是同一位客人，两次记在我账上。" },
+            { who: "主管", en: "Both removed, and I'll refund the card rather than adjust the bill.", cn: "两笔都撤销，而且我直接退到卡上，而不是改账单。" },
+            { who: "旅客", en: "Why refund rather than adjust?", cn: "为什么是退款而不是改账？" },
+            { who: "主管", en: "Because you have already paid. Adjusting would mean you chasing us for the money.", cn: "因为您已经付过了。改账意味着您要追着我们要钱。" },
+            { who: "旅客", en: "That is the first time a hotel has thought that through.", cn: "这是第一次有酒店把这一步想到。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "旅客 · 酒店前台",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "要求延迟到六点被拒（当晚满房），且干洗被收费",
+          result: "折中（改到两点 + 免掉有瑕疵的干洗费）",
+          lines: [
+            { who: "旅客", en: "Could I keep the room until six? My flight is at nine.", cn: "房间能留到六点吗？我的航班是九点。" },
+            { who: "前台", en: "I can't. We're full tonight and housekeeping needs the block.", cn: "不行。今晚满房，客房部要整层打扫。" },
+            { who: "旅客", en: "Then two o'clock?", cn: "那两点呢？" },
+            { who: "前台", en: "Two o'clock I can do, at half the nightly rate.", cn: "两点可以，收半晚房价。" },
+            { who: "旅客", en: "Half is more than I expected for two hours.", cn: "两个小时收半晚，比我预想的多。" },
+            { who: "前台", en: "It's a fixed rate, not a calculation. But there is something else I can do.", cn: "这是固定价，不是算出来的。不过还有一件我能做的。" },
+            { who: "旅客", en: "Go on.", cn: "请说。" },
+            { who: "前台", en: "The dry cleaning you were charged for came back with a mark on the collar. I'll take that off the bill.", cn: "您被收的那笔干洗，衣服领子上留了个印子。那笔我从账单上免掉。" },
+            { who: "旅客", en: "You knew about that?", cn: "你知道这件事？" },
+            { who: "前台", en: "It was in the log this morning. Nobody had told you.", cn: "今早记在交接本上。没人告诉您。" },
+            { who: "旅客", en: "Then two o'clock, and thank you for reading the log.", cn: "那就两点，谢谢你看了交接本。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "旅客 · 前台 + 行李员",
+          register: "半正式",
+          channel: "面对面（前台）",
+          barrier: "寄存的行李被放上团队行李车，找不到",
+          result: "修复（凭行李牌找到，赶在出发前取出）",
+          lines: [
+            { who: "旅客", en: "I left one bag here at eleven. It isn't in the store room.", cn: "我十一点存了一件行李。寄存间里没有。" },
+            { who: "前台", en: "What does it look like?", cn: "什么样子？" },
+            { who: "旅客", en: "Black, hard shell, with a red tag showing my flight number.", cn: "黑色硬壳，一个红色行李牌，上面有我的航班号。" },
+            { who: "前台", en: "There's a black hard shell in the group area. It came in with a tour group at noon.", cn: "团队区有个黑色硬壳。中午跟一个旅行团一起进来的。" },
+            { who: "旅客", en: "Mine was tagged. Was that one?", cn: "我那件有牌子。那件有吗？" },
+            { who: "前台", en: "It has a tag, but the number belongs to a tour company.", cn: "有牌子，但号码是旅行社的。" },
+            { who: "旅客", en: "Mine is the flight number. Can we look? My taxi is in twenty minutes.", cn: "我的是航班号。能看看吗？我的车二十分钟后到。" },
+            { who: "前台", en: "I'll take you through now. ...Is this it?", cn: "我现在带您过去。……是这件吗？" },
+            { who: "旅客", en: "That's it. It was put on the wrong trolley.", cn: "就是它。它被放错车了。" },
+            { who: "前台", en: "The tag was facing down. That is how it happened, and it isn't good enough.", cn: "行李牌朝下了。就是这么弄错的，这不合格。" },
+            { who: "旅客", en: "I have my bag and nine minutes. Let's leave it there.", cn: "我拿到包了，还有九分钟。就这样吧。" }
+          ]
+        },
+        {
+          variant: "情绪型（三次投诉无果）",
+          relation: "旅客 · 值班经理（投诉）",
+          register: "半正式（情绪化）",
+          channel: "面对面（大堂）",
+          barrier: "连续三晚没有热水，前两次投诉没有任何记录",
+          result: "达成（工程师即刻到场 + 免一晚半价两晚 + 具名书面致歉）",
+          lines: [
+            { who: "旅客", en: "This is the third time I have come to this desk about the hot water.", cn: "这是我第三次来这个柜台说热水的事。" },
+            { who: "经理", en: "I can see two notes on the file.", cn: "我看到档案上有两条记录。" },
+            { who: "旅客", en: "Two notes and three visits. The first one I made at eight in the morning and nobody wrote it down.", cn: "两条记录，三次来访。第一次是早上八点来的，没人记下来。" },
+            { who: "经理", en: "That is our failure, and I'm not going to explain it away.", cn: "这是我们的失误，我不打算找理由解释掉。" },
+            { who: "旅客", en: "I've had cold showers for three days. I'm not angry about the water any more. I'm angry about the notes.", cn: "我洗了三天冷水澡。我已经不为水生气了。我是为那些记录生气。" },
+            { who: "经理", en: "Understood. Here is what I'm doing: an engineer within twenty minutes, and the first night taken off the bill.", cn: "明白。我这么做：二十分钟内工程师到，账单上第一晚免掉。" },
+            { who: "旅客", en: "And the other two nights?", cn: "那另外两晚呢？" },
+            { who: "经理", en: "At half rate, and a written apology from the general manager, by name.", cn: "按半价，还有总经理具名的书面道歉。" },
+            { who: "旅客", en: "I would rather have had the hot water.", cn: "我宁愿一开始就有热水。" },
+            { who: "经理", en: "So would I. That's the honest answer.", cn: "我也是。这是实话。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 退房后又被扣费）",
+          relation: "旅客 · 酒店客服（线上）",
+          register: "半正式",
+          channel: "App 退房 + 电话",
+          barrier: "线上退房显示已结清，随后又被扣迷你吧费用",
+          result: "达成（查明是感应器误报，三个工作日退款）",
+          lines: [
+            { who: "旅客", en: "I checked out on the app last night and I've just been charged again.", cn: "我昨晚在应用上退了房，刚才又被扣了一笔。" },
+            { who: "客服", en: "Let me see. It's the minibar sensor. Four euros.", cn: "我看一下。是迷你吧感应器，四欧。" },
+            { who: "旅客", en: "I didn't open the minibar.", cn: "我没开迷你吧。" },
+            { who: "客服", en: "The sensor registers movement, not removal. Did you move anything to reach the socket?", cn: "感应器记录的是移动，不是拿走。您为了插电挪动过什么吗？" },
+            { who: "旅客", en: "I moved a bottle to plug in my laptop.", cn: "我为了插笔记本挪了一瓶。" },
+            { who: "客服", en: "Then it's a false charge. We get about two of these a month and we refund every one.", cn: "那就是误扣。每月大概两起，我们每一起都退。" },
+            { who: "旅客", en: "Should I have told someone?", cn: "我该告诉谁吗？" },
+            { who: "客服", en: "You could, but the sensor should know the difference. I'll report it.", cn: "可以，但感应器本该分得出来。我会反馈。" },
+            { who: "旅客", en: "And the refund?", cn: "退款呢？" },
+            { who: "客服", en: "Three working days. If it doesn't arrive, call me on the extension in this email.", cn: "三个工作日。如果没到，打这封邮件里的分机找我。" },
+            { who: "旅客", en: "Ninety seconds on the phone. That is better than most.", cn: "电话九十秒解决。比大多数都好。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "旅客 · 酒店总经理",
+          register: "正式",
+          channel: "面对面（办公室）",
+          barrier: "无（但需正式陈述并接受正式答复）",
+          result: "达成（五日内具名书面答复，说明制度变更）",
+          lines: [
+            { who: "总经理", en: "Thank you for agreeing to see me rather than simply writing a review.", cn: "谢谢您愿意来见我，而不是直接写点评。" },
+            { who: "旅客", en: "I wrote to you first because the matter is not about money.", cn: "我先写信给您，是因为这件事不是钱的问题。" },
+            { who: "总经理", en: "Then state it, and I shall not interrupt.", cn: "那请您陈述，我不打断。" },
+            { who: "旅客", en: "On the second night, a member of staff entered my room at eleven without knocking, while I was asleep.", cn: "第二晚，一名员工在十一点没有敲门就进了我的房间，当时我在睡觉。" },
+            { who: "总经理", en: "That should never happen, and the door has a chain and a Do Not Disturb sign.", cn: "这绝不该发生，而且门上有链锁和请勿打扰牌。" },
+            { who: "旅客", en: "Both were in use. The person had a master key and did not announce themselves.", cn: "两样都用了。那人有总卡，也没有出声。" },
+            { who: "总经理", en: "I have read the access log. The entry is recorded at eleven oh four, and there was no reason for it.", cn: "我看了门禁记录。十一点零四分有进入记录，而没有任何理由。" },
+            { who: "旅客", en: "What I want is not compensation. It is a written reply stating what has changed.", cn: "我要的不是赔偿。我要一封书面答复，说明改了什么。" },
+            { who: "总经理", en: "You shall have it within five working days, signed by me, describing the retraining and the change to the master key policy.", cn: "五个工作日内给您，由我签署，写明重新培训的内容和总卡政策的变更。" },
+            { who: "旅客", en: "Then I shall consider the matter closed.", cn: "那我就认为此事了结。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "旅客 · 青年旅舍前台（退房）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（前台）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "旅客", en: "checking out", cn: "退房" },
+            { who: "前台", en: "room", cn: "房号" },
+            { who: "旅客", en: "six", cn: "六" },
+            { who: "前台", en: "towel", cn: "毛巾" },
+            { who: "旅客", en: "didn't take one", cn: "我没拿" },
+            { who: "前台", en: "everyone says that", cn: "大家都这么说" },
+            { who: "旅客", en: "i used my shirt", cn: "我用的是衬衫" },
+            { who: "前台", en: "yeah, i remember", cn: "对，我记得" },
+            { who: "旅客", en: "was i that obvious", cn: "我这么明显吗" },
+            { who: "前台", en: "you were the only one in a shirt", cn: "你是唯一一个穿衬衫的" }
+          ]
+        }
+      ]
     }
   ];
 
