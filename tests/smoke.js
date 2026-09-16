@@ -334,46 +334,57 @@ try {
   if ((dHtml().match(/class="dlgpick-item/g) || []).length !== 0) problems.push("再点一次域标题应该收起");
   console.log("  再点一次一级标题：收起 ✔");
 
-  // 选中一段 → 收起选择器，直接呈现对话；每句配 美 / 英
+  // 选中一段 → 收起选择器，直接呈现对话（朗读按钮已去掉）
   const scn0 = SC.scenarios[0];
   const d0 = scn0.dialogues[0];
   dclick({ "data-dlgseg": scn0.id + ":0" });
   const selHtml = dHtml();
-  ["dlgline", "dlgen", "dlgcn", "dlgsaygroup"].forEach((c) => {
+  ["dlgline", "dlgen", "dlgcn"].forEach((c) => {
     if (selHtml.indexOf(c) < 0) problems.push("选中后缺少 " + c);
   });
-  if (selHtml.indexOf('data-dlgsay="us"') < 0 || selHtml.indexOf('data-dlgsay="uk"') < 0) {
-    problems.push("每句要同时有美音和英音两个朗读按钮");
+  if (selHtml.indexOf("dlgsay") >= 0 || selHtml.indexOf("dlgspeak") >= 0) {
+    problems.push("朗读按钮应该已经全部去掉");
   }
   if (selHtml.indexOf(d0.lines[0].en) < 0) problems.push("选中的对话正文没出现");
   if (selHtml.indexOf("dlgpick-list") >= 0) problems.push("选完应收起选项列表");
   if (selHtml.indexOf("dlgwho") >= 0) problems.push("不该再显示说话人姓名");
   if (selHtml.indexOf("整条朗读") >= 0) problems.push("不该再有「整条朗读」");
-  const dom0 = SC.domains.filter((x) => x.id === scn0.domain)[0];
   if (selHtml.indexOf(scn0.title + " · " + d0.variant) < 0) problems.push("选择器没显示「场景 · 变体」");
   if (pickLabels.length !== segTotal) problems.push("选项总数不对：" + pickLabels.length);
-  void dom0;
-  console.log("  选中一段：" + d0.lines.length + " 句 + 美/英双朗读，无姓名/无标签/无整条朗读 ✔");
+  console.log("  选中一段：" + d0.lines.length + " 句，无姓名/无标签/无朗读按钮 ✔");
 
-  // 目标完成框：一个课题（场景）8 段，每段后面挂 掌握 / 练习，进度存本机
-  if (selHtml.indexOf("dlggoal") < 0) problems.push("选中后没有目标完成框");
-  const goalRows = (selHtml.match(/class="dlggoalrow/g) || []).length;
-  if (goalRows !== scn0.dialogues.length) {
-    problems.push("目标完成框应有 " + scn0.dialogues.length + " 行，实际 " + goalRows);
+  // 再点一次同一个二级标题 → 取消选中，对话收起
+  dclick({ "data-dlgpick": "1" });                      // 重新打开下拉（会自动展开当前选中的域）
+  if (dHtml().indexOf("dlgpick-row is-active") < 0) problems.push("选中的那行应该有选中样式");
+  if (dHtml().indexOf('class="dlgdomlabel is-open is-active"') < 0) {
+    problems.push("含当前选中的一级标题应该有选中样式");
   }
-  if (selHtml.indexOf(">掌握<") < 0 || selHtml.indexOf(">练习<") < 0) {
-    problems.push("目标完成框缺少 掌握 / 练习 按钮");
+  dclick({ "data-dlgseg": scn0.id + ":0" });            // 再点一次 = 取消
+  const afterCancel = dHtml();
+  if (afterCancel.indexOf("dlgline") >= 0) problems.push("取消选中后对话应该收起");
+  if (afterCancel.indexOf("dlgpick-row is-active") >= 0) problems.push("取消选中后不该还有选中行");
+  if (afterCancel.indexOf("dlgpick-list") < 0) problems.push("取消选中后下拉应该还开着，方便再选");
+  console.log("  再点一次二级标题：取消选中、对话收起、下拉还在 ✔");
+
+  // 掌握 / 练习 就在下拉框的每一行右边（不再有单独的目标完成框）
+  const rowCount = (afterCancel.match(/class="dlgpick-row/g) || []).length;
+  const markCount = (afterCancel.match(/class="dlgmark /g) || []).length;
+  if (markCount !== rowCount * 2) {
+    problems.push("每行应有 掌握 + 练习 两个键：" + markCount + " / " + rowCount);
   }
+  if (afterCancel.indexOf("dlggoal") >= 0) problems.push("不该再有独立的目标完成框");
+  if (afterCancel.indexOf("今天掌握") < 0) problems.push("下拉框里应有今日进度一行");
   const goalState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-dialogue-goal") || '{"mark":{}}');
   const k0 = scn0.id + ":0", k1 = scn0.id + ":1";
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if ((goalState().mark[k0] || {}).s !== "ok") problems.push("点「掌握」没有记下来");
   if (dHtml().indexOf("今天掌握 <b>1</b>") < 0) problems.push("今天掌握数没有加到 1");
+  if (dHtml().indexOf("dlgline") >= 0) problems.push("点掌握不该把对话选出来");
   dclick({ "data-dlgmark": "practice", "data-dlgkey": k1 });
   if ((goalState().mark[k1] || {}).s !== "practice") problems.push("点「练习」没有记下来");
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if (goalState().mark[k0]) problems.push("再点一次「掌握」应该取消");
-  console.log("  目标完成框：8 段 ×（掌握 / 练习），点了会记进 localStorage ✔");
+  console.log("  掌握 / 练习：就在下拉框每一行右边，点了记进 localStorage ✔");
 
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现
   byId.input.value = "wallet";

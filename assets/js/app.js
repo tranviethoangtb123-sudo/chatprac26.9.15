@@ -1019,11 +1019,11 @@
   }
 
   /* ==================== 板块四：对话（学习模式·场景对话库） ====================
-     界面上只有两级文字：域（社交人际）+ 变体（顺利达成（对等））。
-     交互：点「选择场景」→ 像选国家/日期那样展开全部选项 → 选中就呈现整段对话。
-     每句英文配 美音 / 英音 两个朗读按钮。
-     不显示：顶部统计条、场景标题、雅思标签、关系/语域/渠道/障碍/结果 元数据、
-             说话人姓名，也没有「整条朗读」。
+     两级选择器：一级标题是域（可折叠，手风琴），二级是选项「场景 · 变体」。
+     每行右边挂 掌握 / 练习 两个键（进度存本机），点选项文字看对话；
+     再点一次已选中的标题 = 取消选中，下面的对话收起。
+     不显示：顶部统计条、场景标题以外的说明、雅思标签、关系/语域/渠道/障碍/结果 元数据、
+             说话人姓名；朗读按钮也去掉了。
      数据来自 data.scenarios.js（window.CHAT_PRAC_SCENARIOS）。
      ========================================================================= */
 
@@ -1060,40 +1060,9 @@
     return matches(q, fields);
   }
 
-  /* ---------- 朗读：美音 / 英音两种 ---------- */
-
-  function dlgVoice(lang) {
-    if (!window.speechSynthesis || !window.speechSynthesis.getVoices) return null;
-    var vs = window.speechSynthesis.getVoices() || [];
-    var want = String(lang).toLowerCase();
-    var i;
-    for (i = 0; i < vs.length; i++) {
-      if (vs[i].lang && vs[i].lang.toLowerCase().replace("_", "-") === want) return vs[i];
-    }
-    for (i = 0; i < vs.length; i++) {
-      if (vs[i].lang && vs[i].lang.toLowerCase().indexOf(want.slice(0, 2)) === 0) return vs[i];
-    }
-    return null;
-  }
-
-  function dlgSpeak(text, accent) {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-    if (typeof window.SpeechSynthesisUtterance !== "function") return;
-    var lang = accent === "uk" ? "en-GB" : "en-US";
-    try {
-      window.speechSynthesis.cancel();
-      var u = new window.SpeechSynthesisUtterance(text);
-      u.lang = lang;
-      u.rate = 0.88;
-      var v = dlgVoice(lang);
-      if (v) u.voice = v;
-      window.speechSynthesis.speak(u);
-    } catch (e) { /* 没有语音引擎就静默跳过 */ }
-  }
+  /* ---------- 朗读：已按用户要求去掉（浏览器语音太难听） ---------- */
 
   /* ---------- 选择器 ---------- */
-
-  var dlgLabels = { uk: "英", us: "美" };
 
   // 选项文字 = 场景名 · 变体（同一个域里有多个场景时，光看变体名分不出是哪一条）
   function dlgLabel(it) {
@@ -1103,7 +1072,8 @@
   function dlgPickHtml(list, curIdx, q) {
     var picked = curIdx >= 0 ? list[curIdx] : null;
     var html = '<div class="dlgpick">' +
-      '<button type="button" class="dlgpick-btn' + (dlgOpen ? " is-open" : "") + '"' +
+      '<button type="button" class="dlgpick-btn' + (dlgOpen ? " is-open" : "") +
+        (picked ? " is-active" : "") + '"' +
         ' data-dlgpick="1" aria-expanded="' + (dlgOpen ? "true" : "false") + '">' +
         '<span class="dlgpick-val' + (picked ? "" : " is-ph") + '">' +
           esc(picked ? dlgLabel(picked) : "选择场景") +
@@ -1123,19 +1093,34 @@
         g.items.push(it);
       });
 
-      html += '<div class="dlgpick-list">';
+      html += '<div class="dlgpick-list">' +
+        '<p class="dlgpickstat">今天掌握 <b>' + dlgTodayDone() + "</b> / " + DLG_DAILY_GOAL +
+        " · 全部已掌握 <b>" + dlgDoneAll() + "</b> 段</p>";
+
       groups.forEach(function (g) {
         var open = q ? true : dlgDomOpen === g.id;   // 搜索时全部展开，免得结果藏着
+        var hasSel = g.items.some(function (it) { return it.key === dlgSel; });
         html += '<button type="button" class="dlgdomlabel' + (open ? " is-open" : "") +
-          '" data-dlgdom="' + esc(g.id) + '"' +
+          (hasSel ? " is-active" : "") + '" data-dlgdom="' + esc(g.id) + '"' +
           ' aria-expanded="' + (open ? "true" : "false") + '">' +
           '<span class="dlgdomname">' + esc(g.name) + "</span>" +
           '<span class="dlgdomarrow">' + (open ? "▲" : "▼") + "</span>" +
         "</button>";
         if (!open) return;
         g.items.forEach(function (it) {
-          html += '<button type="button" class="dlgpick-item' + (it.key === dlgSel ? " is-active" : "") +
-            '" data-dlgseg="' + esc(it.key) + '">' + esc(dlgLabel(it)) + "</button>";
+          // 二级标题：点文字 = 选中/取消选中；右边两个键 = 掌握 / 练习
+          var m = dlgMarkOf(it.key);
+          html += '<div class="dlgpick-row' + (it.key === dlgSel ? " is-active" : "") +
+            (m ? " is-" + m : "") + '">' +
+            '<button type="button" class="dlgpick-item" data-dlgseg="' + esc(it.key) + '">' +
+              esc(dlgLabel(it)) + "</button>" +
+            '<span class="dlgmarks">' +
+              '<button type="button" class="dlgmark dlgmark-ok' + (m === "ok" ? " is-on" : "") +
+                '" data-dlgmark="ok" data-dlgkey="' + esc(it.key) + '">掌握</button>' +
+              '<button type="button" class="dlgmark dlgmark-practice' + (m === "practice" ? " is-on" : "") +
+                '" data-dlgmark="practice" data-dlgkey="' + esc(it.key) + '">练习</button>' +
+            "</span>" +
+          "</div>";
         });
       });
       if (!list.length) html += '<p class="dlgpick-none">没有匹配的对话</p>';
@@ -1144,11 +1129,10 @@
     return html + "</div>";
   }
 
-  /* ---------- 目标完成：像单词模块那样，每段后面挂「掌握 / 练习」 ----------
-     一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了；练习 = 还要再学。
-     进度只存在本机 localStorage，和查询模式、背单词互不影响。 */
-
+  /* ---------- 目标完成：进度存本机，掌握 / 练习两个键挂在下拉框的每一行上 ----------
+     一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了；练习 = 还要再学。 */
   var DG_KEY = "chatprac-dialogue-goal";
+  var DLG_DAILY_GOAL = 8;    // 每天的目标：一个课题 = 8 段
   var dlgGoal = dlgGoalLoad();
 
   function dlgGoalLoad() {
@@ -1195,55 +1179,15 @@
     return n;
   }
 
-  // 一个场景 = 一个课题，8 种变体就是这 8 个「二级标题」
-  function dlgGoalHtml(scn) {
-    var ds = scn.dialogues || [];
-    var today = dlgTodayDone();
-    var goal = ds.length;                       // 今天的目标：把这一个课题的 8 段过一遍
-    var pct = goal ? Math.min(100, Math.round(today / goal * 100)) : 0;
-
-    var html = '<div class="dlggoal">' +
-      '<div class="dlggoalhead">' +
-        "<span>目标完成</span>" +
-        '<span class="dlggoalstat">今天掌握 <b>' + today + "</b> / " + goal +
-          " · 全部已掌握 <b>" + dlgDoneAll() + "</b> 段</span>" +
-      "</div>" +
-      '<div class="dlggoalbar"><i style="width:' + pct + '%"></i></div>';
-
-    ds.forEach(function (d, i) {
-      var key = scn.id + ":" + i;
-      var m = dlgMarkOf(key);
-      html += '<div class="dlggoalrow' + (m ? " is-" + m : "") + '">' +
-        '<span class="dlggoallabel">' + esc(d.variant) + "</span>" +
-        '<span class="dlggoalbtns">' +
-          '<button type="button" class="dlggoalbtn dlggoalbtn-ok' + (m === "ok" ? " is-on" : "") +
-            '" data-dlgmark="ok" data-dlgkey="' + esc(key) + '">掌握</button>' +
-          '<button type="button" class="dlggoalbtn dlggoalbtn-practice' + (m === "practice" ? " is-on" : "") +
-            '" data-dlgmark="practice" data-dlgkey="' + esc(key) + '">练习</button>' +
-        "</span>" +
-      "</div>";
-    });
-
-    if (today >= goal) html += '<p class="dlggoaldone">今天的课题完成了 ✅</p>';
-    return html + "</div>";
-  }
-
-  /* ---------- 对话正文：一句一行，配 美 / 英 两个朗读 ---------- */
-
-  function dlgSayHtml(accent, i) {
-    return '<button type="button" class="dlgspeak dlgspeak-' + accent + '"' +
-      ' data-dlgsay="' + accent + '" data-dlgline="' + i + '"' +
-      ' title="' + (accent === "uk" ? "英音朗读" : "美音朗读") + '">' + dlgLabels[accent] + "</button>";
-  }
+  /* ---------- 对话正文：一句一行（朗读按钮已按用户要求去掉） ---------- */
 
   function dlgLinesHtml(d) {
-    return '<div class="dlglines">' + (d.lines || []).map(function (l, i) {
+    return '<div class="dlglines">' + (d.lines || []).map(function (l) {
       return '<div class="dlgline">' +
         '<div class="dlgbody">' +
           '<p class="dlgen">' + esc(l.en) + "</p>" +
           '<p class="dlgcn">' + esc(l.cn) + "</p>" +
         "</div>" +
-        '<span class="dlgsaygroup">' + dlgSayHtml("us", i) + dlgSayHtml("uk", i) + "</span>" +
       "</div>";
     }).join("") + "</div>";
   }
@@ -1263,16 +1207,13 @@
     }
 
     var html = dlgPickHtml(list, curIdx, q);
-    if (curIdx >= 0) {
-      html += dlgGoalHtml(list[curIdx].scn);   // 选择器下面：这个课题（场景）的完成情况
-      html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
-    }
+    if (curIdx >= 0) html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
 
     els.dialogueList.innerHTML = html;
     els.dialogueEmpty.hidden = !(q && !list.length);
   }
 
-  // 事件委托顺序由内到外：掌握/练习 → 朗读 → 选变体 → 折叠一级标题 → 展开/收起选择器
+  // 事件委托顺序由内到外：掌握/练习 → 选二级标题（再点取消） → 一级标题 → 展开/收起选择器
   function onDialogueClick(e) {
     var t = e.target;
     if (!t || !t.closest) return;
@@ -1283,28 +1224,35 @@
       renderDialogues();
       return;
     }
-    if ((el = t.closest("[data-dlgsay]"))) {
-      var it = dlgFind(dlgSel);
-      var i = Number(el.getAttribute("data-dlgline"));
-      if (it && it.d.lines && it.d.lines[i]) dlgSpeak(it.d.lines[i].en, el.getAttribute("data-dlgsay"));
-      return;
-    }
     if ((el = t.closest("[data-dlgseg]"))) {
-      dlgSel = el.getAttribute("data-dlgseg");
-      dlgOpen = false;                 // 选完就收起，直接看对话
-      dlgDomOpen = null;
+      var key = el.getAttribute("data-dlgseg");
+      if (key === dlgSel) {
+        dlgSel = "";                   // 再点一次取消选中：下面的对话收起
+      } else {
+        dlgSel = key;
+        dlgOpen = false;               // 选完就收起下拉，直接看对话
+        dlgDomOpen = null;
+      }
       renderDialogues();
       return;
     }
     if ((el = t.closest("[data-dlgdom]"))) {
       var id = el.getAttribute("data-dlgdom");
-      dlgDomOpen = dlgDomOpen === id ? null : id;   // 再点一下收起，点别的域就换过去
+      if (dlgDomOpen === id) {
+        dlgDomOpen = null;             // 再点一次收起这个域
+      } else {
+        dlgDomOpen = id;               // 点别的域就换过去（手风琴）
+      }
       renderDialogues();
       return;
     }
     if (t.closest("[data-dlgpick]")) {
       dlgOpen = !dlgOpen;
-      dlgDomOpen = null;               // 每次打开列表都是收起的，先看到几个域名
+      if (dlgOpen) {
+        // 打开时自动展开当前选中的那个域，省得再找一遍
+        var cur = dlgFind(dlgSel);
+        dlgDomOpen = cur ? cur.dom.id : dlgDomOpen;
+      }
       renderDialogues();
     }
   }
