@@ -4321,6 +4321,358 @@
           ]
         }
       ]
+    },
+
+    /* ==================== 01-04 公交地铁购票与问路 ==================== */
+    {
+      id: "s01-04",
+      domain: "01",
+      title: "公交地铁购票与问路",
+      ielts: "口语 P2 场景 / 听力 S1",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "旅客 · 地铁站工作人员",
+          register: "中性",
+          channel: "面对面（地铁站）",
+          barrier: "无",
+          result: "达成（买对票并问清换乘与末班车）",
+          lines: [
+            { who: "旅客", en: "Hi, I need to get to the university. What's the best ticket?", cn: "你好，我要去大学。买什么票最合适？" },
+            { who: "工作人员", en: "A single, or a day pass if you're coming back.", cn: "单程票；如果还要回来，就买日票。" },
+            { who: "旅客", en: "I'll be back this evening. Is the day pass cheaper?", cn: "我今晚要回来。日票更便宜吗？" },
+            { who: "工作人员", en: "Day pass is seven; two singles are five eighty. So no.", cn: "日票七块，两张单程五块八。所以不划算。" },
+            { who: "旅客", en: "Then two singles. Which line?", cn: "那就两张单程。坐哪条线？" },
+            { who: "工作人员", en: "Blue to Central, then change to the green line, three stops.", cn: "蓝线到中央站，换绿线，坐三站。" },
+            { who: "旅客", en: "Do I need to exit to change?", cn: "换乘要出站吗？" },
+            { who: "工作人员", en: "No, it's the same station. Follow the signs up one level.", cn: "不用，同一站。跟着指示牌上一层。" },
+            { who: "旅客", en: "And the last train back?", cn: "回来的末班车几点？" },
+            { who: "工作人员", en: "Twenty-three forty. If you miss it, there's a night bus from the square.", cn: "二十三点四十。要是错过了，广场有夜班车。" },
+            { who: "旅客", en: "Two singles, then. Card or cash?", cn: "那就两张单程。刷卡还是现金？" },
+            { who: "工作人员", en: "Both, but the machine only takes coins after eight.", cn: "都行，但八点以后机器只收硬币。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "乘客 · 查票员",
+          register: "半正式",
+          channel: "面对面（车厢内）",
+          barrier: "无（但票确实没打，要冷静据实说明）",
+          result: "达成（只补车费，免罚款）",
+          lines: [
+            { who: "查票员", en: "Tickets, please. ...This one wasn't validated.", cn: "请出示车票。……这张没有打票。" },
+            { who: "乘客", en: "I didn't know I had to. The machine at the entrance was out of order.", cn: "我不知道要打票。入口那台机器坏了。" },
+            { who: "查票员", en: "The fine is forty. Or you can explain it at the office.", cn: "罚款四十。或者你可以到办公室说明。" },
+            { who: "乘客", en: "I'd rather explain. Where is the office?", cn: "我更愿意说明。办公室在哪里？" },
+            { who: "查票员", en: "Two stops back. But you'll miss your connection.", cn: "往回两站。但你会错过换乘。" },
+            { who: "乘客", en: "Then may I ask you something instead: is there a record of a broken validator this morning?", cn: "那我不如问你一件事：今天早上有报修记录吗？" },
+            { who: "查票员", en: "There is. Eight ten, at the north entrance.", cn: "有。八点十分，北入口。" },
+            { who: "乘客", en: "That's the one I used. Here's my ticket, bought at eight twelve.", cn: "我走的就是那个。这是我八点十二分买的票。" },
+            { who: "查票员", en: "That fits. I'll note it and you pay the fare only.", cn: "对得上。我记一下，你只补车费。" },
+            { who: "乘客", en: "Thank you. Should I keep the ticket?", cn: "谢谢。票要留着吗？" },
+            { who: "查票员", en: "Keep it until you're out of the station. Someone else may ask.", cn: "留到出站。可能还有人查。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "旅客 · 店家（问路被指错）",
+          register: "随意",
+          channel: "面对面（街上）",
+          barrier: "第一个人指的路是反的，走了十分钟才发现",
+          result: "折中（再问一次并当场用地图核对）",
+          lines: [
+            { who: "旅客", en: "Excuse me, is this the way to the cathedral?", cn: "打扰一下，去大教堂是这条路吗？" },
+            { who: "路人", en: "Yes, straight on, ten minutes.", cn: "是，一直走，十分钟。" },
+            { who: "旅客", en: "...I've been walking for ten minutes and the numbers are going down.", cn: "……我走了十分钟，门牌号在变小。" },
+            { who: "旅客", en: "Sorry to bother you again. I think I went the wrong way.", cn: "抱歉再打扰一下。我想我走反了。" },
+            { who: "店主", en: "The cathedral? You went the wrong way entirely. Back the way you came, then left at the lights.", cn: "大教堂？你完全走反了。往回走，到红绿灯左转。" },
+            { who: "旅客", en: "May I check on my map? I'd rather not ask a third time.", cn: "我能在我的地图上核对一下吗？我不想再问第三次。" },
+            { who: "店主", en: "Go ahead. ...Yes, that's the lights, and you can see the towers from there.", cn: "看吧。……对，就是那个红绿灯，从那儿就能看见塔尖。" },
+            { who: "旅客", en: "May I ask why you're sure?", cn: "我能问一下你为什么这么确定吗？" },
+            { who: "店主", en: "Because I can see it from my door. The other man was pointing at the bus station.", cn: "因为从我门口就能看见。刚才那位指的是汽车站。" },
+            { who: "旅客", en: "That explains the numbers.", cn: "难怪门牌号不对。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "旅客 · 售票机 + 站务员",
+          register: "中性",
+          channel: "自助售票机 + 柜台",
+          barrier: "机器只收硬币，界面还只有当地语言",
+          result: "修复（站务员帮操作，并教了调出英文的快捷方式）",
+          lines: [
+            { who: "旅客", en: "The machine won't take my card.", cn: "机器不收我的卡。" },
+            { who: "站务员", en: "It only takes coins after eight. There's a counter over there.", cn: "八点以后只收硬币。那边有柜台。" },
+            { who: "旅客", en: "I queued for ten minutes to find that out.", cn: "我排了十分钟才知道这个。" },
+            { who: "站务员", en: "Sorry. What are you buying?", cn: "抱歉。你要买什么？" },
+            { who: "旅客", en: "Two singles to Central. I couldn't read the screen either.", cn: "两张去中央站的单程票。界面我也看不懂。" },
+            { who: "站务员", en: "It's in four languages, but the fourth one is hidden behind this button.", cn: "有四种语言，但第四种藏在这个按钮后面。" },
+            { who: "旅客", en: "That's the most useful thing anyone has told me today.", cn: "这是今天别人告诉我最有用的信息。" },
+            { who: "站务员", en: "Hold this button for two seconds and it comes up in English.", cn: "按住这个按钮两秒，就会变成英文。" },
+            { who: "旅客", en: "Two singles, English, coins. Got it.", cn: "两张单程、英文、硬币。记住了。" },
+            { who: "站务员", en: "And on Sundays the counter opens at nine, so use the app.", cn: "还有，周日柜台九点才开，用应用买。" }
+          ]
+        },
+        {
+          variant: "情绪型（坐反方向又赶时间）",
+          relation: "旅客 · 公交司机",
+          register: "中性（着急）",
+          channel: "面对面（公交车上）",
+          barrier: "坐错方向越坐越远，还要赶六点的渡轮",
+          result: "达成（司机在车场掉头，顺路放到港口站）",
+          lines: [
+            { who: "旅客", en: "Is this going to the harbour?", cn: "这车去港口吗？" },
+            { who: "司机", en: "Opposite direction. You want the one across the road.", cn: "反方向。你要坐对面那趟。" },
+            { who: "旅客", en: "Oh no. I have a ferry at six.", cn: "糟了。我六点有渡轮。" },
+            { who: "司机", en: "What time is it now?", cn: "现在几点？" },
+            { who: "旅客", en: "Five twenty. And I've been going the wrong way for fifteen minutes.", cn: "五点二十。而我坐错方向坐了十五分钟。" },
+            { who: "司机", en: "Then don't get off here. Stay on; I turn around at the depot in four minutes.", cn: "那别在这儿下。坐着，我四分钟后在车场掉头。" },
+            { who: "旅客", en: "Will that get me there in time?", cn: "那样来得及吗？" },
+            { who: "司机", en: "It puts you at the harbour stop at ten to six. Walk fast, don't queue for a ticket, pay on board.", cn: "五点五十把你放到港口站。走快点，别排队买票，上车付。" },
+            { who: "旅客", en: "Thank you. I was about to get off and cry at a bus stop.", cn: "谢谢。我刚才差点下车在站台上哭。" },
+            { who: "司机", en: "People do that every week. Sit down, it's four minutes.", cn: "每周都有人这样。坐下吧，四分钟。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 二维码过闸）",
+          relation: "乘客 · 站务员（闸机口）",
+          register: "中性",
+          channel: "手机应用 + 闸机",
+          barrier: "二维码刷不开闸机，屏幕亮度也不够",
+          result: "达成（改走宽闸机识别成功，并拿到手机没电的备用方案）",
+          lines: [
+            { who: "乘客", en: "The gate won't read my code. I bought the ticket on the app.", cn: "闸机读不出我的码。我在应用上买的票。" },
+            { who: "站务员", en: "Show me the screen. ...The brightness is too low.", cn: "给我看屏幕。……亮度太低了。" },
+            { who: "乘客", en: "I've turned it up. Still nothing.", cn: "我调亮了。还是不行。" },
+            { who: "站务员", en: "Then use the wide gate on the left, it reads better.", cn: "那走左边那个宽闸机，识别更好。" },
+            { who: "乘客", en: "It worked. Why does the narrow one fail?", cn: "行了。为什么窄的那个不行？" },
+            { who: "站务员", en: "The scanner is at the bottom and people hold the phone at the top.", cn: "扫描口在下面，而大家都把手机举在上面。" },
+            { who: "乘客", en: "That's a design problem, not a user problem.", cn: "这是设计问题，不是用户问题。" },
+            { who: "站务员", en: "I have said so for two years. Meanwhile: hold it at the bottom.", cn: "我说了两年了。总之：放低一点。" },
+            { who: "乘客", en: "What if my phone dies?", cn: "手机没电怎么办？" },
+            { who: "站务员", en: "There's a ticket machine inside the gate, so you can always buy your way out.", cn: "闸机里面就有售票机，所以你总能买票出去。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "领队 · 车站值班主管",
+          register: "正式",
+          channel: "面对面（车站服务台）",
+          barrier: "无（但需正式说明团体与无障碍需求）",
+          result: "达成（团体票与无障碍车厢安排妥当）",
+          lines: [
+            { who: "领队", en: "Good morning. I am leading a group of fourteen students and I should like to arrange tickets in advance.", cn: "早上好。我带十四个学生，想提前安排车票。" },
+            { who: "主管", en: "Certainly. Is it a return journey?", cn: "当然。是往返吗？" },
+            { who: "领队", en: "A return, departing at nine and returning at half past four.", cn: "往返，九点出发，四点半返回。" },
+            { who: "主管", en: "Group rates apply from ten persons. May I ask whether anyone requires step-free access?", cn: "十人起可享团体票。请问有人需要无障碍通道吗？" },
+            { who: "领队", en: "One student uses a wheelchair, and two others cannot manage stairs with luggage.", cn: "一名学生用轮椅，另外两名带着行李走不了楼梯。" },
+            { who: "主管", en: "Then I shall book you into coach two, which has the ramp, and notify both stations.", cn: "那我给你们订第二节车厢，那里有坡道，并通知两端车站。" },
+            { who: "领队", en: "That is more than I had thought to ask for.", cn: "这比我原本想到要问的还多。" },
+            { who: "主管", en: "It is standard practice. I shall send the booking and a platform plan this afternoon.", cn: "这是标准做法。我今天下午把订票和站台示意图发给您。" },
+            { who: "领队", en: "Thank you. Should we arrive earlier than the group norm?", cn: "谢谢。我们需要比团体常规时间更早到吗？" },
+            { who: "主管", en: "Twenty minutes earlier, so that boarding is not rushed.", cn: "提早二十分钟，这样上车不会赶。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "旅客 · 路人（问路）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（街上）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "旅客", en: "sorry, the museum?", cn: "请问，博物馆？" },
+            { who: "路人", en: "two blocks. left at the kebab place", cn: "两个街区。烤肉店那儿左转" },
+            { who: "旅客", en: "the what", cn: "哪个" },
+            { who: "路人", en: "kebab place. big orange sign. can't miss it", cn: "烤肉店。大橙色招牌。不可能错过" },
+            { who: "旅客", en: "cheers", cn: "谢了" },
+            { who: "路人", en: "it's shut on mondays by the way", cn: "顺便说一句，周一闭馆" },
+            { who: "旅客", en: "it's tuesday", cn: "今天周二" },
+            { who: "路人", en: "then you're fine", cn: "那没问题" },
+            { who: "旅客", en: "you're sure about the kebab place", cn: "烤肉店你确定吗" },
+            { who: "路人", en: "i eat there every day", cn: "我天天在那儿吃" }
+          ]
+        }
+      ]
+    },
+
+    /* ==================== 01-05 租车 ==================== */
+    {
+      id: "s01-05",
+      domain: "01",
+      title: "租车",
+      ielts: "口语 P2 场景 / 听力 S2",
+      dialogues: [
+        {
+          variant: "顺利达成（对等）",
+          relation: "旅客 · 租车柜台",
+          register: "半正式",
+          channel: "面对面（租车柜台）",
+          barrier: "无",
+          result: "达成（租到车，保险条款讲清）",
+          lines: [
+            { who: "旅客", en: "I have a booking under Reid, for four days.", cn: "我用 Reid 的名字订了车，四天。" },
+            { who: "柜台", en: "Licence and card, please. Are you taking the basic insurance?", cn: "请给驾照和卡。您要基础保险吗？" },
+            { who: "旅客", en: "Yes, but tell me what it doesn't cover.", cn: "要，但请告诉我它不保什么。" },
+            { who: "柜台", en: "Glass, tyres and the underside. That's what the excess waiver covers.", cn: "玻璃、轮胎和底盘。那是免赔额险保的部分。" },
+            { who: "旅客", en: "How much is the waiver?", cn: "免赔额险多少钱？" },
+            { who: "柜台", en: "Fourteen a day.", cn: "每天十四。" },
+            { who: "旅客", en: "And the excess without it?", cn: "不买的话免赔额是多少？" },
+            { who: "柜台", en: "Nine hundred. Most people take the waiver for the first day and decide later.", cn: "九百。大部分人先买第一天的，之后再决定。" },
+            { who: "旅客", en: "Then I'll take one day and decide after I've parked once.", cn: "那我先买一天，等我停过一次车再决定。" },
+            { who: "柜台", en: "Sensible. Full tank, return full. Bay forty-one, keys in the box.", cn: "明智。满油出、满油还。四十一号位，钥匙在盒子里。" },
+            { who: "旅客", en: "Before I go: what do I do if something happens?", cn: "走之前问一下：如果出了事怎么办？" },
+            { who: "柜台", en: "Photograph everything, call this number, and don't move the car until they say so.", cn: "全部拍照，打这个号码，在他们说可以之前别挪车。" }
+          ]
+        },
+        {
+          variant: "顺利达成（权力不对等）",
+          relation: "旅客 · 租车公司主管（还车争议）",
+          register: "半正式",
+          channel: "面对面（还车区）",
+          barrier: "无（但要顶住推责，靠证据说话）",
+          result: "达成（凭取车照片无费用结案）",
+          lines: [
+            { who: "主管", en: "There's a scratch on the rear door. That's a three hundred euro repair.", cn: "后门有划痕。维修费三百欧。" },
+            { who: "旅客", en: "That scratch was there when I collected the car.", cn: "那道划痕我取车时就有。" },
+            { who: "主管", en: "It isn't on the condition report.", cn: "车况报告上没有。" },
+            { who: "旅客", en: "Because the report says no damage, and the agent never walked round it with me.", cn: "因为报告上写的是无损伤，而工作人员根本没跟我一起绕车检查。" },
+            { who: "主管", en: "Do you have anything to support that?", cn: "您有什么能证明这一点吗？" },
+            { who: "旅客", en: "Forty-one photographs, taken in the bay before I drove off. Here's the door, and here's the timestamp.", cn: "四十一张照片，开车前在车位拍的。这是车门，这是时间戳。" },
+            { who: "主管", en: "...That is the same scratch.", cn: "……是同一道。" },
+            { who: "旅客", en: "And the photo of the report shows the sheet was blank on collection.", cn: "还有一张报告单的照片，显示取车时表是空的。" },
+            { who: "主管", en: "I'll close the file with no charge, and I'll speak to the agent.", cn: "我按无费用结案。另外我会跟那位工作人员谈。" },
+            { who: "旅客", en: "Please do. And thank you for looking at the photographs rather than arguing.", cn: "麻烦你了。也谢谢你愿意看照片，而不是直接跟我争。" }
+          ]
+        },
+        {
+          variant: "拒绝 → 折中",
+          relation: "旅客 · 租车柜台",
+          register: "半正式",
+          channel: "面对面（租车柜台）",
+          barrier: "柜台坚持推销「预购一箱油」，比实际油价贵",
+          result: "折中（自己还车前加满，手续费数字写进合同）",
+          lines: [
+            { who: "柜台", en: "Shall I add the pre-paid fuel? It's easier.", cn: "要加预购油吗？更省事。" },
+            { who: "旅客", en: "How much?", cn: "多少钱？" },
+            { who: "柜台", en: "Sixty-five for the tank.", cn: "一箱六十五。" },
+            { who: "旅客", en: "The tank is forty-five litres and fuel is one twenty a litre. That's fifty-four.", cn: "油箱四十五升，油价一块二一升。那是五十四。" },
+            { who: "柜台", en: "You're paying for the convenience.", cn: "您买的是便利。" },
+            { who: "旅客", en: "I understand. I'd rather pay for fuel than for convenience, and I'll fill it up before I return.", cn: "我明白。我更愿意为油付钱，而不是为便利付钱，我回来之前会加满。" },
+            { who: "柜台", en: "If you don't, we charge the difference plus a fee.", cn: "如果您没加满，我们要收差价加手续费。" },
+            { who: "旅客", en: "Then could we write the fee on the contract? So neither of us is guessing.", cn: "那能把手续费写在合同上吗？这样谁都不用猜。" },
+            { who: "柜台", en: "It's twenty-five.", cn: "二十五。" },
+            { who: "旅客", en: "Twenty-five, on the contract, and I'll fill up at the station by the airport.", cn: "二十五，写在合同上，我在机场那个加油站加满。" },
+            { who: "柜台", en: "That's fair.", cn: "这样公平。" }
+          ]
+        },
+        {
+          variant: "沟通故障 → 修复",
+          relation: "旅客 · 租车救援电话",
+          register: "半正式",
+          channel: "电话 + 车内",
+          barrier: "仪表盘亮灯，说不清是哪个灯、什么现象",
+          result: "修复（拍照发送，查清是胎压并就近处理）",
+          lines: [
+            { who: "旅客", en: "Hi, a warning light came on. I don't know which one.", cn: "你好，仪表盘亮了个灯。我不知道是哪个。" },
+            { who: "救援", en: "What colour is it?", cn: "什么颜色？" },
+            { who: "旅客", en: "Amber. It looks like a horseshoe with an exclamation mark.", cn: "黄色。看起来像个带感叹号的马蹄铁。" },
+            { who: "救援", en: "That's tyre pressure. Is the car pulling to one side?", cn: "那是胎压。车会往一边偏吗？" },
+            { who: "旅客", en: "Slightly, when I brake. Is it safe to keep driving?", cn: "刹车时有点。继续开安全吗？" },
+            { who: "救援", en: "Not far. Can you photograph the dashboard and send it?", cn: "别开太远。你能拍一下仪表盘发过来吗？" },
+            { who: "旅客", en: "Sending it now. ...And the tyre.", cn: "这就发。……还有轮胎。" },
+            { who: "救援", en: "The rear left is low. There's a station four hundred metres ahead. Take it slowly.", cn: "左后轮气压低。前面四百米有个加油站。慢慢开过去。" },
+            { who: "旅客", en: "What do I say to them?", cn: "我跟他们怎么说？" },
+            { who: "救援", en: "Rental car, slow puncture, and ask them to check all four. Send me the receipt and we'll refund it.", cn: "说租的车、慢漏气，请他们把四个都检查一遍。收据发我，我们报销。" },
+            { who: "旅客", en: "And if it's flat when I get there?", cn: "要是到了那儿完全没气了呢？" },
+            { who: "救援", en: "Then call me back and don't drive on it. The spare is under the floor.", cn: "那就再打给我，别硬开。备胎在地板下面。" }
+          ]
+        },
+        {
+          variant: "情绪型（停车场剐蹭）",
+          relation: "旅客 · 租车公司客服（事故）",
+          register: "半正式（紧张）",
+          channel: "电话",
+          barrier: "停车场剐到柱子，旅客慌乱不知先做什么",
+          result: "达成（按顺序处理：拍照、报备、报损）",
+          lines: [
+            { who: "旅客", en: "I've hit a pillar in a car park. Nobody's hurt. What do I do first?", cn: "我在停车场撞到柱子了。没人受伤。我该先做什么？" },
+            { who: "客服", en: "First: is anyone with you, and is the car drivable?", cn: "第一：有人跟你在一起吗，车还能开吗？" },
+            { who: "旅客", en: "I'm alone. It's drivable, the wing is dented.", cn: "我一个人。能开，叶子板凹了。" },
+            { who: "客服", en: "Good. Then breathe, and photograph four things: the car, the pillar, the position, and the other party if there is one.", cn: "好。那先深呼吸，拍四样：车、柱子、位置，如果有别人就拍对方。" },
+            { who: "旅客", en: "There's no other party. Do I call the police?", cn: "没有别人。要报警吗？" },
+            { who: "客服", en: "For a pillar, no. For another car, yes. Ask the car park for a written note that you reported it.", cn: "撞柱子不用。撞车就要。跟停车场要一张你报备过的书面说明。" },
+            { who: "旅客", en: "And the damage?", cn: "那损伤呢？" },
+            { who: "客服", en: "Send the photographs within twenty-four hours and we open the file. If you have the waiver, the excess is zero.", cn: "二十四小时内把照片发来，我们立案。如果你买了免赔额险，免赔额为零。" },
+            { who: "旅客", en: "I bought one day of it.", cn: "我只买了一天。" },
+            { who: "客服", en: "Then check the date. If today is covered, you're fine.", cn: "那看一下日期。如果今天在保，就没问题。" },
+            { who: "旅客", en: "Today is covered. I've never been so glad to have said yes to a salesman.", cn: "今天在保。我从没这么庆幸跟销售说了好。" }
+          ]
+        },
+        {
+          variant: "渠道变体（App 自助取还车）",
+          relation: "旅客 · 租车电话支持",
+          register: "半正式",
+          channel: "App 自助取还 + 电话",
+          barrier: "自助钥匙柜打不开，应用给的码也不对",
+          result: "达成（电话支持远程开柜，并提醒更新应用与还车事项）",
+          lines: [
+            { who: "旅客", en: "The locker won't open. The app says my code is wrong.", cn: "柜子打不开。应用说我的码是错的。" },
+            { who: "支持", en: "Read me the code from the app.", cn: "把应用里的码念给我。" },
+            { who: "旅客", en: "Four one seven two.", cn: "四一七二。" },
+            { who: "支持", en: "That's the booking number, not the locker code. The locker code is under the QR button.", cn: "那是订座号，不是柜子密码。柜子密码在二维码按钮下面。" },
+            { who: "旅客", en: "There's no QR button on my screen.", cn: "我屏幕上没有二维码按钮。" },
+            { who: "支持", en: "Then your app hasn't updated. I can open it remotely. Give me thirty seconds.", cn: "那你的应用没更新。我可以远程开。给我三十秒。" },
+            { who: "旅客", en: "It's open. Thank you. Should I update the app now?", cn: "开了。谢谢。我现在要更新应用吗？" },
+            { who: "支持", en: "Do it before you return the car, or you'll be on the phone again at midnight.", cn: "还车之前更新，不然你半夜又要打电话。" },
+            { who: "旅客", en: "What time is the return deadline?", cn: "还车截止是几点？" },
+            { who: "支持", en: "Six, and the locker takes the key. Photograph the mileage before you close it.", cn: "六点，钥匙放进柜子。合上之前拍一下里程表。" }
+          ]
+        },
+        {
+          variant: "高正式语域",
+          relation: "公司代表 · 租车公司业务经理",
+          register: "正式",
+          channel: "面对面（会议室）",
+          barrier: "无（但需正式议定条款）",
+          result: "达成（三个月租约含替换车条款，提交董事会）",
+          lines: [
+            { who: "经理", en: "We have your requirements. Three vehicles for three months, with drivers?", cn: "我们收到你们的需求了。三辆车、三个月，配司机吗？" },
+            { who: "代表", en: "Without drivers, but with a guaranteed replacement within four hours.", cn: "不配司机，但要保证四小时内提供替换车。" },
+            { who: "经理", en: "Four hours is achievable in the city. Outside it, we would say six.", cn: "市区内四小时可以做到。市区外我们要说六小时。" },
+            { who: "代表", en: "Then the contract should distinguish the two, rather than promising a single figure.", cn: "那合同里应该区分这两种情况，而不是只承诺一个数字。" },
+            { who: "经理", en: "Agreed. And on servicing?", cn: "同意。保养呢？" },
+            { who: "代表", en: "Servicing at your cost, with forty-eight hours' notice, because we need cover on those days.", cn: "保养由你们承担，提前四十八小时通知，因为那几天我们需要替代车。" },
+            { who: "经理", en: "That is reasonable and we shall include it.", cn: "这合理，我们会写进去。" },
+            { who: "代表", en: "One further point: the vehicles must be identical, so that our drivers do not have to relearn the controls.", cn: "还有一点：车辆必须同款，免得我们的司机要重新熟悉操作。" },
+            { who: "经理", en: "Identical, same specification, delivered on the first.", cn: "同款、同配置，一号交付。" },
+            { who: "代表", en: "Then I shall recommend acceptance to my board this week.", cn: "那我这周向董事会建议接受。" }
+          ]
+        },
+        {
+          variant: "低正式语域",
+          relation: "旅客 · 租车柜台（周末短租）",
+          register: "随意（极简、俚语）",
+          channel: "面对面（柜台）",
+          barrier: "无",
+          result: "达成",
+          lines: [
+            { who: "旅客", en: "anything cheap for the weekend", cn: "周末有什么便宜的车" },
+            { who: "柜台", en: "how cheap", cn: "多便宜" },
+            { who: "旅客", en: "cheapest", cn: "最便宜的" },
+            { who: "柜台", en: "small one. no radio. no ac", cn: "小车。没收音机。没空调" },
+            { who: "旅客", en: "it's august", cn: "现在是八月" },
+            { who: "柜台", en: "then not that one", cn: "那就不是那辆" },
+            { who: "旅客", en: "what's the next one up", cn: "再上一档是什么" },
+            { who: "柜台", en: "twenty more. has ac", cn: "多二十。有空调" },
+            { who: "旅客", en: "i'll take it", cn: "我要了" },
+            { who: "柜台", en: "insurance", cn: "保险呢" },
+            { who: "旅客", en: "no", cn: "不要" },
+            { who: "柜台", en: "your call. bring it back with a full tank", cn: "随你。还车加满油" },
+            { who: "旅客", en: "i'll try", cn: "我尽量" }
+          ]
+        }
+      ]
     }
   ];
 
