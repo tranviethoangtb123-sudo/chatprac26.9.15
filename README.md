@@ -46,6 +46,7 @@ tools/check-live.js          部署后自检：逐项验证线上站点
 tools/api-sync.js            备用提交通道（github.com 连不上时走 Contents API）
 tests/selfcheck.js           自检：静态引用 + PWA + 数据内容质量
 tests/smoke.js               DOM 桩冒烟测试（抽屉 / 检索 / 切换 / 发送）
+tests/daily.js               每日任务测试（拨动假时钟，验证跨天自动发新词）
 ```
 
 ## 放到手机上用
@@ -93,6 +94,7 @@ node tools/build-words.js 3000    # 想要更大的词库就改这个数字
 ```powershell
 node tests/selfcheck.js   # 引用一致性 + 词库/句子/对话的数据质量
 node tests/smoke.js       # 真实执行 app.js 的交互链路
+node tests/daily.js       # 每日任务：跨天是否自动发新词（拨动假时钟）
 node tools/check-live.js  # 部署后自检：线上资源是否都能打开
 ```
 

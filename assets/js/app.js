@@ -261,13 +261,48 @@
   function vBlank() {
     return {
       box: {}, due: {}, done: {}, mastered: {}, learnedAt: {},
-      custom: [], chunks: null, day: "", newToday: 0
+      custom: [], chunks: null, day: "", newToday: 0,
+      streak: 0, lastStudy: ""            // 连续学习天数 / 最后一次学习是哪天
     };
   }
 
-  function vToday() {
-    var d = new Date();
+  function vDateKey(ts) {
+    var d = new Date(ts);
     return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  }
+
+  function vToday() {
+    return vDateKey(Date.now());
+  }
+
+  // 跨天检查：每天重新发一份新词任务（不是一次性的），并维护连续天数。
+  // 页面加载时查一次不够——装成 App 后是「从后台恢复」而不是重新加载，
+  // 所以每次渲染、每次回到前台都要再查一次，否则日期永远停在昨天。
+  function vRollDay() {
+    if (!vocab) return false;
+    var today = vToday();
+    if (vocab.day === today) return false;
+    vocab.day = today;
+    vocab.newToday = 0;                  // 新的一天，今日额度重新发
+    vSave();
+    return true;
+  }
+
+  // 学到一个词时更新连续天数
+  function vTouchStreak() {
+    var today = vToday();
+    if (vocab.lastStudy === today) return;
+    var yesterday = vDateKey(Date.now() - VDAY);
+    vocab.streak = (vocab.lastStudy === yesterday) ? (vocab.streak || 1) + 1 : 1;
+    vocab.lastStudy = today;
+  }
+
+  // 连续天数只在前一天或今天学过时才算「连着」
+  function vStreakShown() {
+    if (!vocab || !vocab.lastStudy) return 0;
+    var today = vToday();
+    return (vocab.lastStudy === today || vocab.lastStudy === vDateKey(Date.now() - VDAY))
+      ? (vocab.streak || 0) : 0;
   }
 
   function vLoad() {
@@ -282,8 +317,9 @@
       }
     } catch (e) { /* 读不出来就当新开始 */ }
     if (!d.chunks || !d.chunks.length) d.chunks = (V.chunks || []).slice();
-    if (d.day !== vToday()) { d.day = vToday(); d.newToday = 0; }   // 跨天自动重置今日额度
-    return d;
+    vocab = d;
+    vRollDay();                          // 跨天自动重置今日额度
+    return vocab;
   }
 
   function vSave() {
@@ -411,6 +447,7 @@
     }
     // 「已学习」按学习时间倒序；老进度里没有这个字段的，这次补上
     if (!vocab.learnedAt[w.w]) vocab.learnedAt[w.w] = now;
+    vTouchStreak();                            // 连续学习天数
     vSave();
   }
 
@@ -550,7 +587,14 @@
   function vTodayHtml() {
     var list = vTodayList();
     if (!list.length) {
-      return '<p class="vempty">今天的量学完了 🎉 明天再来，或去「已学习」回看。</p>';
+      var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+      if (left > 0) {
+        return '<p class="vempty">词库里能学的词都学完了。<br>到期的复习词会继续出现在这里。</p>';
+      }
+      var s = vStreakShown();
+      return '<p class="vempty">今天的 ' + VNEW_PER_DAY + " 个新词完成了 ✅<br>" +
+        "明天会再发 " + VNEW_PER_DAY + " 个，一天一批；到期的复习词随时会插进来。" +
+        (s ? "<br>已经连续 " + s + " 天了。" : "") + "</p>";
     }
     return '<div class="vlist">' + list.map(vRowHtml).join("") + "</div>";
   }
@@ -675,9 +719,20 @@
     }
 
     if (vs.qi >= vs.queue.length) {
-      var msg = vs.tab === "review" ? "复习队列已清空。现在可以去「今日新词」了。"
-        : vs.tab === "spell" ? "听写队列已清空。"
-        : "今天的新词学完了，明天见。";
+      var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+      var msg;
+      if (vs.tab === "review") {
+        msg = "复习队列已清空。现在可以去「今日新词」了。";
+      } else if (vs.tab === "spell") {
+        msg = "听写队列已清空。";
+      } else if (left > 0) {
+        msg = "词库里能学的词都学完了，没有新的了。<br>到期的复习词会继续出现在这里。";
+      } else {
+        msg = "今天的 " + VNEW_PER_DAY + " 个新词完成了 ✅<br>" +
+          "明天会再发 " + VNEW_PER_DAY + " 个，一天一批；" +
+          "到期的复习词随时会插进来。" +
+          (vStreakShown() ? "<br>已经连续 " + vStreakShown() + " 天了。" : "");
+      }
       return '<div class="vempty">' + msg + "</div>";
     }
 
@@ -753,6 +808,7 @@
 
   function renderVocab() {
     if (!els.vocabBoard) return;
+    if (vRollDay()) vs.forced = false;   // 跨天了：额度重发，门禁也重置
     var c = vCounts();
 
     var html = '<div class="vtabs">' + VTABS.map(function (t) {
@@ -760,8 +816,13 @@
         esc(t.label) + (c[t.id] ? "<em>" + c[t.id] + "</em>" : "") + "</button>";
     }).join("") + "</div>";
 
-    html += '<p class="vstat">今日已学 <b>' + c.todayDone + "/" + VNEW_PER_DAY +
-      "</b>　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b></p>";
+    var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+    var streak = vStreakShown();
+    html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + VNEW_PER_DAY + "</b>" +
+      (left ? "（还剩 <b>" + left + "</b> 个）" : "（今天的发完了）") +
+      "　复习到期 <b>" + vDueList().length + "</b>" +
+      "　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b>" +
+      (streak ? "　连续 <b>" + streak + "</b> 天" : "") + "</p>";
 
     if (vs.tab === "learned") html += vLearnedHtml();
     else if (vs.tab === "all") html += vAllHtml();
@@ -1607,6 +1668,19 @@
 
   function init() {
     vocab = vLoad();
+
+    // 装成 App 后多半是「从后台恢复」而不是重新加载页面，所以回到前台要再查一次日期，
+    // 不然新的一天不会发新词（用了一整天还是一批任务）。
+    try {
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) return;
+        if (vRollDay()) { vs.forced = false; renderVocab(); }
+      });
+      window.addEventListener("focus", function () {
+        if (vRollDay()) { vs.forced = false; renderVocab(); }
+      });
+    } catch (e) { /* 没有 DOM 就算了 */ }
+
     initTheme();
     initStandalone();
     initMode();
