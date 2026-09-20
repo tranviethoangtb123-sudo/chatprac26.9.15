@@ -469,13 +469,27 @@
   }
 
   // 音标从检索词库里借（学习词库自己不带音标）
+  // 检索词库里没有的（学习词库里有一批不在检索词库中），回退到音标补充表
   var vPhonMap = null;
   function vPhon(word) {
     if (!vPhonMap) {
       vPhonMap = {};
       (DATA.words || []).forEach(function (x) { vPhonMap[x.w] = x.ph; });
+      var extra = window.CHAT_PRAC_PHON || {};
+      Object.keys(extra).forEach(function (k) {
+        if (!vPhonMap[k]) vPhonMap[k] = extra[k];
+      });
     }
-    return Object.prototype.hasOwnProperty.call(vPhonMap, word) ? vPhonMap[word] : "";
+    if (Object.prototype.hasOwnProperty.call(vPhonMap, word)) return vPhonMap[word];
+    // 大小写/尾标点差异再兜一层
+    var alt = String(word).toLowerCase();
+    if (Object.prototype.hasOwnProperty.call(vPhonMap, alt)) return vPhonMap[alt];
+    var hit = null;
+    Object.keys(vPhonMap).some(function (k) {
+      if (k.toLowerCase() === alt) { hit = vPhonMap[k]; return true; }
+      return false;
+    });
+    return hit || "";
   }
 
   // 固定搭配也从检索词库里借，答完显示，帮助记搭配而不是记单词
