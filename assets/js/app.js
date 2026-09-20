@@ -118,7 +118,9 @@
     syncText: $("#syncText"),
     syncExport: $("#syncExport"),
     syncImport: $("#syncImport"),
-    syncFile: $("#syncFile")
+    syncFile: $("#syncFile"),
+    syncReload: $("#syncReload"),
+    syncReset: $("#syncReset")
   };
 
   /* ------------------------------ 工具 ------------------------------ */
@@ -1560,6 +1562,48 @@
     }
   }
 
+  // 强制更新：手机上有时拿到的是旧缓存（改了代码却看不到变化），
+  // 注销 Service Worker + 删掉缓存再重开，比让用户去设置里清数据温和得多。
+  function syncReload() {
+    syncSay("正在清缓存并重开…");
+    var done = false;
+    function go() { if (done) return; done = true; try { window.location.reload(); } catch (e) {} }
+    try {
+      var jobs = [];
+      if (window.caches && window.caches.keys) {
+        jobs.push(window.caches.keys().then(function (ks) {
+          return Promise.all(ks.map(function (k) { return window.caches.delete(k); }));
+        }));
+      }
+      if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+        jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
+          return Promise.all(rs.map(function (r) { return r.unregister(); }));
+        }));
+      }
+      if (!jobs.length) { go(); return; }
+      Promise.all(jobs).then(go).catch(go);
+      setTimeout(go, 1500);          // 兜底：网络卡住也要重开
+    } catch (e) { go(); }
+  }
+
+  // 重新开始：清空单词进度 + 对话掌握；设置过同步的话，云端也覆盖成空的，
+  // 否则下次打开会把旧进度又拉回来。
+  function syncReset() {
+    if (!window.confirm("清空全部学习进度（单词 + 对话掌握），从头开始？")) return;
+    SNAP_KEYS.forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} });
+    try { localStorage.removeItem(VKEY); localStorage.removeItem(DG_KEY); } catch (e) {}
+    vocab = vLoad();
+    dlgGoal = dlgGoalLoad();
+    vs.tab = "today"; vs.forced = false;
+    vBuildQueue();
+    initTheme();
+    renderVocab();
+    renderDialogues();
+    renderStudyProgress();
+    syncSay(syncCfg.token ? "已清空，正在同步云端…" : "已清空，从头开始");
+    if (syncCfg.token) syncUp();     // 云端跟着清空
+  }
+
   function initSync() {
     if (!els.syncToggle) return;
     syncPaint();
@@ -1587,6 +1631,8 @@
     els.syncExport.addEventListener("click", syncExport);
     els.syncImport.addEventListener("click", syncImport);
     els.syncFile.addEventListener("click", syncFile);
+    els.syncReload.addEventListener("click", syncReload);
+    els.syncReset.addEventListener("click", syncReset);
   }
 
   /* ============================== 顶部栏 / 输入区联动 ============================== */

@@ -96,11 +96,16 @@
           <button type="button" class="sync-btn" id="syncImport">从文本恢复</button>
           <button type="button" class="sync-btn" id="syncFile">备份到文件…</button>
         </div>
+
+        <div class="sync-row">
+          <button type="button" class="sync-btn" id="syncReload">强制更新（清缓存重开）</button>
+          <button type="button" class="sync-btn sync-btn-danger" id="syncReset">重新开始（清空进度）</button>
+        </div>
       </div>
     </div>
 
     <!-- 版本号：用来判断手机上是新版还是旧缓存（改版时和 sw.js 一起改） -->
-    <p class="build" id="buildTag">v49</p>
+    <p class="build" id="buildTag">v50</p>
   </aside>
 
   <!-- ============ 主区域 ============ -->

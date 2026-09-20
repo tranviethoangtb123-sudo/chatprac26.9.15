@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    Chat Prac — 版式参考 DeepSeek（浅色 / 深色 / 移动端）
    ========================================================================== */
 
@@ -459,6 +459,9 @@ html.is-app body { overscroll-behavior: none; }
 }
 
 .sync-msg.is-bad { color: #c0392b; }
+
+.sync-btn-danger { color: #c0392b; border-color: #ecc4be; }
+.sync-btn-danger:hover { background: rgba(192, 57, 43, .08); border-color: #c0392b; }
 
 [data-theme="dark"] .sync-msg { color: #6fd3a3; }
 [data-theme="dark"] .sync-msg.is-bad { color: #ff8f7a; }
