@@ -1160,7 +1160,16 @@
     var html = dlgPickHtml(list, curIdx, q);
     if (curIdx >= 0) html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
 
+    // 每次点「掌握 / 练习」都会重渲染，下拉框是能滚的：不记住位置的话，
+    // 翻了半天的列表会跳回顶部（和单词列表「点一下就重排」是同一类问题）
+    var oldList = els.dialogueList.querySelector ? els.dialogueList.querySelector(".dlgpick-list") : null;
+    var keepScroll = oldList ? oldList.scrollTop : 0;
+
     els.dialogueList.innerHTML = html;
+
+    var newList = els.dialogueList.querySelector ? els.dialogueList.querySelector(".dlgpick-list") : null;
+    if (newList && keepScroll) newList.scrollTop = keepScroll;
+
     els.dialogueEmpty.hidden = !(q && !list.length);
     renderStudyProgress();   // 掌握/练习 一点，底部两条进度条要跟着动
   }

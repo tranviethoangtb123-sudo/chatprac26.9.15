@@ -404,16 +404,27 @@ try {
   if (afterCancel.indexOf("dlggoal") >= 0) problems.push("不该再有独立的目标完成框");
   if (afterCancel.indexOf("今天掌握") < 0) problems.push("下拉框里应有今日进度一行");
   const goalState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-dialogue-goal") || '{"mark":{}}');
-  const k0 = scn0.id + ":0", k1 = scn0.id + ":1";
+  // 从渲染出来的 HTML 里取按键（和单词板块一样，防止「按钮属性和处理器对不上」的死按钮）
+  const marks = [...afterCancel.matchAll(/data-dlgmark="(\w+)" data-dlgkey="([^"]+)"/g)]
+    .map((m) => ({ kind: m[1], key: m[2] }));
+  const k0 = marks.find((m) => m.kind === "ok").key;
+  const k1 = marks.filter((m) => m.kind === "ok")[1].key;
+  const rowsBefore = (afterCancel.match(/class="dlgpick-row/g) || []).length;
+
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if ((goalState().mark[k0] || {}).s !== "ok") problems.push("点「掌握」没有记下来");
   if (dHtml().indexOf("今天掌握 <b>1</b>") < 0) problems.push("今天掌握数没有加到 1");
   if (dHtml().indexOf("dlgline") >= 0) problems.push("点掌握不该把对话选出来");
+  // 点一下掌握，下拉框还得开着、行数不变（不能像单词列表那样整表跳掉）
+  if (dHtml().indexOf("dlgpick-list") < 0) problems.push("点掌握后下拉框不该关掉");
+  if ((dHtml().match(/class="dlgpick-row/g) || []).length !== rowsBefore) {
+    problems.push("点掌握后列表行数变了（应该只改状态）");
+  }
   dclick({ "data-dlgmark": "practice", "data-dlgkey": k1 });
   if ((goalState().mark[k1] || {}).s !== "practice") problems.push("点「练习」没有记下来");
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if (goalState().mark[k0]) problems.push("再点一次「掌握」应该取消");
-  console.log("  掌握 / 练习：就在下拉框每一行右边，点了记进 localStorage ✔");
+  console.log("  掌握 / 练习：在下拉框每一行右边，点了只改状态不重排行 ✔");
 
   // 底部进度条：全场景 + 当前一级标题（域）
   const pctText = (done, total) => {
