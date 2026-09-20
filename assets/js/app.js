@@ -106,7 +106,19 @@
     pbarAllVal: $("#pbarAllVal"),
     pbarDom: $("#pbarDom"),
     pbarDomVal: $("#pbarDomVal"),
-    pbarDomName: $("#pbarDomName")
+    pbarDomName: $("#pbarDomName"),
+    syncToggle: $("#syncToggle"),
+    syncState: $("#syncState"),
+    syncBody: $("#syncBody"),
+    syncToken: $("#syncToken"),
+    syncUp: $("#syncUp"),
+    syncDown: $("#syncDown"),
+    syncAuto: $("#syncAuto"),
+    syncMsg: $("#syncMsg"),
+    syncText: $("#syncText"),
+    syncExport: $("#syncExport"),
+    syncImport: $("#syncImport"),
+    syncFile: $("#syncFile")
   };
 
   /* ------------------------------ 工具 ------------------------------ */
@@ -335,8 +347,7 @@
     forced: false,                 // 待复习没清时，用户点过「仍要学新词」
     importText: "",
     importTrack: "G",
-    chunkText: "",
-    spell: { typed: "", result: null }
+    chunkText: ""
   };
 
   // 学习词池 = 查询模式那套 4198 词大词库（含雅思词）+ 原学习词库的 162 词 + 自己加的
@@ -372,11 +383,10 @@
   }
   function vBox(w) { return vocab.box[w.w] || 0; }
 
+  // 全部词一起排队：原来把「拼写轨(L)」排除在外，而听写页已经不可达，
+  // 那 45 个词就永远学不到了——现在并回普通队列，谁也不会漏。
   function vNormal() {
-    return vWords().filter(function (w) { return w.track !== "L"; });
-  }
-  function vSpellWords() {
-    return vWords().filter(function (w) { return w.track === "L"; });
+    return vWords();
   }
   function vDueList() {
     return vNormal().filter(vIsDue).sort(function (a, b) {
@@ -386,17 +396,7 @@
   function vNewPool() { return vNormal().filter(vIsNew); }
   function vMasteredList() { return vNormal().filter(vIsMastered); }
 
-  // 听写轨：到期的排前面，剩下的新词跟上
-  function vSpellQueue() {
-    var out = [], seen = {};
-    vSpellWords().filter(vIsDue)
-      .concat(vSpellWords().filter(function (w) { return !vIsMastered(w); }))
-      .forEach(function (w) {
-        if (!seen[w.w]) { seen[w.w] = 1; out.push(w); }
-      });
-    return out;
-  }
-
+  // 听写页（拼写轨）已经不可达，相关代码整块删掉了；那些词已并入普通队列
   function vShuffle(arr) {
     for (var i = arr.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -407,14 +407,11 @@
 
   function vBuildQueue() {
     vs.revealed = false;
-    vs.spell = { typed: "", result: null };
     if (vs.tab === "today") {
       var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
       vs.queue = vShuffle(vNewPool().slice()).slice(0, room);
     } else if (vs.tab === "review") {
       vs.queue = vDueList();
-    } else if (vs.tab === "spell") {
-      vs.queue = vSpellQueue();
     } else {
       vs.queue = [];
     }
@@ -443,12 +440,13 @@
     }
     if (!vocab.done[w.w]) {
       vocab.done[w.w] = 1;
-      if (w.track !== "L") vocab.newToday++;   // 听写轨不占今日新词额度
+      vocab.newToday++;        // 拼写轨已并入普通队列，学到的新词一律占今日额度
     }
     // 「已学习」按学习时间倒序；老进度里没有这个字段的，这次补上
     if (!vocab.learnedAt[w.w]) vocab.learnedAt[w.w] = now;
     vTouchStreak();                            // 连续学习天数
     vSave();
+    syncAutoPush();                            // 设置过同步就顺手传一次（失败静默）
   }
 
   // 发音：用浏览器自带的语音合成，不需要联网
@@ -645,100 +643,8 @@
     }).join("");
   }
 
-  // 学习卡（读义 → 显示释义 → 三键）
-  function vReadCardHtml(w) {
-    var col = vCollocations(w.w);
-    var reveal = "" +
-      '<p class="vcn">' + esc(w.cn) + "</p>" +
-      (w.note ? '<p class="vnote">易混：' + esc(w.note) + "</p>" : "") +
-      (col && col.length
-        ? '<p class="vnote">搭配：' + col.slice(0, 4).map(function (c) {
-            return esc(c[0]) + " " + esc(c[1]);
-          }).join(" · ") + "</p>"
-        : "");
-
-    var actions = vs.revealed
-      ? '<button type="button" class="vbtn vbtn-no" data-vans="no">不认识</button>' +
-        '<button type="button" class="vbtn vbtn-mid" data-vans="fuzzy">模糊</button>' +
-        '<button type="button" class="vbtn vbtn-ok" data-vans="know">认识</button>'
-      : '<button type="button" class="vbtn vbtn-wide" data-vshow="1">显示释义</button>';
-
-    return "" +
-      '<article class="vcard">' +
-        '<div class="vmeta">' + vBadgesHtml(w) +
-          '<span class="vtag">记忆盒 ' + vBox(w) + "/" + VBOX_MAX + "</span></div>" +
-        '<div class="vword">' + esc(w.w) +
-          '<button type="button" class="vspeak" data-vspeak="' + esc(w.w) + '">🔊</button></div>' +
-        (vPhon(w.w) ? '<p class="vphon">' + esc(vPhon(w.w)) + "</p>" : "") +
-        '<p class="vpos">' + esc(w.pos || "") + "</p>" +
-        '<div class="vbox">' + vDotsHtml(w) + "</div>" +
-        '<div class="vreveal' + (vs.revealed ? "" : " is-hidden") + '">' + reveal + "</div>" +
-        '<div class="vactions">' + actions + "</div>" +
-        '<p class="vhint">认识＝记忆盒推进一档（1/3/7/14/30 天）· 模糊＝明天再来 · 不认识＝10 分钟后重来</p>' +
-      "</article>";
-  }
-
-  // 听写卡（只出声音，凭听写拼写）
-  function vSpellCardHtml(w) {
-    var res = vs.spell.result;
-    var body = res === null
-      ? '<input type="text" class="vdinput" data-vdinput="1" autocomplete="off" autocapitalize="off" ' +
-          'spellcheck="false" placeholder="听发音，在这里拼写，按回车检查" value="' + esc(vs.spell.typed) + '" />'
-      : '<div class="vresult ' + (res ? "vgood" : "vbad") + '">' +
-          (res ? "✓ 拼对了"
-               : "✗ 正确拼写：<b>" + esc(w.w) + "</b>　你写的是：" + (esc(vs.spell.typed) || "（空）")) +
-          '<span class="vresult-cn">' + esc(w.pos || "") + ". " + esc(w.cn) + "</span></div>";
-
-    var actions = res === null
-      ? '<button type="button" class="vbtn vbtn-wide" data-vcheck="1">检查</button>'
-      : '<button type="button" class="vbtn vbtn-wide vbtn-ok" data-vnext="1">继续</button>';
-
-    return "" +
-      '<article class="vcard">' +
-        '<div class="vmeta">' + vBadgesHtml(w) +
-          '<span class="vtag">记忆盒 ' + vBox(w) + "/" + VBOX_MAX + "</span></div>" +
-        '<div class="vword vword-sm">' +
-          '<button type="button" class="vspeak vspeak-lg" data-vspeak="' + esc(w.w) + '">🔊</button>' +
-          '<span class="vsay">听发音，写出单词</span></div>' +
-        '<div class="vbox">' + vDotsHtml(w) + "</div>" +
-        body +
-        '<div class="vactions">' + actions + "</div>" +
-        '<p class="vhint">拼对＝推进记忆盒 · 拼错＝记为「不认识」，10 分钟后重来</p>' +
-      "</article>";
-  }
-
-  function vStudyHtml() {
-    // 门禁：待复习没清完就不给收新词（唯一一条不能破的规则）
-    if (vs.tab === "today" && vDueList().length > 0 && !vs.forced) {
-      return "" +
-        '<div class="vgate">⚠ 待复习还有 <b>' + vDueList().length + "</b> 个没清。" +
-          '<button type="button" class="vbtn" data-vgo="review">先去复习</button>' +
-          '<button type="button" class="vbtn vbtn-link" data-vforce="1">仍要学新词</button>' +
-        "</div>" +
-        '<div class="vempty">清空复习队列后再来收新词。<br>这是唯一一条不能破的规则。</div>';
-    }
-
-    if (vs.qi >= vs.queue.length) {
-      var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
-      var msg;
-      if (vs.tab === "review") {
-        msg = "复习队列已清空。现在可以去「今日新词」了。";
-      } else if (vs.tab === "spell") {
-        msg = "听写队列已清空。";
-      } else if (left > 0) {
-        msg = "词库里能学的词都学完了，没有新的了。<br>到期的复习词会继续出现在这里。";
-      } else {
-        msg = "今天的 " + VNEW_PER_DAY + " 个新词完成了 ✅<br>" +
-          "明天会再发 " + VNEW_PER_DAY + " 个，一天一批；" +
-          "到期的复习词随时会插进来。" +
-          (vStreakShown() ? "<br>已经连续 " + vStreakShown() + " 天了。" : "");
-      }
-      return '<div class="vempty">' + msg + "</div>";
-    }
-
-    var w = vs.queue[vs.qi];
-    return vs.tab === "spell" ? vSpellCardHtml(w) : vReadCardHtml(w);
-  }
+  /* 卡片式学习页 / 听写页已经不再渲染（现在用的是「一行一个词 + 认识/不认识」的列表），
+     相应的 vReadCardHtml / vSpellCardHtml / vStudyHtml 已删除，避免留着会点不动的死按钮。 */
 
   function vInboxHtml() {
     var custom = vocab.custom;
@@ -833,25 +739,6 @@
 
   /* ---------- 学习模式·单词板块 的交互 ---------- */
 
-  function vAnswerCurrent(kind) {
-    var w = vs.queue[vs.qi];
-    if (!w) return;
-    vAnswer(w, kind);
-    vs.qi++;
-    vs.revealed = false;
-    renderVocab();
-  }
-
-  function vCheckSpell() {
-    var w = vs.queue[vs.qi];
-    if (!w || vs.spell.result !== null) return;
-    var typed = String(vs.spell.typed || "").trim().toLowerCase();
-    var ok = typed === w.w.toLowerCase();
-    vs.spell.result = ok ? 1 : 0;
-    vAnswer(w, ok ? "know" : "no");
-    renderVocab();
-  }
-
   function vAddImported() {
     var lines = String(vs.importText || "").split("\n");
     var track = vs.importTrack || "G";
@@ -929,10 +816,6 @@
       vs.tab = "review"; vs.forced = false; vBuildQueue(); renderVocab(); return;
     }
     if ((el = t.closest("[data-vforce]"))) { vs.forced = true; renderVocab(); return; }
-    if ((el = t.closest("[data-vcheck]"))) { vCheckSpell(); return; }
-    if ((el = t.closest("[data-vnext]"))) {
-      vs.qi++; vs.spell = { typed: "", result: null }; renderVocab(); return;
-    }
     if ((el = t.closest("[data-vadd]"))) { vAddImported(); return; }
     if ((el = t.closest("[data-vchunkadd]"))) { vAddChunk(); return; }
     if ((el = t.closest("[data-vdel]"))) {
@@ -981,10 +864,7 @@
   function onVocabKeydown(e) {
     var t = e.target;
     if (!t || !t.getAttribute) return;
-    if (e.key === "Enter" && t.getAttribute("data-vdinput") !== null) {
-      e.preventDefault();
-      vCheckSpell();
-    }
+    // 听写输入框已经不在界面上了，这里保留一个空实现以防旧缓存页面还挂着监听
   }
 
   /* ---------------------------------------------------------------------
@@ -1204,6 +1084,7 @@
 
   function dlgGoalSave() {
     try { localStorage.setItem(DG_KEY, JSON.stringify(dlgGoal)); } catch (e) {}
+    if (typeof syncAutoPush === "function") syncAutoPush();   // 对话掌握也一起同步
   }
 
   // 点「掌握」记 ok，点「练习」记 practice，再点一次同一个就取消
@@ -1439,6 +1320,230 @@
     els.pbarDom.style.width = (mine.length ? Math.round(doneDom / mine.length * 100) : 0) + "%";
   }
 
+  /* ==================== 进度同步（快照 / 备份文件 / GitHub Gist） ====================
+     为什么需要它：静态页面把进度存在浏览器 localStorage 里，清缓存或换手机就没了。
+     所以做一个「快照」层，把全部进度打包成一段 JSON，再提供三条通道：
+       ① 导出到文本 / 从文本恢复（哪都能用，不依赖网络）
+       ② 备份到文件（手机上存到「文件」App 或网盘）
+       ③ GitHub Gist（粘一个只勾 gist 权限的 token，换设备粘同一个就能拿回来）
+     快照里存各 key 的原始字符串，不做二次解析，避免漏字段。
+     ================================================================================= */
+
+  var SNAP_KEYS = [
+    "chatprac-vocab-study",     // 背单词进度
+    "chatprac-dialogue-goal",   // 对话掌握 / 练习
+    "chatprac-mode",            // 查询 / 学习
+    "chatprac-theme"            // 深浅色
+  ];
+  var SNAP_MAGIC = "chat-prac";
+  var SYNC_KEY = "chatprac-sync";
+  var GIST_FILE = "chat-prac-progress.json";
+
+  function syncCfgLoad() {
+    var d = { token: "", gist: "", auto: true, at: 0 };
+    try {
+      var raw = localStorage.getItem(SYNC_KEY);
+      if (raw) {
+        var saved = JSON.parse(raw);
+        Object.keys(d).forEach(function (k) { if (saved && saved[k] !== undefined) d[k] = saved[k]; });
+      }
+    } catch (e) { /* 当没设置过 */ }
+    return d;
+  }
+  var syncCfg = syncCfgLoad();
+
+  function syncCfgSave() {
+    try { localStorage.setItem(SYNC_KEY, JSON.stringify(syncCfg)); } catch (e) {}
+  }
+
+  /* ---------- 快照 ---------- */
+
+  function snapMake() {
+    var data = {};
+    SNAP_KEYS.forEach(function (k) {
+      try {
+        var v = localStorage.getItem(k);
+        if (v !== null) data[k] = v;
+      } catch (e) { /* 读不到就跳过这个 key */ }
+    });
+    return { app: SNAP_MAGIC, version: 1, savedAt: Date.now(), data: data };
+  }
+
+  function snapParse(text) {
+    var obj;
+    try { obj = JSON.parse(String(text || "").trim()); } catch (e) { return { err: "不是有效的 JSON" }; }
+    if (!obj || obj.app !== SNAP_MAGIC || !obj.data) return { err: "这不是 Chat Prac 的进度快照" };
+    return { snap: obj };
+  }
+
+  function snapWhen(ts) {
+    try { return new Date(ts).toLocaleString(); } catch (e) { return "未知时间"; }
+  }
+
+  // 把快照写回本机，并让内存里的状态一起换过来（不用刷新页面）
+  function snapApply(snap) {
+    var n = 0;
+    SNAP_KEYS.forEach(function (k) {
+      if (snap.data[k] === undefined || snap.data[k] === null) return;
+      try { localStorage.setItem(k, snap.data[k]); n++; } catch (e) {}
+    });
+    vocab = vLoad();                     // 背单词进度
+    dlgGoal = dlgGoalLoad();             // 对话掌握 / 练习
+    vs.tab = "today"; vs.forced = false;
+    vBuildQueue();
+    initTheme();                         // 主题
+    initModeState();                     // 查询 / 学习
+    renderVocab();
+    renderDialogues();
+    renderStudyProgress();
+    return n;
+  }
+
+  function snapStamp() {
+    var d = new Date();
+    function p(x) { return (x < 10 ? "0" : "") + x; }
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" + p(d.getHours()) + p(d.getMinutes());
+  }
+
+  /* ---------- GitHub Gist 通道 ---------- */
+
+  function syncSay(msg, bad) {
+    if (!els.syncMsg) return;
+    els.syncMsg.textContent = msg || "";
+    els.syncMsg.className = "sync-msg" + (bad ? " is-bad" : "");
+  }
+
+  function syncPaint() {
+    if (els.syncToken) els.syncToken.value = syncCfg.token;
+    if (els.syncAuto) els.syncAuto.textContent = "自动同步：" + (syncCfg.auto ? "开" : "关");
+    if (els.syncState) {
+      els.syncState.textContent = !syncCfg.token ? "未设置"
+        : (syncCfg.at ? "已同步 " + new Date(syncCfg.at).toLocaleDateString() : "已设置");
+    }
+  }
+
+  function ghHeaders() {
+    return {
+      "Accept": "application/vnd.github+json",
+      "Authorization": "Bearer " + syncCfg.token,
+      "Content-Type": "application/json"
+    };
+  }
+
+  function syncUp() {
+    if (!syncCfg.token) { syncSay("先粘一个 GitHub token", true); return; }
+    var payload = {
+      description: "Chat Prac 学习进度（自动生成，勿手改）",
+      files: {}
+    };
+    if (!syncCfg.gist) payload.public = false;
+    payload.files[GIST_FILE] = { content: JSON.stringify(snapMake()) };
+
+    var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
+    syncSay("上传中…");
+    fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); })
+      .then(function (res) {
+        if (!res.ok) { syncSay("上传失败：" + ((res.j && res.j.message) || res.code), true); return; }
+        syncCfg.gist = res.j.id;
+        syncCfg.at = Date.now();
+        syncCfgSave();
+        syncPaint();
+        syncSay("已上传 ✓");
+      })
+      .catch(function () { syncSay("上传失败：网络不通", true); });
+  }
+
+  function syncDown(quiet) {
+    if (!syncCfg.token || !syncCfg.gist) {
+      if (!quiet) syncSay("云端还没有备份，先点「上传进度」", true);
+      return;
+    }
+    if (!quiet) syncSay("下载中…");
+    fetch("https://api.github.com/gists/" + syncCfg.gist, { headers: ghHeaders() })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        var f = j && j.files && j.files[GIST_FILE];
+        if (!f) { if (!quiet) syncSay("云端那个 gist 里没有进度文件", true); return; }
+        var parsed = snapParse(f.content);
+        if (parsed.err) { if (!quiet) syncSay(parsed.err, true); return; }
+        var n = snapApply(parsed.snap);
+        syncCfg.at = Date.now();
+        syncCfgSave();
+        syncPaint();
+        syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(parsed.snap.savedAt) + "）");
+      })
+      .catch(function () { if (!quiet) syncSay("下载失败：网络不通", true); });
+  }
+
+  var syncTimer = null;
+  // 学一会儿就自动传一次；没设置 token 或断网就静默跳过
+  function syncAutoPush() {
+    if (!syncCfg.auto || !syncCfg.token) return;
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = setTimeout(syncUp, 6000);
+  }
+
+  /* ---------- 文本 / 文件通道 ---------- */
+
+  function syncExport() {
+    if (!els.syncText) return;
+    els.syncText.value = JSON.stringify(snapMake());
+    syncSay("已导出到下面的文本框，可以复制到别处保存");
+  }
+
+  function syncImport() {
+    if (!els.syncText) return;
+    var parsed = snapParse(els.syncText.value);
+    if (parsed.err) { syncSay(parsed.err, true); return; }
+    var n = snapApply(parsed.snap);
+    syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(parsed.snap.savedAt) + "）");
+  }
+
+  function syncFile() {
+    try {
+      var blob = new Blob([JSON.stringify(snapMake())], { type: "application/json" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "chat-prac-progress-" + snapStamp() + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      syncSay("已保存到「下载 / 文件」里；换设备时打开这个文件，把内容贴进下面再点恢复");
+    } catch (e) {
+      syncSay("这个浏览器不支持直接存文件，请用「导出到文本」", true);
+    }
+  }
+
+  function initSync() {
+    if (!els.syncToggle) return;
+    syncPaint();
+    els.syncToggle.addEventListener("click", function () {
+      var open = els.syncBody.hidden;
+      els.syncBody.hidden = !open;
+      els.syncToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) syncSay("");
+    });
+    els.syncToken.addEventListener("change", function () {
+      syncCfg.token = String(els.syncToken.value || "").trim();
+      syncCfgSave();
+      syncPaint();
+      syncSay(syncCfg.token ? "token 已保存；换设备粘同一个就能把进度拿回来" : "已清空 token");
+      if (syncCfg.token) syncDown(true);   // 新设备接管时先试着把云端进度拉下来
+    });
+    els.syncUp.addEventListener("click", syncUp);
+    els.syncDown.addEventListener("click", syncDown);
+    els.syncAuto.addEventListener("click", function () {
+      syncCfg.auto = !syncCfg.auto;
+      syncCfgSave();
+      syncPaint();
+      syncSay(syncCfg.auto ? "每次学习后会自动上传" : "已关闭自动上传");
+    });
+    els.syncExport.addEventListener("click", syncExport);
+    els.syncImport.addEventListener("click", syncImport);
+    els.syncFile.addEventListener("click", syncFile);
+  }
+
   /* ============================== 顶部栏 / 输入区联动 ============================== */
   // 手机上不自动聚焦：程序化 focus() 会把软键盘顶上来，挡住半个屏幕。
   // 只有"鼠标类"设备（桌面）才自动聚焦，触屏设备一律等用户自己点输入框。
@@ -1497,6 +1602,17 @@
     var saved = null;
     try { saved = localStorage.getItem("chatprac-mode"); } catch (e) {}
     if (saved === "study" || saved === "search") state.mode = saved;
+  }
+
+  // 恢复快照后用：把模式重新读一遍并刷新界面（幂等，可以重复调用）
+  function initModeState() {
+    initMode();
+    var allowed = applyModeUi();
+    if (allowed.indexOf(state.tab) < 0) {
+      state.tab = allowed[0] || "words";
+      Object.keys(els.views).forEach(function (key) { els.views[key].hidden = key !== state.tab; });
+    }
+    syncChrome();
   }
 
   function saveMode() {
@@ -1682,6 +1798,9 @@
     } catch (e) { /* 没有 DOM 就算了 */ }
 
     initTheme();
+    initSync();
+    // 设置过同步的话，启动时静默拉一次：清缓存或换设备后一打开就自动恢复进度
+    if (syncCfg.token && syncCfg.gist) syncDown(true);
     initStandalone();
     initMode();
     applyModeUi();
