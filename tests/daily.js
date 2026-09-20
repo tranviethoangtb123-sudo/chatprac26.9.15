@@ -71,7 +71,7 @@ globalThis.matchMedia = () => ({ matches: false });
 globalThis.location = { hash: "" };
 globalThis.history = { replaceState() {} };
 
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"]
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"]
   .forEach((f) => require(path.join(root, "assets/js", f)));
 store["chatprac-mode"] = "study";     // 单词板块只在学习模式下渲染
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
