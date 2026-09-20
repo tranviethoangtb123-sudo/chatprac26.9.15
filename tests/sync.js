@@ -72,7 +72,7 @@ globalThis.history = { replaceState() {} };
 globalThis.Blob = function () {};
 globalThis.URL = { createObjectURL: () => "blob:x", revokeObjectURL() {} };
 
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"]
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"]
   .forEach((f) => require(path.join(root, "assets/js", f)));
 const APP = fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8");
 
