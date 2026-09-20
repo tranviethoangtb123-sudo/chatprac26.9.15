@@ -1454,50 +1454,71 @@
     };
   }
 
+  // 新设备只知道 token、不知道 gist 编号：去账号里按文件名把那个进度 gist 找出来。
+  // 不这么做的话，新手机会以为"云端没备份"而新建一个空 gist，旧进度就永远拉不回来。
+  function syncFindGist() {
+    return fetch("https://api.github.com/gists?per_page=100", { headers: ghHeaders() })
+      .then(function (r) { return r.json(); })
+      .then(function (list) {
+        if (!Array.isArray(list)) return "";
+        for (var i = 0; i < list.length; i++) {
+          if (list[i] && list[i].files && list[i].files[GIST_FILE]) {
+            syncCfg.gist = list[i].id;
+            syncCfgSave();
+            return list[i].id;
+          }
+        }
+        return "";
+      });
+  }
+
   function syncUp() {
     if (!syncCfg.token) { syncSay("先粘一个 GitHub token", true); return; }
-    var payload = {
-      description: "Chat Prac 学习进度（自动生成，勿手改）",
-      files: {}
-    };
-    if (!syncCfg.gist) payload.public = false;
-    payload.files[GIST_FILE] = { content: JSON.stringify(snapMake()) };
-
-    var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
     syncSay("上传中…");
-    fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); })
-      .then(function (res) {
-        if (!res.ok) { syncSay("上传失败：" + ((res.j && res.j.message) || res.code), true); return; }
-        syncCfg.gist = res.j.id;
-        syncCfg.at = Date.now();
-        syncCfgSave();
-        syncPaint();
-        syncSay("已上传 ✓");
-      })
-      .catch(function () { syncSay("上传失败：网络不通", true); });
+    // 先找找云端有没有现成的，避免在同一个账号下建出第二个进度 gist
+    var pre = syncCfg.gist ? Promise.resolve(syncCfg.gist) : syncFindGist();
+    pre.then(function () {
+      var payload = {
+        description: "Chat Prac 学习进度（自动生成，勿手改）",
+        files: {}
+      };
+      if (!syncCfg.gist) payload.public = false;
+      payload.files[GIST_FILE] = { content: JSON.stringify(snapMake()) };
+
+      var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
+      return fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); })
+        .then(function (res) {
+          if (!res.ok) { syncSay("上传失败：" + ((res.j && res.j.message) || res.code), true); return; }
+          syncCfg.gist = res.j.id;
+          syncCfg.at = Date.now();
+          syncCfgSave();
+          syncPaint();
+          syncSay("已上传 ✓");
+        });
+    }).catch(function () { syncSay("上传失败：网络不通", true); });
   }
 
   function syncDown(quiet) {
-    if (!syncCfg.token || !syncCfg.gist) {
-      if (!quiet) syncSay("云端还没有备份，先点「上传进度」", true);
-      return;
-    }
+    if (!syncCfg.token) { if (!quiet) syncSay("先粘一个 GitHub token", true); return; }
     if (!quiet) syncSay("下载中…");
-    fetch("https://api.github.com/gists/" + syncCfg.gist, { headers: ghHeaders() })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        var f = j && j.files && j.files[GIST_FILE];
-        if (!f) { if (!quiet) syncSay("云端那个 gist 里没有进度文件", true); return; }
-        var parsed = snapParse(f.content);
-        if (parsed.err) { if (!quiet) syncSay(parsed.err, true); return; }
-        var n = snapApply(parsed.snap);
-        syncCfg.at = Date.now();
-        syncCfgSave();
-        syncPaint();
-        syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(parsed.snap.savedAt) + "）");
-      })
-      .catch(function () { if (!quiet) syncSay("下载失败：网络不通", true); });
+    var pre = syncCfg.gist ? Promise.resolve(syncCfg.gist) : syncFindGist();
+    pre.then(function (id) {
+      if (!id) { if (!quiet) syncSay("这个账号下还没有进度备份，先在旧设备点「上传进度」", true); return; }
+      return fetch("https://api.github.com/gists/" + id, { headers: ghHeaders() })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var f = j && j.files && j.files[GIST_FILE];
+          if (!f) { if (!quiet) syncSay("云端那个 gist 里没有进度文件", true); return; }
+          var parsed = snapParse(f.content);
+          if (parsed.err) { if (!quiet) syncSay(parsed.err, true); return; }
+          var n = snapApply(parsed.snap);
+          syncCfg.at = Date.now();
+          syncCfgSave();
+          syncPaint();
+          syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(parsed.snap.savedAt) + "）");
+        });
+    }).catch(function () { if (!quiet) syncSay("下载失败：网络不通", true); });
   }
 
   var syncTimer = null;
