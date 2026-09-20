@@ -262,6 +262,7 @@
 
   var V = window.CHAT_PRAC_VOCAB || { words: [], domains: {}, tracks: {}, chunks: [] };
   var VKEY = "chatprac-vocab-study";
+  var VBAK_KEY = "chatprac-vocab-study.bak";   // 读不出来时的保命副本（只备份，不参与计数）
   var VDAY = 86400000;
   var VNEW_PER_DAY = 50;          // 每天新词上限：再高复习队列会崩
   var VBOX_MAX = 5;               // 记忆盒满格
@@ -322,15 +323,25 @@
 
   function vLoad() {
     var d = vBlank();
+    var raw = null, readFailed = false;
     try {
-      var raw = localStorage.getItem(VKEY);
+      raw = localStorage.getItem(VKEY);
       if (raw) {
         var saved = JSON.parse(raw);
-        Object.keys(d).forEach(function (k) {
-          if (saved && saved[k] !== undefined && saved[k] !== null) d[k] = saved[k];
-        });
+        if (saved && typeof saved === "object") {
+          Object.keys(d).forEach(function (k) {
+            if (saved[k] !== undefined && saved[k] !== null) d[k] = saved[k];
+          });
+        } else {
+          readFailed = true;             // 解析出来不是对象：多半是更早的格式
+        }
       }
-    } catch (e) { /* 读不出来就当新开始 */ }
+    } catch (e) { readFailed = true; }
+    // 背过的单词是最要紧的数据：读不出来时先把原文留一份，
+    // 免得后面任何一次 vSave() 就把用户原来的进度彻底冲掉
+    if (readFailed && raw) {
+      try { localStorage.setItem(VBAK_KEY, raw); } catch (e2) { /* 存不下就算了 */ }
+    }
     if (!d.chunks || !d.chunks.length) d.chunks = (V.chunks || []).slice();
     vocab = d;
     vRollDay();                          // 跨天自动重置今日额度
@@ -802,7 +813,10 @@
     });
 
     vs.importText = "";
-    vAllCache = null;    // 词库变了，「全部单词」的缓存要重建    vSave();
+    vAllCache = null;    // 词库变了，「全部单词」的缓存要重建
+    // 之前这句 vSave() 被挤在上一行注释后面（等于没执行），导入的词只留在内存里，
+    // 关掉页面就没了。单独一行，别再和注释挤一起。
+    vSave();
     renderVocab();
 
     if (added || dup) {
@@ -1018,6 +1032,17 @@
     return null;
   }
 
+  // 当前数据里真实存在的进度键。数据改版后老键会变成「孤儿」：
+  // 计数时不算它（否则下拉里的数字会比底部进度条虚高），但也绝不主动删掉用户数据。
+  var dlgKeySet = null;
+  function dlgValidKeys() {
+    if (!dlgKeySet) {
+      dlgKeySet = {};
+      dlgFlat().forEach(function (it) { dlgKeySet[it.key] = 1; });
+    }
+    return dlgKeySet;
+  }
+
   // 搜索命中：变体名 + 对话正文
   function dlgMatch(d, q) {
     if (!q) return true;
@@ -1098,28 +1123,40 @@
   /* ---------- 目标完成：进度存本机，掌握 / 练习两个键挂在下拉框的每一行上 ----------
      一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了；练习 = 还要再学。 */
   var DG_KEY = "chatprac-dialogue-goal";
+  var DG_BAK_KEY = "chatprac-dialogue-goal.bak";   // 读不出来时的保命副本（只备份，不参与计数）
   var DLG_DAILY_GOAL = 8;    // 每天的目标：一个课题 = 8 段
   var dlgGoal = dlgGoalLoad();
 
   function dlgGoalLoad() {
-    var d = { mark: {} };   // mark["s04-01:0"] = { s: "ok" | "practice", d: "2026-1-5" }
+    // mark["s04-01:0"] = { s: "ok" | "practice", d: "2026-1-5" }
+    var d = { mark: {}, readFailed: false };
+    var raw = null;
     try {
-      var raw = localStorage.getItem(DG_KEY);
+      raw = localStorage.getItem(DG_KEY);
       if (raw) {
         var saved = JSON.parse(raw);
-        if (saved && saved.mark) d.mark = saved.mark;
+        if (saved && saved.mark && typeof saved.mark === "object") d.mark = saved.mark;
+        else d.readFailed = true;      // 解析出来却没有 mark：多半是更早的格式
       }
-    } catch (e) { /* 读不出来就当新开始 */ }
+    } catch (e) { d.readFailed = true; }
+    // 读不出来时先把原文留一份：这样后面任何一次写入都不会把用户原来的记录彻底冲掉
+    if (d.readFailed && raw) {
+      try { localStorage.setItem(DG_BAK_KEY, raw); } catch (e2) { /* 存不下就算了 */ }
+    }
     return d;
   }
 
   function dlgGoalSave() {
-    try { localStorage.setItem(DG_KEY, JSON.stringify(dlgGoal)); } catch (e) {}
+    // 只写 mark 字段，存储格式和旧版本完全一致（不做格式迁移，免得读旧数据出错）
+    try { localStorage.setItem(DG_KEY, JSON.stringify({ mark: dlgGoal.mark })); } catch (e) {}
     if (typeof syncAutoPush === "function") syncAutoPush();   // 对话掌握也一起同步
   }
 
   // 点「掌握」记 ok，点「练习」记 practice，再点一次同一个就取消
   function dlgMark(key, kind) {
+    // 改之前先读一遍本机最新进度：万一另开着一个旧页面，避免用陈旧副本把新记录冲掉
+    var fresh = dlgGoalLoad();
+    if (!fresh.readFailed) dlgGoal.mark = fresh.mark;
     var cur = dlgGoal.mark[key];
     if (cur && cur.s === kind) delete dlgGoal.mark[key];
     else dlgGoal.mark[key] = { s: kind, d: vToday() };
@@ -1133,16 +1170,20 @@
 
   // 今天已掌握的段数（跨天自动归零，因为按日期比）
   function dlgTodayDone() {
-    var today = vToday(), n = 0;
+    var today = vToday(), n = 0, valid = dlgValidKeys();
     Object.keys(dlgGoal.mark).forEach(function (k) {
+      if (!valid[k]) return;                       // 数据里已没有这一段，不计
       if (dlgGoal.mark[k].s === "ok" && dlgGoal.mark[k].d === today) n++;
     });
     return n;
   }
 
   function dlgDoneAll() {
-    var n = 0;
-    Object.keys(dlgGoal.mark).forEach(function (k) { if (dlgGoal.mark[k].s === "ok") n++; });
+    var n = 0, valid = dlgValidKeys();
+    Object.keys(dlgGoal.mark).forEach(function (k) {
+      if (!valid[k]) return;
+      if (dlgGoal.mark[k].s === "ok") n++;
+    });
     return n;
   }
 
