@@ -40,6 +40,7 @@ const FILES = [
   ["assets/js/data.words.js", "查询模式词库"],
   ["assets/js/data.vocab.js", "学习模式词库"],
   ["assets/js/data.collocations.js", "固定搭配"],
+  ["assets/js/data.phon.js", "音标补充表"],
   ["assets/js/data.sentences.js", "句子库"],
   ["assets/js/data.dialogues.js", "对话库"],
   ["assets/js/data.practice.js", "练习场景"],
@@ -111,6 +112,16 @@ const FILES = [
   const collocOK = collocCount >= count * 0.4;
   if (!collocOK) bad.push("固定搭配内容");
   console.log("  " + (collocOK ? "✔ " : "✗ ") + "固定搭配线上覆盖 " + collocCount + " 词（词典短语词条，约 " + (collocCount / count * 100).toFixed(0) + "%）");
+
+  // 音标补充表：线上 app.js 要真的引用它，且条目数对得上（学习词库里不在检索词库中的那批词）
+  const appJs = await (await fetch(SITE + "assets/js/app.js", { headers: { "User-Agent": "chat-prac-check" } })).text();
+  const appRefs = appJs.indexOf("CHAT_PRAC_PHON") >= 0;
+  const phon = await (await fetch(SITE + "assets/js/data.phon.js", { headers: { "User-Agent": "chat-prac-check" } })).text();
+  const phonCount = (phon.match(/^  "/gm) || []).length;
+  const phonOK = appRefs && phonCount > 0;
+  if (!phonOK) bad.push("音标补充表内容");
+  console.log("  " + (phonOK ? "✔ " : "✗ ") + "音标补充表线上 " + phonCount + " 条" +
+    (appRefs ? "，app.js 已引用" : "，但 app.js 没有引用"));
 
   console.log("");
   if (bad.length) {
