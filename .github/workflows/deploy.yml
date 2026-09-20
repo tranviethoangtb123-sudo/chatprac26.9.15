@@ -28,8 +28,8 @@ jobs:
 
       # 自检 + 测试 + 打包（都不需要联网，也不依赖第三方 npm 包）
       # 图标是提交进仓库的现成文件（生成脚本需要 Windows 的字体渲染，CI 里不跑）
-      # 五套测试都必须过：其中 dialogue / daily / sync 三套专门守着「进度记忆」，
-      # 改坏「关掉再打开进度还在 / 跨天不清记忆」就会在这里挡下来，不会发布出去。
+      # 六套测试都必须过：其中 daily / sync / dialogue / gist 四套专门守着「进度记忆」，
+      # 改坏「关掉再打开进度还在 / 跨天不清记忆 / 换手机能拿回进度」就会在这里挡下来，不会发布出去。
       - name: 检查与打包
         run: |
           node tests/selfcheck.js
@@ -37,6 +37,7 @@ jobs:
           node tests/daily.js
           node tests/sync.js
           node tests/dialogue.js
+          node tests/gist.js
           node tools/build-dist.js
 
       # 注意：GitHub 不允许 workflow 用 GITHUB_TOKEN 自己开通 Pages
