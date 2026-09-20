@@ -86,12 +86,13 @@ ok.push(`动态 class：${new Set(dynamicClasses).size} 个都有样式`);
 
 global.window = global;
 global.window.CHAT_PRAC_DATA = {};
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 const DATA = global.window.CHAT_PRAC_DATA;
 const VOCAB = global.window.CHAT_PRAC_VOCAB;
 const SC = global.window.CHAT_PRAC_SCENARIOS;
+const PHON_EXTRA = global.window.CHAT_PRAC_PHON || {};
 
 const CJK = /[\u4e00-\u9fa5]/;
 const isAscii = (s) => !/[^\x00-\x7F]/.test(s);
@@ -199,6 +200,30 @@ vwords.forEach((x) => { trackCount[x.track] = (trackCount[x.track] || 0) + 1; })
 if (!trackCount.L) fail("学习词库缺少 L（听力拼写）轨");
 if (!trackCount.G) fail("学习词库缺少 G（通用）轨");
 ok.push(`学习词库：${vwords.length} 词，轨道 ${Object.keys(trackCount).sort().map((k) => k + "=" + trackCount[k]).join(" ")}，域 ${Object.keys(VOCAB.domains || {}).length} 个`);
+
+/* --- 音标覆盖：学习词池里每个词都必须查得到音标 ---
+   学习词池 = 检索词库 + 学习词库（去重，忽略大小写），音标来源 = 检索词库 + 音标补充表。
+   之前有 65 个学习词不在检索词库里，卡片上音标是空的。 */
+const phonMap = {};
+words.forEach((x) => { phonMap[x.w] = x.ph; });
+Object.keys(PHON_EXTRA).forEach((k) => {
+  const at = `音标补充表(${k})`;
+  if (!/^\/.+\/$/.test(PHON_EXTRA[k] || "")) fail(`${at} 音标格式不对：${PHON_EXTRA[k]}`);
+  if (phonMap[k]) fail(`${at} 与检索词库里的音标重复，补充表里不该有它`);
+  phonMap[k] = PHON_EXTRA[k];
+});
+const phonPool = [];
+const phonSeen = new Set();
+words.concat(vwords).forEach((x) => {
+  const k = String(x.w).toLowerCase();
+  if (phonSeen.has(k)) return;
+  phonSeen.add(k);
+  if (!phonMap[x.w] && !phonMap[k]) phonPool.push(x.w);
+});
+if (phonPool.length) {
+  fail(`学习词池里有 ${phonPool.length} 个词没有音标：${phonPool.slice(0, 12).join("、")}${phonPool.length > 12 ? " …" : ""}`);
+}
+ok.push(`音标覆盖：学习词池 ${phonSeen.size} 词全部有音标（检索词库 ${words.length} + 补充表 ${Object.keys(PHON_EXTRA).length}）`);
 
 /* --- 语块库（词组/搭配，不进单词表） --- */
 const vchunks = (VOCAB && VOCAB.chunks) || [];
