@@ -139,7 +139,7 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
@@ -211,6 +211,18 @@ try {
   if (!/class="vdesc">[^<]{2,}</.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
   console.log("  单词行：左列 英语+音标 / 词性+中文，右列 认识+不认识 ✔");
 
+  // 不能只有第一行有音标：今日新词每一行都要有
+  const todayNoPhon = rows.slice(1).map((r) => {
+    const wm = r.match(/class="vw"[^>]*>([^<]+)</);
+    const pm = r.match(/class="vp">([^<]*)</);
+    return wm && (!pm || !/^\/.+\/$/.test(pm[1])) ? wm[1] : null;
+  }).filter(Boolean);
+  if (todayNoPhon.length) {
+    problems.push("今日新词里有 " + todayNoPhon.length + " 个单词没音标：" + todayNoPhon.slice(0, 12).join("、"));
+  } else {
+    console.log("  今日新词 " + (rows.length - 1) + " 行全部带音标 ✔");
+  }
+
   // 从渲染出来的 HTML 里取按键（不是手写属性），这样「按钮属性名和处理器不一致」的死按钮能被测出来
   const rowKeys = (html) => [...html.matchAll(/data-vans="(\w+)" data-vword="([^"]+)"/g)]
     .map((m) => ({ kind: m[1], word: m[2] }));
@@ -269,6 +281,31 @@ try {
   if (!/class="vw"[^>]*>[a-z][a-z' -]*</.test(allHtml)) problems.push("全部单词的第一列不是英语");
   if (!/class="vp">\//.test(allHtml)) problems.push("全部单词缺少音标列");
   if (!/class="vdesc-inline">/.test(allHtml)) problems.push("全部单词缺少词性+中文列");
+
+  // 每个单词都必须真的显示音标（学习词库里有一批不在检索词库中，靠 data.phon.js 补上）
+  // 全部单词的行结构是 <div class="vflat"><span class="vw">词</span><span class="vp">音标</span>…
+  const flatRows = allHtml.split('<div class="vflat">').slice(1);
+  const noPhon = [];
+  let wordRows = 0;
+  flatRows.forEach((row) => {
+    const wm = row.match(/class="vw"[^>]*>([^<]+)</);
+    if (!wm || wm[1].indexOf(" ") >= 0) return;   // 固定搭配是多词短语，不要求音标
+    wordRows += 1;
+    const pm = row.match(/class="vp">([^<]*)</);
+    if (!pm || !/^\/.+\/$/.test(pm[1])) noPhon.push(wm[1]);
+  });
+  const poolSize = new Set(
+    DATA.words.map((x) => x.w.toLowerCase()).concat(VOCAB.words.map((x) => x.w.toLowerCase()))
+  ).size;
+  if (wordRows !== poolSize) {
+    problems.push("全部单词里的单词行数 " + wordRows + " 与学习词池 " + poolSize + " 不一致（检查会空转）");
+  }
+  if (noPhon.length) {
+    problems.push("有 " + noPhon.length + " 个单词没显示音标：" + noPhon.slice(0, 12).join("、") +
+      (noPhon.length > 12 ? " …" : ""));
+  } else {
+    console.log("  音标显示：" + wordRows + " 个单词全部带音标 ✔");
+  }
 
   const collocTotal = Object.keys(DATA.collocations || {}).reduce((n, k) => n + DATA.collocations[k].length, 0);
   if (flatCount < VOCAB.words.length + collocTotal * 0.9) {
