@@ -274,7 +274,8 @@
     return {
       box: {}, due: {}, done: {}, mastered: {}, learnedAt: {},
       custom: [], chunks: null, day: "", newToday: 0,
-      streak: 0, lastStudy: ""            // 连续学习天数 / 最后一次学习是哪天
+      streak: 0, lastStudy: "",           // 连续学习天数 / 最后一次学习是哪天
+      relearn: {}                          // 点过「不认识」打回重学的词（先离开「已学习」）
     };
   }
 
@@ -424,6 +425,7 @@
     var box = vBox(w);
     if (kind === "know") {
       box = box + 1;
+      delete vocab.relearn[w.w];            // 又答对了，回到「已学习」
       if (box > VBOX_MAX) {
         vocab.mastered[w.w] = 1;
         vocab.box[w.w] = VBOX_MAX;
@@ -434,9 +436,11 @@
       }
     } else if (kind === "fuzzy") {
       vocab.due[w.w] = now + VDAY;          // 记忆盒不动，明天再考
+      delete vocab.relearn[w.w];
     } else {
       vocab.box[w.w] = 0;
       vocab.due[w.w] = now + VFLOOR;        // 打回盒 0，10 分钟后重来
+      if (vocab.done[w.w]) vocab.relearn[w.w] = 1;   // 学过的：先离开「已学习」，等重学
     }
     if (!vocab.done[w.w]) {
       vocab.done[w.w] = 1;
@@ -486,17 +490,28 @@
     { id: "all", label: "全部单词" }
   ];
 
+  // 已学习：学过的词按时间倒序；被点过「不认识」打回重学的先离开这个列表
   function vLearnedList() {
-    return vWords().filter(function (w) { return vocab.done[w.w]; })
+    return vWords().filter(function (w) { return vocab.done[w.w] && !vocab.relearn[w.w]; })
       .sort(function (a, b) { return (vocab.learnedAt[b.w] || 0) - (vocab.learnedAt[a.w] || 0); });
   }
 
-  // 今日新词：先复习到期的，再按每天上限补新词（新词跨场景域打散）
+  /* 今日新词：先复习到期的，再按每天上限补新词（跨场景域打散）。
+     顺序要「一天之内固定」：原来是每次渲染都重新洗牌，点一个词整张表就跳一遍。
+     现在按天缓存一次乱序，答过的词从里面滤掉，剩下的位置不动。 */
+  var vTodayOrder = { day: "", total: 0, order: [] };
+  function vTodayFresh() {
+    var total = vWords().length;
+    if (vTodayOrder.day !== vocab.day || vTodayOrder.total !== total) {
+      vTodayOrder = { day: vocab.day, total: total, order: vShuffle(vNewPool().slice()) };
+    }
+    return vTodayOrder.order.filter(vIsNew);
+  }
+
   function vTodayList() {
     var due = vDueList();
     var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
-    var fresh = vShuffle(vNewPool().slice()).slice(0, room);
-    return due.concat(fresh);
+    return due.concat(vTodayFresh().slice(0, room));
   }
 
   // 全部单词：先学习词库（A-Z），再词典里的固定搭配（A-Z）放到最后
@@ -566,10 +581,10 @@
     "</div>";
   }
 
-  // 已学习：同上（两个键，按学习时间由新到旧排）
+  // 已学习：同上，但只需要「不认识」这一个键（答对了就在复习队列里推进，不用再点认识）
   function vLearnedRowHtml(w) {
     return '<div class="vrow">' + vTextHtml(w) +
-      '<div class="vkeys">' + vKeysHtml(w.w, ["know", "no"]) + "</div>" +
+      '<div class="vkeys">' + vKeysHtml(w.w, ["no"]) + "</div>" +
     "</div>";
   }
 

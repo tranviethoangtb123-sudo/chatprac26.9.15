@@ -211,14 +211,20 @@ try {
   if (!/class="vdesc">[^<]{2,}</.test(firstRow)) problems.push("左边第二行缺少词性+中文释义");
   console.log("  单词行：左列 英语+音标 / 词性+中文，右列 认识+不认识 ✔");
 
+  // 从渲染出来的 HTML 里取按键（不是手写属性），这样「按钮属性名和处理器不一致」的死按钮能被测出来
+  const rowKeys = (html) => [...html.matchAll(/data-vans="(\w+)" data-vword="([^"]+)"/g)]
+    .map((m) => ({ kind: m[1], word: m[2] }));
+  const rowWords = (html) => [...html.matchAll(/data-vword="([^"]+)"/g)].map((m) => m[1]);
+
   // 今日新词：新词每天上限 50，到期的复习词会额外排在最前面
   const todayRows = (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length;
   if (todayRows < 1) problems.push("今日新词是空的");
   if (todayRows > 52) problems.push("今日新词过多（新词上限 50 + 少量到期复习），实际 " + todayRows);
   console.log("  今日新词：" + todayRows + " 行（新词上限 50，含到期复习）✔");
 
-  // 抽第一条词，答「认识」→ 进已学习，记忆盒推进
-  const firstWord = (byId.vocabBoard.innerHTML.match(/data-vword="([a-z'-]+)"/) || [])[1];
+  // 抽第一条词，用渲染出来的按键答「认识」→ 进已学习，记忆盒推进
+  const orderBefore = [...new Set(rowWords(byId.vocabBoard.innerHTML))];
+  const firstWord = rowKeys(byId.vocabBoard.innerHTML)[0].word;
   if (!firstWord) problems.push("取不到第一条词");
   const boxBefore = readVocabState().box[firstWord] || 0;
   vclick({ "data-vans": "know", "data-vword": firstWord });
@@ -229,16 +235,31 @@ try {
   if (!st1.learnedAt[firstWord]) problems.push("答「认识」后应记录学习时间（已学习按它倒序）");
   console.log("  答「认识」：" + firstWord + " 进已学习，记忆盒 " + boxBefore + "→" + st1.box[firstWord] + " ✔");
 
-  // 已学习板块：应能查到这个词
-  vclick({ "data-vtab": "learned" });
-  if (byId.vocabBoard.innerHTML.indexOf(firstWord) < 0) problems.push("已学习里没有刚学的词：" + firstWord);
-  console.log("  已学习：" + (byId.vocabBoard.innerHTML.match(/data-vans="know"/g) || []).length + " 个 ✔");
+  // 答完一个，剩下的词顺序不能变（原来是重新洗牌，整张表跳一遍）
+  const orderAfter = [...new Set(rowWords(byId.vocabBoard.innerHTML))];
+  const expectAfter = orderBefore.filter((w) => w !== firstWord);
+  if (orderAfter.join(",") !== expectAfter.join(",")) {
+    problems.push("答完一个词后今日新词整表重排了（应只去掉这一个）");
+  } else {
+    console.log("  答完一个：列表顺序不动，只少了一行 ✔");
+  }
 
-  // 答「不认识」→ 记忆盒归零
+  // 已学习板块：应能查到这个词，而且只有「不认识」一个键
+  vclick({ "data-vtab": "learned" });
+  const learnedHtml = byId.vocabBoard.innerHTML;
+  if (learnedHtml.indexOf(firstWord) < 0) problems.push("已学习里没有刚学的词：" + firstWord);
+  const learnedKeys = rowKeys(learnedHtml);
+  if (learnedKeys.some((k) => k.kind === "know")) problems.push("已学习里不该有「认识」键");
+  if (!learnedKeys.some((k) => k.kind === "no")) problems.push("已学习里缺少「不认识」键");
+  console.log("  已学习：" + learnedKeys.length + " 个键，只有「不认识」✔");
+
+  // 已学习里点「不认识」：记忆盒归零，并且这个词先离开「已学习」（要有可见反馈）
   vclick({ "data-vans": "no", "data-vword": firstWord });
   const st2 = readVocabState();
   if (st2.box[firstWord] !== 0) problems.push("答「不认识」后记忆盒应归零，实际 " + st2.box[firstWord]);
-  console.log("  答「不认识」：记忆盒归零，10 分钟后再来 ✔");
+  if (!st2.relearn[firstWord]) problems.push("答「不认识」后应标记为要重学");
+  if (byId.vocabBoard.innerHTML.indexOf(firstWord) >= 0) problems.push("打回重学的词应先离开「已学习」列表");
+  console.log("  答「不认识」：记忆盒归零、离开已学习、10 分钟后再来 ✔");
 
   // 全部单词：一行式；先单词（A-Z），再固定搭配（A-Z）放在最后
   vclick({ "data-vtab": "all" });
