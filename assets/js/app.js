@@ -350,6 +350,8 @@
 
   function vSave() {
     try { localStorage.setItem(VKEY, JSON.stringify(vocab)); } catch (e) {}
+    // 导入词、加语块这些也算进度，别等到下次答题才顺带备份
+    if (typeof syncAutoPush === "function") syncAutoPush();
   }
 
   // 队列 / 统计用的视图状态（不持久化）
@@ -1513,11 +1515,16 @@
 
   // 新设备只知道 token、不知道 gist 编号：去账号里按文件名把那个进度 gist 找出来。
   // 不这么做的话，新手机会以为"云端没备份"而新建一个空 gist，旧进度就永远拉不回来。
+  // 注意：查不到（网络/权限出错）要抛出去，让调用方放弃这次上传；
+  //       只有"确实查过、账号里没有"才返回空字符串（那才可以新建一个）。
   function syncFindGist() {
     return fetch("https://api.github.com/gists?per_page=100", { headers: ghHeaders() })
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r.ok) throw new Error("gist 列表查询失败 HTTP " + r.status);
+        return r.json();
+      })
       .then(function (list) {
-        if (!Array.isArray(list)) return "";
+        if (!Array.isArray(list)) throw new Error("gist 列表格式不对");
         for (var i = 0; i < list.length; i++) {
           if (list[i] && list[i].files && list[i].files[GIST_FILE]) {
             syncCfg.gist = list[i].id;
@@ -1529,18 +1536,73 @@
       });
   }
 
-  function syncUp() {
-    if (!syncCfg.token) { syncSay("先粘一个 GitHub token", true); return; }
-    syncSay("上传中…");
-    // 先找找云端有没有现成的，避免在同一个账号下建出第二个进度 gist
+  /* ---------- 进度分量：只数"只会变多"的东西，用来判断哪一份更全 ---------- */
+  function snapWeight(snap) {
+    if (!snap || !snap.data) return -1;
+    try {
+      var v = JSON.parse(snap.data[VKEY] || "{}");
+      var g = JSON.parse(snap.data[DG_KEY] || "{}");
+      return Object.keys(v.done || {}).length +
+        Object.keys(v.mastered || {}).length +
+        (v.custom || []).length +
+        Object.keys(g.mark || {}).length;
+    } catch (e) { return -1; }
+  }
+
+  // 云端历史副本：每次上传多存一份带时间的，万一哪次被覆盖了还能翻回来。
+  // 只保留最近 GIST_KEEP 份，不然 gist 会越堆越大。
+  var GIST_KEEP = 3;
+  var GIST_HIST_RE = /^chat-prac-progress-\d{8}-\d{4}\.json$/;
+  function gistHistName(ts) {
+    var d = new Date(ts);
+    function p(x) { return (x < 10 ? "0" : "") + x; }
+    return "chat-prac-progress-" + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) +
+      "-" + p(d.getHours()) + p(d.getMinutes()) + ".json";
+  }
+
+  function syncUp(auto, force) {
+    if (!syncCfg.token) { if (auto !== true) syncSay("先粘一个 GitHub token", true); return; }
+    if (auto !== true) syncSay("上传中…");
+    // 先看看云端现成的那份：既避免建出第二个 gist，也用来判断该不该传
     var pre = syncCfg.gist ? Promise.resolve(syncCfg.gist) : syncFindGist();
-    pre.then(function () {
-      var payload = {
-        description: "Chat Prac 学习进度（自动生成，勿手改）",
-        files: {}
-      };
+    pre.then(function (id) {
+      if (!id) return { cloud: null, files: [] };
+      return fetch("https://api.github.com/gists/" + id, { headers: ghHeaders() })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          var f = j && j.files && j.files[GIST_FILE];
+          var parsed = f ? snapParse(f.content) : { err: "云端没有进度文件" };
+          return { cloud: parsed.snap || null, files: Object.keys((j && j.files) || {}) };
+        });
+    }).then(function (ctx) {
+      var snap = snapMake();
+      var mine = snapWeight(snap), theirs = ctx.cloud ? snapWeight(ctx.cloud) : -1;
+
+      // 保护：本机进度比云端少得多，多半是新设备还没把云端那份拉下来。
+      // 这时候传上去 = 把备份冲掉，所以自动同步直接跳过；手动点上传则要用户确认。
+      // 容差：只差一两项（比如刚取消了一个掌握标记）不算，免得正常同步被一直挡住。
+      var deficit = theirs - mine;
+      if (!force && theirs > 0 && (mine === 0 || deficit >= Math.max(3, Math.ceil(theirs * 0.1)))) {
+        var warn = "云端进度比本机多（云端 " + theirs + " 项 / 本机 " + mine + " 项）。";
+        if (auto === true) {
+          syncSay(warn + "已跳过自动上传；先点「下载进度」把云端那份拿回来。", true);
+          return;
+        }
+        if (!window.confirm(warn + "确定要用本机这份覆盖云端吗？\n（云端每次上传都会留历史副本，覆盖了也能翻回来）")) {
+          syncSay(warn + "已取消上传。", true);
+          return;
+        }
+      }
+
+      var payload = { description: "Chat Prac 学习进度（自动生成，勿手改）", files: {} };
       if (!syncCfg.gist) payload.public = false;
-      payload.files[GIST_FILE] = { content: JSON.stringify(snapMake()) };
+      payload.files[GIST_FILE] = { content: JSON.stringify(snap) };
+      // 带时间的副本 + 清掉过期的（null = 删除该文件）
+      var hist = gistHistName(snap.savedAt);
+      payload.files[hist] = { content: JSON.stringify(snap) };
+      var old = ctx.files.filter(function (n) { return GIST_HIST_RE.test(n) && n !== hist; }).sort();
+      var keep = old.slice(-(GIST_KEEP - 1));
+      old.forEach(function (n) { if (keep.indexOf(n) < 0) payload.files[n] = null; });
 
       var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
       return fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
@@ -1551,7 +1613,7 @@
           syncCfg.at = Date.now();
           syncCfgSave();
           syncPaint();
-          syncSay("已上传 ✓");
+          syncSay("已上传 ✓（云端留了 " + GIST_KEEP + " 份，含历史副本）");
         });
     }).catch(function () { syncSay("上传失败：网络不通", true); });
   }
@@ -1583,7 +1645,7 @@
   function syncAutoPush() {
     if (!syncCfg.auto || !syncCfg.token) return;
     if (syncTimer) clearTimeout(syncTimer);
-    syncTimer = setTimeout(syncUp, 6000);
+    syncTimer = setTimeout(function () { syncUp(true); }, 6000);
   }
 
   /* ---------- 文本 / 文件通道 ---------- */
@@ -1656,7 +1718,7 @@
     renderDialogues();
     renderStudyProgress();
     syncSay(syncCfg.token ? "已清空，正在同步云端…" : "已清空，从头开始");
-    if (syncCfg.token) syncUp();     // 云端跟着清空
+    if (syncCfg.token) syncUp(false, true);   // 云端跟着清空（force：用户已经确认过了）
   }
 
   function initSync() {
@@ -1675,8 +1737,10 @@
       syncSay(syncCfg.token ? "token 已保存；换设备粘同一个就能把进度拿回来" : "已清空 token");
       if (syncCfg.token) syncDown(true);   // 新设备接管时先试着把云端进度拉下来
     });
-    els.syncUp.addEventListener("click", syncUp);
-    els.syncDown.addEventListener("click", syncDown);
+    // 注意：这里必须显式传参。直接写 syncUp 的话，点击事件对象会被当成
+    // auto/quiet 参数传进去 —— 表现是「点下载进度失败时一声不吭」。
+    els.syncUp.addEventListener("click", function () { syncUp(false); });
+    els.syncDown.addEventListener("click", function () { syncDown(false); });
     els.syncAuto.addEventListener("click", function () {
       syncCfg.auto = !syncCfg.auto;
       syncCfgSave();
