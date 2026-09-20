@@ -20,6 +20,7 @@ const FILES = [
   "assets/js/data.words.js",
   "assets/js/data.vocab.js",
   "assets/js/data.collocations.js",
+  "assets/js/data.phon.js",
   "assets/js/data.sentences.js",
   "assets/js/data.dialogues.js",
   "assets/js/data.practice.js",
