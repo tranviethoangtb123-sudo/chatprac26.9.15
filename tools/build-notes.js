@@ -29,7 +29,7 @@ const CSV_PATH = path.join(__dirname, ".cache", "ecdict.csv");
 const IPA_PATH = path.join(__dirname, ".cache", "ipa_en_US.txt");
 const OUT_PATH = path.join(ROOT, "assets", "js", "data.notes.js");
 const V_MAX = 20;      // 每段最多列多少个词（太多了没人看）
-const C_MAX = 8;       // 每段最多列多少条固定搭配
+const C_MAX = 12;      // 每段最多列多少条固定搭配（用户要求"多列一点"）
 const G_MAX = 8;       // 每段最多列多少条语法（按 GRAMMAR_ORDER 取最值得讲的）
 const SAMPLE = (() => { const i = process.argv.indexOf("--sample"); return i >= 0 ? process.argv[i + 1] : null; })();
 
@@ -364,7 +364,168 @@ const CHUNKS = [
   ["make a difference", "有影响、起作用"], ["make up your mind", "下定决心"],
   ["change your mind", "改变主意"], ["keep in mind", "记住"], ["bear in mind", "记住"],
   ["get the point", "明白重点"], ["lost track of", "跟丢了、忘了"], ["on second thoughts", "转念一想"],
-  ["in other words", "换句话说"], ["that is to say", "也就是说"], ["to sum up", "总之"]
+  ["in other words", "换句话说"], ["that is to say", "也就是说"], ["to sum up", "总之"],
+  /* ---------- 常用短语动词（中文按口语里的意思写，词典义项常常偏书面） ---------- */
+  ["take up", "开始从事；占用（时间/空间）"], ["come by", "顺便过来；得到"],
+  ["sort out", "把……处理好；解决"], ["figure out", "想明白；弄清楚"],
+  ["pick up", "接人；取东西；学会"], ["drop off", "顺路送到；放下"],
+  ["put off", "推迟；让人反感"], ["call off", "取消"],
+  ["turn down", "拒绝；调小（音量）"], ["turn up", "出现；调大"],
+  ["turn out", "结果发现是"], ["show up", "露面；出现"],
+  ["give up", "放弃"], ["give in", "让步；屈服"],
+  ["hold on", "稍等；（电话）别挂"], ["hang on", "稍等"],
+  ["hang up", "挂电话"], ["carry on", "继续"],
+  ["get through", "接通电话；熬过去"], ["go through", "经历；仔细过一遍"],
+  ["get over", "从……恢复过来"], ["get along", "相处得来"],
+  ["get by", "勉强应付得过去"], ["get rid of", "摆脱；扔掉"],
+  ["run into", "偶遇；撞上（麻烦）"], ["run out of", "用完"],
+  ["come across", "偶然遇到；给人的印象是"], ["come up with", "想出（办法）"],
+  ["catch up", "赶上；叙旧"], ["keep up", "跟上；保持"],
+  ["look into", "调查一下"], ["look up", "查（词典）；好转"],
+  ["look after", "照看"], ["look out", "当心"],
+  ["look forward to", "期待"], ["look over", "大致看一遍"],
+  ["make out", "听清/看清；理解"], ["make up", "编造；和好；补上"],
+  ["make up for", "弥补"], ["point out", "指出"],
+  ["put up with", "忍受"], ["put through", "（电话）转接"],
+  ["put down", "放下；写下；贬低"], ["take off", "起飞；脱掉；请假"],
+  ["take over", "接手；接管"], ["take on", "承担；雇用"],
+  ["take after", "长得像（长辈）"], ["take in", "理解；收留；改小（衣服）"],
+  ["take out", "取出；带出去"], ["take back", "收回（说过的话）；退货"],
+  ["bring up", "提出；抚养"], ["bring in", "引入；带来（收入）"],
+  ["break down", "出故障；情绪崩溃"], ["break up", "分手；散会"],
+  ["check out", "退房；结账；看看"], ["check in", "办入住；值机"],
+  ["fill in", "填写；临时顶替"], ["fill out", "填写（表格）"],
+  ["hand in", "上交"], ["hand out", "分发"],
+  ["set up", "安排；建立"], ["set off", "出发；触发（警报）"],
+  ["set out", "动身；着手"], ["sign up", "报名；注册"],
+  ["opt out", "选择退出"], ["back up", "备份；支持；倒车"],
+  ["wrap up", "收尾；结束"], ["end up", "最后（变成）"],
+  ["pay off", "还清；见成效"], ["pay back", "还钱；报复"],
+  ["work out", "锻炼；算出；顺利解决"], ["work on", "着手做；说服"],
+  ["stand out", "显眼；突出"], ["stand for", "代表；容忍"],
+  ["turn to", "求助于；转向"], ["refer to", "提到；查阅"],
+  ["rely on", "依靠"], ["depend on", "取决于；依赖"],
+  ["count on", "指望"], ["insist on", "坚持要"],
+  ["focus on", "专注于"], ["move on", "继续往前；翻篇"],
+  ["move in", "搬进来"], ["move out", "搬出去"],
+  ["settle in", "适应下来；安顿好"], ["settle down", "安定下来"],
+  ["drop by", "顺便来访"], ["drop out", "退出；辍学"],
+  ["pop in", "顺道进来一下"], ["hang out", "一起消磨时间"],
+  ["chill out", "放松一下"], ["calm down", "冷静下来"],
+  ["slow down", "慢下来"], ["speed up", "加快"],
+  ["cut down", "减少；砍倒"], ["cut off", "切断；打断（电话）"],
+  ["cut out", "戒掉；剪下来"], ["cross out", "划掉"],
+  ["throw away", "扔掉；浪费掉"], ["give away", "送掉；泄露"],
+  ["try on", "试穿"], ["try out", "试用；试训"],
+  ["wear out", "穿坏；使疲惫"], ["wear off", "（药效/新鲜感）消退"],
+  ["wash up", "洗碗"], ["tidy up", "收拾整齐"],
+  ["clear up", "放晴；澄清；收拾"], ["clean up", "打扫干净"],
+  ["fix up", "安排；修好"], ["patch up", "修补；和好"],
+  ["top up", "续满；充值"], ["team up", "组队"],
+  ["catch on", "流行起来；明白过来"], ["come round", "顺道过来；改变主意"],
+  ["come over", "过来（家里）"], ["come along", "一起来；进展"],
+  ["go ahead", "请便；继续"], ["go on", "继续；发生"],
+  ["go off", "（闹钟）响；变质；爆炸"], ["go over", "复习；重看一遍"],
+  ["go back on", "违背（承诺）"], ["get back to", "回头答复（某人）"],
+  ["get in touch", "联系上"], ["keep in touch", "保持联系"],
+  ["keep on", "继续（做）"], ["keep to", "遵守；坚持（计划）"],
+  ["hold up", "耽误；支撑；举起"], ["hold back", "忍住；隐瞒"],
+  ["let down", "让……失望"], ["let in", "让进来"],
+  ["let out", "放出去；发出（声音）"], ["lock out", "把……锁在外面"],
+  ["mess up", "搞砸"], ["screw up", "搞砸（口语）"],
+  ["mix up", "弄混"], ["sort itself out", "自己会解决"],
+  ["slip up", "出错"], ["slip out", "（话）脱口而出"],
+  ["note down", "记下来"], ["jot down", "随手记下"],
+  ["write off", "报废；当作损失"], ["read out", "念出来"],
+  ["speak up", "说大声点；明确表态"], ["speak out", "公开表态"],
+  ["call back", "回电话"], ["ring back", "回电话"],
+  ["call on", "拜访；请（某人）发言"], ["call in", "叫来；请（人）帮忙"],
+  ["bring about", "导致"], ["bring down", "降低；使倒台"],
+  ["bring forward", "提前"], ["push back", "推迟；反驳"],
+  ["line up", "排好队；安排好"], ["queue up", "排队"],
+  ["head off", "动身；阻止"], ["set aside", "留出；搁置"],
+  ["put aside", "放到一边；存起来"], ["lay off", "裁员；停止"],
+  ["take down", "记下；拆下"], ["take apart", "拆开"],
+  ["put together", "组装；凑齐"], ["piece together", "拼凑出（真相）"],
+  ["go along with", "同意；配合"], ["get away with", "侥幸逃过"],
+  ["make do with", "将就着用"], ["live up to", "不辜负（期望）"],
+  ["keep up with", "跟上"], ["put in for", "申请"],
+  ["look up to", "敬重"], ["look down on", "看不起"],
+  ["run by", "向（某人）说一下征求意见"], ["run through", "过一遍；排练"],
+  ["walk through", "带着走一遍（流程）"], ["talk through", "把……讲清楚"],
+  ["think over", "仔细考虑"], ["think through", "想透"],
+  ["sleep on it", "睡一觉再决定"], ["play it by ear", "看情况再说"],
+  ["see to it", "确保（办到）"], ["see through", "看穿；坚持到底"],
+  ["come down to", "归结为"], ["amount to", "等于；总计"],
+  ["add up to", "总计；等于"], ["result in", "导致"],
+  ["account for", "解释；占（比例）"], ["allow for", "考虑到；留出"],
+  ["apply for", "申请"], ["ask after", "问候（某人近况）"],
+  ["attend to", "处理；照料"], ["bank on", "指望"],
+  ["bear with", "请耐心等（一下）"], ["bow out", "退出"],
+  ["brush up on", "复习（生疏的东西）"], ["bump into", "撞见"],
+  ["burst out", "突然（笑/哭）起来"], ["care for", "照顾；喜欢"],
+  ["carry out", "执行；进行"], ["check on", "查看（情况）"],
+  ["chip in", "凑钱；插话"], ["close down", "关闭；停业"],
+  ["come about", "发生"], ["come around", "改变主意；苏醒"],
+  ["cope with", "应付"], ["count in", "把……算上"],
+  ["cut in", "插话；插队"], ["deal with", "处理"],
+  ["do without", "没有……也行"], ["draw up", "起草"],
+  ["dress up", "打扮；盛装"], ["drive off", "开车走掉；赶走"],
+  ["eat out", "出去吃"], ["eat in", "在家吃"],
+  ["face up to", "正视"], ["fall apart", "散架；崩溃"],
+  ["fall behind", "落后"], ["fall for", "上当；爱上"],
+  ["fall out", "闹翻；脱落"], ["fight back", "反击"],
+  ["find out", "查明；发现"], ["fit in", "融入；安排得下"],
+  ["follow up", "跟进"], ["free up", "腾出（时间/空间）"],
+  ["get around", "四处走动；绕过（问题）"], ["get down to", "开始认真做"],
+  ["give out", "分发；用完；出故障"], ["go about", "着手做"],
+  ["grow up", "长大"], ["hand back", "交还"],
+  ["hand over", "移交"], ["head back", "往回走"],
+  ["hit on", "突然想到"], ["iron out", "解决（小分歧）"],
+  ["kick off", "开始"], ["knock out", "击倒；使震惊"],
+  ["lay out", "摆放；阐述"], ["leave behind", "落下；留下"],
+  ["leave out", "漏掉"], ["light up", "亮起来；露出喜色"],
+  ["log in", "登录"], ["log out", "退出登录"],
+  ["make it up to", "补偿（某人）"], ["narrow down", "缩小（范围）"],
+  ["open up", "敞开心扉；开业"], ["own up", "承认（错误）"],
+  ["pack up", "打包；收工"], ["pass on", "转达；传给"],
+  ["pass out", "昏过去"], ["phase out", "逐步淘汰"],
+  ["pick out", "挑出"], ["pipe up", "开口说话"],
+  ["play down", "淡化"], ["plug in", "插上电源"],
+  ["print out", "打印出来"], ["pull off", "成功做成（难事）"],
+  ["pull over", "把车靠边停"], ["pull through", "渡过难关"],
+  ["put across", "把（意思）讲清楚"], ["put away", "收起来"],
+  ["put out", "熄灭；发布；添麻烦"], ["rule out", "排除"],
+  ["scale back", "缩减"], ["sell out", "卖光；背叛"],
+  ["send off", "寄出；送别"], ["set in", "（天气/情绪）开始并持续"],
+  ["shop around", "货比三家"], ["shrug off", "不理会"],
+  ["shut down", "关掉；停业"], ["sit in on", "旁听"],
+  ["smooth over", "缓和（矛盾）"], ["snap up", "抢购"],
+  ["split up", "分开；分手"], ["stand by", "支持；待命"],
+  ["stand in for", "代替（某人）"], ["start over", "重新开始"],
+  ["stick to", "坚持（计划）"], ["stick with", "继续用/跟着"],
+  ["take on board", "接受（意见）"], ["tidy away", "收起来"],
+  ["tone down", "把语气放缓和"], ["track down", "追查到"],
+  ["tune in", "收听/收看"], ["turn around", "扭转（局面）；转身"],
+  ["use up", "用完"], ["walk out", "退场；罢工"],
+  ["watch out", "当心"], ["weigh up", "权衡"],
+  ["wind down", "放松下来；逐步结束"], ["wipe out", "彻底毁灭"],
+  ["zoom in", "放大"],
+  /* 三词以上的动词短语（拆开时尾巴有两段） */
+  ["take up on", "接受（提议/邀请）"], ["catch up on", "补上（进度、消息）"],
+  ["check up on", "查证；核查"], ["get on with", "与……相处；继续做"],
+  ["get on with it", "赶紧继续"], ["keep up with", "跟上"],
+  ["come up against", "遇到（困难）"], ["look out for", "留意；照看"],
+  ["watch out for", "当心"], ["make up for", "弥补"],
+  ["put up with", "忍受"], ["come up with", "想出（办法）"],
+  ["put in for", "申请"], ["live up to", "不辜负（期望）"],
+  ["go along with", "同意；配合"], ["get away with", "侥幸逃过"],
+  ["make do with", "将就着用"], ["sit in on", "旁听"],
+  ["stand in for", "代替（某人）"], ["run out of", "用完"],
+  ["look forward to", "期待"], ["get down to", "开始认真做"],
+  ["come down to", "归结为"], ["face up to", "正视"],
+  ["add up to", "总计；等于"], ["hold on to", "抓住不放"],
+  ["get back to", "回头答复（某人）"], ["settle down to", "安下心来做"]
 ];
 
 
@@ -393,12 +554,46 @@ function main() {
   const LEMMA = new Map();     // 变形 → 原形（ECDICT exchange 里的 0: 字段，权威词形还原）
   const PART = new Set();      // 过去分词
   const PAST = new Set(IRREGULAR_PAST);
+  const PHRASE = new Map();    // 多词短语词条：phrase → {cn, type, particle, verb}
+  const PHRASE_RAW = new Map(); // 还没定型的短语（等词典读完再按词性判定）
+
+  // 短语结构判定用的小词表（照 build-collocations.js 的思路）
+  const P_FUNC = new Set(("a an the and or but if of to in on at by for with from as is are was were be been being am " +
+    "do does did done have has had will would shall should can could may might must this that these those there here " +
+    "it its sb sth someone something oneself he she they we you i me him her us them his their your my our one ones " +
+    "not no so very too also just than then now").split(/\s+/));
+  const P_PARTICLE = new Set("up out off on in down over back away through around along forward together apart aside about across after by for from into of to upon with within against".split(/\s+/));
+  const P_PREP = new Set("in on at for with under by without out of from about after before against over beyond within into".split(/\s+/));
+
+  const POS_PREFIX = /^((n|v|vt|vi|adj|adv|prep|conj|pron|num|art|int|aux|abbr)\.\s*)+/i;
+  function phraseGloss(raw) {
+    if (!raw) return null;
+    const first = String(raw).split(/\\n|\n/)[0].trim();
+    if (!first) return null;
+    const body = first.replace(/\[[^\]]{1,6}\]/g, "").replace(POS_PREFIX, "").trim();
+    if (!body || /人名|地名|姓氏/.test(body)) return null;
+    // 取前 3 个义项（词典第一个义项常常不是口语里那个意思）
+    const senses = body.split(/[,，;；]/).map((x) => x.replace(/[.。\s"]+/g, "").trim())
+      .filter((x) => x && /[\u4e00-\u9fa5]/.test(x) && x.length <= 8 && !/\.\.\.|…/.test(x));
+    if (!senses.length) return null;
+    const cn = senses.slice(0, 3).join("；");
+    return cn.length > 26 ? senses.slice(0, 2).join("；") : cn;
+  }
 
   for (let r = 1; r < rows.length; r++) {
     const row = rows[r];
     if (row.length < 8) continue;
     const w = (row[idx.word] || "").trim().toLowerCase();
-    if (!/^[a-z][a-z'-]{1,20}$/.test(w)) continue;
+    const isSingle = /^[a-z][a-z'-]{1,20}$/.test(w);
+    if (!isSingle) {
+      // 多词短语先都收着，等词典建好（要按词性判定"形容词/名词 + 介词"这类）
+      if (!/^[a-z][a-z'-]*(\s+[a-z][a-z'-]*){1,3}$/.test(w) || PHRASE_RAW.has(w)) continue;
+      const parts = w.split(/\s+/);
+      if (parts.some((p) => !/^[a-z][a-z'-]{0,20}$/.test(p))) continue;
+      const cn = phraseGloss(row[idx.translation] || "");
+      if (cn) PHRASE_RAW.set(w, { cn, parts });
+      continue;
+    }
     const exchange = row[idx.exchange] || "";
     const lemma = /(?:^|\/)\s*0:([a-z][a-z'-]{1,20})/.exec(exchange);
     if (lemma && lemma[1] !== w) LEMMA.set(w, lemma[1]);
@@ -408,38 +603,61 @@ function main() {
     });
     if (w.endsWith("ed")) PART.add(w);
     if (DICT.has(w)) continue;
+    const clean = cleanTranslation(row[idx.translation] || "");
     DICT.set(w, {
       tag: (row[idx.tag] || "").trim(),
+      // ECDICT 的 pos 列是空的，词性只能从释义前缀拿（"a. 好的" → adj.）
+      pos: clean ? clean.pos : "",
       oxford: Number(row[idx.oxford]) || 0,
       collins: Number(row[idx.collins]) || 0,
       phon: ipa.get(w) || ((row[idx.phonetic] || "").trim() ? normalizeOldPhonetic(row[idx.phonetic].trim()) : ""),
-      clean: cleanTranslation(row[idx.translation] || "")
+      clean: clean
     });
   }
-  console.log("词典 " + DICT.size + " 词条，词形还原 " + LEMMA.size + " 条，过去分词 " + PART.size + " 个");
+  // 短语里的每个词都得像正常单词（挡掉带数字/符号的凑数条目）
+  // 现在词典读完了，按词性给短语定型
+  const posOf = (w) => { const e = DICT.get(w); return e ? e.pos : ""; };
+  const isAdjWord = (w) => posOf(w) === "adj.";
+  const isNounWord = (w) => posOf(w) === "n.";
+  const isVerbWord = (w) => posOf(w) === "v.";
+  PHRASE_RAW.forEach((info, w) => {
+    const parts = info.parts;
+    let type = 0, particle = "";
+    if (parts.length === 2 && P_PARTICLE.has(parts[1]) && !P_FUNC.has(parts[0]) &&
+        !P_PARTICLE.has(parts[0]) && !P_PREP.has(parts[0]) && isVerbWord(parts[0])) { type = 1; particle = parts[1]; }
+    else if (P_PREP.has(parts[0]) && !P_FUNC.has(parts[1])) { type = 2; particle = parts[0]; }
+    else if (parts.length === 3 && P_PREP.has(parts[0]) && !P_FUNC.has(parts[1]) &&
+             (P_PREP.has(parts[2]) || P_PARTICLE.has(parts[2]))) { type = 2; particle = parts[0]; }
+    else if (parts.length === 3 && P_PARTICLE.has(parts[2]) && !P_FUNC.has(parts[0]) && !P_FUNC.has(parts[1])) { type = 3; particle = parts[2]; }
+    // 动词 + 小品词 + 介词：come up with / put up with / look forward to
+    else if (parts.length === 3 && P_PARTICLE.has(parts[1]) && (P_PREP.has(parts[2]) || P_PARTICLE.has(parts[2])) &&
+             !P_FUNC.has(parts[0])) { type = 5; particle = parts[1]; }
+    // 形容词/名词 + 介词：good at / interested in / reason for（经典搭配，之前完全没覆盖）
+    else if (parts.length === 2 && (P_PREP.has(parts[1]) || P_PARTICLE.has(parts[1])) && !P_FUNC.has(parts[0]) &&
+             !P_PARTICLE.has(parts[0]) && !P_PREP.has(parts[0]) &&
+             !isVerbWord(parts[0]) && (isAdjWord(parts[0]) || isNounWord(parts[0]))) { type = 6; particle = parts[1]; }
+    // 小品词 + 介词：out of / up to / back to（也是常用搭配）
+    else if (parts.length === 2 && P_PARTICLE.has(parts[0]) && P_PREP.has(parts[1]) && !P_FUNC.has(parts[1])) { type = 8; particle = parts[0]; }
+    // 名词性词组：tenancy agreement / one-page brief（用户要的"词组"就包括这类）
+    else if (parts.length >= 2 && parts.length <= 3 && isNounWord(parts[parts.length - 1]) &&
+             !isVerbWord(parts[0]) && (isAdjWord(parts[0]) || isNounWord(parts[0])) &&
+             parts.every((p) => !P_FUNC.has(p) && !P_PARTICLE.has(p) && !P_PREP.has(p))) { type = 7; particle = ""; }
+    else return;
+    if (parts.some((p) => !DICT.has(p))) return;      // 每个词都得是词典收录的单词
+    PHRASE.set(w, { cn: info.cn, type, particle, verb: parts[0] });
+  });
+  console.log("词典 " + DICT.size + " 词条，词形还原 " + LEMMA.size + " 条，过去分词 " + PART.size + " 个，结构化短语 " + PHRASE.size + " 条");
 
   const phonBank = {};
   (DATA.words || []).forEach((x) => { phonBank[x.w] = x.ph; });
   Object.keys(globalThis.CHAT_PRAC_PHON || {}).forEach((k) => { phonBank[k] = globalThis.CHAT_PRAC_PHON[k]; });
 
-  const COLLOC = DATA.collocations || {};
-  const PHRASES = [];
-  const seenPhrase = new Set();
-  Object.keys(COLLOC).forEach((head) => {
-    (COLLOC[head] || []).forEach((pair) => {
-      const p = String(pair[0]).toLowerCase();
-      if (seenPhrase.has(p)) return;
-      seenPhrase.add(p);
-      PHRASES.push({ p, cn: pair[1] });
-    });
-  });
-  // 口语语块（词典短语表覆盖不到，见 CHUNKS）
-  CHUNKS.forEach(([p, cn]) => {
-    if (seenPhrase.has(p)) return;
-    seenPhrase.add(p);
-    PHRASES.push({ p, cn });
-  });
-  console.log("短语来源：" + Object.keys(COLLOC).length + " 个词典词条 + " + CHUNKS.length + " 条口语语块 = " + PHRASES.length + " 条");
+  /* ---------- 短语匹配用的索引 ----------
+     ① 手写口语语块（CHUNKS）：中文按口语用法写 → 最高优先，覆盖词典义项偏书面的时候
+     ② ECDICT 结构化短语（PHRASE）：动词+小品词 / 介词短语 / 动词+名词+小品词 / 动词+小品词+介词
+     ③ 拆开的动词短语（take it up / take you up on that）——只认①里的语块，
+        这样释义一定是对的（词典里 sit over 这种生僻义项不会跳出来误导人） */
+  const CHUNK_MAP = new Map(CHUNKS.map(([p, cn]) => [p.toLowerCase(), cn]));
 
   // 语域取值在数据里是自由文本（"半正式（情绪化）"），这里归一化
   function registerNote(text) {
@@ -455,6 +673,57 @@ function main() {
   const isBasic = (e) => !!e && (/(^|\s)zk(\s|$)/.test(e.tag) || e.oxford === 1 || e.collins >= 4);
   // ECDICT 里变形词条自己的释义是「X的过去式」这种，不算真释义
   const isFormGloss = (e) => !!e && /的(过去式|过去分词|复数|第三人称|现在分词|ing形式|比较级|最高级)|复数形式|过去式和过去分词/.test(e.clean ? e.clean.cn : "");
+
+  // 介词短语这类：只有「介词 + 名词」两个词、且名词是最基础的词（on monday）才丢掉；
+  // 三词的（in charge of）保留
+  let droppedPhrase = 0;
+  [...PHRASE.entries()].forEach(([p, info]) => {
+    if (info.type !== 2 && info.type !== 4) return;
+    const parts = p.split(" ");
+    if (info.type === 2 && parts.length !== 2) return;
+    const head = info.type === 2 ? parts[1] : parts[parts.length - 1];
+    const e = DICT.get(head);
+    if (e && e.oxford === 1 && e.collins >= 4) { PHRASE.delete(p); droppedPhrase++; }
+  });
+  if (droppedPhrase) console.log("  丢掉过于基础的短语：" + droppedPhrase + " 条（on monday 这类）");
+
+  // 短语索引要在删减之后再建（否则被删的短语还会在匹配列表里，显示成空释义）
+  const ALL_PHRASES = [...new Set([...CHUNK_MAP.keys(), ...PHRASE.keys()])].sort((a, b) => b.length - a.length);
+  // 可拆开的动词短语：verb → Map(尾巴 → 释义)。
+  // 尾巴是 "up" / "up on" / "out of" 这种；先放词典的（面广），再用口语语块覆盖（释义更准）
+  const SPLIT_INDEX = new Map();
+  const TAIL_RE = /^(up|out|off|on|in|down|over|back|away|through|around|along|about|across|after|by|for|from|into|of|to|with|against)(\s+(up|out|off|on|in|down|over|back|away|through|around|along|about|across|after|by|for|from|into|of|to|with|against))?$/;
+  PHRASE.forEach((info, p) => {
+    if (info.type !== 1) return;
+    if (!SPLIT_INDEX.has(info.verb)) SPLIT_INDEX.set(info.verb, new Map());
+    const m = SPLIT_INDEX.get(info.verb);
+    if (!m.has(info.particle)) m.set(info.particle, info.cn);
+  });
+  CHUNK_MAP.forEach((cn, p) => {
+    const parts = p.split(" ");
+    if (parts.length < 2 || parts.length > 3) return;
+    const tail = parts.slice(1).join(" ");
+    if (!TAIL_RE.test(tail)) return;
+    if (!SPLIT_INDEX.has(parts[0])) SPLIT_INDEX.set(parts[0], new Map());
+    SPLIT_INDEX.get(parts[0]).set(tail, cn);      // 语块覆盖词典释义
+  });
+  console.log("短语来源：" + PHRASE.size + " 条词典短语 + " + CHUNK_MAP.size + " 条口语语块（可拆开的动词 " + SPLIT_INDEX.size + " 个）");
+
+  // 生词 → 它的词典搭配（补充用）。
+  // 只收动词类搭配（动词+小品词 / 动词+名词+小品词 / 动词+名词）—— 名词性复合词
+  // （compiler designer、beginning inventory 这类专业词条）堆上来对学习没帮助。
+  // 动词短语挂在动词上；"动词+名词"再额外挂到那个名词上（take inventory → inventory）
+  const BY_HEAD = new Map();
+  PHRASE.forEach((info, p) => {
+    if (info.type !== 1 && info.type !== 3 && info.type !== 4 && info.type !== 5) return;
+    const parts = p.split(" ");
+    const heads = info.type === 4 ? [parts[0], parts[parts.length - 1]] : [parts[0]];
+    heads.forEach((head) => {
+      if (!BY_HEAD.has(head)) BY_HEAD.set(head, []);
+      const list = BY_HEAD.get(head);
+      if (list.length < 1) list.push(p);      // 每个词最多补 1 条
+    });
+  });
 
   /* 词形还原后判定：
      ① 有 ECDICT 的 0: 原形 → 一律按原形判定（reserved → reserve，met → meet 是基础词就整条丢掉）
@@ -538,22 +807,109 @@ function main() {
       });
       const g = gAll.slice(0, G_MAX).map((x) => [intern(ruleTexts, ruleIdx, x.t), x.q]);
 
-      /* ---------- 固定搭配（词典短语 + 口语语块，长的优先） ---------- */
-      const lower = lines.map((l) => " " + String(l.en || "").toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ") + " ");
-      const hits = [], seenC = new Set();
-      PHRASES.forEach((ph) => {
-        if (seenC.has(ph.p)) return;
-        if (lower.some((t) => t.indexOf(" " + ph.p + " ") >= 0)) { seenC.add(ph.p); hits.push(ph); }
+      /* ---------- 固定搭配 ----------
+         ① 直接命中：把这段的 2~4 词连续片段做成集合，逐条短语查（比逐词 indexOf 快得多）
+            关键：同时用"原形"再建一套片段 —— 对话里是 asked for / paid for / came out，
+            词典里是 ask for / pay for / come out，不还原原形就一条都对不上
+         ② 拆开的动词短语：take it up / pick the kids up → 显示成 take sth up
+         长的优先，被更长的包含掉的丢掉；口语语块的中文优先于词典义项 */
+      const norm = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ").trim();
+      // 每个词同时记住「原样」和「原形」：搭配显示词典里的原形，
+      // 但 evidence 记正文里的原话（asked for），这样数据可以逐条核对
+      const pairLines = lines.map((l) => norm(l.en).split(" ").filter(Boolean)
+        .map((t) => ({ s: t, l: LEMMA.get(t) || t })));
+      const grams = new Set();          // 原样片段（名词性词组只用这套）
+      const lemmaGrams = new Map();     // 原形片段 → 正文里的原话（动词短语用这套）
+      pairLines.forEach((pairs) => {
+        for (let i = 0; i < pairs.length; i++) {
+          for (let n = 2; n <= 4 && i + n <= pairs.length; n++) {
+            const seg2 = pairs.slice(i, i + n);
+            grams.add(seg2.map((x) => x.s).join(" "));
+            const lg = seg2.map((x) => x.l).join(" ");
+            if (!lemmaGrams.has(lg)) lemmaGrams.set(lg, seg2.map((x) => x.s).join(" "));
+          }
+        }
       });
-      hits.sort((a, b) => b.p.length - a.p.length);
-      const c = [];
-      hits.slice(0, C_MAX).forEach((ph) => {
-        c.push(ph.p);
-        colls[ph.p] = ph.cn;
+      const isVerbPhrase = (p) => {
+        const info = PHRASE.get(p);
+        if (!info) return true;                       // 口语语块：两套都试
+        return info.type === 1 || info.type === 3 || info.type === 4 || info.type === 5;
+      };
+
+      const hits = [];                       // {p 显示形式, cn, ev 正文出处}
+      const glossOf = (p) => CHUNK_MAP.get(p) || (PHRASE.get(p) || {}).cn || "";
+      ALL_PHRASES.forEach((p) => {
+        let ev = "";
+        if (grams.has(p)) ev = p;
+        else if (isVerbPhrase(p) && lemmaGrams.has(p)) ev = lemmaGrams.get(p);
+        if (!ev) return;
+        if (hits.some((h) => h.p.indexOf(p) >= 0 || p.indexOf(h.p) >= 0)) return;   // 已被更长的覆盖
+        hits.push({ p, cn: glossOf(p), ev });
+      });
+
+      // 拆开形式：动词 +（1~2 个宾语词）+ 尾巴（up / up on / out of …）
+      const PERSON = new Set("him her me us you".split(" "));
+      const DET = new Set("the a an my your his her its our their some any this that these those another each every no both".split(" "));
+      const PRON = new Set("it them him her us me you this that these those one ones mine yours his hers ours theirs somebody anybody nobody everyone everything something anything".split(" "));
+      const NUM = new Set("one two three four five six seven eight nine ten few many several couple both half dozen".split(" "));
+      // 宾语槽必须真的像个宾语：
+      //   一个词 → 代词/限定词/普通名词（不能是数量词、介词、小品词）
+      //   两个词 → 限定词 + 名词（the kids / my keys）
+      // 这样 "Come by after lunch."（by 不是宾语）和 "I sit two desks over."（数量词）都不会被切错
+      const isNounish = (x) => !STOP.has(x) && !NUM.has(x) && !P_PARTICLE.has(x) && !P_PREP.has(x) &&
+        (DICT.get(x) || {}).pos !== "adv." && (DICT.get(x) || {}).pos !== "adj.";   // 副词/形容词不能当宾语
+      const objectOk = (mid) => {
+        if (mid.length === 1) return PRON.has(mid[0]) || DET.has(mid[0]) || isNounish(mid[0]);
+        if (mid.length === 2) return (DET.has(mid[0]) || PRON.has(mid[0])) && isNounish(mid[1]);
+        return false;
+      };
+      pairLines.forEach((pairs) => {
+        for (let i = 0; i < pairs.length; i++) {
+          const tails = SPLIT_INDEX.get(pairs[i].l);
+          if (!tails) continue;
+          const ordered = [...tails.keys()].sort((a, b) => b.length - a.length);   // 尾巴长的先试（up on 优先于 up）
+          for (let k = 1; k <= 2 && i + k < pairs.length; k++) {
+            const mid = pairs.slice(i + 1, i + k).map((x) => x.l);
+            if (!mid.length || !objectOk(mid)) continue;
+            const rest = pairs.slice(i + k).map((x) => x.l).join(" ");
+            const tail = ordered.find((t) => rest === t || rest.indexOf(t + " ") === 0);
+            if (!tail) continue;
+            const base = pairs[i].l + " " + tail;
+            if (hits.some((h) => h.p === base)) break;        // 已经作为连续形式列过了
+            const slot = mid.some((x) => PERSON.has(x)) ? "sb" : "sth";
+            const display = pairs[i].l + " " + slot + " " + tail;
+            if (hits.some((h) => h.p === display)) break;
+            const tailWords = tail.split(" ").length;
+            hits.push({
+              p: display,
+              cn: tails.get(tail),
+              ev: pairs.slice(i, i + 1 + k + tailWords).map((x) => x.s).join(" ")   // 正文里的原话
+            });
+            break;
+          }
+        }
+      });
+
+      // 同一组词只留一条：coming back 与 come back 算同一条，留词典原形
+      const byNorm = new Map();
+      hits.forEach((h) => {
+        const normKey = h.p.split(" ").map((w) => LEMMA.get(w) || w).join(" ");
+        const old = byNorm.get(normKey);
+        if (!old) { byNorm.set(normKey, h); return; }
+        if (old.p !== normKey && h.p === normKey) byNorm.set(normKey, h);   // 优先词典原形
+      });
+      const uniq = [...byNorm.values()];
+
+      uniq.sort((a, b) => (b.p.split(" ").length - a.p.split(" ").length) || (b.p.length - a.p.length));
+      const c = [], evid = [];
+      uniq.slice(0, C_MAX).forEach((h) => {
+        c.push(h.p);
+        evid.push(h.ev || h.p);
+        colls[h.p] = h.cn;
       });
 
       /* ---------- 词汇表（初中以上） ---------- */
-      const v = [], seenV = new Set();
+      const v = [], seenV = new Set(), vEv = {};   // vEv：原形 → 正文里实际出现的形式
       lines.forEach((l) => {
         const en = String(l.en || "");
         const toks = en.match(/[A-Za-z][A-Za-z'-]*/g) || [];
@@ -573,12 +929,31 @@ function main() {
           if (seenV.has(found.w)) return;
           seenV.add(found.w);
           v.push(found.w);
+          if (!vEv[found.w]) vEv[found.w] = low;
           if (!words[found.w]) {
             words[found.w] = [phonBank[found.w] || e.phon || "", (e.clean.pos ? e.clean.pos + " " : "") + e.clean.cn];
           }
         });
       });
       const vOut = v.slice(0, V_MAX);
+
+      /* ---------- 补充：这段的生词在词典里的常见搭配 ----------
+         正文里出现的搭配优先；不够 6 条时，把本段生词的词典搭配补在后面，
+         这样列表不会太单薄，也顺便把生词的用法串起来（都来自词典，不是编的）。 */
+      if (c.length < 6) {
+        let added = 0;
+        vOut.forEach((w) => {
+          if (c.length >= 8 || added >= 3) return;
+          (BY_HEAD.get(w) || []).forEach((ph) => {
+            if (c.length >= 8 || added >= 3) return;
+            if (c.some((x) => x === ph || x.indexOf(ph) >= 0 || ph.indexOf(x) >= 0)) return;
+            c.push(ph);
+            evid.push(vEv[w] || w);             // 出处写正文里实际出现的形式（deducted，不是 deduct）
+            colls[ph] = PHRASE.get(ph).cn;
+            added++;
+          });
+        });
+      }
 
       /* ---------- 注意事项（语域 + 渠道 + 障碍 + 结局，最多 5 条） ---------- */
       const n = [];
@@ -608,7 +983,7 @@ function main() {
       if (!vOut.length) stats.empty.v++;
       const one = {};
       if (g.length) one.g = g;
-      if (c.length) one.c = c;
+      if (c.length) { one.c = c; one.e = evid; }    // e = 每条搭配在正文里的出处（自检核这个）
       if (n.length) one.n = n.map((t) => intern(noteTexts, noteIdx, t));
       if (vOut.length) one.v = vOut;
       seg[key] = one;

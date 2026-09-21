@@ -331,7 +331,11 @@ segKeys.forEach((k) => {
     const cn = (NOTES.colls || {})[p];
     if (!cn) { fail(`${at} 不在词典短语表里：${p}`); return; }
     if (!CJK.test(cn)) fail(`${at} 中文释义不含汉字：${cn}`);
-    if (text.indexOf(String(p).toLowerCase()) < 0) fail(`${at} 这段正文里没有这个搭配：${p}`);
+    // 搭配可能显示词典原形（ask for）或拆开形式（put sth in），所以核"出处"：
+    // e[i] 是这段正文里的原话，必须逐字存在
+    const ev = String((one.e || [])[i] || "");
+    if (!ev) { fail(`${at} 缺少正文出处`); return; }
+    if (text.indexOf(" " + ev + " ") < 0) fail(`${at} 出处不是这段正文里的原话：${ev}（搭配 ${p}）`);
     notesC++; count++;
   });
 
