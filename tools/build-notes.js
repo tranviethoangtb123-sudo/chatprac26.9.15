@@ -108,7 +108,10 @@ const STOP = new Set(("a an the and or but if of to in on at by for with from as
 /* ============================ 语法规则库 ============================
    每条：id / 命中正则 / 讲解。例句从正文里按"整句"截取，保证逐字一致。
    会用到的词形集合（分词、不规则过去式）从 ECDICT 现场提取，避免正则瞎猜后缀。 */
-const IRREGULAR_PAST = ("went said told asked came got made took gave knew thought found felt left kept put saw heard met ran wrote read bought brought paid sent spent stood understood wore won sat slept spoke swam taught threw woke broke chose drove ate fell flew forgot grew held hurt lent lost meant rode rose sang shook showed shut sold shone shot slid spread sprang stole stuck stung swore swept swung tore wore").split(/\s+/);
+/* 不规则过去式列表。
+   注意：past 与原形同形的动词（put / read / cut / hurt / shut / spread 等）不能放进来，
+   否则 "That is the correct way to put it." 会被误判成一般过去时。 */
+const IRREGULAR_PAST = ("went said told asked came got made took gave knew thought found felt left kept saw heard met ran wrote bought brought paid sent spent stood understood wore won sat slept spoke swam taught threw woke broke chose drove ate fell flew forgot grew held lent lost meant rode rose sang shook showed sold shone shot slid sprang stole stuck stung swore swept swung tore").split(/\s+/);
 
 /* 短语动词：用白名单（整条短语），比「动词+介词」的正则准
    （work in publishing 这种不是短语动词，白名单里没有就绝不会误报） */
@@ -127,7 +130,7 @@ const PHRASAL = [
 /* 语法条目的展示优先级：越靠前越值得讲。超过 8 条时先砍后面的（there be、时间介词这类太基础） */
 const GRAMMAR_ORDER = ("modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
   "confirm-back pres-perfect pres-perf-cont if-unreal would-have passive rel-clause phrasal tag-question " +
-  "suggestion used-to too-to result purpose infinitive-purpose gerund-verb want-to make-do wh-infinitive " +
+  "suggestion used-to too-to result purpose gerund-verb want-to make-do wh-infinitive " +
   "comparative superlative as-as although unless whether-if obj-clause time-clause because countable " +
   "future-going future-will have-to be-supposed apologize please fillers there-be so-do-i negative-question " +
   "time-prep pres-cont past-cont past-simple past-neg").split(/\s+/);
@@ -135,7 +138,7 @@ const GRAMMAR_ORDER = ("modal-soft mind-ing wonder-if polite-ask indirect-q hedg
 function grammarRules(PART, PAST) {
   const part = (w) => PART.has(w);
   return [
-    { id: "pres-perfect", test: (s, en) => /\b(have|has|'ve|'s)\s+(not\s+|n't\s+)?([a-z]+)\b/i.exec(en), pick: (m) => part(m[3].toLowerCase()),
+    { id: "pres-perfect", test: (s, en) => /\b(have|has|'ve|i've|we've|you've|they've)\s+(not\s+|n't\s+)?([a-z]+)\b/i.exec(en), pick: (m) => part(m[3].toLowerCase()),
       t: "现在完成时（have/has + 过去分词）：讲到现在为止的经历或结果，不强调具体时间；常与 already / yet / ever / just 连用。" },
     { id: "pres-perf-cont", re: /\b(have|has|'ve)\s+been\s+[a-z]+ing\b/i,
       t: "现在完成进行时（have been + 动名词）：动作从过去持续到现在，往往还在继续，常配 for / since。" },
@@ -146,7 +149,11 @@ function grammarRules(PART, PAST) {
     { id: "past-simple", test: (s, en) => {
         // 现在完成时里的过去分词别被当一般过去时（we've met 不是一般过去时）
         const stripped = en.replace(/\b(have|has|had|i've|we've|you've|they've|he's|she's|it's|'ve|'d)\s+\w+/gi, " ");
-        return new RegExp("\\b(" + IRREGULAR_PAST.join("|") + ")\\b", "i").exec(stripped);
+        const m = new RegExp("\\b(" + IRREGULAR_PAST.join("|") + ")\\b", "i").exec(stripped);
+        if (!m) return null;
+        // "Understood." 这种一个词的回答不算一般过去时
+        const oneWord = s.some((x) => x.trim().replace(/[.!?,]+$/, "").toLowerCase() === m[0].toLowerCase());
+        return oneWord ? null : m;
       },
       t: "一般过去时（动词过去式）：讲已经结束的过去动作，常与 yesterday / last week / ago 连用。" },
     { id: "past-neg", re: /\bdid\s?n'?o?t?\s+[a-z]+|\bdid\s+(you|he|she|it|they|we|i)\b/i,
@@ -181,18 +188,20 @@ function grammarRules(PART, PAST) {
     { id: "although", re: /\b(although|even\s+though|though)\b/i,
       t: "让步从句（although / even though）：虽然……，主句前不要再加 but。" },
     { id: "comparative", re: /\b(more|less|fewer|better|worse|cheaper|faster|bigger|easier|harder|longer|earlier|later|higher|lower|older|younger)\s+than\b|\b[a-z]{3,}(er)\s+than\b/i,
+      // rather than / other than 不是比较级
+      pick: (m) => !/^(rather|other|no other)\s+than$/i.test(m[0].trim()),
       t: "比较级 + than：比较两者。比较级前可用 much / far / a bit / slightly 加强或减弱。" },
     { id: "as-as", re: /\bas\s+[a-z]+\s+as\b/i, t: "as … as：两者一样。否定用 not as … as（不如）。" },
-    { id: "superlative", re: /\bthe\s+(most|best|worst|cheapest|fastest|biggest|longest|easiest|hardest|first|last|only)\b/i,
+    { id: "superlative", re: /\bthe\s+(most|best|worst|cheapest|fastest|biggest|longest|easiest|hardest)\b/i,
       t: "最高级（the + -est / most）：三者以上比较，前面通常要加 the。" },
-    { id: "passive", test: (s, en) => /\b(is|are|was|were|been|be|being|get|got)\s+([a-z]+)\s+by\b/i.exec(en) || /\b(was|were|is|are|been|be)\s+([a-z]+ed)\b/i.exec(en),
+    { id: "passive", test: (s, en) => /\b(is|are|was|were|been|be|being|get|got|'s|'re)\s+([a-z]+)\s+by\b/i.exec(en) || /\b(was|were|is|are|been|be|'s)\s+([a-z]+ed)\b/i.exec(en),
       t: "被动语态（be + 过去分词）：强调动作承受者，或不提施动者时用；口语里也常用 get（got fired）。" },
-    { id: "rel-clause", re: /\b(who|which|that|where)\s+(is|are|was|were|has|have|can|will|'s|[a-z]+s)\b/i,
+    { id: "rel-clause", re: /\b[a-z]+\s+(who|which|that|where)\s+(is|are|was|were|has|have|can|will|'s|[a-z]+s)\b/i,
       t: "定语从句（who / which / that / where）：紧跟被修饰的名词。口语里作宾语的关系词可以省略。" },
-    { id: "obj-clause", re: /\b(i\s+think|i\s+guess|i\s+reckon|i\s+suppose|the\s+thing\s+is|i\s+heard)\b/i,
+    { id: "obj-clause", re: /\b(i\s+think|i\s+guess|i\s+reckon|i\s+suppose|the\s+thing\s+is)\b/i,
       t: "宾语从句 / 观点句：I think (that) + 陈述语序，用来软化立场、给自己留余地。" },
-    { id: "whether-if", re: /\b(whether|if)\s+(it|i|you|we|they|he|she|there)\b/i,
-      t: "whether / if 引导的从句：表示“是否”。介词后面只能用 whether。" },
+    { id: "whether-if", re: /\bwhether\b|\b(ask|asked|wonder|wondering|know|see|check|tell me|not sure|depends on|whether or not)\s+(if|whether)\b/i,
+      t: "whether / if 引导的从句：表示“是否”。介词后面只能用 whether；if 只在 ask / wonder / not sure 这类词后面才等于“是否”。" },
     { id: "time-clause", re: /\b(as\s+soon\s+as|while|before|after|until|till|once|by\s+the\s+time)\s+[a-z]+/i,
       t: "时间状语从句：主句讲将来时，从句用一般现在（as soon as I get there, I'll call you）。" },
     { id: "because", re: /\b(because|since|as)\s+[a-z]+\s/i,
@@ -201,8 +210,6 @@ function grammarRules(PART, PAST) {
       t: "目的表达（so that + 从句 / in order to + 动词）：说明“为了……”。" },
     { id: "result", re: /\b(so|such)\s+[a-z]+\s+that\b/i, t: "结果状语从句（so + 形容词 + that / such + 名词 + that）：如此……以至于。" },
     { id: "too-to", re: /\btoo\s+[a-z]+\s+to\s+[a-z]+/i, t: "too … to …：太……以至于不能。注意它本身已含否定。" },
-    { id: "infinitive-purpose", re: /\bto\s+(make|get|find|ask|check|see|know|be|have|do|take|go|keep|avoid|help|save)\b/i,
-      t: "不定式表目的（to + 动词）：比 for + 动名词更直接地说明“为了……”。" },
     { id: "gerund-verb", re: /\b(enjoy|mind|avoid|finish|suggest|recommend|keep|consider|practise|practice|miss|imagine)\s+[a-z]+ing\b/i,
       t: "后接动名词的动词（enjoy / avoid / suggest / keep … + doing）：这些词后面不能跟 to do。" },
     { id: "want-to", re: /\b(want|need|decide|hope|plan|try|manage|offer|refuse|expect|afford)\s+to\s+[a-z]+/i,
@@ -221,7 +228,15 @@ function grammarRules(PART, PAST) {
       t: "道歉与打扰（Sorry to bother you / Excuse me）：开口前先降调，对方更容易配合。" },
     { id: "refuse-soft", re: /\b(i'?d\s+love\s+to,?\s+but|i'?m\s+afraid\s+i\s+can'?t|unfortunately|that'?s\s+a\s+shame,?\s+but)\b/i,
       t: "委婉拒绝（I'd love to, but …）：先肯定再给理由，最好补一个替代方案，别只甩 No。" },
-    { id: "empathy", re: /\b(i\s+understand|i\s+know\s+how\s+you\s+feel|that\s+sounds|i\s+can\s+imagine|must\s+be\s+(hard|tough|annoying|frustrating))\b/i,
+    { id: "empathy", test: (s, en) => {
+        // 共情句一般出现在句首；"an apology I understand" 不是共情
+        for (let i = 0; i < s.length; i++) {
+          if (/^(i understand|i know how you feel|that sounds|i can imagine|it must be (hard|tough|annoying|frustrating))/i.test(s[i].trim())) {
+            return /\b(i understand|i know how you feel|that sounds|i can imagine|must be (hard|tough|annoying|frustrating))\b/i.exec(s[i]);
+          }
+        }
+        return null;
+      },
       t: "共情表达（That sounds … / I can imagine …）：对方有情绪时先接住情绪，再谈事实。" },
     { id: "clarify", re: /\b(sorry|could\s+you|can\s+you)\s+(repeat|say\s+that\s+again|speak\s+up|slow\s+down)|\bwhat\s+do\s+you\s+mean\b|\bpardon\b/i,
       t: "要求澄清（Sorry, could you say that again?）：听不清就问，别硬猜着答。" },
@@ -504,9 +519,12 @@ function main() {
             if (!m) return;
             if (rule.pick && !rule.pick(m)) return;
           }
+          // 例句必须是包含命中的那一整句；找不到就说明是跨句误配，直接跳过
+          // （这样"讲解"和"例句"永远对得上，不会出现例句里根本没这个语法的情况）
+          const hitSentence = sentences.find((s) => s.toLowerCase().indexOf(String(m[0]).toLowerCase()) >= 0);
+          if (!hitSentence) return;
           seenG.add(rule.id);
-          // 例子取包含命中的那一整句；太长就围绕命中位置截窗口
-          let q = sentences.find((s) => s.toLowerCase().indexOf(String(m[0]).toLowerCase()) >= 0) || en;
+          let q = hitSentence;
           if (q.length > 72) {
             const at = Math.max(0, q.toLowerCase().indexOf(String(m[0]).toLowerCase()) - 20);
             q = (at > 0 ? "…" : "") + q.slice(at, at + 68).trim() + "…";
