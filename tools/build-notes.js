@@ -525,7 +525,222 @@ const CHUNKS = [
   ["look forward to", "期待"], ["get down to", "开始认真做"],
   ["come down to", "归结为"], ["face up to", "正视"],
   ["add up to", "总计；等于"], ["hold on to", "抓住不放"],
-  ["get back to", "回头答复（某人）"], ["settle down to", "安下心来做"]
+  ["get back to", "回头答复（某人）"], ["settle down to", "安下心来做"],
+  /* ---------- 第二批短语动词 ---------- */
+  ["break in", "打断；闯入"], ["break off", "突然中断"], ["break out", "爆发；逃出"],
+  ["bring back", "带回；使回忆起"], ["bring forward", "提前"], ["bring out", "推出；使显现"],
+  ["burn out", "累垮；烧坏"], ["call for", "需要；要求"], ["carry off", "成功应付"],
+  ["chase up", "催问（进度）"], ["cheer up", "振作起来；让……高兴"],
+  ["clean out", "清空；花光"], ["come apart", "散架；崩解"], ["come down with", "染上（病）"],
+  ["come forward", "站出来（提供信息）"], ["come off", "成功；脱落；戒掉"],
+  ["come on", "来吧；快点；进展"], ["come out", "出来；结果是；公开"],
+  ["come through", "挺过来；兑现（承诺）"], ["come to", "苏醒；总计；谈到"],
+  ["come up", "出现；被提出"], ["cover up", "掩盖"], ["crack down", "严厉打击"],
+  ["cross off", "划掉"], ["cut back", "削减"], ["cut through", "抄近路；穿透"],
+  ["dig up", "挖出；翻出（旧事）"], ["do up", "扣好；装修"], ["doze off", "打瞌睡"],
+  ["drag on", "拖得太久"], ["draw on", "动用（经验/资源）"], ["drift apart", "渐行渐远"],
+  ["ease off", "减轻；放缓"], ["fall back", "后退；退守"], ["fall through", "（计划）落空"],
+  ["fend off", "抵挡；挡开"], ["fight off", "击退；努力摆脱"],
+  ["fill up", "装满；填满"], ["finish off", "吃完；做完；干掉"],
+  ["flare up", "突然发作；复发"], ["follow through", "坚持做完"],
+  ["freshen up", "梳洗一下"], ["gather up", "收拢起来"], ["gear up", "准备好"],
+  ["get across", "把（意思）讲清楚"], ["get ahead", "取得领先"], ["get at", "暗示；够到"],
+  ["get down", "记下来；使沮丧"], ["get in", "到达；挤进去"], ["get off", "下车；下班；脱身"],
+  ["get on", "上车；进展；相处"], ["get out", "出去；泄露"], ["get out of", "摆脱；逃避"],
+  ["get together", "聚一聚"], ["get up", "起床；站起来"], ["give back", "归还"],
+  ["go down", "下降；被接受；倒下"], ["go for", "选择；喜欢；尝试"],
+  ["go in for", "喜欢；参加"], ["go out", "出去；熄灭；播出"],
+  ["go under", "倒闭；沉没"], ["go without", "没有……也对付过去"],
+  ["grow into", "长大成；适应"], ["hand down", "传下去"], ["hand round", "传递一圈"],
+  ["hang around", "闲待着；徘徊"], ["head for", "朝……去"], ["heat up", "加热；升温"],
+  ["help out", "帮忙解围"], ["hold off", "推迟；挡住"], ["hold out", "坚持；伸出"],
+  ["hunt down", "追捕到"], ["join in", "加入（活动）"], ["jump at", "欣然接受（机会）"],
+  ["keep at", "坚持做"], ["keep down", "压低；不吐出来"], ["keep from", "忍住不做"],
+  ["keep off", "远离；不碰"], ["keep out", "别进来"], ["kick out", "赶出去"],
+  ["knock off", "下班；减价；碰掉"], ["lead on", "误导；吊胃口"],
+  ["lean on", "依靠；施压"], ["leave off", "停止；省略"], ["let off", "放过；引爆"],
+  ["live on", "靠……生活"], ["look back", "回顾"], ["look in", "顺道看看"],
+  ["look on", "旁观；看待"], ["look round", "四处看看"], ["look through", "翻看；浏览"],
+  ["make over", "改造；转让"], ["map out", "规划"], ["mark down", "降价；记下"],
+  ["mess around", "瞎混；胡闹"], ["miss out", "错过；漏掉"], ["move over", "挪一挪"],
+  ["nod off", "打盹"], ["opt for", "选择"], ["pack in", "塞进；放弃"],
+  ["pair up", "两两配对"], ["pass down", "传下来"], ["pass over", "略过；不考虑"],
+  ["pay up", "付清"], ["pencil in", "暂定（时间）"], ["pick on", "找茬；挑中"],
+  ["pile up", "堆积"], ["pin down", "确定；把话说死"], ["pitch in", "一起帮忙"],
+  ["play along", "配合着来"], ["play up", "捣乱；（病）发作"], ["press on", "继续推进"],
+  ["pull away", "开走；拉开距离"], ["pull in", "进站；挣到"], ["pull out", "退出；拔出"],
+  ["pull together", "齐心协力"], ["push on", "继续前进"], ["put in", "提出；投入（时间）"],
+  ["put on", "穿上；上演；假装"], ["read up on", "研读（某主题）"],
+  ["rent out", "出租"], ["ride out", "安然渡过"], ["ring up", "打电话"],
+  ["rip off", "宰客；剽窃"], ["roll out", "推出（新产品）"], ["root out", "根除"],
+  ["rope in", "拉（人）参与"], ["round off", "圆满结束"], ["round up", "集合；凑整"],
+  ["rub out", "擦掉"], ["run away", "逃跑"], ["run down", "撞倒；贬低；耗尽"],
+  ["run off", "跑掉；快速印出"], ["rush into", "仓促做"], ["sail through", "轻松通过"],
+  ["scale down", "缩减规模"], ["scrape by", "勉强糊口"], ["see off", "送别；赶走"],
+  ["send back", "退回"], ["send in", "寄去；提交"], ["set about", "着手做"],
+  ["set back", "耽误；使倒退"], ["set down", "放下；规定"], ["settle up", "结账"],
+  ["shake off", "摆脱"], ["shop around", "货比三家"], ["shoot up", "猛涨"],
+  ["show off", "炫耀"], ["show round", "带……参观"], ["shut down", "关掉；停产"],
+  ["shut up", "闭嘴；关店"], ["side with", "站在……一边"], ["single out", "挑出（某人）"],
+  ["sit back", "往后靠；袖手旁观"], ["sit out", "不参加；坐到结束"],
+  ["size up", "估量"], ["skim through", "快速浏览"], ["slack off", "偷懒"],
+  ["slip away", "悄悄离开；溜走"], ["smooth out", "把（问题）理顺"],
+  ["sort through", "翻找整理"], ["sound out", "试探（意见）"], ["spell out", "明确说明"],
+  ["spread out", "散开；摊开"], ["squeeze in", "挤进；腾出时间"],
+  ["stand back", "退后；不介入"], ["stand down", "退出（竞选/职位）"],
+  ["stand in", "代替（某人）"], ["stand up", "站起来；站得住"],
+  ["stand up for", "为……辩护"], ["stand up to", "顶住；经得起"],
+  ["start off", "开始（做）"], ["start out", "起步；起初"],
+  ["stay away", "别靠近"], ["stay behind", "留下不走"], ["stay in", "待在家里"],
+  ["stay out", "不在家；不介入"], ["stay up", "熬夜"], ["step aside", "让位"],
+  ["step back", "退一步想"], ["step down", "辞职"], ["step in", "介入"],
+  ["step up", "挺身而出；加大力度"], ["stick around", "留在附近等着"],
+  ["stick out", "伸出来；显眼"], ["stick up for", "维护（某人）"], ["stir up", "挑起（情绪）"],
+  ["stop by", "顺路过来"], ["stop off", "中途停留"], ["straighten out", "把……理清"],
+  ["stretch out", "伸展开；拉长"], ["sum up", "总结"], ["switch off", "关掉；不再想"],
+  ["switch on", "打开"], ["take on board", "接受（意见）"], ["talk over", "商量"],
+  ["tell apart", "区分开"], ["think ahead", "提前打算"], ["tidy up", "收拾"],
+  ["tip off", "给（某人）通风报信"], ["touch on", "简要提到"], ["track down", "追查到"],
+  ["trade in", "以旧换新"], ["try out", "试用；试演"], ["tuck in", "塞好；开吃"],
+  ["turn against", "转而反对"], ["turn away", "打发走；转身不看"],
+  ["turn in", "上交；上床睡觉"], ["turn off", "关掉；使反感"],
+  ["turn on", "打开；突然攻击"], ["turn over", "翻转；移交"],
+  ["vote down", "投票否决"], ["wade through", "硬着头皮读完"],
+  ["wait up", "熬夜等人"], ["wake up", "醒来；醒悟"], ["walk away", "走开；不管了"],
+  ["ward off", "抵挡"], ["warm up", "热身；变暖"], ["wear down", "磨掉；使屈服"],
+  ["weigh in", "发表意见"], ["wind up", "收尾；最终落得"], ["win over", "说服（某人）"],
+  ["wipe off", "擦掉"], ["work off", "通过活动消除"], ["work up", "鼓足（勇气）"],
+  ["write back", "回信"], ["write up", "整理成文"],
+  /* ---------- 场景常用语块 ---------- */
+  ["excuse me for asking", "恕我冒昧问一句"], ["sorry for the trouble", "给你添麻烦了"],
+  ["thanks for having me", "谢谢你的招待"], ["thanks for your time", "谢谢你的时间"],
+  ["i owe you one", "我欠你一个人情"], ["you shouldn't have", "你太客气了"],
+  ["it slipped my mind", "我忘了"], ["my bad", "是我的错"],
+  ["no offence", "没有冒犯的意思"], ["don't get me wrong", "别误会我的意思"],
+  ["fair point", "有道理"], ["good point", "说得对"],
+  ["i couldn't agree more", "完全同意"], ["i'm with you", "我同意、我站你这边"],
+  ["i'm not convinced", "我还是不太信服"], ["i see your point", "我明白你的意思"],
+  ["that's not what i meant", "我不是这个意思"], ["let me put it another way", "换个说法"],
+  ["what do you mean by that", "你这话什么意思"], ["are you saying that", "你是说……吗"],
+  ["just to be clear", "先说清楚"], ["to put it simply", "简单说"],
+  ["long story short", "长话短说"], ["it's a long story", "说来话长"],
+  ["same to you", "你也是"], ["likewise", "我也是、同样"],
+  ["you too", "你也是"], ["take care", "保重"],
+  ["have a good one", "过得愉快"], ["see you around", "回头见"],
+  ["catch you later", "回头聊"], ["talk soon", "回头聊"],
+  ["how come", "怎么会、为什么"], ["what's up", "怎么了、最近怎样"],
+  ["what's going on", "出什么事了"], ["what brings you here", "什么风把你吹来了"],
+  ["how was your day", "今天过得怎么样"], ["how did it go", "怎么样、顺利吗"],
+  ["any luck", "有结果吗"], ["any news", "有消息吗"],
+  ["good to see you", "见到你真好"], ["it's been a while", "有段时间没见了"],
+  ["say hello to", "替我向……问好"], ["give my regards", "代我问好"],
+  ["mind if i", "我……可以吗"], ["do you mind", "你介意吗"],
+  ["is it okay if", "我……可以吗"], ["would that be alright", "那样行吗"],
+  ["whenever you like", "你方便就行"], ["whatever suits you", "你方便就好"],
+  ["i'm easy", "我随便、都行"], ["either is fine", "两个都行"],
+  ["that's up to you", "你决定"], ["your call", "你说了算"],
+  ["let me know", "告诉我一声"], ["keep me in the loop", "有情况告诉我"],
+  ["i'll let you know", "我会告诉你"], ["i'll keep you posted", "我会随时告诉你进展"],
+  ["as soon as i can", "尽快"], ["at your earliest convenience", "你方便的时候尽早"],
+  ["no later than", "不晚于"], ["by the end of the day", "今天之内"],
+  ["first thing tomorrow", "明天一早"], ["in the next few days", "这几天内"],
+  ["sooner rather than later", "尽早"], ["just in time", "正好赶上"],
+  ["a bit late", "有点晚了"], ["right on time", "正好准时"],
+  ["hang on a second", "等一下"], ["give me a moment", "给我一点时间"],
+  ["bear with me", "请耐心等一下"], ["where were we", "我们说到哪了"],
+  ["as i was saying", "我刚才说"], ["to get back to your point", "回到你刚才那点"],
+  ["that reminds me", "这让我想起来"], ["speaking of which", "说到这个"],
+  ["on that note", "那就这样"], ["anyway", "总之、话说回来"],
+  ["in any case", "不管怎样"], ["either way", "不管怎样"],
+  ["all things considered", "总的来说"], ["on the whole", "总体上"],
+  ["more importantly", "更重要的是"], ["above all", "最重要的是"],
+  ["last but not least", "最后但同样重要"], ["first of all", "首先"],
+  ["to begin with", "首先"], ["in the first place", "首先、当初"],
+  ["as a matter of fact", "事实上"], ["to tell you the truth", "说实话"],
+  ["between you and me", "咱俩私下说"], ["off the record", "非正式地说"],
+  ["i have no idea", "我完全不知道"], ["your guess is as good as mine", "我也不知道"],
+  ["it beats me", "我也搞不懂"], ["who knows", "谁知道呢"],
+  ["not necessarily", "不一定"], ["it depends on", "取决于"],
+  ["more often than not", "多半"], ["nine times out of ten", "十有八九"],
+  ["as a rule", "通常"], ["generally speaking", "一般来说"],
+  ["in general", "总的来说"], ["by and large", "大体上"],
+  ["for the most part", "大部分情况下"], ["to some extent", "某种程度上"],
+  ["up to a point", "某种程度上"], ["as far as i'm concerned", "就我而言"],
+  ["if you ask me", "要我说"], ["in my opinion", "在我看来"],
+  ["from my point of view", "从我的角度看"], ["i'd say", "我觉得"],
+  ["i reckon", "我认为（口语）"], ["i suppose so", "我想是吧"],
+  ["i'm afraid so", "恐怕是的"], ["i hope so", "希望如此"],
+  ["i hope not", "希望不是"], ["let's hope so", "但愿如此"],
+  ["that's a relief", "那就好、松了一口气"], ["what a relief", "真让人松口气"],
+  ["that's a pity", "太可惜了"], ["what a shame", "真可惜"],
+  ["never mind that", "别管那个"], ["forget about it", "算了、别提了"],
+  ["don't mention it", "别客气"], ["any time", "随时、不客气"],
+  ["happy to help", "乐意帮忙"], ["glad i could help", "很高兴能帮上忙"],
+  ["that's very kind of you", "你太好了"], ["i really appreciate it", "非常感谢"],
+  ["i can't thank you enough", "感激不尽"], ["thanks anyway", "还是谢谢你"],
+  ["sorry to keep you waiting", "抱歉让你久等"], ["sorry for the delay", "抱歉耽误了"],
+  ["my apologies for", "为……道歉"], ["i do apologize", "我诚恳道歉"],
+  ["it won't happen again", "不会再发生了"], ["to make up for it", "作为补偿"],
+  ["how can i make it up to you", "我怎么补偿你"], ["let me make it right", "让我补救一下"],
+  ["i take it back", "我收回刚才的话"], ["i was out of line", "是我过分了"],
+  ["no hard feelings", "别往心里去"], ["we're good", "我们没事了"],
+  ["let's move on", "我们继续吧"], ["let's call it a day", "今天就到这儿"],
+  ["let's wrap up", "我们收尾吧"], ["let's get started", "我们开始吧"],
+  ["shall we begin", "可以开始了吗"], ["where do we start", "从哪儿开始"],
+  ["what's the plan", "计划是什么"], ["what's the catch", "有什么坑"],
+  ["what's the point", "意义何在"], ["what's the difference", "有什么区别"],
+  ["it doesn't matter", "没关系"], ["it makes no difference", "没什么差别"],
+  ["that makes sense", "有道理"], ["that figures", "果然如此"],
+  ["that explains it", "原来如此"], ["now i get it", "我明白了"],
+  ["i'm not following", "我没跟上"], ["sorry, i missed that", "抱歉我没听清"],
+  ["could you spell that", "能拼一下吗"], ["could you write it down", "能写下来吗"],
+  ["how do you spell that", "怎么拼"], ["how do you say that in english", "这个英文怎么说"],
+  ["what does that mean", "那是什么意思"], ["in plain english", "用大白话说"],
+  ["lay it out for me", "给我讲清楚"], ["walk me through it", "带我过一遍"],
+  ["break it down", "拆开解释"], ["give me an example", "举个例子"],
+  ["let me get this straight", "我确认一下"], ["correct me if i'm wrong", "我说错了请纠正"],
+  ["am i making sense", "我说清楚了吗"], ["does that make sense", "这样讲能理解吗"],
+  ["are we on the same page", "我们理解一致吗"], ["just so i understand", "我确认一下"],
+  ["to recap", "回顾一下"], ["in summary", "总结一下"],
+  ["the bottom line is", "关键在于"], ["the point is", "重点是"],
+  ["what i mean is", "我的意思是"], ["all i'm saying is", "我只是想说"],
+  ["that's beside the point", "这跑题了"], ["that's not the issue", "问题不在这儿"],
+  ["let's stick to the point", "我们回到正题"], ["back to the topic", "回到主题"],
+  ["as i mentioned earlier", "如我先前所说"], ["like i said", "就像我说的"],
+  ["you mentioned that", "你提到过"], ["you said you would", "你说过你会"],
+  ["that's what i thought", "我就这么想的"], ["i knew it", "我就知道"],
+  ["i had a feeling", "我有预感"], ["just as i expected", "正如我所料"],
+  ["better late than never", "晚做总比不做好"], ["easier said than done", "说起来容易"],
+  ["no pain no gain", "不劳无获"], ["it's worth a try", "值得一试"],
+  ["it can't hurt", "试试也无妨"], ["let's give it a shot", "我们试一下"],
+  ["it's up in the air", "还没定"], ["it's a done deal", "已经定了"],
+  ["back to square one", "回到起点"], ["in the same boat", "处境相同"],
+  ["on the safe side", "保险起见"], ["to be on the safe side", "为稳妥起见"],
+  ["play it safe", "稳妥行事"], ["take a risk", "冒个险"],
+  ["keep your fingers crossed", "祈祷好运"], ["fingers crossed", "但愿顺利"],
+  ["touch wood", "但愿如此"], ["knock on wood", "但愿好运"],
+  ["it's not the end of the world", "天还没塌下来"], ["life goes on", "日子还得过"],
+  ["look on the bright side", "往好处想"], ["every cloud has a silver lining", "坏事也有好的一面"],
+  ["things happen", "事情就这样"], ["these things happen", "难免的事"],
+  ["no big deal", "没什么大不了"], ["not a big deal", "不是什么大事"],
+  ["it's a big deal", "这可是大事"], ["make a big deal", "小题大做"],
+  ["don't make a fuss", "别大惊小怪"], ["calm down", "冷静点"],
+  ["take it easy", "别紧张、放轻松"], ["don't stress", "别紧张"],
+  ["it's not worth it", "不值得"], ["not worth the trouble", "不值得费这个劲"],
+  ["it pays off", "会有回报"], ["worth every penny", "每一分钱都值"],
+  ["a waste of time", "浪费时间"], ["a waste of money", "浪费钱"],
+  ["for a change", "换个样"], ["as always", "一如既往"],
+  ["once and for all", "彻底地、一劳永逸"], ["step by step", "一步步来"],
+  ["little by little", "一点一点地"], ["bit by bit", "一点点地"],
+  ["sooner or later", "迟早"], ["in the long run", "长远看"],
+  ["in the short term", "短期内"], ["at the moment", "目前"],
+  ["for the time being", "暂时"], ["as of now", "到目前为止"],
+  ["from time to time", "偶尔"], ["now and then", "时不时"],
+  ["more and more", "越来越多"], ["less and less", "越来越少"],
+  ["all of a sudden", "突然"], ["out of the blue", "突然、毫无预兆"],
+  ["in a row", "连续"], ["one after another", "一个接一个"],
+  ["side by side", "并排"], ["face to face", "面对面"],
+  ["hand in hand", "密切相关"], ["back and forth", "来回"]
 ];
 
 
@@ -564,6 +779,9 @@ function main() {
     "not no so very too also just than then now").split(/\s+/));
   const P_PARTICLE = new Set("up out off on in down over back away through around along forward together apart aside about across after by for from into of to upon with within against".split(/\s+/));
   const P_PREP = new Set("in on at for with under by without out of from about after before against over beyond within into".split(/\s+/));
+  // 「形容词/名词 + 介词」只认这些真介词。out / up / off / down / over / back 这些是小品词，
+  // 放进来会把 scan out(扫描输出) / queue on 这类词典生僻组合当成名词搭配
+  const P_PREP_ONLY = new Set("in on at for with of to from by about into against upon without beyond within under".split(/\s+/));
 
   const POS_PREFIX = /^((n|v|vt|vi|adj|adv|prep|conj|pron|num|art|int|aux|abbr)\.\s*)+/i;
   function phraseGloss(raw) {
@@ -604,10 +822,19 @@ function main() {
     if (w.endsWith("ed")) PART.add(w);
     if (DICT.has(w)) continue;
     const clean = cleanTranslation(row[idx.translation] || "");
+    // 全部词性（不只第一条）：straight 第一个义项是 n. 直线，但它还能当副词，
+    // 所以不能拿它当动词短语的宾语（go straight through ≠ go sth through）
+    const posAll = new Set();
+    String(row[idx.translation] || "").split(/\\n|\n/).forEach((line) => {
+      const m2 = /^\s*([a-zA-Z]+)\.\s/.exec(line);
+      if (m2 && POS_MAP[m2[1].toLowerCase()]) posAll.add(POS_MAP[m2[1].toLowerCase()]);
+    });
     DICT.set(w, {
       tag: (row[idx.tag] || "").trim(),
       // ECDICT 的 pos 列是空的，词性只能从释义前缀拿（"a. 好的" → adj.）
       pos: clean ? clean.pos : "",
+      posAll: posAll,
+      frq: Number(row[idx.frq]) || Number(row[idx.bnc]) || 0,
       oxford: Number(row[idx.oxford]) || 0,
       collins: Number(row[idx.collins]) || 0,
       phon: ipa.get(w) || ((row[idx.phonetic] || "").trim() ? normalizeOldPhonetic(row[idx.phonetic].trim()) : ""),
@@ -620,9 +847,12 @@ function main() {
   const isAdjWord = (w) => posOf(w) === "adj.";
   const isNounWord = (w) => posOf(w) === "n.";
   const isVerbWord = (w) => posOf(w) === "v.";
+  // 高频词（词频前 5000）：只有这类名词才允许当「名词+介词」搭配的头
+  const commonWord = (w) => { const e = DICT.get(w); return !!e && e.frq > 0 && e.frq <= 5000; };
+  const commonVerb = (w) => { const e = DICT.get(w); return isVerbWord(w) && !!e && e.frq > 0 && e.frq <= 3000; };
   PHRASE_RAW.forEach((info, w) => {
     const parts = info.parts;
-    let type = 0, particle = "";
+    let type = 0, particle = "", adjHead = false;
     if (parts.length === 2 && P_PARTICLE.has(parts[1]) && !P_FUNC.has(parts[0]) &&
         !P_PARTICLE.has(parts[0]) && !P_PREP.has(parts[0]) && isVerbWord(parts[0])) { type = 1; particle = parts[1]; }
     else if (P_PREP.has(parts[0]) && !P_FUNC.has(parts[1])) { type = 2; particle = parts[0]; }
@@ -632,10 +862,13 @@ function main() {
     // 动词 + 小品词 + 介词：come up with / put up with / look forward to
     else if (parts.length === 3 && P_PARTICLE.has(parts[1]) && (P_PREP.has(parts[2]) || P_PARTICLE.has(parts[2])) &&
              !P_FUNC.has(parts[0])) { type = 5; particle = parts[1]; }
-    // 形容词/名词 + 介词：good at / interested in / reason for（经典搭配，之前完全没覆盖）
-    else if (parts.length === 2 && (P_PREP.has(parts[1]) || P_PARTICLE.has(parts[1])) && !P_FUNC.has(parts[0]) &&
-             !P_PARTICLE.has(parts[0]) && !P_PREP.has(parts[0]) &&
-             !isVerbWord(parts[0]) && (isAdjWord(parts[0]) || isNounWord(parts[0]))) { type = 6; particle = parts[1]; }
+    // 形容词/名词 + 介词：good at / interested in / reason for
+    // （正文里真的出现就收；"生词搭配"那节只取形容词类，见 BY_HEAD）
+    else if (parts.length === 2 && P_PREP_ONLY.has(parts[1]) && !P_FUNC.has(parts[0]) &&
+             !P_PARTICLE.has(parts[0]) && !P_PREP.has(parts[0]) && !isVerbWord(parts[0]) &&
+             (isAdjWord(parts[0]) || (isNounWord(parts[0]) && commonWord(parts[0])))) {
+      type = 6; particle = parts[1]; adjHead = isAdjWord(parts[0]);
+    }
     // 小品词 + 介词：out of / up to / back to（也是常用搭配）
     else if (parts.length === 2 && P_PARTICLE.has(parts[0]) && P_PREP.has(parts[1]) && !P_FUNC.has(parts[1])) { type = 8; particle = parts[0]; }
     // 名词性词组：tenancy agreement / one-page brief（用户要的"词组"就包括这类）
@@ -644,7 +877,7 @@ function main() {
              parts.every((p) => !P_FUNC.has(p) && !P_PARTICLE.has(p) && !P_PREP.has(p))) { type = 7; particle = ""; }
     else return;
     if (parts.some((p) => !DICT.has(p))) return;      // 每个词都得是词典收录的单词
-    PHRASE.set(w, { cn: info.cn, type, particle, verb: parts[0] });
+    PHRASE.set(w, { cn: info.cn, type, particle, verb: parts[0], adjHead: !!adjHead });
   });
   console.log("词典 " + DICT.size + " 词条，词形还原 " + LEMMA.size + " 条，过去分词 " + PART.size + " 个，结构化短语 " + PHRASE.size + " 条");
 
@@ -709,20 +942,34 @@ function main() {
   });
   console.log("短语来源：" + PHRASE.size + " 条词典短语 + " + CHUNK_MAP.size + " 条口语语块（可拆开的动词 " + SPLIT_INDEX.size + " 个）");
 
-  // 生词 → 它的词典搭配（补充用）。
-  // 只收动词类搭配（动词+小品词 / 动词+名词+小品词 / 动词+名词）—— 名词性复合词
-  // （compiler designer、beginning inventory 这类专业词条）堆上来对学习没帮助。
-  // 动词短语挂在动词上；"动词+名词"再额外挂到那个名词上（take inventory → inventory）
+  // 生词 → 它的搭配（「生词搭配」小节用）。
+  // 只取**释义已核对**的两类来源，不用整张词典短语表 ——
+  // 词典里 scan out(扫描输出) / bunk off(逃避) / out tag status(输出标志状态) 这类
+  // 生僻或专业组合太多，混进来反而误导：
+  //   ① 手写口语语块（中文按口语用法写）里的动词短语
+  //   ② 词典里的「形容词/名词 + 介词」类（reason for / access to，实测没有噪音）
   const BY_HEAD = new Map();
-  PHRASE.forEach((info, p) => {
-    if (info.type !== 1 && info.type !== 3 && info.type !== 4 && info.type !== 5) return;
+  const addHead = (head, p, perHead) => {
+    if (!BY_HEAD.has(head)) BY_HEAD.set(head, []);
+    const list = BY_HEAD.get(head);
+    if (list.length < perHead()) list.push(p);
+  };
+  CHUNK_MAP.forEach((cn, p) => {
     const parts = p.split(" ");
-    const heads = info.type === 4 ? [parts[0], parts[parts.length - 1]] : [parts[0]];
-    heads.forEach((head) => {
-      if (!BY_HEAD.has(head)) BY_HEAD.set(head, []);
-      const list = BY_HEAD.get(head);
-      if (list.length < 1) list.push(p);      // 每个词最多补 1 条
-    });
+    if (parts.length < 2 || parts.length > 3) return;
+    if (!TAIL_RE.test(parts.slice(1).join(" "))) return;
+    addHead(parts[0], p, () => 1);
+  });
+  PHRASE.forEach((info, p) => {
+    if (info.type !== 6 || !info.adjHead) return;      // 生词搭配只要形容词类，名词类噪音大
+    addHead(p.split(" ")[0], p, () => 2);
+  });
+  // 生词是高频动词时，它自己的词典动词短语也放进来（take up / put off 这类）
+  PHRASE.forEach((info, p) => {
+    if (info.type !== 1) return;
+    const parts = p.split(" ");
+    if (!commonVerb(parts[0])) return;
+    addHead(parts[0], p, () => 2);
   });
 
   /* 词形还原后判定：
@@ -760,7 +1007,7 @@ function main() {
     if (map[s] === undefined) { map[s] = arr.length; arr.push(s); }
     return map[s];
   };
-  const stats = { segs: 0, g: 0, c: 0, n: 0, v: 0, vUniq: 0, empty: { g: 0, c: 0, n: 0, v: 0 } };
+  const stats = { segs: 0, g: 0, c: 0, c2: 0, n: 0, v: 0, vUniq: 0, empty: { g: 0, c: 0, n: 0, v: 0 } };
 
   (SC.scenarios || []).forEach((scn) => {
     (scn.dialogues || []).forEach((d, di) => {
@@ -856,8 +1103,13 @@ function main() {
       //   一个词 → 代词/限定词/普通名词（不能是数量词、介词、小品词）
       //   两个词 → 限定词 + 名词（the kids / my keys）
       // 这样 "Come by after lunch."（by 不是宾语）和 "I sit two desks over."（数量词）都不会被切错
-      const isNounish = (x) => !STOP.has(x) && !NUM.has(x) && !P_PARTICLE.has(x) && !P_PREP.has(x) &&
-        (DICT.get(x) || {}).pos !== "adv." && (DICT.get(x) || {}).pos !== "adj.";   // 副词/形容词不能当宾语
+      // 宾语槽必须真的是名词：代词/限定词，或词典里明确标了名词的词。
+      // 词性不明的词（straight 这种副词）不算 —— 否则 "go straight through" 会被切成 go sth through
+      const isNounish = (x) => {
+        const e = DICT.get(x);
+        if (!e || !e.posAll || isFormGloss(e)) return false;   // held 这种"hold的过去式"条目不算名词
+        return e.posAll.has("n.") && !e.posAll.has("adv.") && !e.posAll.has("adj.");   // 还能当副词/形容词的不算宾语
+      };
       const objectOk = (mid) => {
         if (mid.length === 1) return PRON.has(mid[0]) || DET.has(mid[0]) || isNounish(mid[0]);
         if (mid.length === 2) return (DET.has(mid[0]) || PRON.has(mid[0])) && isNounish(mid[1]);
@@ -869,11 +1121,15 @@ function main() {
           if (!tails) continue;
           const ordered = [...tails.keys()].sort((a, b) => b.length - a.length);   // 尾巴长的先试（up on 优先于 up）
           for (let k = 1; k <= 2 && i + k < pairs.length; k++) {
-            const mid = pairs.slice(i + 1, i + k).map((x) => x.l);
+            const mid = pairs.slice(i + 1, i + k).map((x) => x.s);      // 用原样词判词性：held 的原形 hold 也能当名词
             if (!mid.length || !objectOk(mid)) continue;
             const rest = pairs.slice(i + k).map((x) => x.l).join(" ");
             const tail = ordered.find((t) => rest === t || rest.indexOf(t + " ") === 0);
             if (!tail) continue;
+            // 小品词后面紧跟限定词/数词/代词/名词，说明它其实是介词
+            // （takes coins after eight ≠ take sth after；bring it to me ≠ bring sth to）
+            const after = pairs[i + k + tail.split(" ").length];
+            if (after && (DET.has(after.l) || NUM.has(after.l) || PRON.has(after.l) || isNounish(after.s))) continue;
             const base = pairs[i].l + " " + tail;
             if (hits.some((h) => h.p === base)) break;        // 已经作为连续形式列过了
             const slot = mid.some((x) => PERSON.has(x)) ? "sb" : "sth";
@@ -937,19 +1193,21 @@ function main() {
       });
       const vOut = v.slice(0, V_MAX);
 
-      /* ---------- 补充：这段的生词在词典里的常见搭配 ----------
-         正文里出现的搭配优先；不够 6 条时，把本段生词的词典搭配补在后面，
-         这样列表不会太单薄，也顺便把生词的用法串起来（都来自词典，不是编的）。 */
-      if (c.length < 6) {
+      /* ---------- 补充：这段生词的词典搭配，单独放一处 ----------
+         正文里出现的搭配进 c（固定搭配）；这里进 c2（生词搭配），
+         界面分成两小节显示，用户能分清"这段里出现的"和"这些生词的常用搭配"。 */
+      const c2 = [], evid2 = [];
+      {
         let added = 0;
         vOut.forEach((w) => {
-          if (c.length >= 8 || added >= 3) return;
+          if (added >= 4) return;
           (BY_HEAD.get(w) || []).forEach((ph) => {
-            if (c.length >= 8 || added >= 3) return;
+            if (added >= 4) return;
             if (c.some((x) => x === ph || x.indexOf(ph) >= 0 || ph.indexOf(x) >= 0)) return;
-            c.push(ph);
-            evid.push(vEv[w] || w);             // 出处写正文里实际出现的形式（deducted，不是 deduct）
-            colls[ph] = PHRASE.get(ph).cn;
+            if (c2.indexOf(ph) >= 0) return;
+            c2.push(ph);
+            evid2.push(vEv[w] || w);            // 出处写正文里实际出现的形式（deducted，不是 deduct）
+            colls[ph] = glossOf(ph);            // 语块的释义优先（它可能不在词典短语表里）
             added++;
           });
         });
@@ -976,7 +1234,7 @@ function main() {
       const resText = String(d.result || "");
       Object.keys(RESULT_NOTE).forEach((k) => { if (resText.indexOf(k) === 0 && n.length < 5) n.push(RESULT_NOTE[k]); });
 
-      stats.g += g.length; stats.c += c.length; stats.n += n.length; stats.v += vOut.length;
+      stats.g += g.length; stats.c += c.length; stats.c2 += c2.length; stats.n += n.length; stats.v += vOut.length;
       if (!g.length) stats.empty.g++;
       if (!c.length) stats.empty.c++;
       if (!n.length) stats.empty.n++;
@@ -984,6 +1242,7 @@ function main() {
       const one = {};
       if (g.length) one.g = g;
       if (c.length) { one.c = c; one.e = evid; }    // e = 每条搭配在正文里的出处（自检核这个）
+      if (c2.length) { one.c2 = c2; one.e2 = evid2; }
       if (n.length) one.n = n.map((t) => intern(noteTexts, noteIdx, t));
       if (vOut.length) one.v = vOut;
       seg[key] = one;
@@ -1044,6 +1303,7 @@ function main() {
   console.log("\n段落 " + stats.segs);
   console.log("  语法 " + stats.g + " 条（" + (stats.g / stats.segs).toFixed(1) + " 条/段）");
   console.log("  固定搭配 " + stats.c + " 条（" + (stats.c / stats.segs).toFixed(1) + " 条/段）");
+  console.log("  生词搭配 " + stats.c2 + " 条（" + (stats.c2 / stats.segs).toFixed(1) + " 条/段）");
   console.log("  注意事项 " + stats.n + " 条（" + (stats.n / stats.segs).toFixed(1) + " 条/段）");
   console.log("  超纲词去重 " + stats.vUniq + " 个，段落引用 " + stats.v + " 次（" + (stats.v / stats.segs).toFixed(1) + " 个/段）");
   console.log("  空缺段落：语法 " + stats.empty.g + " / 固定搭配 " + stats.empty.c +

@@ -302,7 +302,7 @@ SC.scenarios.forEach((s) => s.dialogues.forEach((d, i) => { segByKey[s.id + ":" 
 Object.keys(notesSeg).forEach((k) => {
   if (!segByKey[k]) fail(`学习要点里有不存在的段落：${k}`);
 });
-let notesG = 0, notesC = 0, notesN = 0, notesV = 0, notesEmptySeg = 0;
+let notesG = 0, notesC = 0, notesC2 = 0, notesN = 0, notesV = 0, notesEmptySeg = 0;
 segKeys.forEach((k) => {
   const one = notesSeg[k];
   if (!one) { fail(`段落 ${k} 没有学习要点`); return; }
@@ -339,6 +339,20 @@ segKeys.forEach((k) => {
     notesC++; count++;
   });
 
+  // 生词搭配：出处是"那个生词本身"（正文里实际出现的形式）
+  (one.c2 || []).forEach((p, i) => {
+    const at = `学习要点 ${k} 生词搭配第 ${i + 1} 条`;
+    const cn = (NOTES.colls || {})[p];
+    if (!cn) { fail(`${at} 不在短语表里：${p}`); return; }
+    if (!CJK.test(cn)) fail(`${at} 中文释义不含汉字：${cn}`);
+    const ev = String((one.e2 || [])[i] || "");
+    if (!ev) { fail(`${at} 缺少来源词`); return; }
+    if (text.indexOf(" " + ev + " ") < 0 && text.indexOf(ev) < 0) {
+      fail(`${at} 来源词不在正文里：${ev}（搭配 ${p}）`);
+    }
+    notesC2++; count++;
+  });
+
   (one.n || []).forEach((ti, i) => {
     const at = `学习要点 ${k} 注意事项第 ${i + 1} 条`;
     const t = (NOTES.texts || [])[ti];
@@ -366,7 +380,7 @@ segKeys.forEach((k) => {
   if (!count) notesEmptySeg++;
 });
 if (notesEmptySeg) fail(`有 ${notesEmptySeg} 段学习要点是空的`);
-ok.push(`学习要点：${segKeys.length} 段全部覆盖（语法 ${notesG} / 固定搭配 ${notesC} / 注意事项 ${notesN} / 词汇 ${notesV}），例句逐字来自正文`);
+ok.push(`学习要点：${segKeys.length} 段全部覆盖（语法 ${notesG} / 固定搭配 ${notesC} / 生词搭配 ${notesC2} / 注意事项 ${notesN} / 词汇 ${notesV}），例句与搭配出处逐字来自正文`);
 if (notesG / segKeys.length < 3) fail(`语法平均只有 ${(notesG / segKeys.length).toFixed(1)} 条/段，偏少`);
 if (notesV / segKeys.length < 1) fail(`词汇平均只有 ${(notesV / segKeys.length).toFixed(1)} 个/段，偏少`);
 

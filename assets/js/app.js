@@ -1231,6 +1231,15 @@
         }).join("") + "</ul></div>";
     }
 
+    // 生词搭配：这段生词在词典里的常见搭配（跟上面"本段出现的"分开，免得混在一起）
+    if (one.c2 && one.c2.length) {
+      html += '<div class="dnote-sec"><p class="dnote-h">生词搭配</p><ul class="dnote-list">' +
+        one.c2.map(function (p) {
+          return '<li><span class="dnote-en">' + esc(p) + "</span>" +
+            '<span class="dnote-cn">' + esc((NOTES.colls || {})[p] || "") + "</span></li>";
+        }).join("") + "</ul></div>";
+    }
+
     if (one.n && one.n.length) {
       html += '<div class="dnote-sec"><p class="dnote-h">注意事项</p><ul class="dnote-list dnote-notes">' +
         one.n.map(function (i) { return "<li>" + esc((NOTES.texts || [])[i] || "") + "</li>"; }).join("") +

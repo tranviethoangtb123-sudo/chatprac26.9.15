@@ -539,6 +539,22 @@ try {
       console.log("  学习要点·固定搭配：「" + phrase + " " + cn + "」✔");
     }
 
+    // 生词搭配：单独一节，挑一段有内容的验证
+    const keyWithC2 = Object.keys(NOTES.seg).find((k) => (NOTES.seg[k].c2 || []).length);
+    if (!keyWithC2) {
+      problems.push("学习要点数据里一段生词搭配都没有");
+    } else {
+      const scn2 = SC.scenarios.filter((s) => s.id === keyWithC2.split(":")[0])[0];
+      dclick({ "data-dlgpick": "1" });
+      dclick({ "data-dlgdom": scn2.domain });
+      dclick({ "data-dlgseg": keyWithC2 });
+      const c2Html = dHtml();
+      const phrase2 = NOTES.seg[keyWithC2].c2[0];
+      if (c2Html.indexOf("生词搭配") < 0) problems.push("学习要点缺少「生词搭配」小节");
+      if (c2Html.indexOf(phrase2) < 0) problems.push("生词搭配没显示短语：" + phrase2);
+      console.log("  学习要点·生词搭配：「" + phrase2 + " " + (NOTES.colls || {})[phrase2] + "」✔");
+    }
+
     // 注意事项：随便挑一段，必须至少有一条
     const noNote = Object.keys(NOTES.seg).filter((k) => !(NOTES.seg[k].n || []).length);
     if (noNote.length) problems.push("有 " + noNote.length + " 段没有注意事项");
