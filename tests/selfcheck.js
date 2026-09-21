@@ -86,13 +86,14 @@ ok.push(`动态 class：${new Set(dynamicClasses).size} 个都有样式`);
 
 global.window = global;
 global.window.CHAT_PRAC_DATA = {};
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 const DATA = global.window.CHAT_PRAC_DATA;
 const VOCAB = global.window.CHAT_PRAC_VOCAB;
 const SC = global.window.CHAT_PRAC_SCENARIOS;
 const PHON_EXTRA = global.window.CHAT_PRAC_PHON || {};
+const NOTES = global.window.CHAT_PRAC_NOTES || { rules: [], texts: [], words: {}, colls: {}, seg: {} };
 
 const CJK = /[\u4e00-\u9fa5]/;
 const isAscii = (s) => !/[^\x00-\x7F]/.test(s);
@@ -288,6 +289,82 @@ scDomains.forEach((d) => {
   });
 });
 if (!missingScn) ok.push(`场景覆盖：${plannedTotal} 个规划场景全部收录，标题逐字一致`);
+
+/* --- 对话「学习要点」（data.notes.js）：例句必须逐字来自该段正文 ---
+   这是这个数据最容易出错的地方：模型"编"例句。所以要求
+   语法例句、固定搭配、词汇都必须真的出现在那一段的英文里。 */
+const notesSeg = NOTES.seg || {};
+const segKeys = [];
+SC.scenarios.forEach((s) => s.dialogues.forEach((d, i) => segKeys.push(s.id + ":" + i)));
+const segByKey = {};
+SC.scenarios.forEach((s) => s.dialogues.forEach((d, i) => { segByKey[s.id + ":" + i] = d; }));
+
+Object.keys(notesSeg).forEach((k) => {
+  if (!segByKey[k]) fail(`学习要点里有不存在的段落：${k}`);
+});
+let notesG = 0, notesC = 0, notesN = 0, notesV = 0, notesEmptySeg = 0;
+segKeys.forEach((k) => {
+  const one = notesSeg[k];
+  if (!one) { fail(`段落 ${k} 没有学习要点`); return; }
+  const lines = (segByKey[k].lines || []).map((l) => String(l.en || ""));
+  // 和生成器同一套归一化：标点当空格（check-in 也算 check in）
+  const text = lines.map((s) => " " + s.toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ") + " ").join(" ");
+  // 词汇表里会有连字符词（non-refundable / cut-off），这类要按原样比对
+  const hyphenText = lines.join(" \n ").toLowerCase().replace(/[^a-z0-9'\-]/g, " ");
+  const rawText = lines.join(" \n ").toLowerCase();
+  let count = 0;
+
+  (one.g || []).forEach((pair, i) => {
+    const at = `学习要点 ${k} 语法第 ${i + 1} 条`;
+    if (!Array.isArray(pair) || pair.length !== 2) { fail(`${at} 结构不对`); return; }
+    const [ri, q] = pair;
+    if (typeof ri !== "number" || !(NOTES.rules || [])[ri]) fail(`${at} 讲解索引越界：${ri}`);
+    if (!CJK.test((NOTES.rules || [])[ri] || "")) fail(`${at} 讲解不含中文`);
+    const clean = String(q || "").replace(/^…/, "").replace(/…$/, "").trim();
+    if (clean.length < 3) fail(`${at} 例句太短：${q}`);
+    if (rawText.indexOf(clean.toLowerCase()) < 0) fail(`${at} 例句不是这段正文里的原话：${q}`);
+    notesG++; count++;
+  });
+
+  (one.c || []).forEach((p, i) => {
+    const at = `学习要点 ${k} 固定搭配第 ${i + 1} 条`;
+    const cn = (NOTES.colls || {})[p];
+    if (!cn) { fail(`${at} 不在词典短语表里：${p}`); return; }
+    if (!CJK.test(cn)) fail(`${at} 中文释义不含汉字：${cn}`);
+    if (text.indexOf(String(p).toLowerCase()) < 0) fail(`${at} 这段正文里没有这个搭配：${p}`);
+    notesC++; count++;
+  });
+
+  (one.n || []).forEach((ti, i) => {
+    const at = `学习要点 ${k} 注意事项第 ${i + 1} 条`;
+    const t = (NOTES.texts || [])[ti];
+    if (!t) { fail(`${at} 文本索引越界：${ti}`); return; }
+    if (!CJK.test(t)) fail(`${at} 不含中文`);
+    notesN++; count++;
+  });
+
+  (one.v || []).forEach((w, i) => {
+    const at = `学习要点 ${k} 词汇第 ${i + 1} 条`;
+    const d = (NOTES.words || {})[w];
+    if (!d) { fail(`${at} 词表里没有这个词：${w}`); return; }
+    if (!CJK.test(d[1] || "")) fail(`${at} 释义不含中文：${w}`);
+    if (d[0] && !/^\/.+\/$/.test(d[0])) fail(`${at} 音标格式不对：${w} ${d[0]}`);
+    // 词表存的是原形，正文里可能是变形（relied → rely、reserved → reserve），
+    // 所以取词干前几个字母来核对（rely 要去掉词尾 y 才是词干 rel）
+    const stem = String(w).length > 3 && /y$/.test(w) ? String(w).slice(0, -1) : String(w);
+    const probe = stem.slice(0, Math.min(4, stem.length)).toLowerCase();
+    if (hyphenText.indexOf(probe) < 0 && text.indexOf(probe) < 0) {
+      fail(`${at} 这段正文里没有这个词：${w}`);
+    }
+    notesV++; count++;
+  });
+
+  if (!count) notesEmptySeg++;
+});
+if (notesEmptySeg) fail(`有 ${notesEmptySeg} 段学习要点是空的`);
+ok.push(`学习要点：${segKeys.length} 段全部覆盖（语法 ${notesG} / 固定搭配 ${notesC} / 注意事项 ${notesN} / 词汇 ${notesV}），例句逐字来自正文`);
+if (notesG / segKeys.length < 3) fail(`语法平均只有 ${(notesG / segKeys.length).toFixed(1)} 条/段，偏少`);
+if (notesV / segKeys.length < 1) fail(`词汇平均只有 ${(notesV / segKeys.length).toFixed(1)} 个/段，偏少`);
 
 /* ============================ 输出 ============================ */
 

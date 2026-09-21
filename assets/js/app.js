@@ -1202,6 +1202,55 @@
     }).join("") + "</div>";
   }
 
+  /* ---------- 学习要点：语法 / 固定搭配 / 注意事项 / 初中以上词汇表 ----------
+     数据由 tools/build-notes.js 生成（data.notes.js）。里面只放「这段真的出现了什么」：
+     语法例句逐字取自对话正文，固定搭配来自词典短语表，词汇表按中考词表过滤。
+     讲解文本放在共享表里（rules / texts），段落里只存索引，所以文件不大。 */
+  var NOTES = window.CHAT_PRAC_NOTES || { rules: [], texts: [], words: {}, colls: {}, seg: {} };
+
+  function dlgNotesHtml(key) {
+    var one = (NOTES.seg || {})[key];
+    if (!one) return "";
+    var html = "";
+
+    if (one.g && one.g.length) {
+      html += '<div class="dnote-sec"><p class="dnote-h">语法</p>' +
+        one.g.map(function (x) {
+          return '<div class="dnote-g">' +
+            '<p class="dnote-q">' + esc(x[1]) + "</p>" +
+            '<p class="dnote-c">' + esc((NOTES.rules || [])[x[0]] || "") + "</p>" +
+          "</div>";
+        }).join("") + "</div>";
+    }
+
+    if (one.c && one.c.length) {
+      html += '<div class="dnote-sec"><p class="dnote-h">固定搭配</p><ul class="dnote-list">' +
+        one.c.map(function (p) {
+          return '<li><span class="dnote-en">' + esc(p) + "</span>" +
+            '<span class="dnote-cn">' + esc((NOTES.colls || {})[p] || "") + "</span></li>";
+        }).join("") + "</ul></div>";
+    }
+
+    if (one.n && one.n.length) {
+      html += '<div class="dnote-sec"><p class="dnote-h">注意事项</p><ul class="dnote-list dnote-notes">' +
+        one.n.map(function (i) { return "<li>" + esc((NOTES.texts || [])[i] || "") + "</li>"; }).join("") +
+      "</ul></div>";
+    }
+
+    if (one.v && one.v.length) {
+      html += '<div class="dnote-sec"><p class="dnote-h">词汇（初中以上）</p><ul class="dnote-list dnote-words">' +
+        one.v.map(function (w) {
+          var d = (NOTES.words || {})[w] || ["", ""];
+          return '<li><span class="dnote-en">' + esc(w) + "</span>" +
+            (d[0] ? '<span class="dnote-ph">' + esc(d[0]) + "</span>" : "") +
+            '<span class="dnote-cn">' + esc(d[1]) + "</span></li>";
+        }).join("") + "</ul></div>";
+    }
+
+    if (!html) return "";
+    return '<section class="dlgnotes"><p class="dlgnotes-h">学习要点</p>' + html + "</section>";
+  }
+
   function renderDialogues() {
     var q = (state.talkQuery || "").trim();
     var all = dlgFlat();
@@ -1217,7 +1266,10 @@
     }
 
     var html = dlgPickHtml(list, curIdx, q);
-    if (curIdx >= 0) html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
+    if (curIdx >= 0) {
+      html += '<div class="dlgview">' + dlgLinesHtml(list[curIdx].d) + "</div>";
+      html += dlgNotesHtml(list[curIdx].key);   // 对话正文之后：语法 / 固定搭配 / 注意事项 / 词汇表
+    }
 
     // 每次点「掌握 / 练习」都会重渲染，下拉框是能滚的：不记住位置的话，
     // 翻了半天的列表会跳回顶部（和单词列表「点一下就重排」是同一类问题）

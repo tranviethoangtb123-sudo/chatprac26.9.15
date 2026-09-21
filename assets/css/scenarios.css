@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    Chat Prac — 学习模式·对话板块 的样式（场景对话库 · 两级选择器）
    界面文字只有两级：域（社交人际）+ 变体（顺利达成（对等））。
    变量沿用 style.css 里的定义。
@@ -232,6 +232,108 @@
   color: var(--text-3);
   font-size: 12.5px;
   line-height: 1.6;
+}
+
+/* ------------------------------ 学习要点（语法/固定搭配/注意事项/词汇） ------------------------------ */
+
+.dlgnotes {
+  margin-top: 10px;
+  padding: 10px 13px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--card);
+}
+
+.dlgnotes-h {
+  margin: 0 0 8px;
+  color: var(--text-3);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.dnote-sec + .dnote-sec {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.dnote-h {
+  margin: 0 0 6px;
+  color: var(--accent-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dnote-g + .dnote-g { margin-top: 9px; }
+
+.dnote-q {
+  margin: 0;
+  padding-left: 9px;
+  border-left: 2px solid var(--border-strong);
+  color: var(--text-2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dnote-c {
+  margin: 3px 0 0;
+  color: var(--text-3);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.dnote-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dnote-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dnote-list li + li { border-top: 1px dotted var(--border); }
+
+.dnote-en {
+  flex: none;
+  color: var(--text);
+}
+
+.dnote-ph {
+  flex: none;
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+.dnote-cn {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-3);
+}
+
+/* 注意事项是一整句话，不按左右两列排 */
+.dnote-notes li {
+  display: block;
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+/* 词汇表：词 + 音标 + 释义，窄屏时释义换行 */
+.dnote-words li { flex-wrap: wrap; }
+
+@media (max-width: 520px) {
+  .dlgnotes { padding: 9px 11px 11px; }
+  .dnote-q { font-size: 12.5px; }
+  .dnote-c { font-size: 12px; }
+  .dnote-list li { font-size: 12.5px; }
+  .dnote-words .dnote-cn { flex-basis: 100%; }   /* 词汇释义太长，窄屏另起一行 */
 }
 
 /* ------------------------------ 手机窄屏 ------------------------------ */

@@ -78,7 +78,7 @@ function makeStubs() {
 }
 
 const DATA_FILES = ["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js",
-  "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"];
+  "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"];
 const DATA_CODE = DATA_FILES.map((f) => ({ f, code: fs.readFileSync(path.join(root, "assets/js", f), "utf8") }));
 const APP_CODE = fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8");
 

@@ -6,7 +6,7 @@
    注意：改了任何文件后，把下面的 VERSION 数字加一，否则手机上还是旧版本。
    ============================================================================ */
 
-const VERSION = "v53";
+const VERSION = "v54";
 const CACHE = "chat-prac-" + VERSION;
 
 // 需要离线可用的文件（相对路径，兼容部署在子目录的情况）
@@ -24,6 +24,7 @@ const ASSETS = [
   "./assets/js/data.dialogues.js",
   "./assets/js/data.practice.js",
   "./assets/js/data.scenarios.js",
+  "./assets/js/data.notes.js",
   "./assets/css/scenarios.css",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",

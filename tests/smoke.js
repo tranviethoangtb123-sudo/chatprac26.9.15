@@ -139,7 +139,7 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js"].forEach((f) => {
+["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
@@ -489,6 +489,60 @@ try {
   }
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 取消掉，别影响后面的断言
   console.log("  底部进度条：全场景 " + pctText(1, segTotal) + " · " + byId.pbarDomName.textContent + " " + pctText(1, domSegs) + " ✔");
+
+  // ============ 学习要点：对话结束后列出 语法 / 固定搭配 / 注意事项 / 初中以上词汇表 ============
+  const NOTES = globalThis.CHAT_PRAC_NOTES;
+  if (!NOTES || !NOTES.seg) {
+    problems.push("没有加载学习要点数据（data.notes.js）");
+  } else {
+    dclick({ "data-dlgseg": scn0.id + ":0" });          // 重新选中一段，看正文下面的要点
+    const notesHtml = dHtml();
+    if (notesHtml.indexOf("学习要点") < 0) problems.push("对话正文下面没有「学习要点」");
+    if (notesHtml.indexOf('class="dnote-h">语法') < 0) problems.push("学习要点缺少「语法」");
+    if (notesHtml.indexOf("词汇（初中以上）") < 0) problems.push("学习要点缺少「词汇（初中以上）」");
+    if (notesHtml.indexOf("dlgnotes") < 0) problems.push("学习要点没有用 dlgnotes 容器");
+
+    // 语法例句必须是这段正文里的原话（数据可以核对，不能是编的）
+    const quote = (notesHtml.match(/class="dnote-q">([^<]+)</) || [])[1];
+    const enLines = scn0.dialogues[0].lines.map((l) => l.en);
+    const clean = String(quote || "").replace(/^…/, "").replace(/…$/, "");
+    if (!clean || !enLines.some((en) => en.indexOf(clean) >= 0)) {
+      problems.push("语法例句不是这段正文里的原话：" + quote);
+    }
+    const gCount = (notesHtml.match(/class="dnote-g"/g) || []).length;
+    if (gCount < 1 || gCount > 8) problems.push("语法条数异常：" + gCount);
+
+    // 词汇条目要带音标和中文释义
+    const wordsBlock = (notesHtml.match(/class="dnote-list dnote-words">[\s\S]*?<\/ul>/) || [])[0] || "";
+    if (!wordsBlock) problems.push("学习要点没有词汇表");
+    else {
+      if (wordsBlock.indexOf('class="dnote-cn"') < 0) problems.push("词汇条目缺少中文释义");
+      if (wordsBlock.indexOf('class="dnote-ph"') < 0) problems.push("词汇条目缺少音标");
+    }
+    console.log("  学习要点：语法 " + gCount + " 条（例句逐字来自正文）+ 词汇表渲染 ✔");
+
+    // 固定搭配：挑一段确实有词典短语的，验证短语和中文都出来了
+    const keyWithC = Object.keys(NOTES.seg).find((k) => (NOTES.seg[k].c || []).length);
+    if (!keyWithC) {
+      problems.push("学习要点数据里一段固定搭配都没有");
+    } else {
+      const scnOf = SC.scenarios.filter((s) => s.id === keyWithC.split(":")[0])[0];
+      dclick({ "data-dlgpick": "1" });
+      dclick({ "data-dlgdom": scnOf.domain });
+      dclick({ "data-dlgseg": keyWithC });
+      const cHtml = dHtml();
+      const phrase = NOTES.seg[keyWithC].c[0];
+      const cn = (NOTES.colls || {})[phrase];
+      if (cHtml.indexOf("固定搭配") < 0) problems.push("学习要点缺少「固定搭配」");
+      if (cHtml.indexOf(phrase) < 0) problems.push("固定搭配没显示短语：" + phrase);
+      if (cHtml.indexOf(cn) < 0) problems.push("固定搭配没显示中文：" + phrase + " → " + cn);
+      console.log("  学习要点·固定搭配：「" + phrase + " " + cn + "」✔");
+    }
+
+    // 注意事项：随便挑一段，必须至少有一条
+    const noNote = Object.keys(NOTES.seg).filter((k) => !(NOTES.seg[k].n || []).length);
+    if (noNote.length) problems.push("有 " + noNote.length + " 段没有注意事项");
+  }
 
   // 搜索：命中对话正文（wallet 在低正式语域那段里）→ 自动展开并呈现
   byId.input.value = "wallet";
