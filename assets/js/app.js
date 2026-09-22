@@ -265,6 +265,7 @@
   var VBAK_KEY = "chatprac-vocab-study.bak";   // 读不出来时的保命副本（只备份，不参与计数）
   var VDAY = 86400000;
   var VNEW_PER_DAY = 50;          // 每天新词上限：再高复习队列会崩
+  var VREVIEW_PER_DAY = 15;       // 每天复习上限（用户要求：每天复习 15 个）
   var VBOX_MAX = 5;               // 记忆盒满格
   var VFLOOR = 10 * 60 * 1000;    // 「不认识」的冷却时间
   // 记忆盒 0~5 对应的下次出现间隔
@@ -276,7 +277,9 @@
   function vBlank() {
     return {
       box: {}, due: {}, done: {}, mastered: {}, learnedAt: {},
+      knownAt: {},                          // 每个词「最后一次点认识」的时间（复习顺序按它倒序）
       custom: [], chunks: null, day: "", newToday: 0,
+      reviewToday: 0,                       // 今天已经复习了几个（每天上限 VREVIEW_PER_DAY）
       streak: 0, lastStudy: "",           // 连续学习天数 / 最后一次学习是哪天
       relearn: {}                          // 点过「不认识」打回重学的词（先离开「已学习」）
     };
@@ -300,6 +303,7 @@
     if (vocab.day === today) return false;
     vocab.day = today;
     vocab.newToday = 0;                  // 新的一天，今日额度重新发
+    vocab.reviewToday = 0;               // 复习额度也重新发
     vSave();
     return true;
   }
@@ -409,6 +413,25 @@
       return (vocab.due[a.w] || 0) - (vocab.due[b.w] || 0);
     });
   }
+
+  /* ---------- 每日复习 ----------
+     规则（用户指定）：每天复习 15 个，顺序 = 最后一次点「认识」的时间倒序
+     （最后点认识的排最前，最早点的排最后）。
+     范围：只从「到期」的词里挑 —— 保留 1/3/7/14/30 天的记忆曲线；
+     到期不足 15 个就有多少复习多少。
+     老进度没有 knownAt 字段的词，退回用它第一次学的时间（learnedAt），
+     再老的退回 due，保证任何进度都不会因为缺字段而乱序或漏掉。 */
+  function vKnownAt(w) {
+    return vocab.knownAt[w.w] || vocab.learnedAt[w.w] || vocab.due[w.w] || 0;
+  }
+  function vReviewLeft() {
+    return Math.max(0, VREVIEW_PER_DAY - (vocab.reviewToday || 0));
+  }
+  function vReviewList() {
+    var room = vReviewLeft();
+    if (!room) return [];
+    return vDueList().sort(function (a, b) { return vKnownAt(b) - vKnownAt(a); }).slice(0, room);
+  }
   function vNewPool() { return vNormal().filter(vIsNew); }
   function vMasteredList() { return vNormal().filter(vIsMastered); }
 
@@ -438,9 +461,11 @@
   function vAnswer(w, kind) {
     var now = Date.now();
     var box = vBox(w);
+    var wasDue = vIsDue(w);                  // 答之前是不是「到期该复习」的（用来算今日复习额度）
     if (kind === "know") {
       box = box + 1;
       delete vocab.relearn[w.w];            // 又答对了，回到「已学习」
+      vocab.knownAt[w.w] = now;             // 复习顺序按「最后一次点认识」倒序，所以每次都要记
       if (box > VBOX_MAX) {
         vocab.mastered[w.w] = 1;
         vocab.box[w.w] = VBOX_MAX;
@@ -460,7 +485,9 @@
     if (!vocab.done[w.w]) {
       vocab.done[w.w] = 1;
       vocab.newToday++;        // 拼写轨已并入普通队列，学到的新词一律占今日额度
+      if (!vocab.knownAt[w.w]) vocab.knownAt[w.w] = now;   // 第一次学也算一次「认识」
     }
+    if (wasDue) vocab.reviewToday = (vocab.reviewToday || 0) + 1;   // 复习占今日复习额度
     // 「已学习」按学习时间倒序；老进度里没有这个字段的，这次补上
     if (!vocab.learnedAt[w.w]) vocab.learnedAt[w.w] = now;
     vTouchStreak();                            // 连续学习天数
@@ -538,7 +565,7 @@
   }
 
   function vTodayList() {
-    var due = vDueList();
+    var due = vReviewList();                 // 每天最多 VREVIEW_PER_DAY 个，按最后一次点认识倒序
     var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
     return due.concat(vTodayFresh().slice(0, room));
   }
@@ -768,9 +795,11 @@
 
     var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
     var streak = vStreakShown();
+    var dueAll = vDueList().length, revLeft = vReviewLeft();
     html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + VNEW_PER_DAY + "</b>" +
       (left ? "（还剩 <b>" + left + "</b> 个）" : "（今天的发完了）") +
-      "　复习到期 <b>" + vDueList().length + "</b>" +
+      "　复习 <b>" + (vocab.reviewToday || 0) + "/" + VREVIEW_PER_DAY + "</b>" +
+      (dueAll ? "（到期 <b>" + dueAll + "</b> 个" + (revLeft ? "，今天还能复习 " + revLeft + " 个" : "，今天的 15 个已复习完") + "）" : "") +
       "　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b>" +
       (streak ? "　连续 <b>" + streak + "</b> 天" : "") + "</p>";
 
