@@ -109,11 +109,58 @@ for (let i = 0; i < 50; i++) {
 }
 if (state().newToday !== 50) problems.push(`第 1 天应学满 50 个，实际 ${state().newToday}`);
 if (!/今天的 50 个新词完成了/.test(board())) problems.push("学满后应显示「今天的 50 个新词完成了」");
-if (!/明天会再发 50 个/.test(board())) problems.push("学满后应说明明天会再发一批");
 if (Object.keys(state().knownAt || {}).length !== 50) {
   problems.push("每个词都该记下「点认识」的时间，实际记了 " + Object.keys(state().knownAt || {}).length + " 个");
 }
 console.log("  第 1 天结束：" + statText());
+
+/* ---------------- 「继续学习」：50 个做完后可以一批一批接着学 ---------------- */
+// 属性从渲染出来的 HTML 里取，不手写 —— 否则属性名拼错了测试也发现不了
+const moreAttr = (board().match(/data-vmore="[^"]*"/) || [])[0];
+if (!moreAttr) problems.push("50 个做完后应出现「继续学习」按钮");
+if (!/继续学习（再 50 个）/.test(board())) problems.push("「继续学习」按钮文案不对");
+const clickMore = () => {
+  const pair = (board().match(/data-vmore="[^"]*"/) || [])[0];
+  if (!pair) { problems.push("「继续学习」按钮不见了"); return false; }
+  const [k, v] = pair.split("=");
+  vclick({ [k]: v.replace(/"/g, "") });
+  return true;
+};
+if (clickMore()) {
+  if (state().newBonus !== 50) problems.push(`点一次继续学习应追加 50 个额度，实际 ${state().newBonus}`);
+  if (!/今日新词 50\/100/.test(statText())) problems.push("追加后额度应变成 50/100，实际：" + statText());
+  if (!/已追加 50 个/.test(statText())) problems.push("统计行应显示已追加 50 个，实际：" + statText());
+}
+
+// 追加出来的词确实能学（再学 5 个，记进点击顺序）
+const bonusRows = allWords();
+if (bonusRows.length !== 50) problems.push(`追加后应列出 50 个新词，实际 ${bonusRows.length} 行`);
+for (let i = 0; i < 5; i++) {
+  const w = firstWord();
+  if (!w) { problems.push("追加的第 " + (i + 1) + " 个词没渲染出来"); break; }
+  learnedOrder.push(w);
+  vclick({ "data-vans": "know", "data-vword": w });
+  advance(1);
+}
+if (state().newToday !== 55) problems.push(`追加后应能继续学，newToday 应为 55，实际 ${state().newToday}`);
+
+// 把追加的这批剩下 45 个也学完（额度 100 用尽）→ 按钮应该再出现一次
+for (let i = 0; i < 45; i++) {
+  const w = firstWord();
+  if (!w) { problems.push("追加的第 " + (i + 6) + " 个词没渲染出来"); break; }
+  learnedOrder.push(w);
+  vclick({ "data-vans": "know", "data-vword": w });
+  advance(1);
+}
+if (state().newToday !== 100) problems.push(`追加的 50 个学完应为 100，实际 ${state().newToday}`);
+
+// 可以反复追加（50 个一批）
+if (clickMore()) {
+  if (state().newBonus !== 100) problems.push(`再点一次应累计到 100，实际 ${state().newBonus}`);
+  if (!/今日新词 100\/150/.test(statText())) problems.push("再追加后额度应变成 100/150，实际：" + statText());
+  if (!/已追加 100 个/.test(statText())) problems.push("统计行应显示已追加 100 个，实际：" + statText());
+}
+console.log("  继续学习：50 个做完 → 追加 50 → 学完又能再追加（累计 100）✔");
 
 /* ---------------- 第 2 天：不刷新页面，只回到前台 ---------------- */
 setDay(2026, 1, 2);
@@ -128,9 +175,11 @@ if (!firstWord()) problems.push("第 2 天应该能列出新词");
 console.log("  第 2 天回到前台：" + statText());
 
 /* ---------------- 第 2 天：复习 15 个，顺序 = 最后一次点认识的倒序 ---------------- */
+const learnedN = learnedOrder.length;                       // 第 1 天实际学了多少（50 + 继续学习追加的 5）
 const dueAll = Number((statText().match(/到期 (\d+)/) || [])[1] || 0);
-if (dueAll !== 50) problems.push(`第 2 天到期的应是昨天学的 50 个，实际 ${dueAll}`);
+if (dueAll !== learnedN) problems.push(`第 2 天到期的应是昨天学的 ${learnedN} 个，实际 ${dueAll}`);
 if (!/复习 0\/15/.test(statText())) problems.push("第 2 天复习计数应从 0/15 开始，实际：" + statText());
+if (state().newBonus !== 0) problems.push(`「继续学习」追加的额度不该跨天，实际 newBonus=${state().newBonus}`);
 
 // 今天列表 = 前 15 个复习词 + 后面的新词
 const rows = allWords();
@@ -141,7 +190,7 @@ if (reviewRows.join(",") !== expectReview.join(",")) {
     " …\n      实际：" + reviewRows.slice(0, 5).join(" "));
 }
 if (rows.length !== 15 + 50) problems.push(`第 2 天应列出 15 个复习 + 50 个新词，实际 ${rows.length} 行`);
-console.log("  第 2 天：到期 50 个 → 只发 15 个复习，顺序 = 最后点认识的排最前 ✔");
+console.log("  第 2 天：到期 " + learnedN + " 个 → 只发 15 个复习，顺序 = 最后点认识的排最前 ✔");
 console.log("    前 5 个：" + reviewRows.slice(0, 5).join("、"));
 
 /* ---------------- 第 2 天：复习不占新词额度；做完 15 个就不再发 ---------------- */
@@ -154,15 +203,17 @@ const afterRows = allWords();
 if (afterRows.length !== 50) {
   problems.push(`15 个复习做完后应只剩 50 个新词，实际 ${afterRows.length} 行（到期额度没封住）`);
 }
-const stillDue = learnedOrder.slice(0, 35);                 // 最早点的 35 个还到期着，但今天不再发
+const stillDue = learnedOrder.slice(0, learnedN - 15);      // 还没复习的仍然到期着，但今天不再发
 if (stillDue.some((w) => afterRows.indexOf(w) >= 0)) {
   problems.push("今天的 15 个复习额度用完后，不该再插进到期的词");
 }
 if (!/复习 15\/15/.test(statText())) problems.push("统计行应显示复习 15/15，实际：" + statText());
-if (!/到期 35/.test(statText())) problems.push("统计行应显示还有 35 个到期，实际：" + statText());
+if (!new RegExp("到期 " + (learnedN - 15)).test(statText())) {
+  problems.push(`统计行应显示还有 ${learnedN - 15} 个到期，实际：` + statText());
+}
 if (state().streak !== 2) problems.push(`第 1、2 天连着学，连续应为 2，实际 ${state().streak}`);
 if (state().lastStudy !== todayKey()) problems.push("lastStudy 应记成今天");
-console.log("  15 个做完：复习额度封住（到期还剩 35 个，今天不再发），新词额度没被占用 ✔");
+console.log("  15 个做完：复习额度封住（到期还剩 " + (learnedN - 15) + " 个，今天不再发），新词额度没被占用 ✔");
 
 /* ---------------- 第 3 天：额度重置；轮到的应是还没复习过的那些（最早学的） ---------------- */
 setDay(2026, 1, 3);
@@ -170,10 +221,11 @@ advance(3 * 3600 * 1000);
 backToForeground();
 if (!/复习 0\/15/.test(statText())) problems.push("第 3 天复习额度应重置为 0/15，实际：" + statText());
 const day3 = allWords().slice(0, 15);
-// 昨天复习过的 15 个进了记忆盒 2（+3 天），今天不到点；今天到期的是最早点认识的那 35 个，
-// 按倒序排，第一个就是这 35 个里最后点认识的那个（learnedOrder[34]）
-if (day3[0] !== learnedOrder[34]) {
-  problems.push("第 3 天复习队列第一个应是 learnedOrder[34]（" + learnedOrder[34] + "），实际 " + day3[0]);
+// 昨天复习过的 15 个进了记忆盒 2（+3 天），今天不到点；今天到期的是剩下那些（最早学的），
+// 按倒序排，第一个就是它们当中最后点认识的那个
+const expectDay3First = learnedOrder[learnedN - 15 - 1];
+if (day3[0] !== expectDay3First) {
+  problems.push("第 3 天复习队列第一个应是 " + expectDay3First + "，实际 " + day3[0]);
 }
 if (day3.indexOf(expectReview[14]) >= 0) {
   problems.push("昨天复习过、已经推到 3 天后的词，今天不该再出现");

@@ -279,6 +279,7 @@
       box: {}, due: {}, done: {}, mastered: {}, learnedAt: {},
       knownAt: {},                          // 每个词「最后一次点认识」的时间（复习顺序按它倒序）
       custom: [], chunks: null, day: "", newToday: 0,
+      newBonus: 0,                          // 今天点「继续学习」追加的新词额度（每次 +VNEW_PER_DAY）
       reviewToday: 0,                       // 今天已经复习了几个（每天上限 VREVIEW_PER_DAY）
       streak: 0, lastStudy: "",           // 连续学习天数 / 最后一次学习是哪天
       relearn: {}                          // 点过「不认识」打回重学的词（先离开「已学习」）
@@ -303,6 +304,7 @@
     if (vocab.day === today) return false;
     vocab.day = today;
     vocab.newToday = 0;                  // 新的一天，今日额度重新发
+    vocab.newBonus = 0;                  // 「继续学习」追加的额度不跨天
     vocab.reviewToday = 0;               // 复习额度也重新发
     vSave();
     return true;
@@ -444,10 +446,18 @@
     return arr;
   }
 
+  // 今天的新词额度 = 每天固定的 50 + 用户点「继续学习」追加的（每次 +50）
+  function vQuota() {
+    return VNEW_PER_DAY + (vocab.newBonus || 0);
+  }
+  function vNewLeft() {
+    return Math.max(0, vQuota() - vocab.newToday);
+  }
+
   function vBuildQueue() {
     vs.revealed = false;
     if (vs.tab === "today") {
-      var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+      var room = vNewLeft();
       vs.queue = vShuffle(vNewPool().slice()).slice(0, room);
     } else if (vs.tab === "review") {
       vs.queue = vDueList();
@@ -566,7 +576,7 @@
 
   function vTodayList() {
     var due = vReviewList();                 // 每天最多 VREVIEW_PER_DAY 个，按最后一次点认识倒序
-    var room = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+    var room = vNewLeft();
     return due.concat(vTodayFresh().slice(0, room));
   }
 
@@ -656,14 +666,24 @@
   function vTodayHtml() {
     var list = vTodayList();
     if (!list.length) {
-      var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+      var quota = vQuota();
+      var left = vNewLeft();
+      var hasMore = vNewPool().length > 0;      // 词库里还有没学过的词
       if (left > 0) {
+        // 额度还没用完却发不出词 → 词库见底了
         return '<p class="vempty">词库里能学的词都学完了。<br>到期的复习词会继续出现在这里。</p>';
       }
       var s = vStreakShown();
-      return '<p class="vempty">今天的 ' + VNEW_PER_DAY + " 个新词完成了 ✅<br>" +
-        "明天会再发 " + VNEW_PER_DAY + " 个，一天一批；到期的复习词随时会插进来。" +
-        (s ? "<br>已经连续 " + s + " 天了。" : "") + "</p>";
+      var html = '<p class="vempty">今天的 ' + quota + " 个新词完成了 ✅<br>" +
+        (hasMore
+          ? "想接着学就点下面的「继续学习」，一次再放 " + VNEW_PER_DAY + " 个；不点就明天再来。"
+          : "词库里能学的词都学完了。") +
+        "到期的复习词随时会插进来。" + (s ? "<br>已经连续 " + s + " 天了。" : "") + "</p>";
+      if (hasMore) {
+        html += '<div class="vmore"><button type="button" class="vbtn vbtn-primary" data-vmore="1">' +
+          "继续学习（再 " + VNEW_PER_DAY + " 个）</button></div>";
+      }
+      return html;
     }
     return '<div class="vlist">' + list.map(vRowHtml).join("") + "</div>";
   }
@@ -793,11 +813,13 @@
         esc(t.label) + (c[t.id] ? "<em>" + c[t.id] + "</em>" : "") + "</button>";
     }).join("") + "</div>";
 
-    var left = Math.max(0, VNEW_PER_DAY - vocab.newToday);
+    var quota = vQuota();
+    var left = vNewLeft();
     var streak = vStreakShown();
     var dueAll = vDueList().length, revLeft = vReviewLeft();
-    html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + VNEW_PER_DAY + "</b>" +
+    html += '<p class="vstat">今日新词 <b>' + c.todayDone + "/" + quota + "</b>" +
       (left ? "（还剩 <b>" + left + "</b> 个）" : "（今天的发完了）") +
+      (vocab.newBonus ? "　已追加 <b>" + vocab.newBonus + "</b> 个" : "") +
       "　复习 <b>" + (vocab.reviewToday || 0) + "/" + VREVIEW_PER_DAY + "</b>" +
       (dueAll ? "（到期 <b>" + dueAll + "</b> 个" + (revLeft ? "，今天还能复习 " + revLeft + " 个" : "，今天的 15 个已复习完") + "）" : "") +
       "　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b>" +
@@ -891,7 +913,15 @@
     if ((el = t.closest("[data-vgo]"))) {
       vs.tab = "review"; vs.forced = false; vBuildQueue(); renderVocab(); return;
     }
-    if ((el = t.closest("[data-vforce]"))) { vs.forced = true; renderVocab(); return; }
+    // 继续学习：今天的 50 个做完后，再追加 50 个（可以一直点，直到词库学完）
+    if (t.closest("[data-vmore]")) {
+      vocab.newBonus = (vocab.newBonus || 0) + VNEW_PER_DAY;
+      vSave();
+      vBuildQueue();
+      renderVocab();
+      els.viewport.scrollTop = 0;
+      return;
+    }
     if ((el = t.closest("[data-vadd]"))) { vAddImported(); return; }
     if ((el = t.closest("[data-vchunkadd]"))) { vAddChunk(); return; }
     if ((el = t.closest("[data-vdel]"))) {
