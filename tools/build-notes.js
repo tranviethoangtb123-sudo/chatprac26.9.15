@@ -129,7 +129,7 @@ const PHRASAL = [
 ];
 
 /* 语法条目的展示优先级：越靠前越值得讲。超过 8 条时先砍后面的（there be、时间介词这类太基础） */
-const GRAMMAR_ORDER = ("modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
+const GRAMMAR_ORDER = ("split-obj modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
   "confirm-back pres-perfect pres-perf-cont if-unreal would-have passive rel-clause phrasal tag-question " +
   "suggestion used-to too-to result purpose gerund-verb want-to make-do wh-infinitive " +
   "comparative superlative as-as although unless whether-if obj-clause time-clause because countable " +
@@ -1122,11 +1122,8 @@ function main() {
           gAll.push({ id: rule.id, q: q.trim(), t: rule.t });
         });
       });
-      gAll.sort((a, b) => {
-        const ia = GRAMMAR_ORDER.indexOf(a.id), ib = GRAMMAR_ORDER.indexOf(b.id);
-        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-      });
-      const g = gAll.slice(0, G_MAX).map((x) => [intern(ruleTexts, ruleIdx, x.t), x.q]);
+      // 排序和取前 N 条放到「固定搭配」之后做 —— 拆开的动词短语（get me over）也是语法点，
+      // 要在那里补进来（用户要求：这种词组的结构也要在语法里讲）
 
       /* ---------- 固定搭配 ----------
          ① 直接命中：把这段的 2~4 词连续片段做成集合，逐条短语查（比逐词 indexOf 快得多）
@@ -1158,6 +1155,7 @@ function main() {
       };
 
       const hits = [];                       // {p 显示形式, cn, ev 正文出处}
+      const splitHits = [];                  // 宾语插在中间的实例（等下变成语法条目）
       const glossOf = (p) => CHUNK_MAP.get(p) || (PHRASE.get(p) || {}).cn || "";
       ALL_PHRASES.forEach((p) => {
         let ev = "";
@@ -1210,19 +1208,23 @@ function main() {
             const display = pairs[i].l + " " + slot + " " + tail;
             if (hits.some((h) => h.p === display)) break;
             const tailWords = tail.split(" ").length;
+            const evSpan = pairs.slice(i, i + 1 + k + tailWords).map((x) => x.s).join(" ");
             hits.push({
               p: display,
               cn: tails.get(tail),
-              ev: pairs.slice(i, i + 1 + k + tailWords).map((x) => x.s).join(" ")   // 正文里的原话
+              ev: evSpan                                  // 正文里的原话
             });
+            // 顺手记下来：这条是"宾语插在中间"的语法点，等下要放进「语法」里讲结构
+            if (!splitHits.some((s) => s.ev === evSpan)) {
+              splitHits.push({ display, base, cn: tails.get(tail), ev: evSpan, mid: mid.join(" ") });
+            }
             break;
           }
         }
       });
 
       // 同一组词只留一条：coming back 与 come back 算同一条，留词典原形
-      const byNorm = new Map();
-      hits.forEach((h) => {
+      const byNorm = new Map();      hits.forEach((h) => {
         const normKey = h.p.split(" ").map((w) => LEMMA.get(w) || w).join(" ");
         const old = byNorm.get(normKey);
         if (!old) { byNorm.set(normKey, h); return; }
@@ -1242,6 +1244,40 @@ function main() {
           c.push(h.p); evid.push(h.ev || h.p);
         }
       });
+
+      /* ---------- 拆开的动词短语，作为语法点讲结构 ----------
+         用户要求：像 get sb over 这种词组也要在「语法」里标 —— 光列形式不够，
+         得讲清"宾语为什么插在动词和小品词之间"。每段最多讲 2 条，排在语法最前面。 */
+      splitHits.slice(0, 2).forEach((sp) => {
+        const rawLines = lines.map((l) => String(l.en || ""));
+        const normLine = (s) => s.toLowerCase().replace(/[^a-z0-9' ]+/g, " ").replace(/\s+/g, " ");
+        // 例句必须逐字来自正文：先找包含它的那一句，找不到就用整行（证据可能跨了逗号），
+        // 两者都不行就跳过这条 —— 宁可少一条，也不能引用不存在的句子
+        let q = "";
+        for (const raw of rawLines) {
+          const hit = raw.split(/(?<=[.!?])\s+/).find((s) => normLine(s).indexOf(sp.ev) >= 0);
+          if (hit) { q = hit.trim(); break; }
+        }
+        if (!q) {
+          const raw = rawLines.find((r) => normLine(r).indexOf(sp.ev) >= 0);
+          if (raw) q = raw.trim();
+        }
+        if (!q) return;
+        if (q.length > 72) q = q.slice(0, 68).trim() + "…";
+        gAll.push({
+          id: "split-obj",
+          q: q,
+          t: "动词短语的宾语插在中间：" + sp.display + "（" + sp.cn + "）—— 这句里插的是「" + sp.mid +
+            "」。宾语是代词（it / them / me）时必须放中间，不能挪到小品词后面（这句的 " + sp.ev +
+            " 就是对的写法）；宾语较长或要强调时才可以放到后面。"
+        });
+      });
+
+      gAll.sort((a, b) => {
+        const ia = GRAMMAR_ORDER.indexOf(a.id), ib = GRAMMAR_ORDER.indexOf(b.id);
+        return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      });
+      const g = gAll.slice(0, G_MAX).map((x) => [intern(ruleTexts, ruleIdx, x.t), x.q]);
 
       /* ---------- 口语提示：为什么口语听起来"缺了一块" ---------- */
       const kt = [];
