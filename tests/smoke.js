@@ -157,6 +157,16 @@ const readVocabState = () => JSON.parse(globalThis.localStorage.getItem("chatpra
 // 学习板块整块用事件委托，测试里就照着 data-* 造一个目标元素丢进去
 const vclick = (attrs) => fire(byId.vocabBoard, "click", { target: makeEl("button", attrs) });
 const dclick = (attrs) => fire(byId.dialogueList, "click", { target: makeEl("button", attrs) });
+// 确保场景选择器是"开着"的：点 data-dlgpick 是切换，重复点会收起，
+// 后面再点域标题 / 变体行就白点了（这个坑让好几条断言假失败过）
+const pickOpen = () => {
+  if (byId.dialogueList.innerHTML.indexOf("dlgpick-list") < 0) dclick({ "data-dlgpick": "1" });
+};
+// 选中某一段：如果它本来就是选中的，点一下等于"取消"，所以要再点一次
+const selectSeg = (key) => {
+  dclick({ "data-dlgseg": key });
+  if (byId.dialogueList.innerHTML.indexOf("dlgline") < 0) dclick({ "data-dlgseg": key });
+};
 
 /* ---------------- 断言 ---------------- */
 try {
@@ -489,16 +499,49 @@ try {
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });      // 取消掉，别影响后面的断言
   console.log("  底部进度条：全场景 " + pctText(1, segTotal) + " · " + byId.pbarDomName.textContent + " " + pctText(1, domSegs) + " ✔");
 
-  // ============ 学习要点：对话结束后列出 语法 / 固定搭配 / 注意事项 / 初中以上词汇表 ============
+  // ============ 学习要点：口语表达放最前，然后 语法 / 固定搭配 / 生词搭配 / 注意事项 / 词汇 ============
   const NOTES = globalThis.CHAT_PRAC_NOTES;
   if (!NOTES || !NOTES.seg) {
     problems.push("没有加载学习要点数据（data.notes.js）");
   } else {
-    dclick({ "data-dlgseg": scn0.id + ":0" });          // 重新选中一段，看正文下面的要点
+    // 口语化的场景，标签后面要标「（口语）」；非口语的不标
+    const collKeys = Object.keys(NOTES.seg).filter((k) => {
+      const scn = SC.scenarios.filter((s) => s.id === k.split(":")[0])[0];
+      const d = scn.dialogues[Number(k.split(":")[1])];
+      return /随意|俚语/.test(String(d.register || "")) || /低正式/.test(String(d.variant || ""));
+    });
+    if (!collKeys.length) problems.push("数据里应该有一批口语化场景");
+    const scnColl = SC.scenarios.filter((s) => s.id === collKeys[0].split(":")[0])[0];
+    const formalScn = SC.scenarios.filter((s) => s.dialogues.some((d) =>
+      !/随意|俚语/.test(String(d.register || "")) && !/低正式/.test(String(d.variant || ""))))[0];
+    pickOpen();
+    dclick({ "data-dlgdom": scnColl.domain });
+    const pickHtml = dHtml();
+    const collLabel = pickHtml.indexOf("（口语）") >= 0;
+    if (!collLabel) problems.push("口语化的场景应该在标签后标「（口语）」");
+    const listHtml = pickHtml.slice(pickHtml.indexOf("dlgpick-list"));   // 只看下拉列表，不看顶部已选项
+    // 逐行核对标签：口语化的必须带「（口语）」，非口语的必须不带（列表里含整个域的多行）
+    scnColl.dialogues.forEach((d) => {
+      const isColl = /随意|俚语/.test(String(d.register || "")) || /低正式/.test(String(d.variant || ""));
+      const want = scnColl.title + " · " + d.variant + (isColl ? "（口语）" : "");
+      if (listHtml.indexOf(">" + want + "<") < 0) {
+        problems.push("场景标签不对（应为「" + want + "」）");
+      }
+    });
+    dclick({ "data-dlgdom": formalScn.domain });
+    const formalRow = (dHtml().match(/data-dlgseg="[^"]*">([^<]*)</g) || []);
+    if (!formalRow.length) problems.push("非口语化场景的行没渲染出来");
+    console.log("  口语标记：口语化场景带「（口语）」，非口语的不带 ✔");
+
+    selectSeg(scn0.id + ":0");                          // 重新选中一段，看正文下面的要点
     const notesHtml = dHtml();
     if (notesHtml.indexOf("学习要点") < 0) problems.push("对话正文下面没有「学习要点」");
-    if (notesHtml.indexOf('class="dnote-h">语法') < 0) problems.push("学习要点缺少「语法」");
-    if (notesHtml.indexOf("词汇（初中以上）") < 0) problems.push("学习要点缺少「词汇（初中以上）」");
+    // 顺序：口语表达必须在语法前面（用户要求：初学者先看口语说法）
+    const iK = notesHtml.indexOf('class="dnote-h">口语表达');
+    const iG = notesHtml.indexOf('class="dnote-h">语法');
+    if (iG < 0) problems.push("学习要点缺少「语法」");
+    if (iK >= 0 && iG >= 0 && iK > iG) problems.push("「口语表达」必须排在「语法」前面");
+    if (notesHtml.indexOf("词汇（初二以上）") < 0) problems.push("学习要点缺少「词汇（初二以上）」");
     if (notesHtml.indexOf("dlgnotes") < 0) problems.push("学习要点没有用 dlgnotes 容器");
 
     // 语法例句必须是这段正文里的原话（数据可以核对，不能是编的）
@@ -526,9 +569,9 @@ try {
       problems.push("学习要点数据里一段固定搭配都没有");
     } else {
       const scnOf = SC.scenarios.filter((s) => s.id === keyWithC.split(":")[0])[0];
-      dclick({ "data-dlgpick": "1" });
+      pickOpen();
       dclick({ "data-dlgdom": scnOf.domain });
-      dclick({ "data-dlgseg": keyWithC });
+      selectSeg(keyWithC);
       const cHtml = dHtml();
       const phrase = NOTES.seg[keyWithC].c[0];
       const cn = (NOTES.colls || {})[phrase];
@@ -544,9 +587,9 @@ try {
       problems.push("学习要点数据里一段生词搭配都没有");
     } else {
       const scn2 = SC.scenarios.filter((s) => s.id === keyWithC2.split(":")[0])[0];
-      dclick({ "data-dlgpick": "1" });
+      pickOpen();
       dclick({ "data-dlgdom": scn2.domain });
-      dclick({ "data-dlgseg": keyWithC2 });
+      selectSeg(keyWithC2);
       const c2Html = dHtml();
       const phrase2 = NOTES.seg[keyWithC2].c2[0];
       if (c2Html.indexOf("生词搭配") < 0) problems.push("学习要点缺少「生词搭配」小节");

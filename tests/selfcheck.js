@@ -302,7 +302,7 @@ SC.scenarios.forEach((s) => s.dialogues.forEach((d, i) => { segByKey[s.id + ":" 
 Object.keys(notesSeg).forEach((k) => {
   if (!segByKey[k]) fail(`学习要点里有不存在的段落：${k}`);
 });
-let notesG = 0, notesC = 0, notesC2 = 0, notesN = 0, notesV = 0, notesEmptySeg = 0;
+let notesK = 0, notesG = 0, notesC = 0, notesC2 = 0, notesN = 0, notesV = 0, notesEmptySeg = 0;
 segKeys.forEach((k) => {
   const one = notesSeg[k];
   if (!one) { fail(`段落 ${k} 没有学习要点`); return; }
@@ -324,6 +324,25 @@ segKeys.forEach((k) => {
     if (clean.length < 3) fail(`${at} 例句太短：${q}`);
     if (rawText.indexOf(clean.toLowerCase()) < 0) fail(`${at} 例句不是这段正文里的原话：${q}`);
     notesG++; count++;
+  });
+
+  // 口语表达（放最前面那节）+ 口语提示：出处必须是这段正文里的原话
+  (one.k || []).forEach((p, i) => {
+    const at = `学习要点 ${k} 口语表达第 ${i + 1} 条`;
+    const cn = (NOTES.colls || {})[p];
+    if (!cn) { fail(`${at} 不在短语表里：${p}`); return; }
+    if (!CJK.test(cn)) fail(`${at} 中文释义不含汉字：${cn}`);
+    const ev = String((one.ke || [])[i] || "");
+    if (!ev) { fail(`${at} 缺少正文出处`); return; }
+    if (text.indexOf(" " + ev + " ") < 0) fail(`${at} 出处不是这段正文里的原话：${ev}（口语表达 ${p}）`);
+    notesK++; count++;
+  });
+  (one.kt || []).forEach((ti, i) => {
+    const at = `学习要点 ${k} 口语提示第 ${i + 1} 条`;
+    const t = (NOTES.texts || [])[ti];
+    if (!t) { fail(`${at} 文本索引越界：${ti}`); return; }
+    if (!CJK.test(t)) fail(`${at} 不含中文`);
+    notesK++; count++;
   });
 
   (one.c || []).forEach((p, i) => {
@@ -367,12 +386,12 @@ segKeys.forEach((k) => {
     if (!d) { fail(`${at} 词表里没有这个词：${w}`); return; }
     if (!CJK.test(d[1] || "")) fail(`${at} 释义不含中文：${w}`);
     if (d[0] && !/^\/.+\/$/.test(d[0])) fail(`${at} 音标格式不对：${w} ${d[0]}`);
-    // 词表存的是原形，正文里可能是变形（relied → rely、reserved → reserve），
-    // 所以取词干前几个字母来核对（rely 要去掉词尾 y 才是词干 rel）
-    const stem = String(w).length > 3 && /y$/.test(w) ? String(w).slice(0, -1) : String(w);
-    const probe = stem.slice(0, Math.min(4, stem.length)).toLowerCase();
-    if (hyphenText.indexOf(probe) < 0 && text.indexOf(probe) < 0) {
-      fail(`${at} 这段正文里没有这个词：${w}`);
+    // 词表存的是原形，正文里可能是变形（steal → stolen、stick → stuck、reserved → reserve），
+    // 所以核"出处"：ve[i] 是正文里实际出现的形式，必须逐字存在
+    const ve = String((one.ve || [])[i] || "");
+    if (!ve) { fail(`${at} 缺少正文出处`); return; }
+    if (hyphenText.indexOf(" " + ve + " ") < 0 && text.indexOf(" " + ve + " ") < 0) {
+      fail(`${at} 出处不是这段正文里的原话：${ve}（词 ${w}）`);
     }
     notesV++; count++;
   });
@@ -380,7 +399,7 @@ segKeys.forEach((k) => {
   if (!count) notesEmptySeg++;
 });
 if (notesEmptySeg) fail(`有 ${notesEmptySeg} 段学习要点是空的`);
-ok.push(`学习要点：${segKeys.length} 段全部覆盖（语法 ${notesG} / 固定搭配 ${notesC} / 生词搭配 ${notesC2} / 注意事项 ${notesN} / 词汇 ${notesV}），例句与搭配出处逐字来自正文`);
+ok.push(`学习要点：${segKeys.length} 段全部覆盖（口语 ${notesK} / 语法 ${notesG} / 固定搭配 ${notesC} / 生词搭配 ${notesC2} / 注意事项 ${notesN} / 词汇 ${notesV}），例句与搭配出处逐字来自正文`);
 if (notesG / segKeys.length < 3) fail(`语法平均只有 ${(notesG / segKeys.length).toFixed(1)} 条/段，偏少`);
 if (notesV / segKeys.length < 1) fail(`词汇平均只有 ${(notesV / segKeys.length).toFixed(1)} 个/段，偏少`);
 

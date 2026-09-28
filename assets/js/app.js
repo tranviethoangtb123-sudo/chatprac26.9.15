@@ -1118,8 +1118,12 @@
   /* ---------- 选择器 ---------- */
 
   // 选项文字 = 场景名 · 变体（同一个域里有多个场景时，光看变体名分不出是哪一条）
+  // 口语化的那些在后面标「（口语）」—— 初学者一眼看出这句能不能照搬到正式场合
+  function dlgIsColloquial(d) {
+    return /随意|俚语/.test(String(d.register || "")) || /低正式/.test(String(d.variant || ""));
+  }
   function dlgLabel(it) {
-    return it.scn.title + " · " + it.d.variant;
+    return it.scn.title + " · " + it.d.variant + (dlgIsColloquial(it.d) ? "（口语）" : "");
   }
 
   function dlgPickHtml(list, curIdx, q) {
@@ -1273,6 +1277,23 @@
     if (!one) return "";
     var html = "";
 
+    // 口语表达放最前面：初学者最容易被口语说法卡住，先看这一节
+    if ((one.k && one.k.length) || (one.kt && one.kt.length)) {
+      html += '<div class="dnote-sec"><p class="dnote-h">口语表达</p>';
+      if (one.k && one.k.length) {
+        html += '<ul class="dnote-list">' + one.k.map(function (p) {
+          return '<li><span class="dnote-en">' + esc(p) + "</span>" +
+            '<span class="dnote-cn">' + esc((NOTES.colls || {})[p] || "") + "</span></li>";
+        }).join("") + "</ul>";
+      }
+      if (one.kt && one.kt.length) {
+        html += '<ul class="dnote-list dnote-notes">' + one.kt.map(function (i) {
+          return "<li>" + esc((NOTES.texts || [])[i] || "") + "</li>";
+        }).join("") + "</ul>";
+      }
+      html += "</div>";
+    }
+
     if (one.g && one.g.length) {
       html += '<div class="dnote-sec"><p class="dnote-h">语法</p>' +
         one.g.map(function (x) {
@@ -1307,7 +1328,7 @@
     }
 
     if (one.v && one.v.length) {
-      html += '<div class="dnote-sec"><p class="dnote-h">词汇（初中以上）</p><ul class="dnote-list dnote-words">' +
+      html += '<div class="dnote-sec"><p class="dnote-h">词汇（初二以上）</p><ul class="dnote-list dnote-words">' +
         one.v.map(function (w) {
           var d = (NOTES.words || {})[w] || ["", ""];
           return '<li><span class="dnote-en">' + esc(w) + "</span>" +

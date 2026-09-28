@@ -29,7 +29,8 @@ const CSV_PATH = path.join(__dirname, ".cache", "ecdict.csv");
 const IPA_PATH = path.join(__dirname, ".cache", "ipa_en_US.txt");
 const OUT_PATH = path.join(ROOT, "assets", "js", "data.notes.js");
 const V_MAX = 20;      // 每段最多列多少个词（太多了没人看）
-const C_MAX = 12;      // 每段最多列多少条固定搭配（用户要求"多列一点"）
+const K_MAX = 10;      // 每段最多列多少条口语表达（放最前面那一节）
+const C_MAX = 8;       // 每段最多列多少条固定搭配
 const G_MAX = 8;       // 每段最多列多少条语法（按 GRAMMAR_ORDER 取最值得讲的）
 const SAMPLE = (() => { const i = process.argv.indexOf("--sample"); return i >= 0 ? process.argv[i + 1] : null; })();
 
@@ -335,6 +336,38 @@ const CHUNKS = [
   ["if that works", "如果这样合适的话"], ["let me check", "我查一下"], ["i'll see what i can do", "我看看能帮到什么"],
   ["keep it down", "小声点"], ["speak up", "说大声点"], ["slow down", "说慢点"],
   ["come again", "再说一遍"], ["you lost me", "我没听懂"], ["got it", "明白了"],
+  /* ---------- 口语缩读形式（听力里最卡人的一类） ---------- */
+  ["gonna", "要（going to 的连读缩读）"], ["wanna", "想（want to 的缩读）"],
+  ["gotta", "得、必须（got to 的缩读）"], ["kinda", "有点儿（kind of 的缩读）"],
+  ["sorta", "有点儿（sort of 的缩读）"], ["dunno", "不知道（don't know 的缩读）"],
+  ["lemme", "让我（let me 的缩读）"], ["gimme", "给我（give me 的缩读）"],
+  ["c'mon", "来吧、快点（come on 的缩读）"], ["ain't", "不是、没有（非标准口语，正式场合别用）"],
+  ["yeah", "对、是的（yes 的口语）"], ["yep", "是的（口语）"], ["nope", "不（口语）"],
+  ["nah", "不、算了（口语）"], ["uh-huh", "嗯（表示在听、同意）"], ["mm-hmm", "嗯（表示在听）"],
+  /* ---------- 口语回应词（一句话回答，信息量都在语气里） ---------- */
+  ["fair enough", "有道理；行吧"], ["no worries", "没事、别客气"],
+  ["sure thing", "当然、没问题"], ["right you are", "对、没错"],
+  ["you bet", "当然、没问题"], ["works for me", "我这没问题"],
+  ["sounds like a plan", "听起来可行"], ["that works", "这样行"],
+  ["will do", "好的，我照办"], ["consider it done", "包在我身上"],
+  ["not really", "算不上、不太"], ["not quite", "还差一点、不完全是"],
+  ["you could say that", "也可以这么说"], ["if you like", "如果你愿意的话"],
+  ["whatever you say", "听你的、随便吧"], ["up to you", "你说了算"],
+  ["same here", "我也一样"], ["tell me about it", "可不是嘛（表示深有同感）"],
+  ["you can say that again", "太对了"], ["been there", "我也经历过"],
+  ["i hear you", "我懂你的意思"], ["no kidding", "真的假的、可不是"],
+  ["you don't say", "真的吗（表示惊讶）"], ["here we go", "又来了、开始了"],
+  ["there you go", "这就对了、给你"], ["my bad", "是我的错"],
+  ["my treat", "我请客"], ["after you", "您先请"],
+  ["no offence", "没有冒犯的意思"], ["it's complicated", "一言难尽"],
+  ["don't ask", "别提了"], ["search me", "我哪知道（口语）"],
+  ["beats me", "我也搞不懂"], ["a bit of a", "有点儿算是"],
+  ["and all that", "之类等等"], ["or whatever", "或者随便什么"],
+  ["if that makes sense", "如果这么说你能理解"], ["you know what i mean", "你懂我意思吧"],
+  ["know what", "你知道吗（引起注意）"], ["guess what", "你猜怎么着"],
+  ["here's the thing", "事情是这样的"], ["that said", "话虽如此"],
+  ["having said that", "话虽如此"], ["mind you", "不过话说回来"],
+  ["then again", "不过话说回来"], ["at any rate", "不管怎样"], ["anyhow", "总之、随便吧"],
   ["depend on", "取决于、依靠"], ["interested in", "对……感兴趣"], ["good at", "擅长"],
   ["afraid of", "害怕"], ["worried about", "担心"], ["responsible for", "负责"],
   ["familiar with", "熟悉"], ["similar to", "与……相似"], ["different from", "与……不同"],
@@ -880,6 +913,10 @@ function main() {
     PHRASE.set(w, { cn: info.cn, type, particle, verb: parts[0], adjHead: !!adjHead });
   });
   console.log("词典 " + DICT.size + " 词条，词形还原 " + LEMMA.size + " 条，过去分词 " + PART.size + " 个，结构化短语 " + PHRASE.size + " 条");
+  const typeHist = {};
+  PHRASE.forEach((v) => { typeHist[v.type] = (typeHist[v.type] || 0) + 1; });
+  console.log("  短语类型分布（1 动词+小品词 / 2 介词短语 / 3 动词+名词+小品词 / 5 动词+小品词+介词 / 6 形容词·名词+介词 / 7 名词性词组）：" +
+    JSON.stringify(typeHist));
 
   const phonBank = {};
   (DATA.words || []).forEach((x) => { phonBank[x.w] = x.ph; });
@@ -893,6 +930,39 @@ function main() {
   const CHUNK_MAP = new Map(CHUNKS.map(([p, cn]) => [p.toLowerCase(), cn]));
 
   // 语域取值在数据里是自由文本（"半正式（情绪化）"），这里归一化
+  /* ---------- 哪些算"口语表达"（放最前面那节） ----------
+     用户是初学者，最需要知道"这句能不能照搬到正式场合"。
+     所以这一节只收真正口语的：回应词、缩读形式、语气词、动词短语（come by / sort out）。
+     中性的介词/数量短语（on time、plenty of）不算口语，归到「固定搭配」去。 */
+  const SPOKEN = new Set([
+    "gonna", "wanna", "gotta", "kinda", "sorta", "dunno", "lemme", "gimme", "c'mon", "ain't",
+    "yeah", "yep", "nope", "nah", "uh-huh", "mm-hmm", "cheers", "ta", "cool", "fine", "right",
+    "sure", "exactly", "absolutely", "whatever", "anyway", "anyhow", "hi", "hey",
+    "fair enough", "no worries", "no problem", "sure thing", "right you are", "you bet",
+    "works for me", "sounds like a plan", "that works", "will do", "consider it done",
+    "not really", "not quite", "you could say that", "if you like", "whatever you say",
+    "up to you", "same here", "tell me about it", "you can say that again", "been there",
+    "i hear you", "no kidding", "you don't say", "here we go", "there you go", "my bad",
+    "my treat", "after you", "no offence", "it's complicated", "don't ask", "search me",
+    "beats me", "a bit of a", "and all that", "or whatever", "if that makes sense",
+    "you know what i mean", "guess what", "here's the thing", "that said", "having said that",
+    "mind you", "then again", "at any rate", "i see", "got it", "never mind", "forget it",
+    "long story", "you lost me", "come again", "how's it going", "long time no see",
+    "what's up", "how come", "no idea", "no rush", "i'm easy", "your call", "hold on",
+    "hang on", "go ahead", "not at all", "you're welcome", "any time", "my pleasure",
+    "so long", "see you", "catch you later", "talk soon", "take care", "have a good one",
+    "what do you do", "what's going on", "what brings you here", "how was your day",
+    "how did it go", "any luck", "any news", "let me check", "i'll see what i can do",
+    "keep it down", "speak up", "slow down", "excuse me", "sorry to bother you",
+    "thanks a lot", "i appreciate it", "you too", "likewise", "same to you"
+  ]);
+  const isSpokenChunk = (p) => {
+    if (SPOKEN.has(p)) return true;
+    const parts = p.split(" ");
+    // 动词短语算口语（come by / sort out / put off）；介词短语、数量短语不算
+    return parts.length >= 2 && isVerbWord(parts[0]) && TAIL_RE.test(parts.slice(1).join(" "));
+  };
+
   function registerNote(text) {
     const t = String(text || "");
     if (/随意/.test(t)) return REGISTER_NOTE["随意"];
@@ -902,8 +972,12 @@ function main() {
     return "";
   }
 
-  // 初中及以下：中考标签 / 牛津核心 3000 / 柯林斯四星以上
-  const isBasic = (e) => !!e && (/(^|\s)zk(\s|$)/.test(e.tag) || e.oxford === 1 || e.collins >= 4);
+  // 「初二以上」怎么判定：把最基础的（小学 / 初一）排掉，其余都算要标的生词。
+  //   · 牛津核心 3000 且柯林斯 4 星以上（apple / book / happy 这类）→ 太基础，不标
+  //   · 词频在 1200 名以内（COCA/BNC）→ 太基础，不标
+  //   · 其余一律标出来 —— **包括中考(zk)词表里初二、初三那些**
+  //     （旧规则把整个 zk 词表都排除，结果一段里常常只标出 2~3 个词，用户反馈太少）
+  const isBasic = (e) => !!e && ((e.oxford === 1 && e.collins >= 4) || (e.frq > 0 && e.frq <= 1200));
   // ECDICT 里变形词条自己的释义是「X的过去式」这种，不算真释义
   const isFormGloss = (e) => !!e && /的(过去式|过去分词|复数|第三人称|现在分词|ing形式|比较级|最高级)|复数形式|过去式和过去分词/.test(e.clean ? e.clean.cn : "");
 
@@ -1007,7 +1081,7 @@ function main() {
     if (map[s] === undefined) { map[s] = arr.length; arr.push(s); }
     return map[s];
   };
-  const stats = { segs: 0, g: 0, c: 0, c2: 0, n: 0, v: 0, vUniq: 0, empty: { g: 0, c: 0, n: 0, v: 0 } };
+  const stats = { segs: 0, k: 0, g: 0, c: 0, c2: 0, n: 0, v: 0, vUniq: 0, empty: { k: 0, g: 0, c: 0, n: 0, v: 0 } };
 
   (SC.scenarios || []).forEach((scn) => {
     (scn.dialogues || []).forEach((d, di) => {
@@ -1157,12 +1231,54 @@ function main() {
       const uniq = [...byNorm.values()];
 
       uniq.sort((a, b) => (b.p.split(" ").length - a.p.split(" ").length) || (b.p.length - a.p.length));
-      const c = [], evid = [];
-      uniq.slice(0, C_MAX).forEach((h) => {
-        c.push(h.p);
-        evid.push(h.ev || h.p);
+      // 口语表达（来自手写口语语块）单独成节、排在语法前面；
+      // 词典里的短语进「固定搭配」，两节各自限量
+      const k = [], kev = [], c = [], evid = [];
+      uniq.forEach((h) => {
         colls[h.p] = h.cn;
+        if (CHUNK_MAP.has(h.p) && isSpokenChunk(h.p)) {
+          if (k.length < K_MAX) { k.push(h.p); kev.push(h.ev || h.p); }
+        } else if (c.length < C_MAX) {
+          c.push(h.p); evid.push(h.ev || h.p);
+        }
       });
+
+      /* ---------- 口语提示：为什么口语听起来"缺了一块" ---------- */
+      const kt = [];
+      // 助动词（含缩写形式 what's / that's / don't，不然 "What's the hesitation?" 会被误判成省略句）
+      const AUX = new Set(("is are am was were be been being do does did have has had can could will would shall " +
+        "should may might must let what's that's it's i'm you're we're they're he's she's there's who's here's " +
+        "don't doesn't didn't isn't aren't wasn't weren't haven't hasn't can't won't wouldn't couldn't shouldn't " +
+        "let's i've we've you've they've i'll we'll i'd you'd").split(/\s+/));
+      // 固定客套话不算省略句（它们本身就是完整说法）
+      const FIXED = ["thank you", "thanks a lot", "thanks", "sorry", "please", "excuse me",
+        "no problem", "no worries", "good morning", "good afternoon", "good evening", "good night",
+        "well done", "of course", "never mind", "see you", "my bad", "nice to meet you",
+        "this way please", "help yourself", "cheers", "got it", "fair enough", "not yet", "me too",
+        "no thanks", "after you", "all right", "that's fine", "okay", "right"];
+      // 按"句子"判定，不要整行一起看（一行里常有好几句，整行引用会让人看不懂在说哪句）
+      const ells = [];
+      lines.forEach((l) => {
+        String(l.en || "").split(/(?<=[.!?])\s+/).forEach((sent) => {
+          const toks = sent.toLowerCase().replace(/[^a-z' ]+/g, " ").trim().split(/\s+/).filter(Boolean);
+          if (toks.length < 2 || toks.length > 5) return;                 // 一个词的碎片不解释
+          if (toks.some((t) => AUX.has(t) || isVerbWord(t) || isVerbWord(LEMMA.get(t) || ""))) return;   // 有动词就不是省略
+          const norm2 = toks.join(" ");
+          if (FIXED.indexOf(norm2) >= 0 || CHUNK_MAP.has(norm2)) return;   // 固定说法不算
+          ells.push(sent.trim());
+        });
+      });
+      ells.sort((a, b) => a.length - b.length);
+      if (ells.length) {
+        kt.push("省略句：「" + ells[0] + "」—— 口语里主语和 be 动词常常被省掉，" +
+          "按上一句把话说完整就懂了（书面必须写全）。");
+      }
+      const contractLines = lines.filter(function (l) {
+        return (String(l.en || "").match(/\b[a-z]+'(s|t|re|ve|ll|d|m)\b/gi) || []).length >= 2;
+      }).length;
+      if (contractLines >= 2) {
+        kt.push("缩写：I'm / don't / it's 这类是口语写法，正式书面要写全（I am / do not / it is）。");
+      }
 
       /* ---------- 词汇表（初中以上） ---------- */
       const v = [], seenV = new Set(), vEv = {};   // vEv：原形 → 正文里实际出现的形式
@@ -1234,17 +1350,22 @@ function main() {
       const resText = String(d.result || "");
       Object.keys(RESULT_NOTE).forEach((k) => { if (resText.indexOf(k) === 0 && n.length < 5) n.push(RESULT_NOTE[k]); });
 
-      stats.g += g.length; stats.c += c.length; stats.c2 += c2.length; stats.n += n.length; stats.v += vOut.length;
+      stats.g += g.length; stats.k += k.length; stats.c += c.length; stats.c2 += c2.length;
+      stats.n += n.length; stats.v += vOut.length;
       if (!g.length) stats.empty.g++;
+      if (!k.length) stats.empty.k++;
       if (!c.length) stats.empty.c++;
       if (!n.length) stats.empty.n++;
       if (!vOut.length) stats.empty.v++;
       const one = {};
+      if (k.length) { one.k = k; one.ke = kev; }    // 口语表达（放最前面那节）
+      if (kt.length) one.kt = kt.map((t) => intern(noteTexts, noteIdx, t));
       if (g.length) one.g = g;
       if (c.length) { one.c = c; one.e = evid; }    // e = 每条搭配在正文里的出处（自检核这个）
       if (c2.length) { one.c2 = c2; one.e2 = evid2; }
       if (n.length) one.n = n.map((t) => intern(noteTexts, noteIdx, t));
-      if (vOut.length) one.v = vOut;
+      // ve = 每个词在正文里实际出现的形式（steal 在正文里是 stolen），自检核这个
+      if (vOut.length) { one.v = vOut; one.ve = vOut.map((w) => vEv[w] || w); }
       seg[key] = one;
     });
   });
@@ -1268,17 +1389,19 @@ function main() {
     "/* ============================================================================",
     "   场景对话「学习要点」— 本文件由 tools/build-notes.js 自动生成，不要手工编辑",
     "   ----------------------------------------------------------------------------",
-    "   seg[\"场景id:序号\"] 四块内容（文本都放在共享表里，段落里只存索引，省体积）：",
+    "   seg[\"场景id:序号\"] 五块内容（文本都放在共享表里，段落里只存索引，省体积）：",
+    "     k 口语表达 [短语, …] + kt [texts 下标, …]  口语语块 / 缩读 / 省略句提示（放最前面一节）",
     "     g 语法     [[rules 下标, 例句], …]  例句逐字取自对话正文",
     "     c 固定搭配 [短语, …]                中文在 colls 里查",
+    "     c2 生词搭配 [短语, …]",
     "     n 注意事项 [texts 下标, …]",
     "     v 词汇表   [词, …]                  音标/释义在 words 里查",
-    "   「初中以上」= 不带中考(zk)标签 + 非牛津核心3000 + 柯林斯星级<4",
+    "   「初二以上」= 排除（牛津核心3000 且柯林斯4星以上）和词频前 1200 的词，其余都标",
     "   释义 / 词性 / 考试标签：ECDICT  https://github.com/skywind3000/ECDICT  (MIT License)",
     "   音标（美式 IPA）：ipa-dict  https://github.com/open-dict-data/ipa-dict  (MIT License)",
     "   重新生成：node tools/build-notes.js",
-    "   共 " + stats.segs + " 段：语法 " + stats.g + " / 固定搭配 " + stats.c +
-      " / 注意事项 " + stats.n + " / 词汇引用 " + stats.v + "（去重 " + stats.vUniq + " 词）",
+    "   共 " + stats.segs + " 段：口语 " + stats.k + " / 语法 " + stats.g + " / 固定搭配 " + stats.c +
+      " / 生词搭配 " + stats.c2 + " / 注意事项 " + stats.n + " / 词汇引用 " + stats.v + "（去重 " + stats.vUniq + " 词）",
     "   ============================================================================ */"
   ];
   const out = head.concat([
@@ -1301,12 +1424,13 @@ function main() {
 
   fs.writeFileSync(OUT_PATH, out, "utf8");
   console.log("\n段落 " + stats.segs);
+  console.log("  口语表达 " + stats.k + " 条（" + (stats.k / stats.segs).toFixed(1) + " 条/段）");
   console.log("  语法 " + stats.g + " 条（" + (stats.g / stats.segs).toFixed(1) + " 条/段）");
   console.log("  固定搭配 " + stats.c + " 条（" + (stats.c / stats.segs).toFixed(1) + " 条/段）");
   console.log("  生词搭配 " + stats.c2 + " 条（" + (stats.c2 / stats.segs).toFixed(1) + " 条/段）");
   console.log("  注意事项 " + stats.n + " 条（" + (stats.n / stats.segs).toFixed(1) + " 条/段）");
   console.log("  超纲词去重 " + stats.vUniq + " 个，段落引用 " + stats.v + " 次（" + (stats.v / stats.segs).toFixed(1) + " 个/段）");
-  console.log("  空缺段落：语法 " + stats.empty.g + " / 固定搭配 " + stats.empty.c +
+  console.log("  空缺段落：口语 " + stats.empty.k + " / 语法 " + stats.empty.g + " / 固定搭配 " + stats.empty.c +
     " / 注意事项 " + stats.empty.n + " / 词汇表 " + stats.empty.v + "（共 " + stats.segs + " 段）");
   console.log("已写入：" + OUT_PATH + "（" + (out.length / 1024).toFixed(0) + " KB）");
 }
