@@ -38,7 +38,7 @@ const IDS = ["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "view
   "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
   "input", "sendBtn", "composerHint", "composer", "studyProgress",
   "pbarAll", "pbarAllVal", "pbarDom", "pbarDomVal", "pbarDomName",
-  "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto",
+  "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto", "syncTarget",
   "syncMsg", "syncText", "syncExport", "syncImport", "syncFile"];
 
 let byId = {};

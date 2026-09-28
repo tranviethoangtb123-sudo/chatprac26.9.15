@@ -114,6 +114,7 @@
     syncUp: $("#syncUp"),
     syncDown: $("#syncDown"),
     syncAuto: $("#syncAuto"),
+    syncTarget: $("#syncTarget"),
     syncMsg: $("#syncMsg"),
     syncText: $("#syncText"),
     syncExport: $("#syncExport"),
@@ -1541,9 +1542,11 @@
   var SNAP_MAGIC = "chat-prac";
   var SYNC_KEY = "chatprac-sync";
   var GIST_FILE = "chat-prac-progress.json";
+  var REPO_NAME = "chatprac-progress";     // 进度仓库的名字（不存在会自动建一个私有的）
 
   function syncCfgLoad() {
-    var d = { token: "", gist: "", auto: true, at: 0 };
+    // target: "gist" = 存私有 gist；"repo" = 存私有仓库里的 progress.json
+    var d = { token: "", gist: "", repo: "", repoBranch: "main", target: "gist", auto: true, at: 0 };
     try {
       var raw = localStorage.getItem(SYNC_KEY);
       if (raw) {
@@ -1619,6 +1622,9 @@
   function syncPaint() {
     if (els.syncToken) els.syncToken.value = syncCfg.token;
     if (els.syncAuto) els.syncAuto.textContent = "自动同步：" + (syncCfg.auto ? "开" : "关");
+    if (els.syncTarget) {
+      els.syncTarget.textContent = "存放位置：" + (syncCfg.target === "repo" ? "私有仓库" : "Gist");
+    }
     if (els.syncState) {
       els.syncState.textContent = !syncCfg.token ? "未设置"
         : (syncCfg.at ? "已同步 " + new Date(syncCfg.at).toLocaleDateString() : "已设置");
@@ -1680,23 +1686,156 @@
       "-" + p(d.getHours()) + p(d.getMinutes()) + ".json";
   }
 
-  function syncUp(auto, force) {
-    if (!syncCfg.token) { if (auto !== true) syncSay("先粘一个 GitHub token", true); return; }
-    if (auto !== true) syncSay("上传中…");
-    // 先看看云端现成的那份：既避免建出第二个 gist，也用来判断该不该传
+  /* ---------- 云端去处：Gist（勾 gist 权限）或 私有仓库（contents 写权限） ----------
+     两个去处用的是同一套快照，只是存放位置不同：
+       · gist   ：账号下的私有 gist，只要 gist 权限，最省事
+       · repo   ：账号下一个私有仓库里的 progress.json，每次同步 = 一次提交，
+                  能在仓库列表里看到、能按提交回滚。需要 repo（或 contents 写）权限。
+     仓库不存在会自动建一个私有的（名字 REPO_NAME），用户不用先去 GitHub 建。 */
+
+  function b64enc(str) {
+    var bytes = new TextEncoder().encode(String(str)), bin = "";
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64dec(b64) {
+    var bin = atob(String(b64).replace(/\s/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  // 找到（或建一个私有的）进度仓库，返回 "owner/repo"。
+  // 注意：要缓存"正在飞的那个请求" —— 多个同步同时起步时（手动+自动、或连点几下），
+  // 每个都会调到这里，不缓存的话会同时建出好几个同名仓库。
+  var repoEnsurePromise = null;
+  function repoEnsure() {
+    if (syncCfg.repo) return Promise.resolve(syncCfg.repo);
+    if (repoEnsurePromise) return repoEnsurePromise;
+    repoEnsurePromise = repoEnsureRun();
+    repoEnsurePromise.then(function () { repoEnsurePromise = null; },
+      function () { repoEnsurePromise = null; });     // 失败后允许下次重试
+    return repoEnsurePromise;
+  }
+
+  function repoEnsureRun() {
+    return fetch("https://api.github.com/user", { headers: ghHeaders() })
+      .then(function (r) {
+        if (!r.ok) throw new Error("token 读不到账号信息（HTTP " + r.status + "）");
+        return r.json();
+      })
+      .then(function (me) {
+        var login = me && me.login;
+        if (!login) throw new Error("token 读不到账号信息");
+        var full = login + "/" + REPO_NAME;
+        return fetch("https://api.github.com/repos/" + full, { headers: ghHeaders() })
+          .then(function (r) { return r.ok ? r.json() : { _status: r.status }; })
+          .then(function (j) {
+            if (j && j.full_name) {                     // 已经有了
+              syncCfg.repo = j.full_name;
+              syncCfg.repoBranch = j.default_branch || "main";
+              syncCfgSave();
+              return syncCfg.repo;
+            }
+            if (j._status !== 404) throw new Error("查进度仓库失败（HTTP " + j._status + "）");
+            // 没有 → 建一个私有的
+            return fetch("https://api.github.com/user/repos", {
+              method: "POST", headers: ghHeaders(),
+              body: JSON.stringify({
+                name: REPO_NAME, private: true, auto_init: true,
+                description: "Chat Prac 学习进度（自动生成，勿手改）"
+              })
+            }).then(function (r2) {
+              return r2.json().then(function (j2) {
+                if (!r2.ok) {
+                  throw new Error("建进度仓库失败：" + ((j2 && j2.message) || r2.status) +
+                    "（token 需要 repo 权限，或 fine-grained 勾 Contents 读写）");
+                }
+                syncCfg.repo = j2.full_name;
+                syncCfg.repoBranch = j2.default_branch || "main";
+                syncCfgSave();
+                return syncCfg.repo;
+              });
+            });
+          });
+      });
+  }
+
+  function repoRead() {
+    return repoEnsure().then(function (full) {
+      var br = syncCfg.repoBranch || "main";
+      return fetch("https://api.github.com/repos/" + full + "/contents/" + GIST_FILE + "?ref=" + br, { headers: ghHeaders() })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          if (!j || !j.content) return { snap: null, meta: { sha: "" } };
+          var parsed = snapParse(b64dec(j.content));
+          return { snap: parsed.snap || null, meta: { sha: j.sha } };
+        });
+    });
+  }
+
+  function repoWrite(snap, meta) {
+    return repoEnsure().then(function (full) {
+      var body = {
+        message: "进度更新 " + new Date(snap.savedAt).toLocaleString(),
+        content: b64enc(JSON.stringify(snap)),
+        branch: syncCfg.repoBranch || "main"
+      };
+      if (meta && meta.sha) body.sha = meta.sha;
+      return fetch("https://api.github.com/repos/" + full + "/contents/" + GIST_FILE, {
+        method: "PUT", headers: ghHeaders(), body: JSON.stringify(body)
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); });
+    });
+  }
+
+  function gistRead() {
     var pre = syncCfg.gist ? Promise.resolve(syncCfg.gist) : syncFindGist();
-    pre.then(function (id) {
-      if (!id) return { cloud: null, files: [] };
+    return pre.then(function (id) {
+      if (!id) return { snap: null, meta: { files: [] } };
       return fetch("https://api.github.com/gists/" + id, { headers: ghHeaders() })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (j) {
           var f = j && j.files && j.files[GIST_FILE];
           var parsed = f ? snapParse(f.content) : { err: "云端没有进度文件" };
-          return { cloud: parsed.snap || null, files: Object.keys((j && j.files) || {}) };
+          return { snap: parsed.snap || null, meta: { files: Object.keys((j && j.files) || {}) } };
         });
-    }).then(function (ctx) {
+    });
+  }
+
+  function gistWrite(snap, meta) {
+    var payload = { description: "Chat Prac 学习进度（自动生成，勿手改）", files: {} };
+    if (!syncCfg.gist) payload.public = false;
+    payload.files[GIST_FILE] = { content: JSON.stringify(snap) };
+    // 带时间的副本 + 清掉过期的（null = 删除该文件）
+    var hist = gistHistName(snap.savedAt);
+    payload.files[hist] = { content: JSON.stringify(snap) };
+    var old = ((meta && meta.files) || []).filter(function (n) { return GIST_HIST_RE.test(n) && n !== hist; }).sort();
+    var keep = old.slice(-(GIST_KEEP - 1));
+    old.forEach(function (n) { if (keep.indexOf(n) < 0) payload.files[n] = null; });
+
+    var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
+    return fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); })
+      .then(function (res) {
+        if (res.ok && res.j && res.j.id) { syncCfg.gist = res.j.id; syncCfgSave(); }
+        return res;
+      });
+  }
+
+  function cloudRead() {
+    return syncCfg.target === "repo" ? repoRead() : gistRead();
+  }
+  function cloudWrite(snap, meta) {
+    return syncCfg.target === "repo" ? repoWrite(snap, meta) : gistWrite(snap, meta);
+  }
+
+  function syncUp(auto, force) {
+    if (!syncCfg.token) { if (auto !== true) syncSay("先粘一个 GitHub token", true); return; }
+    if (auto !== true) syncSay("上传中…");
+    // 先读云端那份：既避免重复建，也用来判断该不该传
+    cloudRead().then(function (ctx) {
       var snap = snapMake();
-      var mine = snapWeight(snap), theirs = ctx.cloud ? snapWeight(ctx.cloud) : -1;
+      var mine = snapWeight(snap), theirs = ctx.snap ? snapWeight(ctx.snap) : -1;
 
       // 保护：本机进度比云端少得多，多半是新设备还没把云端那份拉下来。
       // 这时候传上去 = 把备份冲掉，所以自动同步直接跳过；手动点上传则要用户确认。
@@ -1708,56 +1847,42 @@
           syncSay(warn + "已跳过自动上传；先点「下载进度」把云端那份拿回来。", true);
           return;
         }
-        if (!window.confirm(warn + "确定要用本机这份覆盖云端吗？\n（云端每次上传都会留历史副本，覆盖了也能翻回来）")) {
+        if (!window.confirm(warn + "确定要用本机这份覆盖云端吗？\n（云端留有历史，覆盖了也能翻回来）")) {
           syncSay(warn + "已取消上传。", true);
           return;
         }
       }
 
-      var payload = { description: "Chat Prac 学习进度（自动生成，勿手改）", files: {} };
-      if (!syncCfg.gist) payload.public = false;
-      payload.files[GIST_FILE] = { content: JSON.stringify(snap) };
-      // 带时间的副本 + 清掉过期的（null = 删除该文件）
-      var hist = gistHistName(snap.savedAt);
-      payload.files[hist] = { content: JSON.stringify(snap) };
-      var old = ctx.files.filter(function (n) { return GIST_HIST_RE.test(n) && n !== hist; }).sort();
-      var keep = old.slice(-(GIST_KEEP - 1));
-      old.forEach(function (n) { if (keep.indexOf(n) < 0) payload.files[n] = null; });
-
-      var url = syncCfg.gist ? "https://api.github.com/gists/" + syncCfg.gist : "https://api.github.com/gists";
-      return fetch(url, { method: syncCfg.gist ? "PATCH" : "POST", headers: ghHeaders(), body: JSON.stringify(payload) })
-        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j, code: r.status }; }); })
-        .then(function (res) {
-          if (!res.ok) { syncSay("上传失败：" + ((res.j && res.j.message) || res.code), true); return; }
-          syncCfg.gist = res.j.id;
-          syncCfg.at = Date.now();
-          syncCfgSave();
-          syncPaint();
-          syncSay("已上传 ✓（云端留了 " + GIST_KEEP + " 份，含历史副本）");
-        });
-    }).catch(function () { syncSay("上传失败：网络不通", true); });
+      return cloudWrite(snap, ctx.meta).then(function (res) {
+        if (!res.ok) { syncSay("上传失败：" + ((res.j && res.j.message) || res.code), true); return; }
+        syncCfg.at = Date.now();
+        syncCfgSave();
+        syncPaint();
+        syncSay(syncCfg.target === "repo"
+          ? "已上传 ✓（" + syncCfg.repo + " 里提交了一次）"
+          : "已上传 ✓（云端留了 " + GIST_KEEP + " 份，含历史副本）");
+      });
+    }).catch(function (e) {
+      syncSay("上传失败：" + ((e && e.message) || "网络不通"), true);
+    });
   }
 
   function syncDown(quiet) {
     if (!syncCfg.token) { if (!quiet) syncSay("先粘一个 GitHub token", true); return; }
     if (!quiet) syncSay("下载中…");
-    var pre = syncCfg.gist ? Promise.resolve(syncCfg.gist) : syncFindGist();
-    pre.then(function (id) {
-      if (!id) { if (!quiet) syncSay("这个账号下还没有进度备份，先在旧设备点「上传进度」", true); return; }
-      return fetch("https://api.github.com/gists/" + id, { headers: ghHeaders() })
-        .then(function (r) { return r.json(); })
-        .then(function (j) {
-          var f = j && j.files && j.files[GIST_FILE];
-          if (!f) { if (!quiet) syncSay("云端那个 gist 里没有进度文件", true); return; }
-          var parsed = snapParse(f.content);
-          if (parsed.err) { if (!quiet) syncSay(parsed.err, true); return; }
-          var n = snapApply(parsed.snap);
-          syncCfg.at = Date.now();
-          syncCfgSave();
-          syncPaint();
-          syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(parsed.snap.savedAt) + "）");
-        });
-    }).catch(function () { if (!quiet) syncSay("下载失败：网络不通", true); });
+    cloudRead().then(function (ctx) {
+      if (!ctx.snap) {
+        if (!quiet) syncSay("云端还没有进度备份，先在旧设备点「上传进度」", true);
+        return;
+      }
+      var n = snapApply(ctx.snap);
+      syncCfg.at = Date.now();
+      syncCfgSave();
+      syncPaint();
+      syncSay("已恢复 " + n + " 项（备份于 " + snapWhen(ctx.snap.savedAt) + "）");
+    }).catch(function (e) {
+      if (!quiet) syncSay("下载失败：" + ((e && e.message) || "网络不通"), true);
+    });
   }
 
   var syncTimer = null;
@@ -1867,6 +1992,17 @@
       syncPaint();
       syncSay(syncCfg.auto ? "每次学习后会自动上传" : "已关闭自动上传");
     });
+    // 切换存放位置：Gist（只要 gist 权限）/ 私有仓库（要 repo 或 contents 写权限）
+    if (els.syncTarget) {
+      els.syncTarget.addEventListener("click", function () {
+        syncCfg.target = syncCfg.target === "repo" ? "gist" : "repo";
+        syncCfgSave();
+        syncPaint();
+        syncSay(syncCfg.target === "repo"
+          ? "已切到私有仓库：下次同步会在你账号下建（或找到）一个私有的 " + REPO_NAME + " 仓库，把进度提交进去"
+          : "已切到私有 Gist");
+      });
+    }
     els.syncExport.addEventListener("click", syncExport);
     els.syncImport.addEventListener("click", syncImport);
     els.syncFile.addEventListener("click", syncFile);

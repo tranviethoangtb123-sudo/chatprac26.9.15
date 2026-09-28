@@ -42,7 +42,7 @@ const IDS = ["app", "sidebar", "backdrop", "menuBtn", "nav", "modeSwitch", "view
   "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
   "input", "sendBtn", "composerHint", "composer", "studyProgress",
   "pbarAll", "pbarAllVal", "pbarDom", "pbarDomVal", "pbarDomName",
-  "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto",
+  "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto", "syncTarget",
   "syncMsg", "syncText", "syncExport", "syncImport", "syncFile"];
 
 let byId = {};
@@ -67,6 +67,9 @@ let gists = {};        // id -> { id, files: { name: content } }
 let nextId = 1;
 let offline = false;   // 打开 = 所有请求都失败（模拟断网）
 let calls = [];
+let repo = null;       // 私有仓库（假）
+let created = [];      // 建仓库的记录（用来断言建的是私有的）
+let commits = [];      // 每次 PUT 就是一次提交
 
 function fakeFetch(url, opts) {
   const u = String(url);
@@ -105,6 +108,40 @@ function fakeFetch(url, opts) {
       return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ id: g.id }) });
     }
   }
+  /* ---------- 私有仓库通道（Contents API）的假实现 ---------- */
+  if (u === "https://api.github.com/user") {
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ login: "tester" }) });
+  }
+  if (u === "https://api.github.com/user/repos" && method === "POST") {
+    const body = JSON.parse(opts.body);
+    repo = { full_name: "tester/" + body.name, private: body.private, default_branch: "main", files: {} };
+    created.push({ name: body.name, private: body.private });
+    return Promise.resolve({ ok: true, status: 201, json: () => Promise.resolve({ full_name: repo.full_name, default_branch: "main" }) });
+  }
+  if (u === "https://api.github.com/repos/tester/chatprac-progress" && method === "GET") {
+    if (!repo) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({ message: "Not Found" }) });
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ full_name: repo.full_name, default_branch: "main" }) });
+  }
+  const rm = /^https:\/\/api\.github\.com\/repos\/tester\/chatprac-progress\/contents\/([^?]+)(\?ref=main)?$/.exec(u);
+  if (rm) {
+    const name = decodeURIComponent(rm[1]);
+    if (!repo) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({ message: "Not Found" }) });
+    if (method === "GET") {
+      if (!repo.files[name]) return Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({ message: "Not Found" }) });
+      const content = repo.files[name];
+      return Promise.resolve({
+        ok: true, status: 200,
+        json: () => Promise.resolve({ sha: "sha-" + name, content: Buffer.from(content, "utf8").toString("base64") })
+      });
+    }
+    if (method === "PUT") {
+      const body = JSON.parse(opts.body);
+      const text = Buffer.from(String(body.content), "base64").toString("utf8");
+      repo.files[name] = text;
+      commits.push({ name, message: body.message, bytes: text.length });
+      return Promise.resolve({ ok: true, status: 201, json: () => Promise.resolve({ content: { sha: "sha-" + name } }) });
+    }
+  }
   return Promise.resolve({ ok: false, status: 400, json: () => Promise.resolve({ message: "unexpected " + method + " " + u }) });
 }
 
@@ -118,12 +155,16 @@ class FakeDate extends RealDate0 {
 globalThis.Date = FakeDate;
 const advance = (min) => { NOW += min * 60000; };
 
-/* ---------------- 定时器改成手动触发（自动同步是 6 秒后再传） ---------------- */
-const timers = [];
-globalThis.setTimeout = (fn) => { timers.push(fn); return timers.length; };
-globalThis.clearTimeout = () => {};
+/* ---------------- 定时器改成手动触发（自动同步是 6 秒后再传） ----------------
+   注意 clearTimeout 要真的能取消，否则防抖失效：每次改动都会攒下一个待触发回调，
+   测试里就会出现"一次改动传好几遍"的假象（浏览器里不会）。 */
+const timers = new Map();
+let timerSeq = 0;
+globalThis.setTimeout = (fn) => { const id = ++timerSeq; timers.set(id, fn); return id; };
+globalThis.clearTimeout = (id) => { timers.delete(id); };
 function flushAutoSync() {
-  const pending = timers.splice(0, timers.length);
+  const pending = [...timers.values()];
+  timers.clear();
   pending.forEach((fn) => fn());
   return pending.length;
 }
@@ -303,13 +344,64 @@ const TOKEN = { token: "ghp_faketoken", gist: "", auto: true, at: 0 };
   if (!after5 || after5.learned < 6) problems.push("用户取消后云端进度不该变，实际 learned=" + (after5 ? after5.learned : "?"));
   console.log("  手动上传 + 云端更全：先弹确认；点取消后云端进度原封不动 ✔");
 
+  /* ============================ ⑥ 私有仓库通道：自动建仓库 + 提交 + 换手机找回 ============================ */
+  const REPO_CFG = {
+    token: "ghp_faketoken", gist: "", repo: "", repoBranch: "main", target: "repo", auto: true, at: 0
+  };
+  // 旧手机：切到「私有仓库」→ 自动建一个私有仓库 → 学几个词 → 自动提交
+  globalThis.localStorage.clear();
+  freshDom();
+  repo = null; created = []; commits = [];
+  store["chatprac-mode"] = "study";
+  store["chatprac-sync"] = JSON.stringify(REPO_CFG);
+  vm.runInThisContext(APP, { filename: "app.js" });
+  for (let i = 0; i < 4; i++) learnOne();
+  dclick({ "data-dlgpick": "1" });
+  dclick({ "data-dlgseg": "s06-01:0" });
+  dclick({ "data-dlgmark": "ok", "data-dlgkey": "s06-01:0" });
+  await flushAndSettle();
+
+  if (!repo) problems.push("切到私有仓库后没有自动建出仓库");
+  else {
+    if (repo.private !== true) problems.push("自动建的进度仓库必须是私有的（实际 private=" + repo.private + "）");
+    if (created.length !== 1) problems.push("应该只建一次仓库，实际建了 " + created.length + " 次");
+    if (!repo.files["chat-prac-progress.json"]) problems.push("仓库里没有 progress.json");
+    else {
+      const snap6 = JSON.parse(repo.files["chat-prac-progress.json"]);
+      const learned6 = Object.keys(JSON.parse(snap6.data[VKEY] || "{}").done || {}).length;
+      const marks6 = Object.keys(JSON.parse(snap6.data[GKEY] || "{}").mark || {}).length;
+      if (learned6 !== 4) problems.push("仓库里的进度应含 4 个词，实际 " + learned6);
+      if (marks6 !== 1) problems.push("仓库里的进度应含 1 段对话掌握，实际 " + marks6);
+      console.log("  私有仓库：自动建库（private=true）→ 提交 progress.json（" +
+        learned6 + " 个词 + " + marks6 + " 段掌握；该仓库共 " + commits.length + " 次提交）✔");
+    }
+  }
+
+  // 新手机：localStorage 全清，只粘同一个 token（存放位置=私有仓库）→ 自动找回
+  globalThis.localStorage.clear();
+  freshDom();
+  store["chatprac-mode"] = "study";
+  store["chatprac-sync"] = JSON.stringify(REPO_CFG);
+  vm.runInThisContext(APP, { filename: "app.js" });
+  byId.syncToken.value = "ghp_faketoken";
+  fire(byId.syncToken, "change", {});
+  await settle(); await settle(); await settle();
+  const vState6 = JSON.parse(store[VKEY] || "{}");
+  const gState6 = JSON.parse(store[GKEY] || '{"mark":{}}');
+  if (Object.keys(vState6.done || {}).length !== 4) {
+    problems.push("新手机从仓库只恢复了 " + Object.keys(vState6.done || {}).length + " 个词（应为 4）");
+  }
+  if (!gState6.mark["s06-01:0"]) problems.push("新手机从仓库没恢复对话掌握");
+  console.log("  新手机 + 私有仓库：粘同一个 token 就自动找回（" +
+    Object.keys(vState6.done || {}).length + " 个词 + 对话掌握）✔");
+
   console.log("");
   if (problems.length) {
     console.log("发现问题 " + problems.length + " 处：");
     console.log(problems.map((s) => "  ✗ " + s).join("\n"));
     process.exit(1);
   }
-  console.log("云同步检查通过 ✅ （换手机能拿回进度；新设备断网时不会把云端备份冲掉）");
+  console.log("云同步检查通过 ✅ （Gist 与私有仓库两条通道都能换手机找回；新设备断网时不会把云端备份冲掉）");
 })().catch((e) => {
   console.error("测试自身出错：" + e.message + "\n" + e.stack);
   process.exit(1);

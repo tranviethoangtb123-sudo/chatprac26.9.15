@@ -69,7 +69,7 @@ function makeStubs() {
    "wordList", "wordEmpty", "sentList", "sentEmpty", "dialogueList", "dialogueEmpty", "chatLog",
    "input", "sendBtn", "composerHint", "composer", "studyProgress",
    "pbarAll", "pbarAllVal", "pbarDom", "pbarDomVal", "pbarDomName",
-   "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto",
+   "syncToggle", "syncState", "syncBody", "syncToken", "syncUp", "syncDown", "syncAuto", "syncTarget",
    "syncMsg", "syncText", "syncExport", "syncImport", "syncFile", "syncReload", "syncReset"].forEach((id) => {
     byId[id] = makeEl("div");
   });
