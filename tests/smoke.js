@@ -432,20 +432,21 @@ try {
   if (afterCancel.indexOf("dlgpick-list") < 0) problems.push("取消选中后下拉应该还开着，方便再选");
   console.log("  再点一次二级标题：取消选中、对话收起、下拉还在 ✔");
 
-  // 掌握 / 练习 就在下拉框的每一行右边（不再有单独的目标完成框）
+  // 掌握键就在下拉框的每一行右边（每行恰好一个；「练习」键已按用户要求删掉）
   const rowCount = (afterCancel.match(/class="dlgpick-row/g) || []).length;
   const markCount = (afterCancel.match(/class="dlgmark /g) || []).length;
-  if (markCount !== rowCount * 2) {
-    problems.push("每行应有 掌握 + 练习 两个键：" + markCount + " / " + rowCount);
+  if (markCount !== rowCount) {
+    problems.push("每行应恰好一个「掌握」键：" + markCount + " 个键 / " + rowCount + " 行");
   }
+  if (afterCancel.indexOf("练习</button>") >= 0) problems.push("「练习」键已经删掉了，不该再出现");
+  if (afterCancel.indexOf("dlgmark-practice") >= 0) problems.push("不该再有 dlgmark-practice 样式类");
   if (afterCancel.indexOf("dlggoal") >= 0) problems.push("不该再有独立的目标完成框");
   if (afterCancel.indexOf("今天掌握") < 0) problems.push("下拉框里应有今日进度一行");
   const goalState = () => JSON.parse(globalThis.localStorage.getItem("chatprac-dialogue-goal") || '{"mark":{}}');
   // 从渲染出来的 HTML 里取按键（和单词板块一样，防止「按钮属性和处理器对不上」的死按钮）
   const marks = [...afterCancel.matchAll(/data-dlgmark="(\w+)" data-dlgkey="([^"]+)"/g)]
     .map((m) => ({ kind: m[1], key: m[2] }));
-  const k0 = marks.find((m) => m.kind === "ok").key;
-  const k1 = marks.filter((m) => m.kind === "ok")[1].key;
+  const k0 = marks[0].key;
   const rowsBefore = (afterCancel.match(/class="dlgpick-row/g) || []).length;
 
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
@@ -457,11 +458,9 @@ try {
   if ((dHtml().match(/class="dlgpick-row/g) || []).length !== rowsBefore) {
     problems.push("点掌握后列表行数变了（应该只改状态）");
   }
-  dclick({ "data-dlgmark": "practice", "data-dlgkey": k1 });
-  if ((goalState().mark[k1] || {}).s !== "practice") problems.push("点「练习」没有记下来");
   dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
   if (goalState().mark[k0]) problems.push("再点一次「掌握」应该取消");
-  console.log("  掌握 / 练习：在下拉框每一行右边，点了只改状态不重排行 ✔");
+  console.log("  掌握键：每行一个，点了只改状态不重排行，再点一次取消 ✔");
 
   // 底部进度条：全场景 + 当前一级标题（域）
   const pctText = (done, total) => {

@@ -1161,7 +1161,8 @@
         "</button>";
         if (!open) return;
         g.items.forEach(function (it) {
-          // 二级标题：点文字 = 选中/取消选中；右边两个键 = 掌握 / 练习
+          // 二级标题：点文字 = 选中/取消选中；右边一个键 = 掌握
+          // （「练习」键已按用户要求删掉：用不上，反而占地方）
           var m = dlgMarkOf(it.key);
           html += '<div class="dlgpick-row' + (it.key === dlgSel ? " is-active" : "") +
             (m ? " is-" + m : "") + '">' +
@@ -1170,8 +1171,6 @@
             '<span class="dlgmarks">' +
               '<button type="button" class="dlgmark dlgmark-ok' + (m === "ok" ? " is-on" : "") +
                 '" data-dlgmark="ok" data-dlgkey="' + esc(it.key) + '">掌握</button>' +
-              '<button type="button" class="dlgmark dlgmark-practice' + (m === "practice" ? " is-on" : "") +
-                '" data-dlgmark="practice" data-dlgkey="' + esc(it.key) + '">练习</button>' +
             "</span>" +
           "</div>";
         });
@@ -1182,8 +1181,9 @@
     return html + "</div>";
   }
 
-  /* ---------- 目标完成：进度存本机，掌握 / 练习两个键挂在下拉框的每一行上 ----------
-     一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了；练习 = 还要再学。 */
+  /* ---------- 目标完成：进度存本机，「掌握」键挂在下拉框的每一行上 ----------
+     一个「课题」= 一个场景（8 种变体）。掌握 = 这段学完了。
+     （原来的「练习」键已按用户要求删掉；老数据里 s: "practice" 的记录保留不删，只是不再显示。） */
   var DG_KEY = "chatprac-dialogue-goal";
   var DG_BAK_KEY = "chatprac-dialogue-goal.bak";   // 读不出来时的保命副本（只备份，不参与计数）
   var DLG_DAILY_GOAL = 8;    // 每天的目标：一个课题 = 8 段

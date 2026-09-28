@@ -181,14 +181,9 @@
   color: #2f9e6f;
 }
 
-.dlgmark-practice.is-on {
-  border-color: #ead9a8;
-  background: rgba(168, 128, 26, .12);
-  color: #a8801a;
-}
+/* 「练习」键已删掉，对应的 .dlgmark-practice 样式一并清掉 */
 
 [data-theme="dark"] .dlgmark-ok.is-on { border-color: #2c5a46; color: #6fd3a3; }
-[data-theme="dark"] .dlgmark-practice.is-on { border-color: #5c4f22; color: #e0bb63; }
 
 .dlgpick-none {
   margin: 0;

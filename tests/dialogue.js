@@ -7,7 +7,7 @@
    覆盖：
      · 打开板块：未选场景时不出正文、底部进度条就位、输入框隐藏
      · 展开选择器：一级标题默认收起（约定），点开域才列变体
-     · 掌握 / 练习：互斥、再点取消、计数与底部两条进度条
+     · 掌握键：记 ok、再点取消、计数与底部两条进度条（「练习」键已按用户要求删除）
      · 关掉再打开：掌握记录、今天掌握数、全部已掌握数都在；下拉行还带掌握样式
      · 跨天：今天掌握归零，但全部已掌握**一段都不能少**
      · 旧进度（带多余字段 + 已不存在场景的孤儿键）不崩、不清、不虚高
@@ -190,7 +190,7 @@ if (dHtml().indexOf("今天掌握") < 0) problems.push("下拉里应有今日进
 console.log("  展开选择器：" + heads + " 个域标题默认收起；点开「" + SEGS.SC.domains.find((d) => d.id === scn0.domain).name +
   "」列出 " + rowsOneDom + " 个变体 ✔");
 
-/* ---------------- 掌握 / 练习：互斥、取消 ---------------- */
+/* ---------------- 掌握：记 ok、再点取消、计数跟着走 ---------------- */
 dclick({ "data-dlgmark": "ok", "data-dlgkey": k0 });
 dclick({ "data-dlgmark": "ok", "data-dlgkey": k1 });
 dclick({ "data-dlgmark": "ok", "data-dlgkey": k2 });
@@ -198,14 +198,16 @@ if (Object.keys(goal().mark).length !== 3) problems.push("连记 3 段掌握，�
 if ((goal().mark[k0] || {}).s !== "ok") problems.push("掌握没记成 ok");
 if ((goal().mark[k0] || {}).d !== todayKey()) problems.push("掌握没记当天日期：" + (goal().mark[k0] || {}).d);
 
-dclick({ "data-dlgmark": "practice", "data-dlgkey": k2 });     // 改成「练习」
-if ((goal().mark[k2] || {}).s !== "practice") problems.push("练习没能覆盖掌握状态");
-dclick({ "data-dlgmark": "ok", "data-dlgkey": k2 });           // 改回「掌握」
-if ((goal().mark[k2] || {}).s !== "ok") problems.push("掌握没能覆盖练习状态");
+// 「练习」键已按用户要求删掉：行里不该再有它
+if (dHtml().indexOf("练习</button>") >= 0) problems.push("「练习」键已经删掉了，不该再出现");
+if ((dHtml().match(/class="dlgmark /g) || []).length !== (dHtml().match(/class="dlgpick-row/g) || []).length) {
+  problems.push("每行应该只剩一个「掌握」键");
+}
+
 dclick({ "data-dlgmark": "ok", "data-dlgkey": k2 });           // 再点一次 = 取消
 if (goal().mark[k2]) problems.push("再点一次掌握应该取消掉");
 dclick({ "data-dlgmark": "ok", "data-dlgkey": k2 });           // 恢复成掌握，便于后面断言
-console.log("  掌握 / 练习：同一段互斥覆盖，再点一次取消，计数跟着走 ✔");
+console.log("  掌握键：记 ok、再点取消、计数跟着走；「练习」键已删干净 ✔");
 
 /* ---------------- 两条进度条 ---------------- */
 const domId = scn0.domain;
