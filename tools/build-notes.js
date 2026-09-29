@@ -134,6 +134,10 @@ const GRAMMAR_ORDER = ("split-obj " +
   "get-obj-adj have-sth-done save-doing save-sth fit-in stop-from get-sb-to spend-doing " +
   "trouble-doing worth-doing end-up-doing feel-like-doing instead-of no-point it-takes " +
   "be-about-to had-better would-rather might-as-well as-as-possible the-more either-or what-if as-long-as in-case proper-adj " +
+  // 全库扫描补的缺口（按出现频率排）
+  "the-moment modal-perfect being-adj that-is-why what-i-mean even-if worth-it the-way now-that " +
+  "the-same-as not-only provided on-condition far-from i-wish given-that if-anything in-the-meantime " +
+  "for-the-sake here-you-go " +
   "modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
   "confirm-back pres-perfect pres-perf-cont if-unreal would-have passive rel-clause phrasal tag-question " +
   "suggestion used-to too-to result purpose gerund-verb want-to make-do wh-infinitive " +
@@ -321,7 +325,52 @@ function grammarRules(PART, PAST) {
     { id: "proper-adj", re: /\bproper\s+[a-z]+\b/i,
       t: "proper + 名词：英式口语里常表示「真正的、像样的」—— my only proper day off = 唯一像样的休息日，" +
         "a proper meal = 像样的一顿饭；也可以就是「合适的」（wear proper shoes 穿双合适的鞋）。" +
-        "美式口语更常说 a real / a decent。" }
+        "美式口语更常说 a real / a decent。" },
+    /* ============ 全库扫描补上的缺口（按出现频率排，见交接文档） ============ */
+    { id: "the-moment", re: /\bthe\s+(moment|minute|second)\s+(i|you|we|they|he|she|it)\b/i,
+      t: "the moment / the minute + 主语：一……就……（The moment I saw it, I knew）。" +
+        "等于 as soon as，口语里更常用。" },
+    { id: "modal-perfect", re: /\b(should|shouldn't|could|couldn't|might|must|can't|cannot|needn't)\s+have\s+[a-z]+/i,
+      t: "情态动词 + have done：都在说「过去」——should have done 本该做（后悔/责备）、" +
+        "could have done 本来能（没做）、must have done 一定是（推测）、can't have done 不可能、needn't have done 本不必。" },
+    { id: "being-adj", re: /\bbeing\s+[a-z]+\b/i,
+      t: "being + 形容词：动名词作主语或介词宾语（Being late is worse than being wrong；" +
+        "Thank you for being patient）。" },
+    { id: "that-is-why", re: /\bthat'?s\s+(why|how|what|where|when)\b/i,
+      t: "That's why / how / what …：那就是……的原因 / 方式 / 东西（承上启下，口语里用得极多）。" },
+    { id: "what-i-mean", re: /\bwhat\s+i\s+(mean|want|need|said|thought)\b/i,
+      t: "what I mean / want / need is …：我要说的是 / 我要的是……（用从句把重点挑出来）。" },
+    { id: "even-if", re: /\beven\s+if\b/i,
+      t: "even if：即使……也（比 if 多一层「就算这样也」的让步；even though 是「虽然（事实）」）。" },
+    { id: "worth-it", re: /\bworth\s+it\b/i,
+      t: "worth it：值得（It's worth it）。注意它和 be worth doing 不同：worth it 后面不接动词。" },
+    { id: "the-way", re: /\bthe\s+way\s+(that|i|you|we|they|he|she|it)\b/i,
+      t: "the way (that) + 从句：……的方式（the way you said it = 你说话的方式）。" +
+        "口语里 that 通常省掉。" },
+    { id: "now-that", re: /\bnow\s+that\b/i,
+      t: "now that：既然、如今（Now that you mention it …）。" },
+    { id: "the-same-as", re: /\bthe\s+same\s+(as|that)\b/i,
+      t: "the same as（和……一样）/ the same … that（同一个）：比较用 as，指同一个东西用 that。" },
+    { id: "not-only", re: /\bnot\s+only\b/i,
+      t: "not only … but (also) …：不仅……而且……（两边连接的成分要对等）。" },
+    { id: "provided", re: /\b(provided|providing)\s+(that\b|i\b|you\b|we\b|they\b|it\b|he\b|she\b)/i,
+      t: "provided (that) / providing：只要（= as long as，条件比 if 更强调「前提」）。" },
+    { id: "on-condition", re: /\bon\s+condition\s+that\b/i,
+      t: "on condition that：条件是……（比 if 正式，常见于谈判、合同）。" },
+    { id: "far-from", re: /\bfar\s+from\s+([a-z]+ing|perfect|ideal|clear|certain|easy|over|enough|the)\b/i,
+      t: "far from + 形容词/动名词：远非、一点也不（far from perfect 远谈不上完美）。" },
+    { id: "i-wish", re: /\bi\s+wish\b/i,
+      t: "I wish …：但愿、真希望（后面跟从句，谈与事实相反的愿望时用过去式：I wish I knew）。" },
+    { id: "given-that", re: /\bgiven\s+(that|the)\b/i,
+      t: "given that / given the …：考虑到……（Given the time, we should start now）。" },
+    { id: "if-anything", re: /\bif\s+anything\b/i,
+      t: "if anything：要说有什么区别的话（多用来修正前面的说法）。" },
+    { id: "in-the-meantime", re: /\bin\s+the\s+meantime\b/i,
+      t: "in the meantime：在此期间、这当口（= meanwhile）。" },
+    { id: "for-the-sake", re: /\bfor\s+the\s+(sake|record)\b/i,
+      t: "for the sake of（为了……起见）/ for the record（正式说明一下）。" },
+    { id: "here-you-go", re: /\b(here|there)\s+you\s+(go|are)\b/i,
+      t: "Here / There you go：给你、这就对了（递东西或表示「成了」）。" }
   ];
 }
 
