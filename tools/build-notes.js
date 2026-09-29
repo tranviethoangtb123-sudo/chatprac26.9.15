@@ -129,7 +129,12 @@ const PHRASAL = [
 ];
 
 /* 语法条目的展示优先级：越靠前越值得讲。超过 8 条时先砍后面的（there be、时间介词这类太基础） */
-const GRAMMAR_ORDER = ("split-obj modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
+const GRAMMAR_ORDER = ("split-obj " +
+  // 动词句型：初学者最容易看错的一类（get sth wrong / save sb doing / fit in），排最前面
+  "get-obj-adj have-sth-done save-doing save-sth fit-in stop-from get-sb-to spend-doing " +
+  "trouble-doing worth-doing end-up-doing feel-like-doing instead-of no-point it-takes " +
+  "be-about-to had-better would-rather might-as-well as-as-possible the-more either-or what-if as-long-as in-case proper-adj " +
+  "modal-soft mind-ing wonder-if polite-ask indirect-q hedging refuse-soft empathy clarify " +
   "confirm-back pres-perfect pres-perf-cont if-unreal would-have passive rel-clause phrasal tag-question " +
   "suggestion used-to too-to result purpose gerund-verb want-to make-do wh-infinitive " +
   "comparative superlative as-as although unless whether-if obj-clause time-clause because countable " +
@@ -258,7 +263,65 @@ function grammarRules(PART, PAST) {
     { id: "time-prep", re: /\b(at|on|in)\s+(\d{1,2}(:\d{2})?\s*(am|pm|a\.m\.|p\.m\.)?|monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|march|april|may|june|july|august|september|october|november|december)\b/i,
       t: "时间介词（at + 时刻 / on + 星期日期 / in + 月份年份）：用错介词是高频小错。" },
     { id: "phrasal", phrases: PHRASAL,
-      t: "短语动词（check in / sort out / pick up）：动词 + 介词或副词，意思往往和字面不同，要整块记。" }
+      t: "短语动词（check in / sort out / pick up）：动词 + 介词或副词，意思往往和字面不同，要整块记。" },
+    /* ============ 动词句型（初学者最容易看错的一类，用户点名要） ============ */
+    { id: "get-obj-adj", re: /\b(get|gets|got|getting)\s+(the|a|an|my|your|his|her|its|our|their|this|that|these|those|it)\s+[a-z]+\s+(wrong|right|ready|done|clear|straight|open|closed|dry|clean|full|fixed|sorted|signed|checked)\b/i,
+      t: "get + 宾语 + 形容词：形容词说的是「宾语被弄成什么样」，不是修饰名词 —— " +
+        "get the number wrong 是「把号码弄错」，不等于 get the wrong number「拨错号码」。" +
+        "同类：get it right 弄对、get it ready 准备好、get it done 做完、get it clear 弄清楚。" },
+    { id: "have-sth-done", re: /\b(have|has|had)\s+(it|them|this|that|my|your|his|her|our|their|the)\s+[a-z]+\s+[a-z]+(ed|ne|wn|ilt|ent|ade)\b/i,
+      t: "have + 宾语 + 过去分词：让别人替你做（I had it fixed = 我让人修好了，不是「我自己修了」）。" },
+    { id: "save-doing", re: /\bsav(e|es|ed|ing)\s+(me|you|us|him|her|them)\s+(from\s+)?[a-z]+ing\b/i,
+      t: "save + 人 + 动名词：省得某人做某事（saves us stopping = 省得路上停；That saves me arguing = 这省得我再争一次）。" },
+    { id: "save-sth", re: /\bsav(e|es|ed|ing)\s+(me|you|us|him|her|them)\s+(an?\s+)?(?![a-z]+ing\b)[a-z]+\b/i,
+      t: "save + 人 + 名词：给某人省下 / 留出（save me a seat 帮我占个座；save us an argument 省得吵一场）。" },
+    { id: "fit-in", re: /\bfit(s|ted|ting)?\s+(in|into|on)\b/i,
+      t: "fit in / fit into：装得进、放得下（if it fits in the back = 后备箱塞得下）；" +
+        "fit 还表示合身（This fits me）和合得来（fit in with the team）。" },
+    { id: "stop-from", re: /\b(stop|stops|stopped|prevent|prevents|prevented|keep|keeps|kept)\s+(me|you|us|him|her|them|it|[a-z]+)\s+from\s+[a-z]+ing\b/i,
+      t: "stop / prevent / keep + 人 + from doing：阻止或避免某人做某事（口语里 from 常省掉：stop me doing it）。" },
+    { id: "get-sb-to", re: /\b(get|gets|got|getting)\s+(me|you|us|him|her|them)\s+to\s+[a-z]+\b/i,
+      t: "get + 人 + to do：说服 / 安排某人做某事（get him to sign it = 让他签字）。make / let / have 后面不加 to。" },
+    { id: "spend-doing", re: /\bspen(d|ds|t)\s+[a-z]+\s+[a-z]+ing\b/i,
+      t: "spend + 时间 + 动名词：花时间做某事（spend an hour queuing）；花钱是 spend money on sth。" },
+    { id: "trouble-doing", re: /\b(have|has|had)\s+(trouble|difficulty|problems?)\s+[a-z]+ing\b/i,
+      t: "have trouble / difficulty + 动名词：做某事有困难（I had trouble finding it）。" },
+    { id: "worth-doing", re: /\b(worth|worthwhile)\s+[a-z]+ing\b/i,
+      t: "be worth + 动名词：值得做（It's worth trying）。后面不能接 to do。" },
+    { id: "end-up-doing", re: /\bend(s|ed)?\s+up\s+[a-z]+ing\b/i,
+      t: "end up + 动名词：最后落得、结果变成（We ended up walking home）。" },
+    { id: "feel-like-doing", re: /\bfeel(s|t)?\s+like\s+[a-z]+ing\b/i,
+      t: "feel like + 动名词：想做某事（I don't feel like arguing）。" },
+    { id: "instead-of", re: /\binstead\s+of\s+[a-z]+ing\b/i,
+      t: "instead of + 动名词：而不是……（instead of waiting 而不是干等）。of 后面接动词要用 -ing。" },
+    { id: "no-point", re: /\b(no|not\s+much)\s+(point|use|good)\s+(in\s+)?[a-z]+ing\b/i,
+      t: "There's no point / no use (in) + 动名词：做……没意义、没用（There's no point arguing）。" },
+    { id: "it-takes", re: /\bit\s+takes?\s+(me|you|us|him|her|them)\s+[a-z]+\s+to\s+[a-z]+\b/i,
+      t: "It takes + 人 + 时间 + to do：某人做某事要花多久（It takes twenty minutes to get there）。" },
+    { id: "be-about-to", re: /\b(is|are|was|were|am)\s+about\s+to\s+[a-z]+\b/i,
+      t: "be about to do：正要、马上就要（I was about to call you）。" },
+    { id: "had-better", re: /\b(had|'d)\s+better\s+(not\s+)?[a-z]+\b/i,
+      t: "had better (not) do：最好（别）做（You'd better check）。比 should 语气强，带提醒、警告的味道。" },
+    { id: "would-rather", re: /\bwould\s+rather\s+(not\s+)?[a-z]+\b/i,
+      t: "would rather (not) do：宁愿（不）做（I'd rather wait）。后面接动词原形，不带 to。" },
+    { id: "might-as-well", re: /\b(may|might)\s+as\s+well\b/i,
+      t: "may / might as well do：反正都这样，不如就……（We might as well try）。" },
+    { id: "as-as-possible", re: /\bas\s+[a-z]+\s+as\s+possible\b/i,
+      t: "as + 形容词 + as possible：尽可能……（as soon as possible = 尽快）。" },
+    { id: "the-more", re: /\bthe\s+(more|less|sooner|earlier|later|bigger|smaller|longer|harder|easier|cheaper)\b[^.!?]{0,30}\bthe\s+(more|less|sooner|better|worse|cheaper)\b/i,
+      t: "the + 比较级 … , the + 比较级 …：越……就越……（The sooner, the better）。" },
+    { id: "either-or", re: /\b(either|neither)\s+[^,.;!?]{1,30}\s+(or|nor)\s+/i,
+      t: "either … or …（要么……要么）/ neither … nor …（既不……也不）：两边连接的成分要对等。" },
+    { id: "what-if", re: /\bwhat\s+if\b/i,
+      t: "What if …?：要是……怎么办 / 如果……呢（What if it rains?）。" },
+    { id: "as-long-as", re: /\bas\s+long\s+as\b/i,
+      t: "as long as：只要（As long as you tell me first）；也用于比较「和……一样长」。" },
+    { id: "in-case", re: /\bin\s+case\b/i,
+      t: "in case：以防万一（Take it in case it rains）。后面跟从句，不用将来时。" },
+    { id: "proper-adj", re: /\bproper\s+[a-z]+\b/i,
+      t: "proper + 名词：英式口语里常表示「真正的、像样的」—— my only proper day off = 唯一像样的休息日，" +
+        "a proper meal = 像样的一顿饭；也可以就是「合适的」（wear proper shoes 穿双合适的鞋）。" +
+        "美式口语更常说 a real / a decent。" }
   ];
 }
 
@@ -335,6 +398,8 @@ const CHUNKS = [
   ["to be fair", "说句公道话"], ["at this point", "眼下、到这一步"], ["either way", "不管哪种都行"],
   ["if that works", "如果这样合适的话"], ["let me check", "我查一下"], ["i'll see what i can do", "我看看能帮到什么"],
   ["keep it down", "小声点"], ["speak up", "说大声点"], ["slow down", "说慢点"],
+  ["day off", "休息日（不上班的一天）"], ["time off", "休假、请假的时间"],
+  ["take a day off", "请一天假"], ["book a day off", "请一天假"],
   ["come again", "再说一遍"], ["you lost me", "我没听懂"], ["got it", "明白了"],
   /* ---------- 口语缩读形式（听力里最卡人的一类） ---------- */
   ["gonna", "要（going to 的连读缩读）"], ["wanna", "想（want to 的缩读）"],
@@ -1208,7 +1273,9 @@ function main() {
             const display = pairs[i].l + " " + slot + " " + tail;
             if (hits.some((h) => h.p === display)) break;
             const tailWords = tail.split(" ").length;
-            const evSpan = pairs.slice(i, i + 1 + k + tailWords).map((x) => x.s).join(" ");
+            // 证据 = 动词 + 宾语 + 尾巴。注意 mid 的长度是 k-1（pairs.slice(i+1, i+k)），
+            // 所以一共是 k + tailWords 个词 —— 之前写成 1+k+tailWords，多带了一个词
+            const evSpan = pairs.slice(i, i + k + tailWords).map((x) => x.s).join(" ");
             hits.push({
               p: display,
               cn: tails.get(tail),
