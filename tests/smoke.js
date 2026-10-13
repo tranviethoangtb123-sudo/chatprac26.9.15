@@ -139,7 +139,7 @@ globalThis.history = {
 };
 
 /* ---------------- 加载真实脚本 ---------------- */
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
+["data.words.js", "data.morph.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 vm.runInThisContext(fs.readFileSync(path.join(root, "assets/js/app.js"), "utf8"), { filename: "app.js" });
@@ -273,6 +273,16 @@ try {
   const learnedKeys = rowKeys(learnedHtml);
   if (learnedKeys.some((k) => k.kind === "know")) problems.push("已学习里不该有「认识」键");
   if (!learnedKeys.some((k) => k.kind === "no")) problems.push("已学习里缺少「不认识」键");
+
+  // 词根/衍生词小字：预置进度里的 agree 有衍生词数据（agreement / disagree）
+  const MORPH = globalThis.CHAT_PRAC_MORPH || {};
+  if (!Object.keys(MORPH).length) problems.push("data.morph.js 没加载（词根/衍生词数据为空）");
+  if (learnedHtml.indexOf('class="vroot"') < 0) problems.push("单词行里没渲染词根/衍生词小字");
+  if (learnedHtml.indexOf("agreement") < 0) problems.push("agree 的衍生词没显示出来");
+  // 词性不能出现两个句点（词库里的 pos 本来就带点，再拼一个会成了「n.. 弹性」）
+  const dblDot = (learnedHtml.match(/class="vdesc">[^<]*\.\.[^<]*</g) || []);
+  if (dblDot.length) problems.push("词性显示重复句点：" + dblDot[0].slice(0, 40));
+  console.log("  词根/衍生词小字：" + (learnedHtml.match(/class="vroot"/g) || []).length + " 行 ✔");
   console.log("  已学习：" + learnedKeys.length + " 个键，只有「不认识」✔");
 
   // 已学习里点「不认识」：记忆盒归零，并且这个词先离开「已学习」（要有可见反馈）
