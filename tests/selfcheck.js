@@ -114,45 +114,33 @@ words.forEach((x, i) => {
 });
 ok.push(`词库：${words.length} 词，音标/释义格式全部合规`);
 
-// --- 词根 / 衍生词 ---
-// 规则：拆出来的词基必须是真词（词库或学习词库里的词），衍生词也必须是；宁可少给，不给错
+// --- 同族词（单词下面那行小字） ---
+// 规则：每项都是「词性 英文 中文」，英文必须是真词（词库或学习词库里的词）；宁可少给，不给错
 const poolWords = new Set(words.map((x) => x.w.toLowerCase()));
 (VOCAB.words || []).forEach((x) => poolWords.add(String(x.w).toLowerCase()));
 const morphKeys = Object.keys(MORPH);
-if (morphKeys.length < 400) fail(`词根/衍生词只有 ${morphKeys.length} 条，偏少（生成器坏了？）`);
-let morphRoot = 0; let morphKin = 0;
+if (morphKeys.length < 400) fail(`同族词只有 ${morphKeys.length} 条，偏少（生成器坏了？）`);
+let morphItems = 0;
 morphKeys.forEach((k) => {
-  const at = `词根数据(${k})`;
+  const at = `同族词数据(${k})`;
   if (!poolWords.has(k)) fail(`${at} 不在学习词库里`);
   const m = MORPH[k] || {};
-  if (!m.r && !(m.k && m.k.length)) fail(`${at} 既没有词根也没有衍生词，不该占一条`);
-  if (m.r) {
-    morphRoot++;
-    if (!/[\u4e00-\u9fa5]/.test(m.r)) fail(`${at} 词根说明没有中文：${m.r}`);
-    if (m.r.length > 150) fail(`${at} 词根说明太长：${m.r}`);
-    // 「im- 不 + adj. possible 可能的」取 + 后面的词基；「n. teach 教 + -er 人」取开头的词基。
-    // 希腊/拉丁词根组合（techno- 技术 + -logy 学科）两边都是词根、不是词库里的词，跳过不查
-    const isRootForm = /^[a-z]+- /.test(m.r) && / \+ -[a-z]+/.test(m.r);
-    const pre = !isRootForm && m.r.match(/^[a-z]+- [^+]*\+ (?:[a-z]+\.\s+)?([a-z][a-z'-]*)/);
-    const suf = !isRootForm && m.r.match(/^(?:[a-z]+\.\s+)?([a-z][a-z'-]*)[^+]*\+ -[a-z]+ /);
-    const base = pre ? pre[1] : (suf ? suf[1] : null);
-    if (base && base.length >= 3 && !poolWords.has(base)) fail(`${at} 词根里的词基「${base}」不在学习词库里：${m.r}`);
-  }
-  if (m.k) {
-    morphKin++;
-    if (m.k.length > 4) fail(`${at} 衍生词最多 4 个，实际 ${m.k.length}`);
-    m.k.forEach((x) => {
-      const mm = String(x).match(/^(?:[a-z]+\.\s+)?([a-z][a-z'-]*)/);
-      const w = mm ? mm[1] : String(x).split(" ")[0];
-      if (!/^[a-z]+\.\s/.test(String(x))) fail(`${at} 衍生词没写词性（应为「词性 英文 中文」）：${x}`);
-      if (!poolWords.has(w)) fail(`${at} 衍生词「${w}」不在学习词库里`);
-      if (w === k) fail(`${at} 衍生词里出现了自己`);
-    });
-  }
+  if (!m.k || !m.k.length) fail(`${at} 没有同族词，不该占一条`);
+  if (m.r) fail(`${at} 还带着旧的词根字段 r（用户要求只写「词性 英文 中文」，不带标签）：${m.r}`);
+  if (m.k.length > 4) fail(`${at} 同族词最多 4 个，实际 ${m.k.length}`);
+  m.k.forEach((x) => {
+    morphItems++;
+    const s = String(x);
+    if (!/^[a-z]+\.\s[a-z][a-z'-]*\s*\S/.test(s)) fail(`${at} 同族词格式应为「词性 英文 中文」：${s}`);
+    if (!/[\u4e00-\u9fa5]/.test(s)) fail(`${at} 同族词没有中文：${s}`);
+    if (/词根|衍生/.test(s)) fail(`${at} 同族词里不该出现「词根 / 衍生」这类标签：${s}`);
+    const w = s.replace(/^[a-z]+\.\s+/, "").split(" ")[0];
+    if (!poolWords.has(w)) fail(`${at} 同族词「${w}」不在学习词库里`);
+    if (w === k) fail(`${at} 同族词里出现了自己`);
+  });
 });
-if (!morphKeys.some((k) => MORPH[k].r && /^[a-z]+- /.test(MORPH[k].r))) fail("词根数据里没有前缀拆解（un- / dis- 这类一个都没有，生成器可能坏了）");
-if (!morphKeys.some((k) => MORPH[k].r && / \+ -[a-z]+ /.test(MORPH[k].r))) fail("词根数据里没有后缀拆解（-er / -ly 这类一个都没有）");
-ok.push(`词根/衍生词：${morphKeys.length} 个词（词根 ${morphRoot}、衍生词 ${morphKin}），词基与衍生词全部落在学习词库内`);
+if (!morphKeys.some((k) => MORPH[k].k.some((x) => /^n\.\s/.test(x)))) fail("同族词里一个名词都没有，生成器可能坏了");
+ok.push(`同族词：${morphKeys.length} 个词 / ${morphItems} 条，全部是「词性 英文 中文」且落在学习词库内`);
 
 // --- 固定搭配 ---
 const colloc = DATA.collocations || {};
