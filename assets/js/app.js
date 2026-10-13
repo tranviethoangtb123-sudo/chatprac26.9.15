@@ -283,7 +283,8 @@
       newBonus: 0,                          // 今天点「继续学习」追加的新词额度（每次 +VNEW_PER_DAY）
       reviewToday: 0,                       // 今天已经复习了几个（每天上限 VREVIEW_PER_DAY）
       streak: 0, lastStudy: "",           // 连续学习天数 / 最后一次学习是哪天
-      relearn: {}                          // 点过「不认识」打回重学的词（先离开「已学习」）
+      relearn: {},                          // 点过「不认识」打回重学的词（先离开「已学习」）
+      todayOrder: null                      // 当天词表的固定顺序（见 vTodayFresh）
     };
   }
 
@@ -565,13 +566,35 @@
 
   /* 今日新词：先复习到期的，再按每天上限补新词（跨场景域打散）。
      顺序要「一天之内固定」：原来是每次渲染都重新洗牌，点一个词整张表就跳一遍。
-     现在按天缓存一次乱序，答过的词从里面滤掉，剩下的位置不动。 */
+     现在按天缓存一次乱序，答过的词从里面滤掉，剩下的位置不动。
+     缓存还要写进进度里：手机上切到别的 App 再回来，浏览器常把页面丢掉重开，
+     只放在内存里的话当天词表会重新洗一遍（数量一样、词全变了）。 */
+  var VORDER_KEEP = 200;          // 只记前 200 个：够 50 + 三次「继续学习」，也不撑大同步包
   var vTodayOrder = { day: "", total: 0, order: [] };
+
   function vTodayFresh() {
     var total = vWords().length;
-    if (vTodayOrder.day !== vocab.day || vTodayOrder.total !== total) {
-      vTodayOrder = { day: vocab.day, total: total, order: vShuffle(vNewPool().slice()) };
+    if (vTodayOrder.day === vocab.day && vTodayOrder.total === total) {
+      return vTodayOrder.order.filter(vIsNew);
     }
+
+    // 先看当天存下来的顺序能不能直接用
+    var order = null;
+    var saved = vocab.todayOrder;
+    if (saved && saved.day === vocab.day && saved.list && saved.list.length) {
+      var byW = {};
+      vWords().forEach(function (w) { byW[w.w] = w; });
+      order = saved.list.map(function (x) { return byW[x]; }).filter(Boolean);
+      // 词库变了（自己加了词 / 换了词库版本）：把新词接着排在后面，不动前 200 个的位置
+      var known = {};
+      order.forEach(function (w) { known[w.w] = 1; });
+      vShuffle(vNewPool().filter(function (w) { return !known[w.w]; })).forEach(function (w) { order.push(w); });
+    }
+    if (!order || !order.length) order = vShuffle(vNewPool().slice());
+
+    vTodayOrder = { day: vocab.day, total: total, order: order };
+    vocab.todayOrder = { day: vocab.day, list: order.slice(0, VORDER_KEEP).map(function (w) { return w.w; }) };
+    vSave();
     return vTodayOrder.order.filter(vIsNew);
   }
 
@@ -594,7 +617,7 @@
       return {
         w: w.w,
         ph: vPhon(w.w),
-        desc: (w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn
+        desc: vPosTxt(w.pos) + w.cn
       };
     }).sort(vByEn);
 
@@ -633,11 +656,30 @@
       (phon ? '<span class="vp">' + esc(phon) + "</span>" : "");
   }
 
-  // 左侧两行文字：第一行 英语+音标，第二行 词性+中文
+  // 词性统一显示成「n. 词」：词库里的 pos 本身带点，再拼一个句点会变成「n.. 弹性」
+  function vPosTxt(pos) {
+    var p = String(pos == null ? "" : pos).trim().replace(/\.+$/, "");
+    return (!p || p === "—") ? "" : p + ". ";
+  }
+
+  // 词根 / 衍生词：数据来自 tools/build-morph.js（拆出来的部分本身也在词库里，宁可少给不给错）
+  function vMorphHtml(word) {
+    var all = window.CHAT_PRAC_MORPH || {};
+    var m = all[String(word == null ? "" : word).toLowerCase()];
+    if (!m) return "";
+    var parts = [];
+    if (m.r) parts.push("词根 " + m.r);
+    if (m.k && m.k.length) parts.push("衍生 " + m.k.join("、"));
+    if (!parts.length) return "";
+    return '<div class="vroot">' + esc(parts.join("　｜　")) + "</div>";
+  }
+
+  // 左侧两行文字：第一行 英语+音标，第二行 词性+中文（下面可能还有一行词根/衍生词）
   function vTextHtml(w) {
     return '<div class="vtext">' +
       '<div class="vline">' + vWordPart(w.w, vPhon(w.w)) + "</div>" +
-      '<div class="vdesc">' + esc((w.pos && w.pos !== "—" ? w.pos + ". " : "") + w.cn) + "</div>" +
+      '<div class="vdesc">' + esc(vPosTxt(w.pos) + w.cn) + "</div>" +
+      vMorphHtml(w.w) +
     "</div>";
   }
 
@@ -798,7 +840,7 @@
       '<div class="vlist">' + m.map(function (w) {
         return '<div class="vitem">' +
           '<span class="vitem-w">' + esc(w.w) + "</span>" +
-          '<span class="vitem-c">' + esc(w.pos || "") + ". " + esc(w.cn) + "</span>" +
+          '<span class="vitem-c">' + esc(vPosTxt(w.pos) + w.cn) + "</span>" +
           '<button type="button" class="vitem-del" data-vagain="' + esc(w.w) + '">重新学</button>' +
         "</div>";
       }).join("") + "</div>";
