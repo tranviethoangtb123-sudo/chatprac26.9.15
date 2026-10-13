@@ -301,6 +301,9 @@ try {
   if (!/class="vw"[^>]*>[a-z][a-z' -]*</.test(allHtml)) problems.push("全部单词的第一列不是英语");
   if (!/class="vp">\//.test(allHtml)) problems.push("全部单词缺少音标列");
   if (!/class="vdesc-inline">/.test(allHtml)) problems.push("全部单词缺少词性+中文列");
+  // 全部单词这张表也要带词根/衍生词小字（用户就是在「单词表」里找它的）
+  if (allHtml.indexOf('class="vroot"') < 0) problems.push("全部单词里没渲染词根/衍生词小字");
+  if (allHtml.indexOf("agreement") < 0) problems.push("全部单词里 agree 的衍生词没显示出来");
 
   // 每个单词都必须真的显示音标（学习词库里有一批不在检索词库中，靠 data.phon.js 补上）
   // 全部单词的行结构是 <div class="vflat"><span class="vw">词</span><span class="vp">音标</span>…

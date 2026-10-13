@@ -1059,6 +1059,7 @@ mark {
 
 .vflat {
   display: flex;
+  flex-wrap: wrap;            /* 词根/衍生词小字要能另起一行 */
   align-items: baseline;
   gap: 7px;
   padding: 3px 0;
@@ -1066,6 +1067,8 @@ mark {
   content-visibility: auto;
   contain-intrinsic-size: auto 26px;
 }
+
+.vflat .vroot { flex: 0 0 100%; margin-top: 0; }
 
 .vdesc-inline {
   font-size: 13px;

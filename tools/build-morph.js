@@ -38,7 +38,11 @@ const SUFFIX = {
   ence: "名词（状态）", ship: "身份/关系", hood: "时期/状态", ism: "主义", ist: "人",
   er: "人/物", or: "人/物", ful: "充满…的", less: "无…的", able: "能…的", ible: "能…的",
   ive: "…的", ous: "有…性质的", al: "…的", ly: "…地", ish: "略…的", ize: "使…化",
-  ise: "使…化", ward: "朝向", ent: "人/物", ant: "人/物", ic: "…的", y: "…的"
+  ise: "使…化", ward: "朝向", ent: "人/物", ant: "人/物", ic: "…的", y: "…的",
+  // -ery / -ary / -ory 要单列：拆成 -er + -y 会把 scenery（不是 scene+er+y）这类弄错
+  ery: "名词（场所/总称）", ary: "…的/场所", ory: "…的/场所",
+  ify: "使…化", ate: "使…", ee: "被…的人", eer: "从事…的人", ian: "…的人",
+  dom: "领域/状态", ure: "名词（行为/结果）", age: "名词（行为/总称）"
 };
 
 // 这几个词缀几乎不会误判，即使释义对不上也认（un- / -less / -tion …）
@@ -105,6 +109,15 @@ function shortGloss(cn) {
   return first.length > 6 ? first.slice(0, 6) : first;
 }
 
+// 拆完词缀后常见的拼写变化：happi→happy、larg→large、runn→run
+function variants(base) {
+  const out = [base];
+  if (/i$/.test(base)) out.push(base.slice(0, -1) + "y");
+  out.push(base + "e");
+  if (/([bcdfglmnprst])\1$/.test(base)) out.push(base.slice(0, -1));
+  return out.filter((x) => x.length >= 3);
+}
+
 function main() {
   const bank = loadBank();
   const vocab = loadVocab();
@@ -120,24 +133,29 @@ function main() {
   words.forEach((w) => byKey.set(w.key, w));
   console.log("词条 " + words.length + " 个（词库 " + bank.length + " + 学习词库 " + vocab.length + "）");
 
-  // 拆一个词：返回 { type, affix, base } 或 null
-  function split(w) {
+  // 还原拼写变体后到词库里找词基
+  function baseOf(rest) {
+    for (const v of variants(rest)) {
+      const b = byKey.get(v);
+      if (b) return b;
+    }
+    return null;
+  }
+
+  // 一层词缀：un+happy、teach+er
+  function oneLevel(w) {
     const cands = [];
-    // 前缀
     Object.keys(PREFIX).forEach((p) => {
       if (w.key.length - p.length < 3 || w.key.slice(0, p.length) !== p) return;
-      const base = w.key.slice(p.length);
-      const b = byKey.get(base);
+      const b = byKey.get(w.key.slice(p.length));
       if (!b) return;
-      const ok = overlap(w.cn, b.cn) || STRONG_PRE.has(p);
-      if (!ok) return;
-      cands.push({ type: "pre", affix: p, base: b, hit: overlap(w.cn, b.cn) });
+      const hit = overlap(w.cn, b.cn);
+      if (!hit && !STRONG_PRE.has(p)) return;
+      cands.push({ kind: "affix", pres: [p], sufs: [], base: b, hit: hit });
     });
-    // 后缀
     Object.keys(SUFFIX).forEach((s) => {
       if (w.key.length - s.length < 3 || w.key.slice(-s.length) !== s) return;
-      const base = w.key.slice(0, w.key.length - s.length);
-      const b = byKey.get(base);
+      const b = baseOf(w.key.slice(0, w.key.length - s.length));
       if (!b) return;
       const hit = overlap(w.cn, b.cn);
       // 释义对不上的不要（career ← care + -er、battery ← batter + -y 这种），
@@ -145,27 +163,88 @@ function main() {
       if (!hit && !STRONG_SUF.has(s)) return;
       // -er / -or 还要求基词是动词（teacher ← teach）；基词是形容词时是比较级（lower ← low）
       if ((s === "er" || s === "or") && !/^(v|adj|adv)/.test(b.pos || "")) return;
-      cands.push({ type: "suf", affix: s, base: b, hit: hit });
+      cands.push({ kind: "affix", pres: [], sufs: [s], base: b, hit: hit });
     });
-    if (!cands.length) {
-      // 希腊/拉丁词根组合：bio-logy、tele-phone、photo-graph
-      for (let k = 3; k <= Math.min(9, w.key.length - 3); k++) {
-        const head = w.key.slice(0, k);
-        const tail = w.key.slice(k);
-        if (!ROOT_HEAD[head]) continue;
-        if (ROOT_SKIP.has(w.key)) continue;                       // economy 不是 eco + nomy
-        const tailOk = ROOT_TAIL[tail]
-          ? true
-          : (byKey.has(tail) && overlap(w.cn, byKey.get(tail).cn));   // 后半截是词库里的词时，释义也得对得上
-        if (!tailOk) continue;
-        cands.push({ type: "root", head: head, tail: tail });
-        break;
+    return cands;
+  }
+
+  // 两层词缀：中间那段不在词库里也算（carelessness 由 -less/-ness 两层拆到 care）
+  function twoLevel(w) {
+    const out = [];
+    const firsts = [];
+    Object.keys(PREFIX).forEach((p) => {
+      if (w.key.startsWith(p) && w.key.length - p.length >= 5) {
+        firsts.push({ type: "pre", affix: p, rest: w.key.slice(p.length) });
       }
+    });
+    Object.keys(SUFFIX).forEach((s) => {
+      if (w.key.endsWith(s) && w.key.length - s.length >= 5) {
+        firsts.push({ type: "suf", affix: s, rest: w.key.slice(0, w.key.length - s.length) });
+      }
+    });
+    const push = (f1, type, affix, rest) => {
+      // 两层拆解必须直接落在词库里的词上（不看拼写变体），否则容易拆错
+      // （invariably 会被拆成 in- + variable + -y，其实是 invariable + -ly）
+      const b = byKey.get(rest);
+      if (!b || !overlap(w.cn, b.cn)) return;          // 两层必须靠释义对上，否则太容易误拆
+      // -er / -or 后面再跟 -y/-ly 的，实际是 -ery/-ary/-ory，已经在后缀表里单列了
+      if (type === "suf" && /^(er|or)$/.test(f1.affix)) return;
+      if (type === "suf" && /^(y|ly)$/.test(affix) && /^(er|or)$/.test(f1.affix)) return;
+      const pres = [], sufs = [];
+      [f1, { type: type, affix: affix }].forEach((f) => { (f.type === "pre" ? pres : sufs).push(f.affix); });
+      out.push({ kind: "affix", pres: pres, sufs: sufs, base: b, hit: true, depth: 2 });
+    };
+    firsts.forEach((f1) => {
+      Object.keys(PREFIX).forEach((p) => {
+        if (!f1.rest.startsWith(p) || f1.rest.length - p.length < 3) return;
+        push(f1, "pre", p, f1.rest.slice(p.length));
+      });
+      Object.keys(SUFFIX).forEach((s) => {
+        if (!f1.rest.endsWith(s) || f1.rest.length - s.length < 3) return;
+        push(f1, "suf", s, f1.rest.slice(0, f1.rest.length - s.length));
+      });
+    });
+    return out;
+  }
+
+  // 合成词：home+work、foot+ball（两半都在词库里，且释义对得上）
+  function compoundOf(w) {
+    for (let k = 3; k <= w.key.length - 3; k++) {
+      const a = byKey.get(w.key.slice(0, k));
+      const b = byKey.get(w.key.slice(k));
+      if (!a || !b) continue;
+      if (!overlap(w.cn, a.cn) && !overlap(w.cn, b.cn)) continue;
+      return { kind: "compound", a: a, b: b };
     }
-    if (!cands.length) return null;
-    // 释义对得上的优先，其次词缀长的优先
-    cands.sort((a, b) => (b.hit - a.hit) || (b.affix.length - a.affix.length));
-    return cands[0];
+    return null;
+  }
+
+  function rootForm(w) {
+    if (ROOT_SKIP.has(w.key)) return null;               // economy 不是 eco + nomy
+    for (let k = 3; k <= Math.min(9, w.key.length - 3); k++) {
+      const head = w.key.slice(0, k);
+      const tail = w.key.slice(k);
+      if (!ROOT_HEAD[head]) continue;
+      const tailOk = ROOT_TAIL[tail]
+        ? true
+        : (byKey.has(tail) && overlap(w.cn, byKey.get(tail).cn));
+      if (!tailOk) continue;
+      return { kind: "root", head: head, tail: tail };
+    }
+    return null;
+  }
+
+  function split(w) {
+    const one = oneLevel(w);
+    one.sort((a, b) => (b.hit - a.hit) || (b.base.key.length - a.base.key.length));
+    if (one.length) return one[0];
+    const comp = compoundOf(w);
+    if (comp) return comp;
+    const rf = rootForm(w);
+    if (rf) return rf;
+    const two = twoLevel(w);
+    if (two.length) return two[0];
+    return null;
   }
 
   const info = new Map();      // key → { r, base }
@@ -176,16 +255,22 @@ function main() {
     const s = split(w);
     if (!s) return;
     withRoot++;
-    let affixTxt, baseKey = null;
-    if (s.type === "pre") {
-      affixTxt = s.affix + "- " + PREFIX[s.affix] + " + " + s.base.w +
-        (shortGloss(s.base.cn) ? " " + shortGloss(s.base.cn) : "");
+    let affixTxt = "";
+    let baseKey = null;
+    if (s.kind === "affix") {
+      let t = "";
+      s.pres.forEach((p) => { t += p + "- " + PREFIX[p] + " + "; });
+      t += s.base.w + (shortGloss(s.base.cn) ? " " + shortGloss(s.base.cn) : "");
+      // 后缀是从外往里剥的，显示时反过来（happy + -ness，不是 -ness + happy）
+      s.sufs.slice().reverse().forEach((x) => {
+        const tail = (x === "er" || x === "or") && /^(adj|adv)/.test(s.base.pos || "") ? "比较级" : SUFFIX[x];
+        t += " + -" + x + " " + tail;
+      });
+      affixTxt = t;
       baseKey = s.base.key;
-    } else if (s.type === "suf") {
-      const tail = (s.affix === "er" || s.affix === "or") && /^(adj|adv)/.test(s.base.pos || "")
-        ? "比较级" : SUFFIX[s.affix];
-      affixTxt = s.base.w + (shortGloss(s.base.cn) ? " " + shortGloss(s.base.cn) : "") + " + -" + s.affix + " " + tail;
-      baseKey = s.base.key;
+    } else if (s.kind === "compound") {
+      affixTxt = s.a.w + (shortGloss(s.a.cn) ? " " + shortGloss(s.a.cn) : "") +
+        " + " + s.b.w + (shortGloss(s.b.cn) ? " " + shortGloss(s.b.cn) : "");
     } else {
       const tailTxt = ROOT_TAIL[s.tail] || (byKey.has(s.tail) ? shortGloss(byKey.get(s.tail).cn) : "");
       affixTxt = s.head + "- " + ROOT_HEAD[s.head] + " + -" + s.tail + (tailTxt ? " " + tailTxt : "");

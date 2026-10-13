@@ -697,12 +697,13 @@
     "</div>";
   }
 
-  // 全部单词：一行「英语 / 音标 / 词性+中文」
+  // 全部单词：一行「英语 / 音标 / 词性+中文」（有词根/衍生词的在下面再带一行小字）
   function vFlatRowHtml(it) {
     return '<div class="vflat">' +
       '<span class="vw" data-vspeak="' + esc(it.w) + '">' + esc(it.w) + "</span>" +
       (it.ph ? '<span class="vp">' + esc(it.ph) + "</span>" : "") +
       '<span class="vdesc-inline">' + esc(it.desc) + "</span>" +
+      vMorphHtml(it.w) +
     "</div>";
   }
 
