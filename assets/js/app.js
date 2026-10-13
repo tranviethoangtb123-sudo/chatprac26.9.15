@@ -238,7 +238,7 @@
   // 查询模式：没输入时留空，输入后全库检索（4198 词，data.words.js）
   // 学习模式：6 板块 + 三键循环（data.vocab.js），和检索用的词库完全分开
 
-  // 查询模式用的单词卡（简洁：单词 / 音标 / 词性 / 中文）
+  // 查询模式用的单词卡（单词 / 音标 / 词性 / 中文，有词根/衍生词的再加一行小字）
   function wordCardHtml(it, q) {
     return '' +
       '<article class="card">' +
@@ -248,6 +248,7 @@
           (it.pos ? '<span class="card-pos">' + esc(it.pos) + '</span>' : '') +
         '</div>' +
         '<p class="card-cn">' + highlight(it.cn, q) + '</p>' +
+        vMorphHtml(it.w) +
       '</article>';
   }
 

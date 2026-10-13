@@ -717,6 +717,14 @@ try {
   if (count(byId.wordList.innerHTML) < 1) problems.push("英文检索「abandon」无结果");
   console.log("  英文检索「abandon」→ " + count(byId.wordList.innerHTML) + " 条");
 
+  // 查询模式的单词卡下面也要有词根/衍生词小字（impossible 有数据）
+  byId.input.value = "impossible";
+  fire(byId.input, "input");
+  const impCard = byId.wordList.innerHTML;
+  if (impCard.indexOf('class="vroot"') < 0) problems.push("查询模式的单词卡没渲染词根/衍生词小字");
+  if (impCard.indexOf("possible") < 0) problems.push("impossible 的词根没显示出来");
+  console.log("  查询模式单词卡：词根/衍生词小字已在 ✔");
+
   // 检索：音标片段
   byId.input.value = "əˈbændən";
   fire(byId.input, "input");

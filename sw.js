@@ -6,7 +6,7 @@
    注意：改了任何文件后，把下面的 VERSION 数字加一，否则手机上还是旧版本。
    ============================================================================ */
 
-const VERSION = "v67";
+const VERSION = "v68";
 const CACHE = "chat-prac-" + VERSION;
 
 // 需要离线可用的文件（相对路径，兼容部署在子目录的情况）
@@ -75,8 +75,11 @@ self.addEventListener("fetch", (event) => {
   }
 
   // 其余：网络优先，失败回退缓存（断网也能用）
+  // 这里带 cache: "reload" 是必须的：GitHub Pages 会给 js/css 加 max-age 缓存，
+  // 不带这个参数时 fetch 可能直接从浏览器的 HTTP 缓存拿旧文件，
+  // 于是出现「index.html 已经是 v67、app.js 还是上一个版本」这种半新半旧的状态。
   event.respondWith(
-    fetch(req).then((res) => {
+    fetch(req, { cache: "reload" }).then((res) => {
       if (res && res.ok && res.type === "basic") {
         const copy = res.clone();
         caches.open(CACHE).then((cache) => cache.put(req, copy));

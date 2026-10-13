@@ -1015,12 +1015,13 @@ mark {
   color: var(--text-2);
 }
 
-/* 词根 / 衍生词：小字一行，太长就截断，不把行高撑开 */
+/* 词根 / 衍生词：小字一行，太长就截断，不把行高撑开
+   （颜色比释义再淡一点但不能太淡：用户反馈过"看不到"，手机上浅灰容易糊掉） */
 .vroot {
   margin-top: 2px;
-  font-size: 11px;
-  line-height: 1.35;
-  color: var(--text-3);
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
