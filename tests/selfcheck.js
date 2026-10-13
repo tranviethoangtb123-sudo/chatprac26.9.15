@@ -86,7 +86,7 @@ ok.push(`动态 class：${new Set(dynamicClasses).size} 个都有样式`);
 
 global.window = global;
 global.window.CHAT_PRAC_DATA = {};
-["data.words.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
+["data.words.js", "data.morph.js", "data.vocab.js", "data.collocations.js", "data.phon.js", "data.sentences.js", "data.dialogues.js", "data.practice.js", "data.scenarios.js", "data.notes.js"].forEach((f) => {
   require(path.join(root, "assets/js", f));
 });
 const DATA = global.window.CHAT_PRAC_DATA;
@@ -94,6 +94,7 @@ const VOCAB = global.window.CHAT_PRAC_VOCAB;
 const SC = global.window.CHAT_PRAC_SCENARIOS;
 const PHON_EXTRA = global.window.CHAT_PRAC_PHON || {};
 const NOTES = global.window.CHAT_PRAC_NOTES || { rules: [], texts: [], words: {}, colls: {}, seg: {} };
+const MORPH = global.window.CHAT_PRAC_MORPH || {};
 
 const CJK = /[\u4e00-\u9fa5]/;
 const isAscii = (s) => !/[^\x00-\x7F]/.test(s);
@@ -112,6 +113,42 @@ words.forEach((x, i) => {
   if (/["\\]/.test(x.cn || "")) fail(`${at} 释义含引号或反斜杠`);
 });
 ok.push(`词库：${words.length} 词，音标/释义格式全部合规`);
+
+// --- 词根 / 衍生词 ---
+// 规则：拆出来的词基必须是真词（词库或学习词库里的词），衍生词也必须是；宁可少给，不给错
+const poolWords = new Set(words.map((x) => x.w.toLowerCase()));
+(VOCAB.words || []).forEach((x) => poolWords.add(String(x.w).toLowerCase()));
+const morphKeys = Object.keys(MORPH);
+if (morphKeys.length < 400) fail(`词根/衍生词只有 ${morphKeys.length} 条，偏少（生成器坏了？）`);
+let morphRoot = 0; let morphKin = 0;
+morphKeys.forEach((k) => {
+  const at = `词根数据(${k})`;
+  if (!poolWords.has(k)) fail(`${at} 不在学习词库里`);
+  const m = MORPH[k] || {};
+  if (!m.r && !(m.k && m.k.length)) fail(`${at} 既没有词根也没有衍生词，不该占一条`);
+  if (m.r) {
+    morphRoot++;
+    if (!/[\u4e00-\u9fa5]/.test(m.r)) fail(`${at} 词根说明没有中文：${m.r}`);
+    if (m.r.length > 60) fail(`${at} 词根说明太长：${m.r}`);
+    // 「dis- 不 + order 次序」这种取 + 后面的词基；「teach 教 + -er 人」取开头的词基
+    const pre = m.r.match(/^[a-z]+- [^+]*\+ ([a-z]{3,})/);
+    const suf = m.r.match(/^([a-z]{3,})[ \u4e00-\u9fa5]*\+ -[a-z]+ /);
+    const base = pre ? pre[1] : (suf ? suf[1] : null);
+    if (base && !poolWords.has(base)) fail(`${at} 词根里的词基「${base}」不在学习词库里：${m.r}`);
+  }
+  if (m.k) {
+    morphKin++;
+    if (m.k.length > 3) fail(`${at} 衍生词最多 3 个，实际 ${m.k.length}`);
+    m.k.forEach((x) => {
+      const w = String(x).split(" ")[0];
+      if (!poolWords.has(w)) fail(`${at} 衍生词「${w}」不在学习词库里`);
+      if (w === k) fail(`${at} 衍生词里出现了自己`);
+    });
+  }
+});
+if (!morphKeys.some((k) => MORPH[k].r && /^[a-z]+- /.test(MORPH[k].r))) fail("词根数据里没有前缀拆解（un- / dis- 这类一个都没有，生成器可能坏了）");
+if (!morphKeys.some((k) => MORPH[k].r && / \+ -[a-z]+ /.test(MORPH[k].r))) fail("词根数据里没有后缀拆解（-er / -ly 这类一个都没有）");
+ok.push(`词根/衍生词：${morphKeys.length} 个词（词根 ${morphRoot}、衍生词 ${morphKin}），词基与衍生词全部落在学习词库内`);
 
 // --- 固定搭配 ---
 const colloc = DATA.collocations || {};
