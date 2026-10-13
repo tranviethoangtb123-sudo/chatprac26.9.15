@@ -129,18 +129,22 @@ morphKeys.forEach((k) => {
   if (m.r) {
     morphRoot++;
     if (!/[\u4e00-\u9fa5]/.test(m.r)) fail(`${at} 词根说明没有中文：${m.r}`);
-    if (m.r.length > 60) fail(`${at} 词根说明太长：${m.r}`);
-    // 「dis- 不 + order 次序」这种取 + 后面的词基；「teach 教 + -er 人」取开头的词基
-    const pre = m.r.match(/^[a-z]+- [^+]*\+ ([a-z]{3,})/);
-    const suf = m.r.match(/^([a-z]{3,})[ \u4e00-\u9fa5]*\+ -[a-z]+ /);
+    if (m.r.length > 150) fail(`${at} 词根说明太长：${m.r}`);
+    // 「im- 不 + adj. possible 可能的」取 + 后面的词基；「n. teach 教 + -er 人」取开头的词基。
+    // 希腊/拉丁词根组合（techno- 技术 + -logy 学科）两边都是词根、不是词库里的词，跳过不查
+    const isRootForm = /^[a-z]+- /.test(m.r) && / \+ -[a-z]+/.test(m.r);
+    const pre = !isRootForm && m.r.match(/^[a-z]+- [^+]*\+ (?:[a-z]+\.\s+)?([a-z][a-z'-]*)/);
+    const suf = !isRootForm && m.r.match(/^(?:[a-z]+\.\s+)?([a-z][a-z'-]*)[^+]*\+ -[a-z]+ /);
     const base = pre ? pre[1] : (suf ? suf[1] : null);
-    if (base && !poolWords.has(base)) fail(`${at} 词根里的词基「${base}」不在学习词库里：${m.r}`);
+    if (base && base.length >= 3 && !poolWords.has(base)) fail(`${at} 词根里的词基「${base}」不在学习词库里：${m.r}`);
   }
   if (m.k) {
     morphKin++;
-    if (m.k.length > 3) fail(`${at} 衍生词最多 3 个，实际 ${m.k.length}`);
+    if (m.k.length > 4) fail(`${at} 衍生词最多 4 个，实际 ${m.k.length}`);
     m.k.forEach((x) => {
-      const w = String(x).split(" ")[0];
+      const mm = String(x).match(/^(?:[a-z]+\.\s+)?([a-z][a-z'-]*)/);
+      const w = mm ? mm[1] : String(x).split(" ")[0];
+      if (!/^[a-z]+\.\s/.test(String(x))) fail(`${at} 衍生词没写词性（应为「词性 英文 中文」）：${x}`);
       if (!poolWords.has(w)) fail(`${at} 衍生词「${w}」不在学习词库里`);
       if (w === k) fail(`${at} 衍生词里出现了自己`);
     });

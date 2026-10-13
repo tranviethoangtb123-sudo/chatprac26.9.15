@@ -1015,16 +1015,15 @@ mark {
   color: var(--text-2);
 }
 
-/* 词根 / 衍生词：小字一行，太长就截断，不把行高撑开
-   （颜色比释义再淡一点但不能太淡：用户反馈过"看不到"，手机上浅灰容易糊掉） */
+/* 词根 / 衍生词：小字，写「词性 英文 中文」。
+   用户要求直接显示全 —— 所以这里不截断（原来 nowrap + ellipsis 会把后半截吃掉） */
 .vroot {
   margin-top: 2px;
   font-size: 11.5px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: var(--text-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .vkeys {

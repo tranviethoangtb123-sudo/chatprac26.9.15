@@ -109,6 +109,17 @@ function shortGloss(cn) {
   return first.length > 6 ? first.slice(0, 6) : first;
 }
 
+// 「词性 英文 中文」，中文照词库原样给全（不截断）——用户要求这么写
+function posTxt(p) {
+  const s = String(p || "").trim().replace(/\.+$/, "");
+  return s ? s + "." : "";
+}
+function ref(w) {
+  const pos = posTxt(w.pos);
+  const cn = String(w.cn || "").replace(/[.。\s]+$/, "");
+  return (pos ? pos + " " : "") + w.w + (cn ? " " + cn : "");
+}
+
 // 拆完词缀后常见的拼写变化：happi→happy、larg→large、runn→run
 function variants(base) {
   const out = [base];
@@ -260,7 +271,7 @@ function main() {
     if (s.kind === "affix") {
       let t = "";
       s.pres.forEach((p) => { t += p + "- " + PREFIX[p] + " + "; });
-      t += s.base.w + (shortGloss(s.base.cn) ? " " + shortGloss(s.base.cn) : "");
+      t += ref(s.base);
       // 后缀是从外往里剥的，显示时反过来（happy + -ness，不是 -ness + happy）
       s.sufs.slice().reverse().forEach((x) => {
         const tail = (x === "er" || x === "or") && /^(adj|adv)/.test(s.base.pos || "") ? "比较级" : SUFFIX[x];
@@ -269,10 +280,9 @@ function main() {
       affixTxt = t;
       baseKey = s.base.key;
     } else if (s.kind === "compound") {
-      affixTxt = s.a.w + (shortGloss(s.a.cn) ? " " + shortGloss(s.a.cn) : "") +
-        " + " + s.b.w + (shortGloss(s.b.cn) ? " " + shortGloss(s.b.cn) : "");
+      affixTxt = ref(s.a) + " + " + ref(s.b);
     } else {
-      const tailTxt = ROOT_TAIL[s.tail] || (byKey.has(s.tail) ? shortGloss(byKey.get(s.tail).cn) : "");
+      const tailTxt = ROOT_TAIL[s.tail] || (byKey.has(s.tail) ? ref(byKey.get(s.tail)) : "");
       affixTxt = s.head + "- " + ROOT_HEAD[s.head] + " + -" + s.tail + (tailTxt ? " " + tailTxt : "");
       if (byKey.has(s.tail)) baseKey = s.tail;      // telephone 也算 phone 的衍生词
     }
@@ -298,10 +308,8 @@ function main() {
         if (b === baseKey) return 1;
         return (byKey.get(a).frq || 0) - (byKey.get(b).frq || 0);
       });
-      members.slice(0, 3).forEach((k) => {
-        const m = byKey.get(k);
-        const g = shortGloss(m.cn);
-        kin.push(m.w + (g ? " " + g : ""));
+      members.slice(0, 4).forEach((k) => {
+        kin.push(ref(byKey.get(k)));        // 词性 英文 中文
       });
     }
     if (!own && !kin.length) return;
