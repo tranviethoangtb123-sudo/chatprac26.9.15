@@ -1015,6 +1015,17 @@ mark {
   color: var(--text-2);
 }
 
+/* 词根 / 衍生词：小字一行，太长就截断，不把行高撑开 */
+.vroot {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .vkeys {
   flex: none;
   display: flex;
