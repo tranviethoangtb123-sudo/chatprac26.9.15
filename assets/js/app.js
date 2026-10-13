@@ -663,16 +663,12 @@
     return (!p || p === "—") ? "" : p + ". ";
   }
 
-  // 词根 / 衍生词：数据来自 tools/build-morph.js（拆出来的部分本身也在词库里，宁可少给不给错）
+  // 单词下面那行小字：同族词，统一是「词性 英文 中文」，不加标签（用户指定）
   function vMorphHtml(word) {
     var all = window.CHAT_PRAC_MORPH || {};
     var m = all[String(word == null ? "" : word).toLowerCase()];
-    if (!m) return "";
-    var parts = [];
-    if (m.r) parts.push("词根 " + m.r);
-    if (m.k && m.k.length) parts.push("衍生 " + m.k.join("、"));
-    if (!parts.length) return "";
-    return '<div class="vroot">' + esc(parts.join("　｜　")) + "</div>";
+    if (!m || !m.k || !m.k.length) return "";
+    return '<div class="vroot">' + esc(m.k.join("、")) + "</div>";
   }
 
   // 左侧两行文字：第一行 英语+音标，第二行 词性+中文（下面可能还有一行词根/衍生词）
