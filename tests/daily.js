@@ -98,6 +98,26 @@ if (state().newToday !== 0) problems.push(`首次加载 newToday 应为 0，实�
 if (!/还剩 50 个/.test(statText())) problems.push("今日新词应显示还剩 50 个，实际：" + statText());
 console.log("  第 1 天开局：" + statText());
 
+/* ---------------- 当天词表顺序要能扛住「切后台被浏览器丢掉重开」 ----------------
+   手机上切到别的 App 再回来，浏览器常把页面整个重新加载。顺序只放在内存里的话，
+   当天词表会重新洗一遍（数量一样、词全变了）——所以顺序必须写进进度里。 */
+{
+  const saved = state().todayOrder;
+  if (!saved || saved.day !== todayKey()) {
+    problems.push("当天词表顺序没写进进度里（重开页面就会重新洗牌）");
+  } else if (!saved.list || !saved.list.length) {
+    problems.push("当天顺序的 list 是空的");
+  } else {
+    if (saved.list.length !== 200) problems.push("当天顺序应存前 200 个，实际 " + saved.list.length);
+    const shown = allWords();
+    if (shown.join(",") !== saved.list.slice(0, shown.length).join(",")) {
+      problems.push("今日新词不是按存下来的顺序渲染的（重开页面词就变了）");
+    } else {
+      console.log("  当天词表顺序：已存进进度 " + saved.list.length + " 个，界面按它渲染 ✔");
+    }
+  }
+}
+
 // 按界面上的顺序学 50 个，记下点击先后（每次点击隔 1 秒，模拟真实节奏）
 const learnedOrder = [];
 for (let i = 0; i < 50; i++) {
@@ -135,6 +155,15 @@ if (clickMore()) {
 // 追加出来的词确实能学（再学 5 个，记进点击顺序）
 const bonusRows = allWords();
 if (bonusRows.length !== 50) problems.push(`追加后应列出 50 个新词，实际 ${bonusRows.length} 行`);
+// 「继续学习」拿到的必须是当天顺序的下一批（第 51–100 个），不是重新洗的一批
+{
+  const next = (state().todayOrder && state().todayOrder.list || []).slice(50, 100);
+  if (next.length === 50 && bonusRows.join(",") !== next.join(",")) {
+    problems.push("「继续学习」拿到的不是当天顺序的下一批（顺序被打乱了）");
+  } else if (next.length === 50) {
+    console.log("  继续学习：接到当天顺序的第 51–100 个 ✔");
+  }
+}
 for (let i = 0; i < 5; i++) {
   const w = firstWord();
   if (!w) { problems.push("追加的第 " + (i + 1) + " 个词没渲染出来"); break; }
