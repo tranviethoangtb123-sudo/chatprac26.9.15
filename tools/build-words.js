@@ -91,24 +91,11 @@ const POS_MAP = {
   "pl": "n.", "vi./vt.": "v."
 };
 
-function cleanTranslation(raw) {
-  if (!raw) return null;
-  const first = raw.split(/\\n|\n/)[0].trim();
-  if (!first || /^\[网络\]/.test(first)) return null;
-
-  let pos = "";
-  let body = first;
-  const m = first.match(/^([a-zA-Z]+)\.\s*/);
-  if (m && POS_MAP[m[1].toLowerCase()]) {
-    pos = POS_MAP[m[1].toLowerCase()];
-    body = first.slice(m[0].length);
-  }
-
-  if (/人名|地名|姓氏|城市名|商标/.test(body)) return null;
-
-  // ECDICT 用「；」分义项、用「，」分近义词，两种都当分隔符，只留前 3 个
-  const senses = body
+// 一行释义拆成若干义项：ECDICT 用「；」分义项、用「，」分近义词，两种都当分隔符
+function cleanSenses(body) {
+  return body
     .split(/[；;，,、]/)
+    .filter((raw) => !/人名|地名|姓氏|城市名|商标/.test(raw))   //「米尔斯（人名）」这类整条剔掉
     .map((s) => s
       .replace(/\[[^\]]{1,6}\]/g, "")                       // 去掉 [计] [医] [经] 这类学科标记
       .replace(/[（(][^）)]{0,30}[）)]/g, "")               // 去掉成对的括号补充说明
@@ -117,16 +104,145 @@ function cleanTranslation(raw) {
       .replace(/[.。!！?？\s]+$/g, "")
       .trim())
     .filter((s) => s && /[\u4e00-\u9fa5]/.test(s));
+}
 
-  if (!senses.length) return null;
+/* --------------------- 选义项：挑「最常用」的一行 ---------------------
+   ECDICT 的释义是一行一个词性，行序没有规律：很多常用词的名词/形容词义项排在
+   动词前面（give 第一行是「n. 弹性」，back 第一行是「a. 后面的」，mean 第一行
+   是「a. 低劣的」）。只取第一行会把最常用的意思丢掉——「give 怎么变成弹性了」
+   就是这么来的。这里改成按「义项数 × 词性权重 × 词形佐证」挑主词性。 */
+const POS_ALIAS = {
+  n: "n", pl: "n", v: "v", vt: "v", vi: "v", adj: "adj", a: "adj",
+  adv: "adv", ad: "adv", prep: "prep", conj: "conj", pron: "pron",
+  num: "num", art: "art", int: "int", interj: "int", aux: "aux", abbr: "abbr"
+};
+const POS_TEXT = {
+  n: "n.", v: "v.", adj: "adj.", adv: "adv.", prep: "prep.", conj: "conj.",
+  pron: "pron.", num: "num.", art: "art.", int: "int.", aux: "aux.", abbr: "abbr.", "": ""
+};
+// 词性权重：同样义项数下，动词/形容词比名词更像「这个词最常用的用法」
+const POS_WEIGHT = { n: 1.0, v: 1.12, adj: 1.05, adv: 0.95, prep: 0.6, conj: 0.6, pron: 0.5, num: 0.6, int: 0.45, art: 0.3, aux: 0.3, abbr: 0.5, "": 0.9 };
 
+/* 人工校准：机械规则对部分高频多义词仍会选偏（常把冷僻的动词/名词义项排前面），
+   这里直接指定主词性顺序。只排词性、不改释义——中文仍然逐字来自 ECDICT。
+   node tools/build-words.js 2000 --with-ielts --review=1800 可以复查效果。 */
+const PRIMARY = {
+  /* 第一行是冷僻名词/形容词，常见用法在别的词性 */
+  give: "v n", mean: "v adj", back: "adv n", still: "adv adj", well: "adv adj n",
+  last: "adj n", light: "n adj", right: "adj n adv", one: "num pron", play: "v n",
+  run: "v n", watch: "v n", work: "n v", kind: "n adj", point: "n v", talk: "v n",
+  turn: "v n", start: "v n", show: "v n", study: "v n", like: "v adj", look: "v n",
+  want: "v n", keep: "v n", help: "v n", need: "v n", love: "v n", call: "v n",
+  move: "v n", leave: "v n", try: "v n", ask: "v n",
+  /* 名词为主，但动词/形容词义项的行更长 */
+  job: "n v", team: "n", question: "n v", about: "prep adv", across: "prep adv",
+  around: "prep adv", before: "prep conj adv", since: "prep conj adv",
+  level: "n adj v", guy: "n", process: "n v", former: "adj n", model: "n v",
+  season: "n v", couple: "n v", project: "n v", court: "n v", oil: "n v",
+  figure: "n v", doctor: "n v", condition: "n v", color: "n v", west: "n adj adv",
+  thousand: "num n adj", sound: "n adj", above: "prep adv adj", expert: "n adj",
+  firm: "n adj", pain: "n v", glass: "n v", fish: "n v", deep: "adj adv n",
+  shoulder: "n v", detail: "n v", soldier: "n", bag: "n v", heat: "n v",
+  skin: "n v", coach: "n v", budget: "n v", participant: "n", corner: "n v",
+  conduct: "n v", please: "adv v", date: "n v", fan: "n v", ship: "n v",
+  boat: "n v", wood: "n", village: "n adj", contract: "n v", crowd: "n v",
+  express: "v adj n", horse: "n v", guard: "n v", average: "n adj v", photo: "n",
+  egg: "n v", anybody: "pron n", perfect: "adj v n", mother: "n v",
+  order: "n v", hand: "n v", matter: "n v", water: "n v", fire: "n v",
+  face: "n v", book: "n v", money: "n v", name: "n v", room: "n v", eye: "n v",
+  /* 雅思段：同样是被冷僻动词义项抢了位置的具体名词 */
+  neighbor: "n v", speed: "n v", mistake: "n v", dress: "n v", tour: "n v",
+  direct: "adj v", flower: "n v", bottom: "n adj v", neck: "n v", fuel: "n v",
+  pool: "n v", sugar: "n v", weather: "n v", pocket: "n v", loan: "n v",
+  profit: "n v", nose: "n v", bottle: "n v", snow: "n v", frame: "n v",
+  nurse: "n v", wing: "n v", cloud: "n v", match: "n v", bomb: "n v",
+  engineer: "n v", representative: "n adj", incident: "n", guide: "n v",
+  lead: "v n", particular: "adj n"
+};
+
+// 把一行释义拆成 { pos, senses }；学科标记行（[计] 因特网）单独放 loose 里当兜底
+function posLines(raw) {
+  const lines = [];
+  const loose = [];
+  String(raw).split(/\\n|\n/).forEach((line) => {
+    const t = line.trim();
+    if (!t) return;
+    if (/^\[/.test(t)) {
+      const senses = cleanSenses(t.replace(/^\[[^\]]{1,6}\]\s*/, "").trim());
+      if (senses.length) loose.push({ pos: "", senses });
+      return;
+    }
+    const m = t.match(/^([a-zA-Z]{1,6})\.\s*/);
+    let key = "";
+    let body = t;
+    if (m) {
+      const alias = POS_ALIAS[m[1].toLowerCase()];
+      if (!alias) return;                      // 认不出的词性缩写，整行跳过
+      key = alias;
+      body = t.slice(m[0].length);
+    }
+    const senses = cleanSenses(body);
+    if (!senses.length) return;
+    lines.push({ pos: key, senses });
+  });
+  return { lines, loose };
+}
+
+// 释义文本：最多 3 个义项，按老规则裁剪长度
+function glossText(group) {
+  const senses = group.senses;
   let cn = senses.slice(0, 3).join("；");
   if (cn.length > 20) {
     cn = senses.slice(0, 2).join("；");
     if (cn.length > 20) cn = senses[0];
   }
   if (!cn || cn.length > 24) return null;
-  return { pos, cn };
+  return { pos: POS_TEXT[group.pos] || "", cn };
+}
+
+function cleanTranslation(raw, word, exchange) {
+  if (!raw) return null;
+  if (/^\[网络\]/.test(String(raw).split(/\\n|\n/)[0].trim())) return null;
+
+  const parsed = posLines(raw);
+  // 没有正常释义行时，才用学科标记行兜底（internet → [计] 因特网）
+  const weak = !parsed.lines.length && parsed.loose.length > 0;
+  const lines = parsed.lines.length ? parsed.lines : parsed.loose;
+  if (!lines.length) return null;
+
+  // 同一词性的多行先合并（ECDICT 常把 vt / vi 拆成两行）
+  const merged = [];
+  lines.forEach((l) => {
+    let g = merged.filter((x) => x.pos === l.pos)[0];
+    if (!g) { g = { pos: l.pos, senses: [] }; merged.push(g); }
+    l.senses.forEach((s) => { if (g.senses.indexOf(s) < 0) g.senses.push(s); });
+  });
+
+  const rtf = /(^|\/)(r|t):/.test(exchange || "");     // 有比较级/最高级 → 形容词或副词才是主词性
+  const score = (g) => Math.min(g.senses.length, 5) *
+    (POS_WEIGHT[g.pos] === undefined ? 0.9 : POS_WEIGHT[g.pos]) *
+    (rtf && (g.pos === "adj" || g.pos === "adv") ? 1.35 : 1);
+
+  const fixed = PRIMARY[word];
+  let order;
+  if (fixed) {
+    const want = fixed.split(/\s+/);
+    order = merged.slice().sort((a, b) => {
+      const ia = want.indexOf(a.pos) < 0 ? 99 : want.indexOf(a.pos);
+      const ib = want.indexOf(b.pos) < 0 ? 99 : want.indexOf(b.pos);
+      return ia - ib || score(b) - score(a);
+    });
+  } else {
+    // 默认沿用第一行的词性（词典一般把最常见的用法放前面，具体名词几乎都如此），
+    // 只有别的词性明显更强（≥1.3 倍）才换过去
+    const first = merged.filter((g) => g.pos === lines[0].pos)[0] || merged[0];
+    const sorted = merged.slice().sort((a, b) => score(b) - score(a));
+    order = (sorted[0] !== first && score(sorted[0]) >= score(first) * 1.3)
+      ? [sorted[0]].concat(sorted.filter((g) => g !== sorted[0]))
+      : [first].concat(sorted.filter((g) => g !== first));
+  }
+  const g = glossText(order[0]);
+  return g ? { pos: g.pos, cn: g.cn, weak: weak } : null;
 }
 
 /* ------------------ 英美拼写去重（音标统一用美式） ------------------ */
@@ -150,8 +266,20 @@ function ameVariant(word) {
   return null;
 }
 
-/* ------------------------------ 主流程 ------------------------------ */
-function main() {
+/* 词形还原：判断一个词是不是已有词的变化形式（higher → high） */
+function stemOf(word) {
+  const out = [];
+  const add = (s) => { if (s && s.length >= 3 && s !== word && out.indexOf(s) < 0) out.push(s); };
+  if (/ies$/.test(word)) add(word.replace(/ies$/, "y"));
+  if (/ing$/.test(word)) { add(word.replace(/ing$/, "")); add(word.replace(/ing$/, "e")); }
+  if (/ed$/.test(word)) { add(word.replace(/ed$/, "")); add(word.replace(/ed$/, "e")); }
+  if (/est$/.test(word)) add(word.replace(/est$/, ""));
+  if (/er$/.test(word)) { add(word.replace(/er$/, "")); add(word.replace(/er$/, "e")); }
+  if (/s$/.test(word)) add(word.replace(/es$/, "").replace(/s$/, ""));
+  return out;
+}
+
+/* ------------------------------ 主流程 ------------------------------ */function main() {
   if (!fs.existsSync(CSV_PATH)) {
     console.error("缺少词典文件：" + CSV_PATH + "\n请先运行 node tools/fetch-data.js");
     process.exit(1);
@@ -181,6 +309,7 @@ function main() {
     const tag = (row[idx.tag] || "").trim();
     const bnc = Number(row[idx.bnc]) || 0;
     const frq = Number(row[idx.frq]) || 0;
+    const exchange = (row[idx.exchange] || "").trim();
 
     if (!/^[a-z][a-z'-]{1,20}$/.test(word)) continue;
     if (STOP.has(word)) continue;
@@ -191,7 +320,7 @@ function main() {
     if (!isCore) continue;
     if (!rank || rank > 20000) continue;
 
-    const clean = cleanTranslation(translation);
+    const clean = cleanTranslation(translation, word, exchange);
     if (!clean) continue;
 
     const ph = ipa.get(word) || (phonetic ? normalizeOldPhonetic(phonetic) : "");
@@ -205,7 +334,9 @@ function main() {
       frq: rank,
       collins,
       oxford,
-      tag
+      tag,
+      weak: !!clean.weak,
+      _raw: translation
     });
   }
 
@@ -214,6 +345,17 @@ function main() {
   candidates.forEach((c) => {
     const old = byWord.get(c.w);
     if (!old || c.frq < old.frq) byWord.set(c.w, c);
+  });
+
+  // 只有学科标记释义的词（internet → [计] 因特网）留着；
+  // 但如果它只是已有词的一个变化形式（higher / funding / hiring 这类，
+  // 释义还常是「[经] 上扬」这种），那就不值得再占一个词条
+  const allWords = new Set(byWord.keys());
+  let weakDropped = 0;
+  [...byWord.keys()].forEach((w) => {
+    const c = byWord.get(w);
+    if (!c.weak) return;
+    if (stemOf(w).some((s) => s !== w && allWords.has(s))) { byWord.delete(w); weakDropped++; }
   });
 
   // 英美拼写只会留一个（音标是美式，所以优先美式拼写）
@@ -236,6 +378,30 @@ function main() {
     ielts.forEach((w) => { if (!seen.has(w.w)) { words.push(w); seen.add(w.w); added++; } });
     words.sort((a, b) => a.frq - b.frq);
     console.log("雅思标签词（词频 ≤ " + maxRank + "）：" + ielts.length + " 个，其中新增 " + added + " 个");
+  }
+
+  /* --review[=N]：只打印「释义跟旧词库不一样」的词（词频 ≤ N），人工核对用 */
+  const reviewArg = process.argv.find((a) => a.startsWith("--review"));
+  if (reviewArg) {
+    const maxRank = Number(reviewArg.split("=")[1]) || 800;
+    const brief = process.argv.includes("--brief");
+    const src = fs.existsSync(OUT_PATH) ? fs.readFileSync(OUT_PATH, "utf8") : "";
+    const old = {};
+    const re = /\{ w: "([^"]+)", ph: "([^"]*)", pos: "([^"]*)", cn: "([^"]*)", frq: (\d+)/g;
+    let mm;
+    while ((mm = re.exec(src))) old[mm[1]] = { pos: mm[3], cn: mm[4] };
+    let n = 0;
+    words.filter((w) => w.frq <= maxRank).forEach((w) => {
+      const o = old[w.w];
+      if (!o || (o.pos === w.pos && o.cn === w.cn)) return;
+      n++;
+      const lines = posLines(w._raw).lines.map((l) => (POS_TEXT[l.pos] || "?") + " " + l.senses.slice(0, 5).join("、")).join(" │ ");
+      console.log("  " + w.w.padEnd(14) + String(w.frq).padStart(5) +
+        "  旧[" + o.pos + " " + o.cn + "]  →  新[" + w.pos + " " + w.cn + "]");
+      if (!brief) console.log("        " + lines.slice(0, 150));
+    });
+    console.log("\n共 " + n + " 个词的释义有变化（词频 ≤ " + maxRank + "）");
+    if (process.argv.includes("--only-review")) return;
   }
 
   const tagCount = {};
