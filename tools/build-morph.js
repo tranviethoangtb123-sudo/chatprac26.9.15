@@ -1,13 +1,13 @@
 /* ============================================================================
-   词根 / 衍生词生成器 → assets/js/data.morph.js
+   同族词生成器 → assets/js/data.morph.js
    ----------------------------------------------------------------------------
-   用途：学习模式「单词」板块，每个单词下面用小字显示
-     · 词根：前缀/后缀拆解 + 词缀中文（un- 不 + happy 快乐的）
-     · 衍生词：同一词根下的其他词（happiness 幸福 / unhappily 不快乐地）
+   用途：学习模式「单词」板块，每个单词下面用小字列出同族的其他词，
+        统一写「词性 英文 中文」（用户要求，不加「词根 / 衍生」这类标签）。
    做法：对词库里每个词尝试拆前缀/后缀，拆出来的部分必须
      ① 本身也在词库里（不凭猜想造词根）；
      ② 释义能和原词对上（共用至少一个非通用汉字），或者词缀本身是「强词缀」
-        （un- / -less / -tion 这类几乎不会误判的）。
+        （un- / -less / -tion 这类几乎不会误判的）；
+   合成词（home + work、foot + ball）把两半也当同族词列出来。
    注意：宁可少给，不给错——没把握就不输出这一条。
    重新生成：node tools/build-morph.js
    ============================================================================ */
@@ -266,71 +266,54 @@ function main() {
     const s = split(w);
     if (!s) return;
     withRoot++;
-    let affixTxt = "";
-    let baseKey = null;
-    if (s.kind === "affix") {
-      let t = "";
-      s.pres.forEach((p) => { t += p + "- " + PREFIX[p] + " + "; });
-      t += ref(s.base);
-      // 后缀是从外往里剥的，显示时反过来（happy + -ness，不是 -ness + happy）
-      s.sufs.slice().reverse().forEach((x) => {
-        const tail = (x === "er" || x === "or") && /^(adj|adv)/.test(s.base.pos || "") ? "比较级" : SUFFIX[x];
-        t += " + -" + x + " " + tail;
-      });
-      affixTxt = t;
-      baseKey = s.base.key;
-    } else if (s.kind === "compound") {
-      affixTxt = ref(s.a) + " + " + ref(s.b);
-    } else {
-      const tailTxt = ROOT_TAIL[s.tail] || (byKey.has(s.tail) ? ref(byKey.get(s.tail)) : "");
-      affixTxt = s.head + "- " + ROOT_HEAD[s.head] + " + -" + s.tail + (tailTxt ? " " + tailTxt : "");
-      if (byKey.has(s.tail)) baseKey = s.tail;      // telephone 也算 phone 的衍生词
+    if (s.kind === "compound") {
+      // 合成词：把两半各自当一个词条列出来（home 家 + work 工作）
+      info.set(w.key, { parts: [s.a.key, s.b.key] });
+      return;
     }
-    info.set(w.key, { root: affixTxt, baseKey: baseKey });
-    if (baseKey) {
-      if (!family.has(baseKey)) family.set(baseKey, new Set());
-      family.get(baseKey).add(w.key);
-      family.get(baseKey).add(baseKey);
-    }
+    if (s.kind !== "affix") return;          // 只有希腊/拉丁词根的那些词没有词库里的同族词，不列
+    const baseKey = s.base.key;
+    info.set(w.key, { baseKey: baseKey });
+    if (!family.has(baseKey)) family.set(baseKey, new Set());
+    family.get(baseKey).add(w.key);
+    family.get(baseKey).add(baseKey);
   });
 
-  // 每个词的衍生词：同一词根下的其他词（基词排最前，其余按词频）
+  /* 每个词下面列出同族的其他词，统一写「词性 英文 中文」，不加「词根 / 衍生」这类标签
+     （用户要求：直接写词性和单词和中文就行）。基词排最前，其余按词频，最多 4 个。 */
   const out = {};
   let withKin = 0;
   words.forEach((w) => {
     const own = info.get(w.key);
-    const baseKey = own ? own.baseKey : (family.has(w.key) ? w.key : null);
-    const kin = [];
-    if (baseKey) {
-      const members = [...(family.get(baseKey) || new Set())].filter((k) => k !== w.key);
-      members.sort((a, b) => {
-        if (a === baseKey) return -1;
-        if (b === baseKey) return 1;
-        return (byKey.get(a).frq || 0) - (byKey.get(b).frq || 0);
-      });
-      members.slice(0, 4).forEach((k) => {
-        kin.push(ref(byKey.get(k)));        // 词性 英文 中文
-      });
+    let list = [];
+    if (own && own.parts) {
+      list = own.parts.map((k) => ref(byKey.get(k)));
+    } else {
+      const baseKey = own ? own.baseKey : (family.has(w.key) ? w.key : null);
+      if (baseKey) {
+        const members = [...(family.get(baseKey) || new Set())].filter((k) => k !== w.key);
+        members.sort((a, b) => {
+          if (a === baseKey) return -1;
+          if (b === baseKey) return 1;
+          return (byKey.get(a).frq || 0) - (byKey.get(b).frq || 0);
+        });
+        list = members.slice(0, 4).map((k) => ref(byKey.get(k)));
+      }
     }
-    if (!own && !kin.length) return;
-    const item = {};
-    if (own) item.r = own.root;
-    if (kin.length) { item.k = kin; withKin++; }
-    out[w.w] = item;
+    if (!list.length) return;
+    out[w.w] = { k: list };
+    withKin++;
   });
 
   const body = Object.keys(out).map((w) =>
-    "  " + JSON.stringify(w) + ": {" +
-    (out[w].r ? " r: " + JSON.stringify(out[w].r) + "," : "") +
-    (out[w].k ? " k: [" + out[w].k.map((x) => JSON.stringify(x)).join(", ") + "]" : "") +
-    " }"
+    "  " + JSON.stringify(w) + ": { k: [" + out[w].k.map((x) => JSON.stringify(x)).join(", ") + "] }"
   ).join(",\n");
 
   const src = `/* ============================================================================
-   词根 / 衍生词（共 ${Object.keys(out).length} 个词）— 本文件由 tools/build-morph.js 自动生成
+   同族词（共 ${Object.keys(out).length} 个词）— 本文件由 tools/build-morph.js 自动生成
    ----------------------------------------------------------------------------
-   r = 词根拆解（前缀/后缀 + 中文），k = 同一词根下的其他词
-   依据：词库释义 + 构词法（拆出来的部分本身也在词库里，释义能对上才算）
+   k = 这个单词下面要列出的同族词，每项都是「词性 英文 中文」（不加「词根 / 衍生」标签）
+   依据：词库释义 + 构词法（拆出来的部分本身也在词库里，释义能对上才算；合成词列两半）
    重新生成：node tools/build-morph.js
    ============================================================================ */
 window.CHAT_PRAC_MORPH = {
@@ -339,17 +322,14 @@ ${body}
 `;
   fs.writeFileSync(OUT_PATH, src, "utf8");
 
-  console.log("拆出词根：" + withRoot + " 个词");
-  console.log("有衍生词：" + withKin + " 个词");
+  console.log("拆出词根的：" + withRoot + " 个词");
   console.log("输出词条：" + Object.keys(out).length + " 个（" + (src.length / 1024).toFixed(1) + " KB）");
   console.log("已写入：" + OUT_PATH);
   console.log("\n抽样：");
   const keys = Object.keys(out);
   const step = Math.max(1, Math.round(keys.length / 14));
   for (let i = 0; i < keys.length; i += step) {
-    const o = out[keys[i]];
-    console.log("  " + keys[i].padEnd(14) + (o.r ? "词根 " + o.r : "") +
-      (o.k ? (o.r ? "  ｜ " : "") + "衍生 " + o.k.join("、") : ""));
+    console.log("  " + keys[i].padEnd(14) + out[keys[i]].k.join("、"));
   }
 }
 
