@@ -91,12 +91,28 @@ const answerOne = () => { const w = firstWord(); if (!w) return false; vclick({ 
 const backToForeground = () => { globalThis.document.hidden = false; fire(globalThis.document, "visibilitychange", {}); };
 const advance = (ms) => { NOW += ms; };      // 模拟"点一下隔一会儿再点下一个"
 
+// 「今日新词」下面那句：还有几天能全部背完（按每天 50 个算）
+const finishLine = () => (board().match(/<p class="vfinish">([\s\S]*?)<\/p>/) || ["", ""])[1].replace(/<[^>]+>/g, "");
+const finishDays = () => { const m = finishLine().match(/还有 (\d+) 天/); return m ? Number(m[1]) : null; };
+const expectFinishDays = () => {
+  const all = Number((statText().match(/全部 (\d+)/) || [])[1]);
+  const learned = Number((statText().match(/已学习 (\d+)/) || [])[1]);
+  return Math.ceil((all - learned) / 50);
+};
+const checkFinish = (when) => {
+  const exp = expectFinishDays();
+  const got = finishDays();
+  if (got !== exp) problems.push(`${when}「今日新词」下面应写「还有 ${exp} 天能全部背完」，实际：${got}（原文：${finishLine()}）`);
+  else console.log(`  ${when}还剩 ${exp} 天背完 ✔ ${finishLine()}`);
+};
+
 /* ---------------- 第 1 天 ---------------- */
 setDay(2026, 1, 1);
 if (state().day !== todayKey()) problems.push(`首次加载应写入今天的日期，实际 ${state().day}`);
 if (state().newToday !== 0) problems.push(`首次加载 newToday 应为 0，实际 ${state().newToday}`);
 if (!/还剩 50 个/.test(statText())) problems.push("今日新词应显示还剩 50 个，实际：" + statText());
 console.log("  第 1 天开局：" + statText());
+checkFinish("开局：");
 
 /* ---------------- 当天词表顺序要能扛住「切后台被浏览器丢掉重开」 ----------------
    手机上切到别的 App 再回来，浏览器常把页面整个重新加载。顺序只放在内存里的话，
@@ -133,6 +149,7 @@ if (Object.keys(state().knownAt || {}).length !== 50) {
   problems.push("每个词都该记下「点认识」的时间，实际记了 " + Object.keys(state().knownAt || {}).length + " 个");
 }
 console.log("  第 1 天结束：" + statText());
+checkFinish("学完 50 个后：");
 
 /* ---------------- 「继续学习」：50 个做完后可以一批一批接着学 ---------------- */
 // 属性从渲染出来的 HTML 里取，不手写 —— 否则属性名拼错了测试也发现不了

@@ -745,6 +745,15 @@ mark {
 
 .vstat b { color: var(--text-2); font-weight: 600; }
 
+/* 「今日新词」下面那句：还要几天能全部背完 */
+.vfinish {
+  margin: -8px 0 14px;
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+.vfinish b { color: var(--text-2); font-weight: 600; }
+
 /* 门禁提示：待复习没清完，先别收新词 */
 .vgate {
   display: flex;

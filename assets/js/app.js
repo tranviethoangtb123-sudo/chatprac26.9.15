@@ -844,6 +844,17 @@
       }).join("") + "</div>";
   }
 
+  // 「今日新词」下面那句：按每天 50 个算，还要几天全部背完（用户要求）
+  function vFinishHtml() {
+    var remain = vNewPool().length;                 // 还没背过的新词
+    if (!remain) {
+      return '<p class="vfinish">全部 <b>' + vWords().length + "</b> 个单词都背过一遍了 ✅ 之后靠复习队列反复过。</p>";
+    }
+    var days = Math.ceil(remain / VNEW_PER_DAY);
+    return '<p class="vfinish">还有 <b>' + days + "</b> 天能全部背完（每天 " + VNEW_PER_DAY +
+      " 个，还剩 <b>" + remain + "</b> 个新词；点「继续学习」能快一点）</p>";
+  }
+
   function renderVocab() {
     if (!els.vocabBoard) return;
     if (vRollDay()) vs.forced = false;   // 跨天了：额度重发，门禁也重置
@@ -865,6 +876,8 @@
       (dueAll ? "（到期 <b>" + dueAll + "</b> 个" + (revLeft ? "，今天还能复习 " + revLeft + " 个" : "，今天的 15 个已复习完") + "）" : "") +
       "　已学习 <b>" + c.learned + "</b>　全部 <b>" + c.total + "</b>" +
       (streak ? "　连续 <b>" + streak + "</b> 天" : "") + "</p>";
+
+    if (vs.tab === "today" || !vs.tab) html += vFinishHtml();   // 只在「今日新词」下面加这一句
 
     if (vs.tab === "learned") html += vLearnedHtml();
     else if (vs.tab === "all") html += vAllHtml();

@@ -202,6 +202,9 @@ try {
     if (vHome.indexOf(t) >= 0) problems.push("不该再有这个板块：" + t);
   });
   if (vHome.indexOf("vtabs") < 0) problems.push("缺少板块切换条");
+  // 「今日新词」下面要有一句：还有几天能全部背完
+  if (vHome.indexOf('class="vfinish"') < 0) problems.push("今日新词下面没显示「还有几天能全部背完」");
+  if (!/还有 <b>\d+<\/b> 天能全部背完/.test(vHome)) problems.push("「还有几天背完」的文案不对");
   console.log("  学习模式·单词：今日新词 / 已学习 / 全部单词 三个板块 ✔");
 
   // 每行格式：左边两行文字（英语+音标 / 词性+中文），右边按键列，按键整列垂直居中
@@ -269,6 +272,7 @@ try {
   // 已学习板块：应能查到这个词，而且只有「不认识」一个键
   vclick({ "data-vtab": "learned" });
   const learnedHtml = byId.vocabBoard.innerHTML;
+  if (learnedHtml.indexOf('class="vfinish"') >= 0) problems.push("「还有几天背完」只该出现在今日新词下面，已学习里不该有");
   if (learnedHtml.indexOf(firstWord) < 0) problems.push("已学习里没有刚学的词：" + firstWord);
   const learnedKeys = rowKeys(learnedHtml);
   if (learnedKeys.some((k) => k.kind === "know")) problems.push("已学习里不该有「认识」键");
@@ -296,6 +300,7 @@ try {
   // 全部单词：一行式；先单词（A-Z），再固定搭配（A-Z）放在最后
   vclick({ "data-vtab": "all" });
   const allHtml = byId.vocabBoard.innerHTML;
+  if (allHtml.indexOf('class="vfinish"') >= 0) problems.push("「还有几天背完」只该出现在今日新词下面，全部单词里不该有");
   const flatCount = (allHtml.match(/class="vflat"/g) || []).length;
   if (allHtml.indexOf('data-vans="know"') >= 0) problems.push("全部单词不该有按键（一行式）");
   if (!/class="vw"[^>]*>[a-z][a-z' -]*</.test(allHtml)) problems.push("全部单词的第一列不是英语");
